@@ -100,13 +100,18 @@ map('n', '<leader>q', toggle_diagnostics)
 map('n', '<leader>j', ':SplitjoinJoin<CR>')
 map('n', '<leader>s', ':SplitjoinSplit<CR>')
 
--- NvimTree, Neotree
-local nvimtree_ok, _ = pcall(require, 'nvim-tree')
-local neotree_ok, _ = pcall(require, 'neo-tree')
-if nvimtree_ok then
-  map('n', '<localleader>e', ':NvimTreeToggle <CR>')
-elseif neotree_ok then
-  map('n', '<localleader>e', ':NeoTreeFocusToggle <CR>')
+-- NvimTree, NeoTree
+local file_explorers = {
+  ['nvim-tree'] = 'NvimTreeToggle',
+  ['neo-tree'] = 'NeoTreeFocusToggle',
+}
+local fm_ok, _ = pcall(require, USER_SETTINGS.file_explorer)
+if fm_ok then
+  map(
+    'n',
+    '<localleader>e',
+    ':' .. file_explorers[USER_SETTINGS.file_explorer] .. ' <CR>'
+  )
 else
   map('n', '<localleader>e', ':Lex 20<CR>')
 end

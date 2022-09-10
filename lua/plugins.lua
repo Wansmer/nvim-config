@@ -110,7 +110,7 @@ return packer.startup(function(use)
   -- Файловый менеджер
   use({
     'kyazdani42/nvim-tree.lua',
-    disable = (USER_SETTINGS.file_explorer ~= 'NvimTree'),
+    disable = (USER_SETTINGS.file_explorer ~= 'nvim-tree'),
     config = function()
       require('config.plugins.nvimtree')
     end,

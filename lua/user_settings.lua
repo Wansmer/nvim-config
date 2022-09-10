@@ -17,5 +17,5 @@ USER_SETTINGS = {
     border = 'single',
   },
   -- при изменении запустить :PackerSync и перезапустить nvim
-  file_explorer = 'neo-tree', -- NvimTree, neo-tree
+  file_explorer = 'neo-tree', -- nvim-tree, neo-tree
 }
