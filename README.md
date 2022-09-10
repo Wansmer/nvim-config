@@ -28,7 +28,7 @@ brew install stylua
 1. Клонируйте этот репозиторий в `~/.config/nvim`:
 
 ```bash
-git clone https://github.com/Wansmer/tmp.git ~/.config/nvim
+git clone https://github.com/Wansmer/nvim-config.git ~/.config/nvim
 ```
 
 2. Запустите nvim. При первом запуске будет установлен [Packer](https://github.com/wbthomason/packer.nvim), [плагины](/lua/plugins.lua), клиенты LSP и парсеры treesitter:
