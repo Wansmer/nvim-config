@@ -84,7 +84,8 @@ neotree.setup({
       ['<cr>'] = function(state)
         cd_or_open(state)
       end,
-      ['l'] = 'open',
+      -- ['l'] = 'open',
+      ['l'] = 'open_with_window_picker',
       ['o'] = 'open_with_window_picker',
       ['-'] = 'navigate_up',
       ['sg'] = 'open_split',
