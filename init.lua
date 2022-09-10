@@ -1,0 +1,5 @@
+require('user_settings')
+require('options')
+require('mappings')
+require('plugins')
+require('config.colorscheme')
