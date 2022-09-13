@@ -106,7 +106,7 @@ neotree.setup({
       ['y'] = 'copy_to_clipboard',
       ['x'] = 'cut_to_clipboard',
       ['p'] = 'paste_from_clipboard',
-      ['c'] = 'copy', -- takes text input for destination, also accepts the optional config.show_path option like "add":
+      ['<leader>d'] = 'copy', -- takes text input for destination, also accepts the optional config.show_path option like "add":
       ['m'] = 'move', -- takes text input for destination, also accepts the optional config.show_path option like "add".
       ['q'] = 'close_window',
       ['R'] = 'refresh',
