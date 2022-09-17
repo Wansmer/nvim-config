@@ -117,11 +117,11 @@ else
 end
 
 -- ufo
--- local ufo_ok, ufo = pcall(require, 'ufo')
--- if ufo_ok then
---   map('n', 'zR', ufo.openAllFolds)
---   map('n', 'zM', ufo.closeAllFolds)
--- end
+local ufo_ok, ufo = pcall(require, 'ufo')
+if ufo_ok then
+  map('n', 'zR', ufo.openAllFolds)
+  map('n', 'zM', ufo.closeAllFolds)
+end
 
 -- Telescope
 local telescope_ok, telescope = pcall(require, 'telescope.builtin')

@@ -60,13 +60,13 @@ local options = {
   -- ==========================================================================
   -- Фолдинг | Folding
   -- ==========================================================================
-  -- foldcolumn = '1',
-  -- foldnestmax = 1,
-  -- foldminlines = 0,
-  -- foldlevel = 99,
-  -- foldlevelstart = 99,
+  foldcolumn = '1',
+  foldnestmax = 1,
+  foldminlines = 0,
+  foldlevel = 99,
+  foldlevelstart = 99,
   -- foldmethod = 'indent',
-  -- foldenable = true,
+  foldenable = true,
 }
 
 vim.opt.shortmess:append('c')

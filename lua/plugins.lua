@@ -275,7 +275,7 @@ return packer.startup(function(use)
   -- Визуализация фолдинга
   use({
     'kevinhwang91/nvim-ufo',
-    disable = true,
+    disable = false,
     requires = 'kevinhwang91/promise-async',
     config = function()
       require('config.plugins.ufo')
