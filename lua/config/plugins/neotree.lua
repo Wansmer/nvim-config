@@ -3,15 +3,48 @@ if not present then
   return
 end
 
+local fs = require("neo-tree.sources.filesystem")
 local fs_commands = require('neo-tree/sources/filesystem/commands')
 
+-- Если директория, то сделать ее в root
+-- Если файл, то открыть
 local function cd_or_open(state)
   local node = state.tree:get_node()
   if node.type ~= 'directory' then
-    fs_commands.open(state)
+    fs_commands.open_with_window_picker(state)
   end
   fs_commands.set_root(state)
 end
+
+local fs_mappings = {
+  ['<cr>'] = cd_or_open,
+  ['l'] = 'open_with_window_picker',
+  ['o'] = 'open_with_window_picker',
+  ['-'] = 'navigate_up',
+  ['sg'] = 'split_with_window_picker',
+  ['sv'] = 'vsplit_with_window_picker',
+  ['z'] = 'close_node',
+  ['Z'] = 'close_all_nodes',
+  ['N'] = {
+    'add',
+    config = {
+      show_path = 'relative', -- "none", "relative", "absolute"
+    },
+  },
+  ['d'] = 'delete',
+  ['r'] = 'rename',
+  ['y'] = 'copy_to_clipboard',
+  ['x'] = 'cut_to_clipboard',
+  ['p'] = 'paste_from_clipboard',
+  ['<leader>d'] = 'copy',
+  ['m'] = 'move',
+  ['q'] = 'close_window',
+  ['R'] = 'refresh',
+  ['?'] = 'show_help',
+  ['<'] = 'prev_source',
+  ['>'] = 'next_source',
+  ['.'] = 'toggle_hidden',
+}
 
 -- По умолчанию: https://github.com/nvim-neo-tree/neo-tree.nvim/blob/v2.x/lua/neo-tree/defaults.lua
 neotree.setup({
@@ -80,41 +113,7 @@ neotree.setup({
       noremap = true,
       nowait = true,
     },
-    mappings = {
-      ['<cr>'] = function(state)
-        cd_or_open(state)
-      end,
-      -- ['l'] = 'open',
-      ['l'] = 'open_with_window_picker',
-      ['o'] = 'open_with_window_picker',
-      ['-'] = 'navigate_up',
-      -- ['sg'] = 'open_split',
-      -- ['sv'] = 'open_vsplit',
-      ["sg"] = "split_with_window_picker",
-      ["sv"] = "vsplit_with_window_picker",
-      ['z'] = 'close_all_nodes',
-      ['Z'] = 'expand_all_nodes',
-      ['N'] = {
-        'add',
-        -- some commands may take optional config options, see `:h neo-tree-mappings` for details
-        config = {
-          show_path = 'none', -- "none", "relative", "absolute"
-        },
-      },
-      ['d'] = 'delete',
-      ['r'] = 'rename',
-      ['y'] = 'copy_to_clipboard',
-      ['x'] = 'cut_to_clipboard',
-      ['p'] = 'paste_from_clipboard',
-      ['<leader>d'] = 'copy', -- takes text input for destination, also accepts the optional config.show_path option like "add":
-      ['m'] = 'move', -- takes text input for destination, also accepts the optional config.show_path option like "add".
-      ['q'] = 'close_window',
-      ['R'] = 'refresh',
-      ['?'] = 'show_help',
-      ['<'] = 'prev_source',
-      ['>'] = 'next_source',
-      ['.'] = 'toggle_hidden',
-    },
+    mappings = fs_mappings,
   },
   nesting_rules = {},
   filesystem = {
@@ -140,7 +139,7 @@ neotree.setup({
     },
     follow_current_file = false, -- This will find and focus the file in the active buffer every
     -- time the current file is changed while the tree is open.
-    group_empty_dirs = true, -- when true, empty folders will be grouped together
+    group_empty_dirs = false, -- when true, empty folders will be grouped together
     hijack_netrw_behavior = 'open_default', -- netrw disabled, opening a directory opens neo-tree
     -- in whatever position is specified in window.position
     -- "open_current",  -- netrw disabled, opening a directory opens within the
