@@ -9,6 +9,8 @@ USER_SETTINGS = {
     show_signature_on_insert = false,
     -- показывать иконки диагностики
     show_diagnostic = true,
+    -- показывать текущий контекст в коде в winbar
+    show_current_context = true,
   },
   ui = {
     -- catppuccin, tokyonight, kanagawa, nightfox, dayfox, dawnfox, duskfox, nordfox, terafox, carbonfox, aquarium

@@ -1,6 +1,7 @@
 -- Дефолтные настройки для кажддого сервера
 -- Все доступные опции настроек :h vim.lsp.start_client
 
+local navic = require('nvim-navic')
 local set_keymap = require('config.lsp.mappings').set_keymap
 
 local M = {}
@@ -10,6 +11,10 @@ M.on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
   -- Установка привязок клавиш для LSP
   set_keymap(bufnr)
+  -- Текущий контекст в коде
+  if client.name ~= 'null-ls' then
+    navic.attach(client, bufnr)
+  end
   require('config.lsp.formatters').setup(client, bufnr)
 end
 

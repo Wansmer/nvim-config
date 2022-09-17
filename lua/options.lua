@@ -55,7 +55,8 @@ local options = {
   clipboard = 'unnamedplus',
   backup = false,
   completeopt = { 'menuone', 'noselect' },
-  -- winbar = '%f',
+  winbar = USER_SETTINGS.lsp.show_current_context
+    and "%{%v:lua.require'nvim-navic'.get_location()%}" or '',
 
   -- ==========================================================================
   -- Фолдинг | Folding

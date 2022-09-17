@@ -83,6 +83,14 @@ return packer.startup(function(use)
   use({
     'b0o/SchemaStore.nvim',
   })
+  -- Строка winbar с информацией о положении курсора с коде (текущий контекст)
+  use({
+    'SmiteshP/nvim-navic',
+    requires = 'neovim/nvim-lspconfig',
+    config = function()
+      require('nvim-navic').setup({})
+    end,
+  })
 
   -- ==========================================================================
   -- Treesitter
@@ -322,9 +330,9 @@ return packer.startup(function(use)
   -- Замена значения на противоположное (тригер <leader>i)
   use({
     'nguyenvukhang/nvim-toggler',
-    config = function ()
+    config = function()
       require('nvim-toggler').setup()
-    end
+    end,
   })
   -- Автосмена кавычек, если подразумевается интерполяция текста
   use({

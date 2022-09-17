@@ -88,7 +88,7 @@ require('catppuccin').setup({
     aerial = false,
     vimwiki = true,
     beacon = false,
-    navic = false,
+    navic = true,
     overseer = false,
   },
   color_overrides = {},
