@@ -319,6 +319,13 @@ return packer.startup(function(use)
 
   -- Разворачивание/Сворачивание объектов, функций и т.д.
   use('AndrewRadev/splitjoin.vim')
+  -- Замена значения на противоположное (тригер <leader>i)
+  use({
+    'nguyenvukhang/nvim-toggler',
+    config = function ()
+      require('nvim-toggler').setup()
+    end
+  })
   -- Автосмена кавычек, если подразумевается интерполяция текста
   use({
     'axelvc/template-string.nvim',
