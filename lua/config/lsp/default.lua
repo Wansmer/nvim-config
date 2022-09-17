@@ -10,7 +10,7 @@ M.on_attach = function(client, bufnr)
   -- Включает возможность форматирование диапазона
   vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
   -- Установка привязок клавиш для LSP
-  set_keymap(bufnr)
+  set_keymap()
   -- Текущий контекст в коде
   if client.name ~= 'null-ls' then
     navic.attach(client, bufnr)

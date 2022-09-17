@@ -21,7 +21,7 @@ local ensure_installed = {
 local function make_config(server_name)
   local config = require('config.lsp.default')
   local present, user_config =
-    pcall(require, 'config.lsp.servers.' .. server_name)
+  pcall(require, 'config.lsp.servers.' .. server_name)
   if present then
     config = vim.tbl_deep_extend('force', config, user_config)
   end

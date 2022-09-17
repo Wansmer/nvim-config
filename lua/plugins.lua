@@ -92,6 +92,19 @@ return packer.startup(function(use)
     end,
   })
 
+  use({
+    'j-hui/fidget.nvim',
+    config = function()
+      require('fidget').setup({
+        timer = {
+          spinner_rate = 125, -- frame rate of spinner animation, in ms
+          fidget_decay = 10000, -- how long to keep around empty fidget, in ms
+          task_decay = 1000, -- how long to keep around completed task, in ms
+        },
+      })
+    end
+  })
+
   -- ==========================================================================
   -- Treesitter
   -- ==========================================================================

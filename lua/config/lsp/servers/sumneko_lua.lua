@@ -9,6 +9,9 @@ local settings = {
         [vim.fn.stdpath('config') .. '/lua'] = true,
       },
     },
+    format = {
+      enabled = false,
+    },
   },
 }
 

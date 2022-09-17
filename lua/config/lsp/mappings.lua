@@ -3,9 +3,9 @@ local M = {}
 
 local map = vim.keymap.set
 
-M.set_keymap = function(bufnr)
+M.set_keymap = function()
   local opts = { noremap = true, silent = true }
-  local bufopts = { noremap = true, silent = true, buffer = bufnr }
+  local bufopts = { noremap = true, silent = true, buffer = 0 }
 
   -- Общие привязки клавиш
   -- Всплывающее окно с подсказкой диагностики
