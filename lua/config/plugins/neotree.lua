@@ -3,7 +3,6 @@ if not present then
   return
 end
 
-local fs = require("neo-tree.sources.filesystem")
 local fs_commands = require('neo-tree/sources/filesystem/commands')
 
 -- Если директория, то сделать ее в root
