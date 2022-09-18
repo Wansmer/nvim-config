@@ -34,6 +34,9 @@ vim.g.maplocalleader = ';'
 -- 'jk' как <Esc>, удобная смена режима
 map('i', 'jk', '<Esc>')
 
+-- закрыть nvim
+map('n', '<leader>q', ':qa<CR>')
+
 -- К первому не пробельному символу
 map('n', 'H', '^')
 map('v', 'H', '^')
@@ -93,7 +96,7 @@ map('n', 'gQ', '@q')
 -- Фолдинг
 map('n', '<CR>', 'za')
 
-map('n', '<leader>q', toggle_diagnostics)
+map('n', '<leader>td', toggle_diagnostics)
 
 -- ========= Привязки для плагинов
 -- SplitJoin

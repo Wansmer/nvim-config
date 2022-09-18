@@ -336,9 +336,9 @@ return packer.startup(function(use)
   -- Улучшенные сообщения (ERROR, WARN e.t.c)
   use({
     'rcarriga/nvim-notify',
-    config = function ()
+    config = function()
       require('config.plugins.notify')
-    end
+    end,
   })
 
   -- ==========================================================================
