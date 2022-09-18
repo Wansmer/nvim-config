@@ -20,4 +20,9 @@ USER_SETTINGS = {
   },
   -- при изменении запустить :PackerSync и перезапустить nvim
   file_explorer = 'neo-tree', -- nvim-tree, neo-tree
+  git = {
+    -- показывать информацию из git о текущей строке
+    show_blame = true,
+    show_signcolumn = true,
+  },
 }
