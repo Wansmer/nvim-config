@@ -1,18 +1,23 @@
-return {
-  filetypes = {
+local tom_fts = {
     'vue',
-    -- Для takeOverMode
     'typescript',
     'javascript',
     'javascriptreact',
     'typescriptreact',
     'json',
-  },
+}
+
+local vue_fts = {
+  'vue',
+}
+
+local is_take_over_mode = USER_SETTINGS.lsp.tom_enable
+
+local accepted_filetypes = is_take_over_mode and tom_fts or vue_fts
+
+return {
+  filetypes = accepted_filetypes,
   init_options = {
-    -- typescript = {
-    --   -- TODO: сделать динамический поиск глобально установленного пакета
-    --   serverPath = '/Users/wansmer/.nvm/versions/node/v16.15.0/lib/node_modules/typescript/lib/tsserverlibrary.js',
-    -- },
     languageFeatures = {
       completion = {
         defaultAttrNameCase = 'kebabCase',
@@ -20,8 +25,4 @@ return {
       },
     },
   },
-  -- on_new_config = function(new_config)
-  --   new_config.init_options.typescript.serverPath =
-  --     '/Users/wansmer/.nvm/versions/node/v16.15.0/lib/node_modules/typescript/lib/tsserverlibrary.js'
-  -- end,
 }
