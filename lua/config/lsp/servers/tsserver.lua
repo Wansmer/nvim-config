@@ -14,5 +14,6 @@ return {
       map('n', '<leader>lR', ':TypescriptRenameFile<CR>', bufopts)
       set_keymap()
     end,
+    autostart = not USER_SETTINGS.lsp.tom_enable,
   },
 }

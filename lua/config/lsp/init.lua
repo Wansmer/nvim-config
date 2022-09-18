@@ -1,14 +1,14 @@
 local lsp = require('lspconfig')
 local mason = require('mason')
 local mason_lsp = require('mason-lspconfig')
--- local ts = require('typescript')
+local ts = require('typescript')
 
 require('config.lsp.diagnostics')
 
 -- Список lsp для предустановки
 local ensure_installed = {
   'sumneko_lua',
-  -- 'tsserver',
+  'tsserver',
   'volar',
   'cssls',
   'html',
@@ -21,7 +21,7 @@ local ensure_installed = {
 local function make_config(server_name)
   local config = require('config.lsp.default')
   local present, user_config =
-  pcall(require, 'config.lsp.servers.' .. server_name)
+    pcall(require, 'config.lsp.servers.' .. server_name)
   if present then
     config = vim.tbl_deep_extend('force', config, user_config)
   end
@@ -38,12 +38,11 @@ local servers = mason_lsp.get_installed_servers()
 
 for _, server_name in pairs(servers) do
   local opts = make_config(server_name)
-  -- if server_name == 'tsserver' then
-  --   ts.setup(opts)
-  -- else
-  --   lsp[server_name].setup(opts)
-  -- end
-  lsp[server_name].setup(opts)
+  if server_name == 'tsserver' then
+    ts.setup(opts)
+  else
+    lsp[server_name].setup(opts)
+  end
 end
 
 require('config.lsp.null-ls')

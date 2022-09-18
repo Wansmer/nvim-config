@@ -25,7 +25,7 @@ USER_SETTINGS = {
   file_explorer = 'neo-tree', -- nvim-tree, neo-tree
   git = {
     -- показывать информацию из git о текущей строке
-    show_blame = true,
+    show_blame = false,
     show_signcolumn = true,
   },
 }
