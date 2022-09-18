@@ -88,7 +88,7 @@ return packer.startup(function(use)
     'SmiteshP/nvim-navic',
     requires = 'neovim/nvim-lspconfig',
     config = function()
-      require('nvim-navic').setup({})
+      require('config.plugins.navic')
     end,
   })
 
@@ -102,7 +102,7 @@ return packer.startup(function(use)
           task_decay = 1000, -- how long to keep around completed task, in ms
         },
       })
-    end
+    end,
   })
 
   -- ==========================================================================
