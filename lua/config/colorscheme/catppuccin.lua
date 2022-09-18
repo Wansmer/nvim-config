@@ -99,6 +99,8 @@ require('catppuccin').setup({
       GitSignsDelete = { bg = mocha.base },
       NavicText = { fg = mocha.overlay1 },
       NavicSeparator = { fg = mocha.maroon },
+      CmpItemMenu = { fg = mocha.lavender },
+      -- CmpItemMenu = { fg = mocha.mauve },
     },
   },
 })
