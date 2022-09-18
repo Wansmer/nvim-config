@@ -1,5 +1,12 @@
+local present_navic, _ = require('nvim-navic')
+
 local text_width = 80
 local tab_width = 2
+local winbar = ''
+
+if present_navic then
+  winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+end
 
 local options = {
   -- ==========================================================================
@@ -55,8 +62,7 @@ local options = {
   clipboard = 'unnamedplus',
   backup = false,
   completeopt = { 'menuone', 'noselect' },
-  winbar = USER_SETTINGS.lsp.show_current_context
-    and "%{%v:lua.require'nvim-navic'.get_location()%}" or '',
+  winbar = winbar,
 
   -- ==========================================================================
   -- Фолдинг | Folding
