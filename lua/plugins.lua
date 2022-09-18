@@ -344,7 +344,7 @@ return packer.startup(function(use)
   use({
     'nguyenvukhang/nvim-toggler',
     config = function()
-      require('nvim-toggler').setup()
+      require('config.plugins.toggler')
     end,
   })
   -- Автосмена кавычек, если подразумевается интерполяция текста
