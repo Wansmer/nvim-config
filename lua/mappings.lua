@@ -105,7 +105,9 @@ local file_explorers = {
   ['nvim-tree'] = 'NvimTreeToggle',
   ['neo-tree'] = 'NeoTreeFocusToggle',
 }
+
 local fm_ok, _ = pcall(require, PREF.file_explorer)
+
 if fm_ok then
   map(
     'n',
@@ -123,6 +125,10 @@ if ufo_ok then
   map('n', 'zM', ufo.closeAllFolds)
 end
 
+-- nvim-notify
+map('n', '<leader>a', ':Notifications<CR>')
+
+
 -- Telescope
 local telescope_ok, telescope = pcall(require, 'telescope.builtin')
 if telescope_ok then
@@ -130,6 +136,7 @@ if telescope_ok then
   map('n', '<localleader>g', ':Telescope live_grep<CR>')
   map('n', '<localleader>d', ':Telescope diagnostics<CR>')
   map('n', '<localleader>o', ':Telescope oldfiles<CR>')
+  map('n', '<localleader>n', ':Telescope notify<CR>')
   map('n', '<localleader>s', function()
     telescope.live_grep({ default_text = vim.fn.expand('<cword>') })
   end)

@@ -333,6 +333,13 @@ return packer.startup(function(use)
       require('config.plugins.alpha')
     end,
   })
+  -- Улучшенные сообщения (ERROR, WARN e.t.c)
+  use({
+    'rcarriga/nvim-notify',
+    config = function ()
+      require('config.plugins.notify')
+    end
+  })
 
   -- ==========================================================================
   -- Улучшения редактора текста (Improve text editor)

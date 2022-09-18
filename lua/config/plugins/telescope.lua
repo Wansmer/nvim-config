@@ -3,6 +3,8 @@ if not present then
   return
 end
 
+require("telescope").load_extension("notify")
+
 telescope.setup({
   defaults = {
     prompt_prefix = ' ',
