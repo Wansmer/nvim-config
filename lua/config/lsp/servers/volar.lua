@@ -11,7 +11,7 @@ local vue_fts = {
   'vue',
 }
 
-local is_take_over_mode = USER_SETTINGS.lsp.tom_enable
+local is_take_over_mode = PREF.lsp.tom_enable
 
 local accepted_filetypes = is_take_over_mode and tom_fts or vue_fts
 

@@ -35,7 +35,7 @@ vim.cmd([[
 
 packer.init({
   max_jobs = 50,
-  prompt_border = USER_SETTINGS.ui.border,
+  prompt_border = PREF.ui.border,
   autoremove = true,
 })
 
@@ -131,7 +131,7 @@ return packer.startup(function(use)
   -- Файловый менеджер
   use({
     'kyazdani42/nvim-tree.lua',
-    disable = (USER_SETTINGS.file_explorer ~= 'nvim-tree'),
+    disable = (PREF.file_explorer ~= 'nvim-tree'),
     config = function()
       require('config.plugins.nvimtree')
     end,
@@ -139,7 +139,7 @@ return packer.startup(function(use)
   use({
     'nvim-neo-tree/neo-tree.nvim',
     branch = 'v2.x',
-    disable = (USER_SETTINGS.file_explorer ~= 'neo-tree'),
+    disable = (PREF.file_explorer ~= 'neo-tree'),
     requires = {
       'nvim-lua/plenary.nvim',
       'kyazdani42/nvim-web-devicons', -- not strictly required, but recommended
@@ -246,7 +246,7 @@ return packer.startup(function(use)
   use({
     'hrsh7th/cmp-nvim-lsp-signature-help',
     requires = 'hrsh7th/nvim-cmp',
-    disable = not USER_SETTINGS.lsp.show_signature_on_insert,
+    disable = not PREF.lsp.show_signature_on_insert,
   })
   -- Библиотека сниппетов
   use('rafamadriz/friendly-snippets')

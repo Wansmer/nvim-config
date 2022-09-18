@@ -1,4 +1,4 @@
-local colorscheme = USER_SETTINGS.ui.colorscheme
+local colorscheme = PREF.ui.colorscheme
 
 local source = {
   tokyonight = 'tokyonight',

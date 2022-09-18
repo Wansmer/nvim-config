@@ -1,4 +1,4 @@
-USER_SETTINGS = {
+PREF = {
   lsp = {
     -- форматирование при сохранении файла
     format_on_save = false,

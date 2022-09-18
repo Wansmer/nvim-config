@@ -123,7 +123,7 @@ cmp.setup({
       border = 'none',
     },
     documentation = {
-      border = USER_SETTINGS.ui.border,
+      border = PREF.ui.border,
     },
   },
   experimental = {

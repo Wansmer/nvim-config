@@ -1,6 +1,6 @@
 -- Настройки для отображения сообщений диагностики
 local config = {
-  virtual_text = USER_SETTINGS.lsp.virtual_text,
+  virtual_text = PREF.lsp.virtual_text,
   signs = true,
   underline = true,
   update_in_insert = true,
@@ -10,7 +10,7 @@ local config = {
     source = true,
     focusable = true,
     style = 'minimun',
-    border = USER_SETTINGS.ui.border,
+    border = PREF.ui.border,
   },
 }
 

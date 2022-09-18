@@ -17,8 +17,8 @@ local function map(mode, new_keys, to_do, options)
 end
 
 local function toggle_diagnostics()
-  local state = USER_SETTINGS.lsp.show_diagnostic
-  USER_SETTINGS.lsp.show_diagnostic = not state
+  local state = PREF.lsp.show_diagnostic
+  PREF.lsp.show_diagnostic = not state
   if state then
     vim.diagnostic.disable()
     return
@@ -105,12 +105,12 @@ local file_explorers = {
   ['nvim-tree'] = 'NvimTreeToggle',
   ['neo-tree'] = 'NeoTreeFocusToggle',
 }
-local fm_ok, _ = pcall(require, USER_SETTINGS.file_explorer)
+local fm_ok, _ = pcall(require, PREF.file_explorer)
 if fm_ok then
   map(
     'n',
     '<localleader>e',
-    ':' .. file_explorers[USER_SETTINGS.file_explorer] .. ' <CR>'
+    ':' .. file_explorers[PREF.file_explorer] .. ' <CR>'
   )
 else
   map('n', '<localleader>e', ':Lex 20<CR>')

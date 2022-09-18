@@ -5,7 +5,7 @@ if not ok then
 end
 
 local M = {}
-M.autoformat = USER_SETTINGS.lsp.format_on_save
+M.autoformat = PREF.lsp.format_on_save
 
 local nls_sources = require('null-ls.sources')
 

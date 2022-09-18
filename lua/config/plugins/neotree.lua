@@ -50,9 +50,9 @@ neotree.setup({
   use_default_mappings = false,
   add_blank_line_at_top = true,
   close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
-  popup_border_style = USER_SETTINGS.ui.border,
+  popup_border_style = PREF.ui.border,
   enable_git_status = true,
-  enable_diagnostics = USER_SETTINGS.lsp.show_diagnostic,
+  enable_diagnostics = PREF.lsp.show_diagnostic,
   default_component_configs = {
     indent = {
       indent_size = 2,

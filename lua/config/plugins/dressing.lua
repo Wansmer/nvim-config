@@ -22,7 +22,7 @@ dressing.setup({
 
     -- These are passed to nvim_open_win
     anchor = 'SW',
-    border = USER_SETTINGS.ui.border,
+    border = PREF.ui.border,
     -- 'editor' and 'win' will default to being centered
     relative = 'cursor',
 
