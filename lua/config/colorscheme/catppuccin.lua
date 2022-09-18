@@ -97,6 +97,8 @@ require('catppuccin').setup({
       GitSignsAdd = { bg = mocha.base },
       GitSignsChange = { bg = mocha.base },
       GitSignsDelete = { bg = mocha.base },
+      NavicText = { fg = mocha.overlay1 },
+      NavicSeparator = { fg = mocha.maroon },
     },
   },
 })
