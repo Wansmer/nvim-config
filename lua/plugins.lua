@@ -123,6 +123,8 @@ return packer.startup(function(use)
   use({ 'windwp/nvim-ts-autotag', after = 'nvim-treesitter' })
   -- Подсветка парных символов разными цветами
   use({ 'p00f/nvim-ts-rainbow', after = 'nvim-treesitter' })
+  -- AST дерево на основе treesitter
+  use('nvim-treesitter/playground')
 
   -- ==========================================================================
   -- Навигация
