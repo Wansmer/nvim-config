@@ -16,14 +16,6 @@ local function map(mode, new_keys, to_do, options)
   end
 end
 
-local function paste_without_yank()
-  local last_yank = vim.fn.getreg('""')
-  if last_yank ~= '' then
-    return
-  end
-  vim.cmd('norm! "_c' .. last_yank)
-end
-
 local function toggle_diagnostics()
   local state = PREF.lsp.show_diagnostic
   PREF.lsp.show_diagnostic = not state
@@ -68,12 +60,11 @@ map('n', '<Tab>', ':bn<CR>')
 -- К предыдущему буферу
 map('n', '<S-Tab>', ':bp<CR>')
 
--- Не копировать одиночный символ при удалении
+-- Не копировать при удалении
 map('n', 'x', '"_x')
 map('x', 'x', '"_x')
-
--- вставка без сохранения в регистр
-map('x', 'p', paste_without_yank)
+map('x', 'p', '"_dP')
+map('n', 'p', '"_ciw<esc>p')
 
 -- Новая строка под курсором в любой позиции в режиме ввода
 map('i', '<S-CR>', '<C-o>o')
