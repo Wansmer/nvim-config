@@ -8,10 +8,11 @@ local function map(mode, new_keys, to_do, options)
   if options then
     default_options = vim.tbl_extend('force', default_options, options)
   end
-  local ok, error = pcall(keymap, mode, new_keys, to_do, default_options)
+  local ok, _ = pcall(keymap, mode, new_keys, to_do, default_options)
   if not ok then
-    vim.notify(error, vim.log.levels.ERROR, {
-      title = 'keymap',
+    local msg = 'Fail to mapping ' .. new_keys .. ' for ' .. to_do
+    vim.notify(msg, vim.log.levels.ERROR, {
+      title = 'Keymap',
     })
   end
 end
@@ -71,9 +72,10 @@ map('n', '<S-Tab>', ':bp<CR>')
 map('n', 'x', '"_x')
 map('x', 'x', '"_x')
 
+-- TODO: исправить поведение при вставке
 -- Замена текста без копирования в клипборд
-map('x', 'p', '"_dP')
-map('n', 'p', '"_ciw<esc>p')
+-- map('x', 'p', '"_dp')
+-- map('n', 'p', '"_ciw<esc>p')
 
 -- К парной скобке
 map('n', '<BS>', '%')
