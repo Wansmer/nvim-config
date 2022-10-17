@@ -92,6 +92,7 @@ return packer.startup(function(use)
     end,
   })
 
+  -- Виджет для прогресса LSP
   use({
     'j-hui/fidget.nvim',
     config = function()
@@ -125,6 +126,47 @@ return packer.startup(function(use)
   use({ 'p00f/nvim-ts-rainbow', after = 'nvim-treesitter' })
   -- AST дерево на основе treesitter
   use('nvim-treesitter/playground')
+  -- Анотации для функций
+  use({
+    'danymat/neogen',
+    config = function()
+      require('neogen').setup({
+        snippet_engine = 'luasnip',
+        languages = {
+          lua = {
+            template = {
+              annotation_convention = 'emmylua',
+            },
+          },
+        },
+      })
+    end,
+    setup = function()
+      vim.keymap.set('n', '<localleader>a', '<cmd>Neogen <CR>')
+    end,
+    requires = 'nvim-treesitter/nvim-treesitter',
+  })
+
+  -- FIXME: удалить, полсе теста
+  use({
+    '~/projects/code/treesj',
+    config = function ()
+      require('treesj').setup({
+        check_syntax_error = true,
+      })
+    end,
+    setup = function()
+      vim.keymap.set('n', '<leader>m', function()
+        require('treesj').toggle()
+      end)
+      vim.keymap.set('n', '<leader>n', function()
+        require('treesj').join()
+      end)
+      vim.keymap.set('n', '<leader>h', function()
+        require('treesj').split()
+      end)
+    end,
+  })
 
   -- ==========================================================================
   -- Навигация
@@ -252,6 +294,7 @@ return packer.startup(function(use)
   })
   -- Библиотека сниппетов
   use('rafamadriz/friendly-snippets')
+  use('folke/neodev.nvim')
 
   -- ==========================================================================
   -- Оформление (UI, Colorschemes)

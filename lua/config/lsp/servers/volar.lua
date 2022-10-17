@@ -65,13 +65,6 @@ local function find_ts_path(root_dir)
     local path_to_search = build_path(value, false, root_dir)
     local is_found = util.path.exists(path_to_search)
     if is_found then
-      vim.notify(
-        'TS is found at \n'
-          .. path_to_search
-          .. '\n with sourse ['
-          .. value.name
-          .. ']'
-      )
       return path_to_search
     end
   end

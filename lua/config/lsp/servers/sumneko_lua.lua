@@ -1,3 +1,5 @@
+require('neodev').setup({})
+
 local settings = {
   Lua = {
     diagnostics = {
@@ -11,6 +13,9 @@ local settings = {
     },
     format = {
       enabled = false,
+    },
+    completion = {
+      callSnippet = 'Replace',
     },
   },
 }

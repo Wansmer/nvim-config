@@ -20,7 +20,7 @@ M.set_keymap = function()
   map('n', '<leader>lf', vim.lsp.buf.format, bufopts)
   -- TODO: Разобраться, почему не работает форматирование выделенного
   -- Форматировать выделенный фрагмент
-  map('v', '<leader>lf', vim.lsp.buf.range_formatting, bufopts)
+  -- map('v', '<leader>lf', vim.lsp.buf.range_formatting, bufopts)
   -- Показать доступные действия с кодом под курсором (Show code action)
   map('n', '<leader>la', vim.lsp.buf.code_action, bufopts)
   -- Перейти к определению символа под курсором (Jump to defenition)

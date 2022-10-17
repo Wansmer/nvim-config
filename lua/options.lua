@@ -42,8 +42,8 @@ local options = {
   -- Текст | Text
   -- ==========================================================================
   textwidth = text_width,
-  wrap = true,
-  linebreak = true,
+  wrap = false,
+  -- linebreak = true,
   -- formatoptions = 'l',
 
   -- ==========================================================================
@@ -63,6 +63,7 @@ local options = {
   mouse = 'a',
   clipboard = 'unnamedplus',
   backup = false,
+  -- noswapfile = '',
   completeopt = { 'menuone', 'noselect' },
   winbar = winbar,
 
@@ -74,7 +75,7 @@ local options = {
   foldminlines = 0,
   foldlevel = 99,
   foldlevelstart = 99,
-  -- foldmethod = 'indent',
+  foldmethod = 'indent',
   foldenable = true,
 }
 
@@ -94,6 +95,25 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 100 })
   end,
+})
+
+vim.api.nvim_create_autocmd('BufEnter', {
+  callback = function ()
+    local ft_ignore = {
+      'nvim-tree',
+      'neo-tree',
+      'pakcer',
+    }
+    local buf = vim.api.nvim_win_get_buf(0)
+    local buftype = vim.api.nvim_buf_get_option(buf, 'ft')
+    if vim.tbl_contains(ft_ignore, buftype) then
+      return
+    end
+    local width = vim.api.nvim_win_get_width(0)
+    if width < text_width then
+      vim.api.nvim_win_set_width(0, text_width)
+    end
+  end
 })
 
 vim.cmd([[
