@@ -146,25 +146,15 @@ return packer.startup(function(use)
     end,
     requires = 'nvim-treesitter/nvim-treesitter',
   })
-
   -- FIXME: удалить, полсе теста
   use({
     '~/projects/code/treesj',
-    config = function ()
+    config = function()
       require('treesj').setup({
+        use_default_mapping = true,
         check_syntax_error = true,
+        no_join_with_comments = true,
       })
-    end,
-    setup = function()
-      vim.keymap.set('n', '<leader>m', function()
-        require('treesj').toggle()
-      end)
-      vim.keymap.set('n', '<leader>n', function()
-        require('treesj').join()
-      end)
-      vim.keymap.set('n', '<leader>h', function()
-        require('treesj').split()
-      end)
     end,
   })
 
