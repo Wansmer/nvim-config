@@ -1,4 +1,4 @@
-local present_navic, _ = require('nvim-navic')
+local present_navic, _ = pcall(require, 'nvim-navic')
 
 local text_width = 80
 local tab_width = 2
