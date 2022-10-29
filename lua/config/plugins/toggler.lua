@@ -7,6 +7,7 @@ end
 toggler.setup({
   inverses = {
     ['top'] = 'bottom',
+    ['start'] = 'end',
     ['vim'] = 'emacs',
     ['true'] = 'false',
     ['yes'] = 'no',

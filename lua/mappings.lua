@@ -116,8 +116,8 @@ map('n', '<leader>td', toggle_diagnostics)
 
 -- ========= Привязки для плагинов
 -- SplitJoin
-map('n', '<leader>j', ':SplitjoinJoin<CR>')
-map('n', '<leader>s', ':SplitjoinSplit<CR>')
+map('n', '<leader>c', ':SplitjoinJoin<CR>')
+map('n', '<leader>e', ':SplitjoinSplit<CR>')
 
 -- NvimTree, NeoTree
 local file_explorers = {

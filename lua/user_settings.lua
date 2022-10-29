@@ -13,7 +13,7 @@ PREF = {
     show_current_context = true,
     -- использовать take_over_mode для проектов vue3
     -- настройка отключает отдельный tsserver и использует volar для .ts, .js и т.д.
-    tom_enable = true,
+    tom_enable = false,
   },
   ui = {
     -- catppuccin, tokyonight, kanagawa, nightfox, dayfox, dawnfox, duskfox, nordfox, terafox, carbonfox, aquarium

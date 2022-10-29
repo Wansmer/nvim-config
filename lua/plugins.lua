@@ -148,13 +148,18 @@ return packer.startup(function(use)
   })
   -- FIXME: удалить, полсе теста
   use({
-    '~/projects/code/treesj',
+    '~/projects/code/treesj-refactor',
     config = function()
-      require('treesj').setup({
-        use_default_mapping = true,
-        check_syntax_error = true,
-        no_join_with_comments = true,
-      })
+      -- require('treesj').setup({
+      --   use_default_mapping = true,
+      --   check_syntax_error = true,
+      --   no_join_with_comments = true,
+      -- })
+    end,
+    setup = function()
+      vim.keymap.set('n', '<leader>m', function()
+        require('treesj').format()
+      end)
     end,
   })
 
