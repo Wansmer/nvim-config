@@ -148,9 +148,10 @@ return packer.startup(function(use)
     end,
     requires = 'nvim-treesitter/nvim-treesitter',
   })
-  -- FIXME: удалить, полсе теста
+  -- Для сворачивания, разворачивания блоков кода
   use({
-    '~/projects/code/personal/treesj-draw',
+    'Wansmer/treesj',
+    requires = { 'nvim-treesitter' },
     config = function()
       require('config.plugins.treesj')
     end,
