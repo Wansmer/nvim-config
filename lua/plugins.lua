@@ -35,8 +35,11 @@ vim.cmd([[
 
 packer.init({
   max_jobs = 50,
-  prompt_border = PREF.ui.border,
   autoremove = true,
+  display = {
+    prompt_border = PREF.ui.border,
+    compact = true,
+  },
 })
 
 return packer.startup(function(use)
@@ -91,7 +94,6 @@ return packer.startup(function(use)
       require('config.plugins.navic')
     end,
   })
-
   -- Виджет для прогресса LSP
   use({
     'j-hui/fidget.nvim',
@@ -148,18 +150,9 @@ return packer.startup(function(use)
   })
   -- FIXME: удалить, полсе теста
   use({
-    '~/projects/code/treesj-refactor',
+    '~/projects/code/personal/treesj-draw',
     config = function()
-      -- require('treesj').setup({
-      --   use_default_mapping = true,
-      --   check_syntax_error = true,
-      --   no_join_with_comments = true,
-      -- })
-    end,
-    setup = function()
-      vim.keymap.set('n', '<leader>m', function()
-        require('treesj').format()
-      end)
+      require('config.plugins.treesj')
     end,
   })
 
@@ -432,6 +425,28 @@ return packer.startup(function(use)
       })
     end,
     requires = { 'nvim-treesitter' },
+  })
+
+  -- Работа с текстовыми объектами на основе Treesitter
+  use({
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    config = function()
+      require('nvim-treesitter.configs').setup({
+        textobjects = {
+          swap = {
+            enable = true,
+            swap_next = {
+              ['<localleader>l'] = '@parameter.inner',
+              ['<localleader>j'] = '@attribute.inner',
+            },
+            swap_previous = {
+              ['<localleader>h'] = '@parameter.inner',
+              ['<localleader>k'] = '@attribute.inner',
+            },
+          },
+        },
+      })
+    end,
   })
 
   -- Если packer установлен, запустить :PackerSync
