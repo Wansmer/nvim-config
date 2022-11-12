@@ -156,6 +156,14 @@ return packer.startup(function(use)
       require('config.plugins.treesj')
     end,
   })
+  -- Перемена мест операндов в бинарных выражениях
+  use({
+    'Wansmer/binary-swap.nvim',
+    config = function()
+      vim.keymap.set('n', '<leader>v', require('binary-swap').swap_operands_with_operator)
+      vim.keymap.set('n', '<leader>V', require('binary-swap').swap_operands)
+    end
+  })
 
   -- ==========================================================================
   -- Навигация
