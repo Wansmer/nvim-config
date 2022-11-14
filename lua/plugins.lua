@@ -151,6 +151,8 @@ return packer.startup(function(use)
   -- Для сворачивания, разворачивания блоков кода
   use({
     'Wansmer/treesj',
+    -- '~/projects/code/personal/treesj',
+    -- branch = 'refactor',
     requires = { 'nvim-treesitter' },
     config = function()
       require('config.plugins.treesj')
@@ -160,9 +162,20 @@ return packer.startup(function(use)
   use({
     'Wansmer/binary-swap.nvim',
     config = function()
-      vim.keymap.set('n', '<leader>v', require('binary-swap').swap_operands_with_operator)
+      vim.keymap.set(
+        'n',
+        '<leader>v',
+        require('binary-swap').swap_operands_with_operator
+      )
       vim.keymap.set('n', '<leader>V', require('binary-swap').swap_operands)
-    end
+    end,
+  })
+  -- Перемена мест соседних узлов
+  use({
+    'Wansmer/sibling-swap.nvim',
+    config = function()
+      require('sibling-swap').setup()
+    end,
   })
 
   -- ==========================================================================
