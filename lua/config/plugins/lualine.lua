@@ -3,6 +3,17 @@ if not status_ok then
   return
 end
 
+local function diff_source()
+  local gitsigns = vim.b.gitsigns_status_dict
+  if gitsigns then
+    return {
+      added = gitsigns.added,
+      modified = gitsigns.changed,
+      removed = gitsigns.removed,
+    }
+  end
+end
+
 local function lsp_list()
   local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
 
@@ -55,7 +66,27 @@ local branch = {
 
 local location = {
   'location',
-  padding = { 0, 2 },
+  padding = { 0, 6 },
+}
+
+local filename = {
+  'filename',
+  file_status = true,
+  newfile_status = false,
+  path = 1,
+  shorting_target = 20,
+  symbols = {
+    modified = ' ●',
+    readonly = ' ',
+    unnamed = '[No Name]',
+    newfile = '[New]',
+  },
+}
+
+local diff = {
+  'diff',
+  source = diff_source,
+  symbols = { added = ' ', modified = ' ', removed = ' ' },
 }
 
 local config = {
@@ -66,7 +97,12 @@ local config = {
     section_separators = { left = '', right = '' },
     disabled_filetypes = {
       statusline = { 'alpha' },
-      winbar = { 'alpha', 'neo-tree', 'toggleterm', 'packer' },
+      winbar = {
+        'alpha',
+        'neo-tree',
+        'toggleterm',
+        'packer',
+      },
     },
     ignore_focus = {
       'neo-tree',
@@ -79,12 +115,16 @@ local config = {
     globalstatus = true,
   },
   sections = {
-    lualine_a = { 'filename', 'filesize' },
-    lualine_b = { branch },
-    lualine_c = { { '%=', separator = '' }, lsp_servers, formatters },
+    lualine_a = { filename },
+    lualine_b = { branch, diff },
+    lualine_c = {
+      { '%=', separator = '' },
+      lsp_servers,
+      formatters,
+    },
     lualine_x = { 'encoding' },
     lualine_y = { filetype, 'fileformat' },
-    lualine_z = { location },
+    lualine_z = { 'progress', location },
   },
   inactive_sections = {
     lualine_a = { 'filename' },
