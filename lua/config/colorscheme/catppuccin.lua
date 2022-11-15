@@ -85,7 +85,7 @@ require('catppuccin').setup({
     telekasten = false,
     symbols_outline = false,
     mini = false,
-    aerial = false,
+    aerial = true,
     vimwiki = true,
     beacon = false,
     navic = true,

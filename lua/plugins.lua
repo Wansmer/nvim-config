@@ -107,6 +107,13 @@ return packer.startup(function(use)
       })
     end,
   })
+  -- Навигация по названиям классов/функций в файле
+  use({
+    'stevearc/aerial.nvim',
+    config = function()
+      require('config.plugins.aerial')
+    end,
+  })
 
   -- ==========================================================================
   -- Treesitter

@@ -12,7 +12,6 @@ local options = {
   -- ==========================================================================
   -- Табуляция и отступы | Indents, spaces, tabulation
   -- ==========================================================================
-
   expandtab = true,
   smartindent = true,
   shiftwidth = tab_width,
@@ -103,6 +102,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
       'nvim-tree',
       'neo-tree',
       'pakcer',
+      'aerial',
     }
     local buf = vim.api.nvim_win_get_buf(0)
     local buftype = vim.api.nvim_buf_get_option(buf, 'ft')
