@@ -173,3 +173,9 @@ if gitsigns_ok then
   map('n', '<leader>gA', ':Gitsigns stage_buffer<CR>')
   map('n', '<leader>gR', ':Gitsigns reset_buffer<CR>')
 end
+
+-- Neogen
+local neogen_ok, _ = pcall(require, 'neogen')
+if neogen_ok then
+  map('n', '<localleader>a', ':Neogen<CR>')
+end

@@ -67,7 +67,7 @@ return packer.startup(function(use)
       'williamboman/mason-lspconfig.nvim',
     },
   })
-  -- Установщик для LSP-пакетов
+  -- Установщик для LSP-пакетов, линтеров, форматеров и т.д.
   use({
     'williamboman/mason.nvim',
   })
@@ -75,7 +75,7 @@ return packer.startup(function(use)
   use({
     'williamboman/mason-lspconfig.nvim',
   })
-  -- Единый интерфейс для форматирования с помощью LSP
+  -- Единый интерфейс для установки форматеров
   use({
     'jose-elias-alvarez/null-ls.nvim',
   })
@@ -119,7 +119,7 @@ return packer.startup(function(use)
   -- Treesitter
   -- ==========================================================================
 
-  -- Умная подсветка синтаксиса на основе синтактического дерева
+  -- Синтексическое дерево
   use({
     'nvim-treesitter/nvim-treesitter',
     run = function()
@@ -129,50 +129,14 @@ return packer.startup(function(use)
       require('config.plugins.treesitter')
     end,
   })
-  -- Добавить/изменить парный тег
-  use({ 'windwp/nvim-ts-autotag', after = 'nvim-treesitter' })
-  -- Подсветка парных символов разными цветами
-  use({ 'p00f/nvim-ts-rainbow', after = 'nvim-treesitter' })
   -- AST дерево на основе treesitter
   use('nvim-treesitter/playground')
-  -- Анотации для функций
+  -- Аннотации для функций (jsdoc и т.д.)
   use({
     'danymat/neogen',
+    requires = 'nvim-treesitter/nvim-treesitter',
     config = function()
       require('config.plugins.neogen')
-    end,
-    setup = function()
-      vim.keymap.set('n', '<localleader>a', '<cmd>Neogen <CR>')
-    end,
-    requires = 'nvim-treesitter/nvim-treesitter',
-  })
-  -- Для сворачивания, разворачивания блоков кода
-  use({
-    'Wansmer/treesj',
-    -- '~/projects/code/personal/treesj',
-    -- branch = 'refactor',
-    requires = { 'nvim-treesitter' },
-    config = function()
-      require('config.plugins.treesj')
-    end,
-  })
-  -- Перемена мест операндов в бинарных выражениях
-  use({
-    'Wansmer/binary-swap.nvim',
-    config = function()
-      vim.keymap.set(
-        'n',
-        '<leader>v',
-        require('binary-swap').swap_operands_with_operator
-      )
-      vim.keymap.set('n', '<leader>V', require('binary-swap').swap_operands)
-    end,
-  })
-  -- Перемена мест соседних узлов
-  use({
-    'Wansmer/sibling-swap.nvim',
-    config = function()
-      require('sibling-swap').setup()
     end,
   })
 
@@ -295,14 +259,16 @@ return packer.startup(function(use)
     'L3MON4D3/LuaSnip',
     requires = 'hrsh7th/nvim-cmp',
   })
+  -- Всплывающее окно с информацией о сигнатуре функции
   use({
     'hrsh7th/cmp-nvim-lsp-signature-help',
     requires = 'hrsh7th/nvim-cmp',
     disable = not PREF.lsp.show_signature_on_insert,
   })
+  -- Документация в сигнатуре для vim.api
+  use('folke/neodev.nvim')
   -- Библиотека сниппетов
   use('rafamadriz/friendly-snippets')
-  use('folke/neodev.nvim')
 
   -- ==========================================================================
   -- Оформление (UI, Colorschemes)
@@ -350,8 +316,13 @@ return packer.startup(function(use)
   -- Убирает подсветку поиска по буфферу, когда уже не надо
   use('romainl/vim-cool')
   -- Визуализация отступов
-  use('lukas-reineke/indent-blankline.nvim')
-  -- Визуализация фолдинга
+  use({
+    'lukas-reineke/indent-blankline.nvim',
+    config = function()
+      require('config.plugins.blankline')
+    end,
+  })
+  -- Помощник для фолдинга
   use({
     'kevinhwang91/nvim-ufo',
     disable = false,
@@ -403,6 +374,39 @@ return packer.startup(function(use)
   -- Улучшения редактора текста (Improve text editor)
   -- ==========================================================================
 
+  -- Для сворачивания, разворачивания блоков кода
+  use({
+    'Wansmer/treesj',
+    requires = 'nvim-treesitter/nvim-treesitter',
+    config = function()
+      require('config.plugins.treesj')
+    end,
+  })
+  -- Перемена мест операндов в бинарных выражениях
+  use({
+    'Wansmer/binary-swap.nvim',
+    requires = 'nvim-treesitter/nvim-treesitter',
+    config = function()
+      vim.keymap.set(
+        'n',
+        '<leader>v',
+        require('binary-swap').swap_operands_with_operator
+      )
+      vim.keymap.set('n', '<leader>V', require('binary-swap').swap_operands)
+    end,
+  })
+  -- Перемена мест соседних узлов
+  use({
+    'Wansmer/sibling-swap.nvim',
+    requires = 'nvim-treesitter/nvim-treesitter',
+    config = function()
+      require('sibling-swap').setup()
+    end,
+  })
+  -- Добавить/изменить парный тег
+  use({ 'windwp/nvim-ts-autotag', after = 'nvim-treesitter' })
+  -- Подсветка парных символов разными цветами
+  use({ 'p00f/nvim-ts-rainbow', after = 'nvim-treesitter' })
   -- Разворачивание/Сворачивание объектов, функций и т.д.
   use('AndrewRadev/splitjoin.vim')
   -- Замена значения на противоположное (тригер <leader>i)
@@ -449,29 +453,7 @@ return packer.startup(function(use)
         act_as_tab = false,
       })
     end,
-    requires = { 'nvim-treesitter' },
-  })
-  -- Работа с текстовыми объектами на основе Treesitter
-  use({
-    'nvim-treesitter/nvim-treesitter-textobjects',
     requires = 'nvim-treesitter/nvim-treesitter',
-    config = function()
-      require('nvim-treesitter.configs').setup({
-        textobjects = {
-          swap = {
-            enable = true,
-            swap_next = {
-              ['<localleader>l'] = '@parameter.inner',
-              ['<localleader>j'] = '@attribute.inner',
-            },
-            swap_previous = {
-              ['<localleader>h'] = '@parameter.inner',
-              ['<localleader>k'] = '@attribute.inner',
-            },
-          },
-        },
-      })
-    end,
   })
 
   -- Если packer установлен, запустить :PackerSync
