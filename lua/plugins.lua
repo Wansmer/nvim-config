@@ -449,11 +449,11 @@ return packer.startup(function(use)
     'abecodes/tabout.nvim',
     config = function()
       require('tabout').setup({
-        tabkey = '<C-f>',
-        act_as_tab = false,
+        ignore_beginning = false,
       })
     end,
     requires = 'nvim-treesitter/nvim-treesitter',
+    after = { 'nvim-cmp' },
   })
 
   -- Если packer установлен, запустить :PackerSync
