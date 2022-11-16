@@ -1,12 +1,6 @@
-local present_navic, _ = pcall(require, 'nvim-navic')
-
 local text_width = 80
 local tab_width = 2
 local winbar = ''
-
-if present_navic then
-  winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
-end
 
 local options = {
   -- ==========================================================================

@@ -79,20 +79,13 @@ return packer.startup(function(use)
   use({
     'jose-elias-alvarez/null-ls.nvim',
   })
+  -- TODO: Need?
   -- Адаптер для tsserver
   use({ 'jose-elias-alvarez/typescript.nvim' })
   -- Сэмпл предустановок для LSP jsonls
   -- Обеспечивает дополнения для package.json, jsconfig и т.д.
   use({
     'b0o/SchemaStore.nvim',
-  })
-  -- Строка winbar с информацией о положении курсора с коде (текущий контекст)
-  use({
-    'SmiteshP/nvim-navic',
-    requires = 'neovim/nvim-lspconfig',
-    config = function()
-      require('config.plugins.navic')
-    end,
   })
   -- Виджет для прогресса LSP
   use({
@@ -158,33 +151,14 @@ return packer.startup(function(use)
     disable = (PREF.file_explorer ~= 'neo-tree'),
     requires = {
       'nvim-lua/plenary.nvim',
-      'kyazdani42/nvim-web-devicons', -- not strictly required, but recommended
+      'kyazdani42/nvim-web-devicons',
       'MunifTanjim/nui.nvim',
       {
         's1n7ax/nvim-window-picker',
+        disable = (PREF.file_explorer ~= 'neo-tree'),
         tag = 'v1.*',
         config = function()
-          require('window-picker').setup({
-            autoselect_one = true,
-            include_current = false,
-            filter_rules = {
-              -- filter using buffer options
-              bo = {
-                -- if the file type is one of following, the window will be ignored
-                filetype = {
-                  'neo-tree',
-                  'neo-tree-popup',
-                  'notify',
-                  'quickfix',
-                  'toggleterm',
-                },
-
-                -- if the buffer type is one of following, the window will be ignored
-                buftype = { 'terminal', 'toggleterm' },
-              },
-            },
-            other_win_hl_color = '#e35e4f',
-          })
+          require('config.plugins.window-picker')
         end,
       },
     },
@@ -255,7 +229,6 @@ return packer.startup(function(use)
     'hrsh7th/cmp-cmdline',
     'saadparwaiz1/cmp_luasnip',
     'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-nvim-lua',
     'L3MON4D3/LuaSnip',
     requires = 'hrsh7th/nvim-cmp',
   })
@@ -292,6 +265,7 @@ return packer.startup(function(use)
   -- Внешний вид vim.input и vim.select
   use({
     'stevearc/dressing.nvim',
+    disable = false,
     config = function()
       require('config.plugins.dressing')
     end,
@@ -407,8 +381,6 @@ return packer.startup(function(use)
   use({ 'windwp/nvim-ts-autotag', after = 'nvim-treesitter' })
   -- Подсветка парных символов разными цветами
   use({ 'p00f/nvim-ts-rainbow', after = 'nvim-treesitter' })
-  -- Разворачивание/Сворачивание объектов, функций и т.д.
-  use('AndrewRadev/splitjoin.vim')
   -- Замена значения на противоположное (тригер <leader>i)
   use({
     'nguyenvukhang/nvim-toggler',

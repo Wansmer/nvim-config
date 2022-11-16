@@ -1,7 +1,6 @@
 -- Дефолтные настройки для кажддого сервера
 -- Все доступные опции настроек :h vim.lsp.start_client
 
-local navic = require('nvim-navic')
 local set_keymap = require('config.lsp.mappings').set_keymap
 
 local function is_support_symbol(client)
@@ -16,9 +15,6 @@ M.on_attach = function(client, bufnr)
   -- Установка привязок клавиш для LSP
   set_keymap()
   -- Текущий контекст в коде
-  if client.name ~= 'null-ls' and is_support_symbol(client) then
-    navic.attach(client, bufnr)
-  end
   require('config.lsp.formatters').setup(client, bufnr)
 end
 
