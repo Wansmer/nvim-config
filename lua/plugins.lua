@@ -444,17 +444,6 @@ return packer.startup(function(use)
       require('Comment').setup()
     end,
   })
-  -- Прыжок из закрытых парных символов
-  use({
-    'abecodes/tabout.nvim',
-    config = function()
-      require('tabout').setup({
-        ignore_beginning = false,
-      })
-    end,
-    requires = 'nvim-treesitter/nvim-treesitter',
-    after = { 'nvim-cmp' },
-  })
 
   -- Если packer установлен, запустить :PackerSync
   if PACKER_BOOTSTRAP then
