@@ -69,7 +69,7 @@ local options = {
   -- ==========================================================================
   -- Фолдинг | Folding
   -- ==========================================================================
-  foldcolumn = '1',
+  foldcolumn = '0',
   foldnestmax = 1,
   foldminlines = 0,
   foldlevel = 99,
@@ -101,7 +101,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     local ft_ignore = {
       'nvim-tree',
       'neo-tree',
-      'pakcer',
+      'packer',
       'aerial',
     }
     local buf = vim.api.nvim_win_get_buf(0)

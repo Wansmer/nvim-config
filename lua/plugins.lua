@@ -139,16 +139,7 @@ return packer.startup(function(use)
   use({
     'danymat/neogen',
     config = function()
-      require('neogen').setup({
-        snippet_engine = 'luasnip',
-        languages = {
-          lua = {
-            template = {
-              annotation_convention = 'emmylua',
-            },
-          },
-        },
-      })
+      require('config.plugins.neogen')
     end,
     setup = function()
       vim.keymap.set('n', '<localleader>a', '<cmd>Neogen <CR>')
@@ -327,6 +318,11 @@ return packer.startup(function(use)
     as = 'catppuccin',
     run = ':CatppuccinCompile',
   })
+  use('bluz71/vim-nightfly-colors')
+  use({ 'bluz71/vim-moonfly-colors', branch = 'cterm-compat' })
+  use('Mofiqul/vscode.nvim')
+  use('navarasu/onedark.nvim')
+  use('sainnhe/gruvbox-material')
   -- Внешний вид vim.input и vim.select
   use({
     'stevearc/dressing.nvim',

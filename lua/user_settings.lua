@@ -16,8 +16,10 @@ PREF = {
     tom_enable = true,
   },
   ui = {
-    -- catppuccin, tokyonight, kanagawa, nightfox, dayfox, dawnfox, duskfox, nordfox, terafox, carbonfox, aquarium
-    colorscheme = 'catppuccin',
+    -- catppuccin, tokyonight, kanagawa, nightfox, dayfox, dawnfox, duskfox, 
+    -- nordfox, terafox, carbonfox, aquarium, nightfly, vscode, moonfly, onedark,
+    -- gruvbox-material
+    colorscheme = 'gruvbox-material',
     -- Вид бордера для всплывающих окон. Может быть строкой или таблицей
     border = 'single',
   },

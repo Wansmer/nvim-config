@@ -12,6 +12,11 @@ local source = {
   nordfox = 'nightfox',
   terafox = 'nightfox',
   aquarium = 'aquarium',
+  nightfly = 'nightfly',
+  moonfly = 'moonfly',
+  vscode = 'vscode',
+  onedark = 'onedark',
+  ['gruvbox-material'] = 'gruvbox-material',
 }
 
 pcall(require, 'config.colorscheme.' .. source[colorscheme])
