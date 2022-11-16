@@ -36,8 +36,6 @@ local options = {
   -- ==========================================================================
   textwidth = text_width,
   wrap = false,
-  -- linebreak = true,
-  -- formatoptions = 'l',
 
   -- ==========================================================================
   -- Поиск | Search
@@ -78,18 +76,21 @@ for option_name, value in pairs(options) do
   vim.opt[option_name] = value
 end
 
+-- Каким командам можно перескакивать на новую строку с окончания предыдущей
 vim.cmd('set whichwrap+=<,>,[,],h,l')
 -- Задает, что считать словом
 vim.cmd([[set iskeyword+=-]])
 -- Отключение автокомментирования новой строки
-vim.cmd([[au BufEnter * set fo-=c fo-=r fo-=o]])
+vim.cmd([[au BufEnter * set formatoptions-=cro]])
 -- Подсветить скопированное
+
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 100 })
   end,
 })
 
+-- Установливать активному окну ширину не менее text_width
 vim.api.nvim_create_autocmd('BufEnter', {
   callback = function ()
     local ft_ignore = {
@@ -110,6 +111,5 @@ vim.api.nvim_create_autocmd('BufEnter', {
   end
 })
 
-vim.cmd([[
-  hi WinSeparator guibg=None
-]])
+-- Убрать сепаратор между окнами
+vim.cmd([[hi WinSeparator guibg=None]])
