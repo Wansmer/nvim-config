@@ -12,9 +12,9 @@ null_ls.setup({
   debug = false,
   sources = {
     -- js, ts
-    diagnostics.eslint,
-    code_actions.eslint,
-    formatting.eslint,
+    diagnostics.eslint_d,
+    code_actions.eslint_d,
+    formatting.eslint_d,
 
     -- lua
     formatting.stylua,

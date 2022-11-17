@@ -350,7 +350,9 @@ return packer.startup(function(use)
 
   -- Для сворачивания, разворачивания блоков кода
   use({
-    'Wansmer/treesj',
+    -- 'Wansmer/treesj',
+    '~/projects/code/personal/treesj',
+    branch = 'fix',
     requires = 'nvim-treesitter/nvim-treesitter',
     config = function()
       require('config.plugins.treesj')
