@@ -3,10 +3,6 @@
 
 local set_keymap = require('config.lsp.mappings').set_keymap
 
-local function is_support_symbol(client)
-  return client.server_capabilities.documentSymbolProvider
-end
-
 local M = {}
 
 M.on_attach = function(client, bufnr)
