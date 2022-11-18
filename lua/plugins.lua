@@ -268,6 +268,7 @@ return packer.startup(function(use)
       as = 'rose-pine',
     },
   }
+
   use(colorschemes[PREF.ui.colorscheme])
   -- Внешний вид vim.input и vim.select
   use({
@@ -294,6 +295,7 @@ return packer.startup(function(use)
   })
   -- Иконки
   use('kyazdani42/nvim-web-devicons')
+  -- TODO: найти замену на lua
   -- Убирает подсветку поиска по буфферу, когда уже не надо
   use('romainl/vim-cool')
   -- Визуализация отступов

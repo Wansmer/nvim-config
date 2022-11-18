@@ -28,7 +28,7 @@ require('symbols-outline').setup({
     unfold_all = 'E',
     fold_reset = 'R',
   },
-  lsp_blacklist = {'null-ls'},
+  lsp_blacklist = { 'null-ls' },
   symbol_blacklist = {},
   symbols = {
     File = { icon = '', hl = 'TSURI' },

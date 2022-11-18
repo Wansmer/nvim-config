@@ -78,12 +78,14 @@ end
 
 -- Каким командам можно перескакивать на новую строку с окончания предыдущей
 vim.cmd('set whichwrap+=<,>,[,],h,l')
+
 -- Задает, что считать словом
 vim.cmd([[set iskeyword+=-]])
+
 -- Отключение автокомментирования новой строки
 vim.cmd([[au BufEnter * set formatoptions-=cro]])
--- Подсветить скопированное
 
+-- Подсветить скопированное
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 100 })
@@ -92,7 +94,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Установливать активному окну ширину не менее text_width
 vim.api.nvim_create_autocmd('BufEnter', {
-  callback = function ()
+  callback = function()
     local ft_ignore = {
       'nvim-tree',
       'neo-tree',
@@ -108,7 +110,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     if width < text_width then
       vim.api.nvim_win_set_width(0, text_width)
     end
-  end
+  end,
 })
 
 -- Убрать сепаратор между окнами
