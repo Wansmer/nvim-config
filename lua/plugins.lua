@@ -79,9 +79,6 @@ return packer.startup(function(use)
   use({
     'jose-elias-alvarez/null-ls.nvim',
   })
-  -- TODO: Need?
-  -- Адаптер для tsserver
-  use({ 'jose-elias-alvarez/typescript.nvim' })
   -- Сэмпл предустановок для LSP jsonls
   -- Обеспечивает дополнения для package.json, jsconfig и т.д.
   use({

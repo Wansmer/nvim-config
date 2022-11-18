@@ -1,7 +1,6 @@
 local lsp = require('lspconfig')
 local mason = require('mason')
 local mason_lsp = require('mason-lspconfig')
-local ts = require('typescript')
 require('config.lsp.diagnostics')
 
 -- Список lsp для предустановки
@@ -28,11 +27,7 @@ local servers = mason_lsp.get_installed_servers()
 
 for _, server_name in pairs(servers) do
   local opts = make_config(server_name)
-  if server_name == 'tsserver' then
-    ts.setup(opts)
-  else
-    lsp[server_name].setup(opts)
-  end
+  lsp[server_name].setup(opts)
 end
 
 require('config.lsp.null-ls')
