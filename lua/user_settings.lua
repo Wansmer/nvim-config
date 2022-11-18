@@ -6,23 +6,43 @@ PREF = {
   lsp = {
     -- форматирование при сохранении файла
     format_on_save = false,
+
     -- сообщения диагностики виртуальным текстом
     virtual_text = false,
+
     -- (!) показывать сигнатуру сразу при вводе или по триггеру
     show_signature_on_insert = false,
+
     -- показывать иконки диагностики
     show_diagnostic = true,
+
     -- показывать текущий контекст в коде в winbar
     show_current_context = true,
+
     -- использовать take_over_mode для проектов vue3
     -- настройка отключает отдельный tsserver и использует volar для .ts, .js и т.д.
     tom_enable = true,
+
+    -- (!)серверы, которые будут установлены по по умолчанию
+    -- если сервер требует доп.настроек, то нужно поместить одноименный файл с настройками
+    -- в lua/config/lsp/servers
+    preinstall_servers = {
+      'sumneko_lua',
+      'tsserver',
+      'volar',
+      'cssls',
+      'html',
+      'emmet_ls',
+      'jsonls',
+      'marksman',
+    },
   },
   ui = {
-    -- catppuccin, tokyonight, kanagawa, nightfox, dayfox, dawnfox, duskfox, 
+    -- catppuccin, tokyonight, kanagawa, nightfox, dayfox, dawnfox, duskfox,
     -- nordfox, terafox, carbonfox, aquarium, nightfly, vscode, moonfly, onedark,
     -- gruvbox-material
     colorscheme = 'gruvbox-material',
+
     -- Вид бордера для всплывающих окон. Может быть строкой или таблицей
     border = 'single',
   },
