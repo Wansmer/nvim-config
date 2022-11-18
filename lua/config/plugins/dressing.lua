@@ -5,11 +5,6 @@ end
 
 dressing.setup({
   input = {
-    override = function(conf)
-      conf.col = -1
-      conf.row = 0
-      return conf
-    end,
     -- Set to false to disable the vim.ui.input implementation
     enabled = true,
 
@@ -32,12 +27,12 @@ dressing.setup({
     relative = 'cursor',
 
     -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-    prefer_width = 40,
-    width = nil,
+    prefer_width = 15,
+    width = 15,
     -- min_width and max_width can be a list of mixed types.
     -- min_width = {20, 0.2} means "the greater of 20 columns or 20% of total"
     max_width = { 140, 0.9 },
-    min_width = { 20, 0.2 },
+    min_width = { 15, 0.2 },
 
     -- Window transparency (0-100)
     winblend = 0,
@@ -59,6 +54,12 @@ dressing.setup({
     },
     -- see :help dressing_get_config
     get_config = nil,
+
+    override = function(conf)
+      conf.col = -1
+      conf.row = 0
+      return conf
+    end,
   },
   select = {
     -- Set to false to disable the vim.ui.select implementation
