@@ -5,6 +5,11 @@ end
 
 dressing.setup({
   input = {
+    override = function(conf)
+      conf.col = -1
+      conf.row = 0
+      return conf
+    end,
     -- Set to false to disable the vim.ui.input implementation
     enabled = true,
 
@@ -52,13 +57,6 @@ dressing.setup({
         ['<Down>'] = 'HistoryNext',
       },
     },
-
-    override = function(conf)
-      -- This is the config that will be passed to nvim_open_win.
-      -- Change values here to customize the layout
-      return conf
-    end,
-
     -- see :help dressing_get_config
     get_config = nil,
   },

@@ -8,6 +8,8 @@ if not snip_status_ok then
   return
 end
 
+local cuc = require('cmp-under-comparator')
+
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 
@@ -126,5 +128,17 @@ cmp.setup({
   experimental = {
     ghost_text = true,
     native_menu = false,
+  },
+  sorting = {
+    comparators = {
+      cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      cuc.under,
+      cmp.config.compare.kind,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.length,
+      cmp.config.compare.order,
+    },
   },
 })
