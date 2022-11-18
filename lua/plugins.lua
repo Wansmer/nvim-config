@@ -359,9 +359,9 @@ return packer.startup(function(use)
 
   -- Для сворачивания, разворачивания блоков кода
   use({
-    -- 'Wansmer/treesj',
-    '~/projects/code/personal/treesj',
-    branch = 'fix',
+    'Wansmer/treesj',
+    -- '~/projects/code/personal/treesj',
+    -- branch = 'fix',
     requires = 'nvim-treesitter/nvim-treesitter',
     config = function()
       require('config.plugins.treesj')
@@ -416,6 +416,7 @@ return packer.startup(function(use)
   -- Автоматическое закрытие парных символов
   use({
     'windwp/nvim-autopairs',
+    disable = false,
     config = function()
       require('config.plugins.autopairs')
     end,

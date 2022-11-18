@@ -3,6 +3,8 @@ if not present then
   return
 end
 
+local Rule = require('nvim-autopairs.rule')
+
 -- TODO: разобаться с несхлопыванием пар при удалении
 autopairs.setup({
   fast_wrap = {},
@@ -20,4 +22,11 @@ autopairs.setup({
   map_bs = true,
   map_c_h = false,
   map_c_w = false,
+})
+
+autopairs.add_rules({
+  Rule(" ", " "):with_pair(function(opts)
+    local pair = opts.line:sub(opts.col - 1, opts.col)
+    return vim.tbl_contains({ "()", "[]", "{}" }, pair)
+  end),
 })
