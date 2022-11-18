@@ -1,6 +1,6 @@
 -- Настройки по умолчанию закомментированы
 local theme_options = {
-  tokyonight_style = 'night',
+  tokyonight_style = 'night', -- `storm`, `moon`, a darker variant `night` and `day`
   -- tokyonight_italic_comments = true,
   -- tokyonight_italic_keywords = true,
   -- tokyonight_italic_functions = false,

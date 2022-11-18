@@ -5,7 +5,7 @@ local ts = require('typescript')
 require('config.lsp.diagnostics')
 
 -- Список lsp для предустановки
-local ensure_installed = PREF.preinstall_servers
+local ensure_installed = PREF.lsp.preinstall_servers
 
 -- объединение общих настроек с пользовательскими
 local function make_config(server_name)

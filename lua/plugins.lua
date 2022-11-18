@@ -248,20 +248,30 @@ return packer.startup(function(use)
   -- ==========================================================================
 
   -- Цветовая схема
-  use('rebelot/kanagawa.nvim')
-  use('folke/tokyonight.nvim')
-  use('EdenEast/nightfox.nvim')
-  use('frenzyexists/aquarium-vim')
-  use({
-    'catppuccin/nvim',
-    as = 'catppuccin',
-    run = ':CatppuccinCompile',
-  })
-  use('bluz71/vim-nightfly-colors')
-  use({ 'bluz71/vim-moonfly-colors', branch = 'cterm-compat' })
-  use('Mofiqul/vscode.nvim')
-  use('navarasu/onedark.nvim')
-  use('sainnhe/gruvbox-material')
+  local colorschemes = {
+    tokyonight = 'folke/tokyonight.nvim',
+    catppuccin = {
+      'catppuccin/nvim',
+      as = 'catppuccin',
+      run = ':CatppuccinCompile',
+    },
+    kanagawa = 'rebelot/kanagawa.nvim',
+    nightfox = 'EdenEast/nightfox.nvim',
+    dayfox = 'EdenEast/nightfox.nvim',
+    dawnfox = 'EdenEast/nightfox.nvim',
+    duskfox = 'EdenEast/nightfox.nvim',
+    carbonfox = 'EdenEast/nightfox.nvim',
+    nordfox = 'EdenEast/nightfox.nvim',
+    terafox = 'EdenEast/nightfox.nvim',
+    vscode = 'Mofiqul/vscode.nvim',
+    onedark = 'navarasu/onedark.nvim',
+    ['gruvbox-material'] = 'sainnhe/gruvbox-material',
+    ['rose-pine'] = {
+      'rose-pine/neovim',
+      as = 'rose-pine',
+    },
+  }
+  use(colorschemes[PREF.ui.colorscheme])
   -- Внешний вид vim.input и vim.select
   use({
     'stevearc/dressing.nvim',

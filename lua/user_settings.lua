@@ -38,10 +38,8 @@ PREF = {
     },
   },
   ui = {
-    -- catppuccin, tokyonight, kanagawa, nightfox, dayfox, dawnfox, duskfox,
-    -- nordfox, terafox, carbonfox, aquarium, nightfly, vscode, moonfly, onedark,
-    -- gruvbox-material
-    colorscheme = 'gruvbox-material',
+    -- (!) список поддерживаемых тем: lua/config/colorscheme/init.lua
+    colorscheme = 'rose-pine',
 
     -- Вид бордера для всплывающих окон. Может быть строкой или таблицей
     border = 'single',

@@ -1,8 +1,8 @@
 local colorscheme = PREF.ui.colorscheme
 
 local source = {
-  tokyonight = 'tokyonight',
-  catppuccin = 'catppuccin',
+  catppuccin = 'catppuccin', -- 5/5
+  ['gruvbox-material'] = 'gruvbox-material', -- 4/5
   kanagawa = 'kanagawa',
   nightfox = 'nightfox',
   dayfox = 'nightfox',
@@ -11,16 +11,13 @@ local source = {
   carbonfox = 'nightfox',
   nordfox = 'nightfox',
   terafox = 'nightfox',
-  aquarium = 'aquarium',
-  nightfly = 'nightfly',
-  moonfly = 'moonfly',
-  vscode = 'vscode',
   onedark = 'onedark',
-  ['gruvbox-material'] = 'gruvbox-material',
+  ['rose-pine'] = 'rose-pine',
+  tokyonight = 'tokyonight', -- 4/5
+  vscode = 'vscode',
 }
 
 pcall(require, 'config.colorscheme.' .. source[colorscheme])
-
 local present, _ = pcall(vim.cmd, 'colorscheme ' .. colorscheme)
 
 if not present then
