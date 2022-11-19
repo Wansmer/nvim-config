@@ -16,6 +16,8 @@ local source = {
   tokyonight = 'tokyonight', -- 4/5
   vscode = 'vscode',
   everblush = 'everblush',
+  mellow = 'mellow',
+  poimandres = 'poimandres',
 }
 
 pcall(require, 'config.colorscheme.' .. source[colorscheme])

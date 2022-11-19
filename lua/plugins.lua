@@ -282,6 +282,8 @@ return packer.startup(function(use)
       'rose-pine/neovim',
       as = 'rose-pine',
     },
+    mellow = 'kvrohit/mellow.nvim',
+    poimandres = 'olivercederborg/poimandres.nvim',
   }
 
   use(colorschemes[PREF.ui.colorscheme])
