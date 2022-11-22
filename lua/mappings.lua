@@ -118,10 +118,9 @@ map('n', '<CR>', 'za')
 
 map('n', '<leader>td', toggle_diagnostics)
 
+map('n', '<leader>cn', ':vert e ~/.config/nvim/init.lua<CR>')
+
 -- ========= Привязки для плагинов
--- SplitJoin
-map('n', '<leader>c', ':SplitjoinJoin<CR>')
-map('n', '<leader>e', ':SplitjoinSplit<CR>')
 
 -- NvimTree, NeoTree
 local file_explorers = {
