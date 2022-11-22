@@ -28,7 +28,7 @@ PREF = {
     -- в lua/config/lsp/servers
     preinstall_servers = {
       'sumneko_lua',
-      'tsserver',
+      -- 'tsserver',
       'volar',
       'cssls',
       'html',
@@ -39,7 +39,7 @@ PREF = {
   },
   ui = {
     -- (!) список поддерживаемых тем: lua/config/colorscheme/init.lua
-    colorscheme = 'mellow',
+    colorscheme = 'tundra',
 
     -- Вид бордера для всплывающих окон. Может быть строкой или таблицей
     border = 'single',

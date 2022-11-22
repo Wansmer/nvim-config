@@ -6,8 +6,8 @@ end
 illuminate.configure({
   -- providers: provider used to get references in the buffer, ordered by priority
   providers = {
-    'lsp',
     'treesitter',
+    'lsp',
     'regex',
   },
   -- delay: delay in milliseconds

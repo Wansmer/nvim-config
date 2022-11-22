@@ -18,6 +18,7 @@ local source = {
   everblush = 'everblush',
   mellow = 'mellow',
   poimandres = 'poimandres',
+  tundra = 'tundra', -- 5/5
 }
 
 pcall(require, 'config.colorscheme.' .. source[colorscheme])

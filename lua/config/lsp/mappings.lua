@@ -27,8 +27,7 @@ M.set_keymap = function()
   -- Показать список с использованием синвола под курсором (Show implementation)
   map('n', '<leader>li', vim.lsp.buf.implementation)
   -- Переименовать символ под курсором
-  -- map('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
-  map('n', '<leader>lr', ':IncRename ')
+  map('n', '<leader>lr', vim.lsp.buf.rename)
   -- Показать сигнатуру функции в всплывающем окне
   map('n', '<leader>ls', vim.lsp.buf.signature_help)
   map('i', '<C-q>', vim.lsp.buf.signature_help)

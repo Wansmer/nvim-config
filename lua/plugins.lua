@@ -104,20 +104,6 @@ return packer.startup(function(use)
       require('config.plugins.aerial')
     end,
   })
-  -- Визуальное отображение для lsp rename
-  use({
-    'smjonas/inc-rename.nvim',
-    config = function()
-      require('inc_rename').setup({
-        cmd_name = 'IncRename', -- the name of the command
-        hl_group = 'Substitute', -- the highlight group used for highlighting the identifier's new name
-        preview_empty_name = true, -- whether an empty new name should be previewed; if false the command preview will be cancelled instead
-        show_message = false, -- whether to display a `Renamed m instances in n files` message after a rename operation
-        input_buffer_type = 'dressing', -- the type of the external input buffer to use (the only supported value is currently "dressing")
-        post_hook = nil, -- callback to run after renaming, receives the result table (from LSP handler) as an argument
-      })
-    end,
-  })
 
   -- ==========================================================================
   -- Treesitter
@@ -207,6 +193,9 @@ return packer.startup(function(use)
     ft = { 'markdown' },
   })
 
+  -- Поддержка go to file (gf) в lua
+  use('sam4llis/nvim-lua-gf')
+
   -- ==========================================================================
   -- Git
   -- ==========================================================================
@@ -284,6 +273,7 @@ return packer.startup(function(use)
     },
     mellow = 'kvrohit/mellow.nvim',
     poimandres = 'olivercederborg/poimandres.nvim',
+    tundra = 'sam4llis/nvim-tundra',
   }
 
   use(colorschemes[PREF.ui.colorscheme])
@@ -341,6 +331,7 @@ return packer.startup(function(use)
   -- Управление буфферами, окнами, вкладками и их внешний вид
   use({
     'akinsho/bufferline.nvim',
+    disable = false,
     tag = 'v2.*',
     config = function()
       require('config.plugins.bufferline')
@@ -353,6 +344,14 @@ return packer.startup(function(use)
     config = function()
       require('config.plugins.lualine')
     end,
+  })
+  -- TODO: настроить
+  use({
+    'rebelot/heirline.nvim',
+    disable = true,
+    config = function ()
+      require('config.plugins.heirline')
+    end
   })
   -- Стартовый экран
   use({
