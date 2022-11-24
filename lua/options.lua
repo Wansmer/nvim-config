@@ -1,4 +1,4 @@
-local text_width = 80
+local text_width = 120
 local tab_width = 2
 local winbar = ''
 
@@ -8,6 +8,7 @@ local options = {
   -- ==========================================================================
   expandtab = true,
   smartindent = true,
+  smarttab = true,
   shiftwidth = tab_width,
   tabstop = tab_width,
 
@@ -24,12 +25,13 @@ local options = {
   showtabline = 0,
   cursorline = true,
   numberwidth = 3,
-  signcolumn = 'yes',
+  signcolumn = 'number',
   scrolloff = 3,
   sidescrolloff = 3,
   colorcolumn = tostring(text_width),
   laststatus = 3,
   fillchars = [[eob: ,foldsep: ,foldopen:,foldclose:]],
+  title = false,
 
   -- ==========================================================================
   -- Текст | Text
@@ -46,6 +48,17 @@ local options = {
   hlsearch = true,
 
   -- ==========================================================================
+  -- Фолдинг | Folding
+  -- ==========================================================================
+  foldcolumn = '0',
+  foldnestmax = 1,
+  foldminlines = 0,
+  foldlevel = 99,
+  foldlevelstart = 99,
+  foldmethod = 'indent',
+  foldenable = true,
+
+  -- ==========================================================================
   -- Прочее | Other
   -- ==========================================================================
   updatetime = 300,
@@ -58,17 +71,8 @@ local options = {
   -- noswapfile = '',
   completeopt = { 'menuone', 'noselect' },
   winbar = winbar,
-
-  -- ==========================================================================
-  -- Фолдинг | Folding
-  -- ==========================================================================
-  foldcolumn = '0',
-  foldnestmax = 1,
-  foldminlines = 0,
-  foldlevel = 99,
-  foldlevelstart = 99,
-  foldmethod = 'indent',
-  foldenable = true,
+  spell = true,
+  spelllang = 'en_us,ru_ru',
 }
 
 vim.opt.shortmess:append('c')
