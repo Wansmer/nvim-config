@@ -19,10 +19,13 @@ local source = {
   mellow = 'mellow',
   poimandres = 'poimandres',
   tundra = 'tundra', -- 5/5
+  ['oxocarbon-lua'] = 'oxocarbon-lua',
+  ayu = 'ayu',
+  enfocado = 'enfocado',
 }
 
 pcall(require, 'config.colorscheme.' .. source[colorscheme])
-local present, _ = pcall(vim.cmd, 'colorscheme ' .. colorscheme)
+local present, _ = pcall(vim.cmd.colorscheme, colorscheme)
 
 if not present then
   vim.cmd([[colorscheme default]])
