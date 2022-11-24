@@ -71,7 +71,7 @@ local options = {
   -- noswapfile = '',
   completeopt = { 'menuone', 'noselect' },
   winbar = winbar,
-  spell = true,
+  spell = false,
   spelllang = 'en_us,ru_ru',
 }
 
