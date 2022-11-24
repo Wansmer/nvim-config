@@ -274,6 +274,9 @@ return packer.startup(function(use)
     mellow = 'kvrohit/mellow.nvim',
     poimandres = 'olivercederborg/poimandres.nvim',
     tundra = 'sam4llis/nvim-tundra',
+    ['oxocarbon-lua'] = 'B4mbus/oxocarbon-lua.nvim',
+    ayu = 'Shatur/neovim-ayu',
+    enfocado = 'wuelnerdotexe/vim-enfocado',
   }
 
   use(colorschemes[PREF.ui.colorscheme])
@@ -349,9 +352,9 @@ return packer.startup(function(use)
   use({
     'rebelot/heirline.nvim',
     disable = true,
-    config = function ()
+    config = function()
       require('config.plugins.heirline')
-    end
+    end,
   })
   -- Стартовый экран
   use({
@@ -374,18 +377,23 @@ return packer.startup(function(use)
   -- ==========================================================================
 
   -- Для сворачивания, разворачивания блоков кода
+  local tsj = PREF.dev_mode and '~/projects/code/personal/treesj' or 'Wansmer/treesj'
+  local tsj_branch = PREF.dev_branch or 'main'
   use({
-    'Wansmer/treesj',
+    tsj,
     -- '~/projects/code/personal/treesj',
-    -- branch = 'fix',
+    branch = tsj_branch,
     requires = 'nvim-treesitter/nvim-treesitter',
     config = function()
       require('config.plugins.treesj')
     end,
   })
   -- Перемена мест операндов в бинарных выражениях
+  local bw = PREF.dev_mode and '~/projects/code/personal/binary-swap' or 'Wansmer/binary-swap.nvim'
+  local bw_branch = PREF.dev_branch or 'main'
   use({
-    'Wansmer/binary-swap.nvim',
+    bw,
+    branch = bw_branch,
     requires = 'nvim-treesitter/nvim-treesitter',
     config = function()
       vim.keymap.set(
@@ -397,8 +405,11 @@ return packer.startup(function(use)
     end,
   })
   -- Перемена мест соседних узлов
+  local sw = PREF.dev_mode and '~/projects/code/personal/sibling-swap' or 'Wansmer/sibling-swap.nvim'
+  local sw_branch = PREF.dev_branch or 'main'
   use({
-    'Wansmer/sibling-swap.nvim',
+    sw,
+    branch = sw_branch,
     requires = 'nvim-treesitter/nvim-treesitter',
     config = function()
       require('sibling-swap').setup()

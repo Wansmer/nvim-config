@@ -51,4 +51,8 @@ PREF = {
     show_blame = false,
     show_signcolumn = true,
   },
+  -- (!) использую, чтобы вручную не менять адрес своих плагинов в plugins.lua
+  dev_mode = false,
+  -- boolean|string какую ветку загружать
+  dev_branch = false,
 }
