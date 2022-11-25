@@ -7,7 +7,8 @@ local options = {
   -- Табуляция и отступы | Indents, spaces, tabulation
   -- ==========================================================================
   expandtab = true,
-  smartindent = true,
+  -- smartindent = true,
+  cindent = true,
   smarttab = true,
   shiftwidth = tab_width,
   tabstop = tab_width,
@@ -25,7 +26,7 @@ local options = {
   showtabline = 0,
   cursorline = true,
   numberwidth = 3,
-  signcolumn = 'number',
+  signcolumn = 'yes', -- yes - всегда показывать, number - показывать вместо номеров строк
   scrolloff = 3,
   sidescrolloff = 3,
   colorcolumn = tostring(text_width),

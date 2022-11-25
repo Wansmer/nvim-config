@@ -376,12 +376,18 @@ return packer.startup(function(use)
   -- Улучшения редактора текста (Improve text editor)
   -- ==========================================================================
 
+  local dev_mode = PREF.dev_mode
+  local dev_branch = PREF.dev_branch
+  local is_tsj = PREF.dev_plugin == 'treesj'
+  local is_bs = PREF.dev_plugin == 'binary-swap'
+  local is_ss = PREF.dev_plugin == 'sibling-swap'
+
   -- Для сворачивания, разворачивания блоков кода
-  local tsj = PREF.dev_mode and '~/projects/code/personal/treesj' or 'Wansmer/treesj'
-  local tsj_branch = PREF.dev_branch or 'main'
+  local path_tsj = (dev_mode and is_tsj) and '~/projects/code/personal/treesj'
+    or 'Wansmer/treesj'
+  local tsj_branch = is_tsj and (dev_branch or 'main') or 'main'
   use({
-    tsj,
-    -- '~/projects/code/personal/treesj',
+    path_tsj,
     branch = tsj_branch,
     requires = 'nvim-treesitter/nvim-treesitter',
     config = function()
@@ -389,11 +395,12 @@ return packer.startup(function(use)
     end,
   })
   -- Перемена мест операндов в бинарных выражениях
-  local bw = PREF.dev_mode and '~/projects/code/personal/binary-swap' or 'Wansmer/binary-swap.nvim'
-  local bw_branch = PREF.dev_branch or 'main'
+  local path_bs = (dev_mode and is_bs) and '~/projects/code/personal/binary-swap'
+    or 'Wansmer/binary-swap.nvim'
+  local bs_branch = is_bs and (dev_branch or 'main') or 'main'
   use({
-    bw,
-    branch = bw_branch,
+    path_bs,
+    branch = bs_branch,
     requires = 'nvim-treesitter/nvim-treesitter',
     config = function()
       vim.keymap.set(
@@ -405,11 +412,12 @@ return packer.startup(function(use)
     end,
   })
   -- Перемена мест соседних узлов
-  local sw = PREF.dev_mode and '~/projects/code/personal/sibling-swap' or 'Wansmer/sibling-swap.nvim'
-  local sw_branch = PREF.dev_branch or 'main'
+  local path_ss = (dev_mode and is_ss) and '~/projects/code/personal/sibling-swap'
+    or 'Wansmer/sibling-swap.nvim'
+    local ss_branch = is_ss and (dev_branch or 'main') or 'main'
   use({
-    sw,
-    branch = sw_branch,
+    path_ss,
+    branch = ss_branch,
     requires = 'nvim-treesitter/nvim-treesitter',
     config = function()
       require('sibling-swap').setup()

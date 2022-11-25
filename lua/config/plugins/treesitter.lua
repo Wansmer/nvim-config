@@ -33,7 +33,8 @@ configs.setup({
   autopairs = {
     enable = true,
   },
-  indent = { enable = true },
+  -- Делает лишний отступ во vue
+  indent = { enable = false },
 
   -- TREESITTER PLUGINS
   -- Autotag 'windwp/nvim-ts-autotag'

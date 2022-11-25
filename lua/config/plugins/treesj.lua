@@ -31,4 +31,6 @@ local opts = {
   langs = langs,
 }
 
+opts = PREF.dev_mode and {} or opts
+
 tsj.setup(opts)

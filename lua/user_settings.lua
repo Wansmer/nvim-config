@@ -54,5 +54,7 @@ PREF = {
   -- (!) использую, чтобы вручную не менять адрес своих плагинов в plugins.lua
   dev_mode = false,
   -- boolean|string какую ветку загружать
-  dev_branch = false,
+  dev_branch = 'fix',
+  -- имя плагина
+  dev_plugin = '',
 }
