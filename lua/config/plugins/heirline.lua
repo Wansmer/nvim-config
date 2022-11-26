@@ -5,5 +5,5 @@
 -- end
 
 -- heirline.setup({
-  -- TODO
+-- TODO
 -- })

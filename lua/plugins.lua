@@ -395,7 +395,8 @@ return packer.startup(function(use)
     end,
   })
   -- Перемена мест операндов в бинарных выражениях
-  local path_bs = (dev_mode and is_bs) and '~/projects/code/personal/binary-swap'
+  local path_bs = (dev_mode and is_bs)
+      and '~/projects/code/personal/binary-swap'
     or 'Wansmer/binary-swap.nvim'
   local bs_branch = is_bs and (dev_branch or 'main') or 'main'
   use({
@@ -412,9 +413,10 @@ return packer.startup(function(use)
     end,
   })
   -- Перемена мест соседних узлов
-  local path_ss = (dev_mode and is_ss) and '~/projects/code/personal/sibling-swap'
+  local path_ss = (dev_mode and is_ss)
+      and '~/projects/code/personal/sibling-swap'
     or 'Wansmer/sibling-swap.nvim'
-    local ss_branch = is_ss and (dev_branch or 'main') or 'main'
+  local ss_branch = is_ss and (dev_branch or 'main') or 'main'
   use({
     path_ss,
     branch = ss_branch,
