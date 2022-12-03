@@ -2,26 +2,20 @@ local colorscheme = PREF.ui.colorscheme
 
 local source = {
   catppuccin = 'catppuccin', -- 5/5
-  ['gruvbox-material'] = 'gruvbox-material', -- 4/5
-  kanagawa = 'kanagawa',
-  nightfox = 'nightfox',
-  dayfox = 'nightfox',
-  dawnfox = 'nightfox',
-  duskfox = 'nightfox',
-  carbonfox = 'nightfox',
-  nordfox = 'nightfox',
-  terafox = 'nightfox',
-  onedark = 'onedark',
-  ['rose-pine'] = 'rose-pine',
-  tokyonight = 'tokyonight', -- 4/5
-  vscode = 'vscode',
-  everblush = 'everblush',
-  mellow = 'mellow',
-  poimandres = 'poimandres',
   tundra = 'tundra', -- 5/5
-  ['oxocarbon-lua'] = 'oxocarbon-lua',
-  ayu = 'ayu',
-  enfocado = 'enfocado',
+  kanagawa = 'kanagawa', -- 5/5
+  tokyonight = 'tokyonight', -- 5/5
+  ['gruvbox-material'] = 'gruvbox-material', -- 4/5
+  ['rose-pine'] = 'rose-pine', -- 4/5
+  nightfox = 'nightfox', -- 4/5
+  dayfox = 'nightfox', -- 4/5
+  dawnfox = 'nightfox', -- 4/5
+  duskfox = 'nightfox', -- 4/5
+  carbonfox = 'nightfox', -- 4/5
+  nordfox = 'nightfox', -- 4/5
+  terafox = 'nightfox', -- 4/5
+  vscode = 'vscode', -- 4/5
+  mellow = 'mellow', -- 4/5
 }
 
 pcall(require, 'config.colorscheme.' .. source[colorscheme])

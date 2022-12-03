@@ -10,7 +10,7 @@ require('nvim-tundra').setup({
   },
   syntax = {
     booleans = { bold = true, italic = true },
-    comments = { bold = true, italic = true },
+    comments = { bold = true, italic = PREF.ui.italic_comment },
     conditionals = {},
     constants = { bold = true },
     fields = {},

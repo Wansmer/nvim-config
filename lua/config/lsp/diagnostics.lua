@@ -3,7 +3,7 @@ local config = {
   virtual_text = PREF.lsp.virtual_text,
   signs = true,
   underline = true,
-  update_in_insert = true,
+  update_in_insert = false,
   severity_sort = true,
   -- Подробнее о настройках :h nvim_open_win, :h open_float
   float = {

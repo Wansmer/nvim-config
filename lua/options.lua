@@ -7,7 +7,6 @@ local options = {
   -- Табуляция и отступы | Indents, spaces, tabulation
   -- ==========================================================================
   expandtab = true,
-  -- smartindent = true,
   cindent = true,
   smarttab = true,
   shiftwidth = tab_width,
@@ -26,7 +25,7 @@ local options = {
   showtabline = 0,
   cursorline = true,
   numberwidth = 3,
-  signcolumn = 'yes', -- yes - всегда показывать, number - показывать вместо номеров строк
+  signcolumn = 'yes',
   scrolloff = 3,
   sidescrolloff = 3,
   colorcolumn = tostring(text_width),
@@ -51,7 +50,7 @@ local options = {
   -- ==========================================================================
   -- Фолдинг | Folding
   -- ==========================================================================
-  foldcolumn = '0',
+  foldcolumn = '1',
   foldnestmax = 1,
   foldminlines = 0,
   foldlevel = 99,
@@ -106,6 +105,8 @@ vim.api.nvim_create_autocmd('BufEnter', {
       'neo-tree',
       'packer',
       'aerial',
+      -- неизвестный тип, например telescope prompt
+      '',
     }
     local buf = vim.api.nvim_win_get_buf(0)
     local buftype = vim.api.nvim_buf_get_option(buf, 'ft')

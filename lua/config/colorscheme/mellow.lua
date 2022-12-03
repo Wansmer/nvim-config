@@ -1,4 +1,4 @@
-vim.g.mellow_italic_comments = true -- Make comments italic
+vim.g.mellow_italic_comments = PREF.ui.italic_comment -- Make comments italic
 vim.g.mellow_italic_keywords = false -- Make keywords italic
 vim.g.mellow_italic_booleans = false -- Make booleans italic
 vim.g.mellow_italic_functions = false -- Make functions italic

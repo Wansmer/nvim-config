@@ -6,6 +6,7 @@ local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
 -- Установка Packer, если он не установлен
 if fn.empty(fn.glob(install_path)) > 0 then
+
   -- Клонирование репозитория Packer
   PACKER_BOOTSTRAP = fn.system({
     'git',
@@ -49,6 +50,7 @@ return packer.startup(function(use)
 
   -- Загрузка менеджера пакетов
   use('wbthomason/packer.nvim')
+
   -- Вспомогательная библиотека для плагинов
   use('nvim-lua/plenary.nvim')
 
@@ -67,23 +69,28 @@ return packer.startup(function(use)
       'williamboman/mason-lspconfig.nvim',
     },
   })
+
   -- Установщик для LSP-пакетов, линтеров, форматеров и т.д.
   use({
     'williamboman/mason.nvim',
   })
+
   -- Прослойка для взаимодействия lspconfig и mason
   use({
     'williamboman/mason-lspconfig.nvim',
   })
+
   -- Единый интерфейс для установки форматеров
   use({
     'jose-elias-alvarez/null-ls.nvim',
   })
+
   -- Сэмпл предустановок для LSP jsonls
   -- Обеспечивает дополнения для package.json, jsconfig и т.д.
   use({
     'b0o/SchemaStore.nvim',
   })
+
   -- Виджет для прогресса LSP
   use({
     'j-hui/fidget.nvim',
@@ -97,6 +104,7 @@ return packer.startup(function(use)
       })
     end,
   })
+
   -- Навигация по названиям классов/функций в файле
   use({
     'stevearc/aerial.nvim',
@@ -104,6 +112,11 @@ return packer.startup(function(use)
       require('config.plugins.aerial')
     end,
   })
+
+  -- Форматтер для embeded language
+  -- fork
+  use({ 'Wansmer/null-ls-embedded' })
+  -- use({ 'LostNeophyte/null-ls-embedded' })
 
   -- ==========================================================================
   -- Treesitter
@@ -119,8 +132,10 @@ return packer.startup(function(use)
       require('config.plugins.treesitter')
     end,
   })
+
   -- AST дерево на основе treesitter
   use('nvim-treesitter/playground')
+
   -- Аннотации для функций (jsdoc и т.д.)
   use({
     'danymat/neogen',
@@ -233,14 +248,17 @@ return packer.startup(function(use)
     'lukas-reineke/cmp-under-comparator',
     requires = 'hrsh7th/nvim-cmp',
   })
+
   -- Всплывающее окно с информацией о сигнатуре функции
   use({
     'hrsh7th/cmp-nvim-lsp-signature-help',
     requires = 'hrsh7th/nvim-cmp',
     disable = not PREF.lsp.show_signature_on_insert,
   })
+
   -- Документация в сигнатуре для vim.api
   use('folke/neodev.nvim')
+
   -- Библиотека сниппетов
   use('rafamadriz/friendly-snippets')
 
@@ -250,13 +268,19 @@ return packer.startup(function(use)
 
   -- Цветовая схема
   local colorschemes = {
-    tokyonight = 'folke/tokyonight.nvim',
     catppuccin = {
       'catppuccin/nvim',
       as = 'catppuccin',
       run = ':CatppuccinCompile',
     },
+    tundra = 'sam4llis/nvim-tundra',
     kanagawa = 'rebelot/kanagawa.nvim',
+    tokyonight = 'folke/tokyonight.nvim',
+    ['gruvbox-material'] = 'sainnhe/gruvbox-material',
+    ['rose-pine'] = {
+      'rose-pine/neovim',
+      as = 'rose-pine',
+    },
     nightfox = 'EdenEast/nightfox.nvim',
     dayfox = 'EdenEast/nightfox.nvim',
     dawnfox = 'EdenEast/nightfox.nvim',
@@ -265,21 +289,11 @@ return packer.startup(function(use)
     nordfox = 'EdenEast/nightfox.nvim',
     terafox = 'EdenEast/nightfox.nvim',
     vscode = 'Mofiqul/vscode.nvim',
-    onedark = 'navarasu/onedark.nvim',
-    ['gruvbox-material'] = 'sainnhe/gruvbox-material',
-    ['rose-pine'] = {
-      'rose-pine/neovim',
-      as = 'rose-pine',
-    },
     mellow = 'kvrohit/mellow.nvim',
-    poimandres = 'olivercederborg/poimandres.nvim',
-    tundra = 'sam4llis/nvim-tundra',
-    ['oxocarbon-lua'] = 'B4mbus/oxocarbon-lua.nvim',
-    ayu = 'Shatur/neovim-ayu',
-    enfocado = 'wuelnerdotexe/vim-enfocado',
   }
 
   use(colorschemes[PREF.ui.colorscheme])
+
   -- Внешний вид vim.input и vim.select
   use({
     'stevearc/dressing.nvim',
@@ -288,6 +302,7 @@ return packer.startup(function(use)
       require('config.plugins.dressing')
     end,
   })
+
   -- Превью для цветовых кодов
   use({
     'NvChad/nvim-colorizer.lua',
@@ -295,6 +310,7 @@ return packer.startup(function(use)
       require('config.plugins.colorizer')
     end,
   })
+
   -- Улучшает вид colorcolumn
   use({
     'xiyaowong/virtcolumn.nvim',
@@ -303,11 +319,14 @@ return packer.startup(function(use)
       vim.g.virtcolumn_priority = 10 -- priority of extmark
     end,
   })
+
   -- Иконки
   use('kyazdani42/nvim-web-devicons')
+
   -- TODO: найти замену на lua
   -- Убирает подсветку поиска по буфферу, когда уже не надо
   use('romainl/vim-cool')
+
   -- Визуализация отступов
   use({
     'lukas-reineke/indent-blankline.nvim',
@@ -315,15 +334,7 @@ return packer.startup(function(use)
       require('config.plugins.blankline')
     end,
   })
-  -- Помощник для фолдинга
-  use({
-    'kevinhwang91/nvim-ufo',
-    disable = false,
-    requires = 'kevinhwang91/promise-async',
-    config = function()
-      require('config.plugins.ufo')
-    end,
-  })
+
   -- Улучшенная подсветка совпадений под курсором
   use({
     'RRethy/vim-illuminate',
@@ -331,6 +342,7 @@ return packer.startup(function(use)
       require('config.plugins.illuminate')
     end,
   })
+
   -- Управление буфферами, окнами, вкладками и их внешний вид
   use({
     'akinsho/bufferline.nvim',
@@ -340,6 +352,7 @@ return packer.startup(function(use)
       require('config.plugins.bufferline')
     end,
   })
+
   -- Улучшенная строка состояния
   use({
     'nvim-lualine/lualine.nvim',
@@ -348,6 +361,7 @@ return packer.startup(function(use)
       require('config.plugins.lualine')
     end,
   })
+
   -- TODO: настроить
   use({
     'rebelot/heirline.nvim',
@@ -356,6 +370,7 @@ return packer.startup(function(use)
       require('config.plugins.heirline')
     end,
   })
+
   -- Стартовый экран
   use({
     'goolord/alpha-nvim',
@@ -364,6 +379,7 @@ return packer.startup(function(use)
       require('config.plugins.alpha')
     end,
   })
+
   -- Улучшенные сообщения (ERROR, WARN e.t.c)
   use({
     'rcarriga/nvim-notify',
@@ -381,9 +397,12 @@ return packer.startup(function(use)
   local is_tsj = PREF.dev_plugin == 'treesj'
   local is_bs = PREF.dev_plugin == 'binary-swap'
   local is_ss = PREF.dev_plugin == 'sibling-swap'
+  local local_path = function(name)
+    return '~/projects/code/personal/' .. name
+  end
 
   -- Для сворачивания, разворачивания блоков кода
-  local path_tsj = (dev_mode and is_tsj) and '~/projects/code/personal/treesj'
+  local path_tsj = (dev_mode and is_tsj) and local_path('treesj')
     or 'Wansmer/treesj'
   local tsj_branch = is_tsj and (dev_branch or 'main') or 'main'
   use({
@@ -394,9 +413,9 @@ return packer.startup(function(use)
       require('config.plugins.treesj')
     end,
   })
+
   -- Перемена мест операндов в бинарных выражениях
-  local path_bs = (dev_mode and is_bs)
-      and '~/projects/code/personal/binary-swap'
+  local path_bs = (dev_mode and is_bs) and local_path('binary-swap')
     or 'Wansmer/binary-swap.nvim'
   local bs_branch = is_bs and (dev_branch or 'main') or 'main'
   use({
@@ -412,9 +431,9 @@ return packer.startup(function(use)
       vim.keymap.set('n', '<leader>V', require('binary-swap').swap_operands)
     end,
   })
+
   -- Перемена мест соседних узлов
-  local path_ss = (dev_mode and is_ss)
-      and '~/projects/code/personal/sibling-swap'
+  local path_ss = (dev_mode and is_ss) and local_path('sibling-swap')
     or 'Wansmer/sibling-swap.nvim'
   local ss_branch = is_ss and (dev_branch or 'main') or 'main'
   use({
@@ -425,17 +444,22 @@ return packer.startup(function(use)
       require('sibling-swap').setup()
     end,
   })
+
   -- Добавить/изменить парный тег
   use({ 'windwp/nvim-ts-autotag', after = 'nvim-treesitter' })
+
   -- Подсветка парных символов разными цветами
   use({ 'p00f/nvim-ts-rainbow', after = 'nvim-treesitter' })
+
   -- Замена значения на противоположное (тригер <leader>i)
   use({
     'nguyenvukhang/nvim-toggler',
+    disable = true,
     config = function()
       require('config.plugins.toggler')
     end,
   })
+
   -- Автосмена кавычек, если подразумевается интерполяция текста
   use({
     'axelvc/template-string.nvim',
@@ -443,6 +467,7 @@ return packer.startup(function(use)
       require('config.plugins.template-string')
     end,
   })
+
   -- Оборачивание в парные символы
   use({
     'kylechui/nvim-surround',
@@ -450,6 +475,7 @@ return packer.startup(function(use)
       require('nvim-surround').setup()
     end,
   })
+
   -- Автоматическое закрытие парных символов
   use({
     'windwp/nvim-autopairs',
@@ -458,6 +484,7 @@ return packer.startup(function(use)
       require('config.plugins.autopairs')
     end,
   })
+
   -- Комментирование
   use({
     'numToStr/Comment.nvim',

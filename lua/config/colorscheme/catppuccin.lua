@@ -14,7 +14,7 @@ require('catppuccin').setup({
     path = vim.fn.stdpath('cache') .. '/catppuccin',
   },
   styles = {
-    comments = { 'italic' },
+    comments = PREF.ui.italic_comment and { 'italic' } or {},
     conditionals = { 'italic' },
     loops = { 'italic' },
     functions = { 'bold' },

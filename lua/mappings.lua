@@ -5,15 +5,15 @@ local function map(mode, new_keys, to_do, options)
     silent = true,
     expr = false,
   }
+
   if options then
-    default_options = vim.tbl_extend('force', default_options, options)
+    default_options = vim.tbl_deep_extend('force', default_options, options)
   end
+
   local ok, _ = pcall(keymap, mode, new_keys, to_do, default_options)
   if not ok then
     local msg = 'Fail to mapping ' .. new_keys .. ' for ' .. to_do
-    vim.notify(msg, vim.log.levels.ERROR, {
-      title = 'Keymap',
-    })
+    vim.notify(msg, vim.log.levels.ERROR, { title = 'Keymap' })
   end
 end
 
@@ -67,12 +67,12 @@ map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 
 -- Поменять окна местами
-map('n', '<C-x>', '<C-w>x')
+map('n', 'wr', '<C-w>x')
 
 -- К следующему буферу
-map('n', '<Tab>', ':bn<CR>')
+map('n', 'bn', ':bn<CR>')
 -- К предыдущему буферу
-map('n', '<S-Tab>', ':bp<CR>')
+map('n', 'bp', ':bp<CR>')
 
 -- Не копировать при удалении
 map('n', 'x', '"_x')
@@ -113,11 +113,10 @@ map('x', '<leader>d', '""Y""Pgv')
 map('n', 'Q', 'q')
 map('n', 'gQ', '@q')
 
--- Фолдинг
-map('n', '<CR>', 'za')
-
+-- Показать/скрыть сообщения диагностики в signcolumn
 map('n', '<leader>td', toggle_diagnostics)
 
+-- Открыть файл настроек
 map('n', '<leader>cn', ':vert e ~/.config/nvim/init.lua<CR>')
 
 -- ========= Привязки для плагинов
@@ -131,20 +130,10 @@ local file_explorers = {
 local fm_ok, _ = pcall(require, PREF.file_explorer)
 
 if fm_ok then
-  map(
-    'n',
-    '<localleader>e',
-    ':' .. file_explorers[PREF.file_explorer] .. ' <CR>'
-  )
+  local ex = file_explorers[PREF.file_explorer]
+  map('n', '<localleader>e', ':' .. ex .. ' <CR>')
 else
   map('n', '<localleader>e', ':Lex 20<CR>')
-end
-
--- ufo
-local ufo_ok, ufo = pcall(require, 'ufo')
-if ufo_ok then
-  map('n', 'zR', ufo.openAllFolds)
-  map('n', 'zM', ufo.closeAllFolds)
 end
 
 -- nvim-notify

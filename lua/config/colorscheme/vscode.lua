@@ -1,4 +1,4 @@
-vim.o.background = 'dark'
+-- vim.o.background = 'dark'
 -- vim.o.background = 'light'
 
 -- local c = require('vscode.colors')
@@ -7,7 +7,7 @@ require('vscode').setup({
   transparent = false,
 
   -- Enable italic comment
-  italic_comments = true,
+  italic_comments = PREF.ui.italic_comment,
 
   -- Disable nvim-tree background color
   disable_nvimtree_bg = true,

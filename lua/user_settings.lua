@@ -37,12 +37,16 @@ PREF = {
       'marksman',
     },
   },
+
   ui = {
     -- (!) список поддерживаемых тем: lua/config/colorscheme/init.lua
-    colorscheme = 'tundra',
+    colorscheme = 'tokyonight',
 
     -- Вид бордера для всплывающих окон. Может быть строкой или таблицей
     border = 'single',
+
+    -- Cursive comment
+    italic_comment = true,
   },
   -- (!) nvim-tree, neo-tree
   file_explorer = 'neo-tree',
@@ -51,10 +55,11 @@ PREF = {
     show_blame = false,
     show_signcolumn = true,
   },
+
   -- (!) использую, чтобы вручную не менять адрес своих плагинов в plugins.lua
   dev_mode = false,
   -- boolean|string какую ветку загружать
-  dev_branch = '',
+  dev_branch = false,
   -- имя плагина
   dev_plugin = '',
 }

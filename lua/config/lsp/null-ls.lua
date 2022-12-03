@@ -12,16 +12,16 @@ null_ls.setup({
   debug = false,
   sources = {
     -- js, ts
-    diagnostics.eslint_d,
-    code_actions.eslint_d,
-    formatting.eslint_d,
+    diagnostics.eslint,
+    code_actions.eslint,
+    formatting.eslint,
 
     -- lua
     formatting.stylua,
 
     -- css/sass/scss etc
     diagnostics.stylelint,
-    formatting.stylelint,
+    formatting.stylelint.with({ args = { '--fix', '--stdin' } }),
 
     -- markdown
     formatting.markdownlint,
