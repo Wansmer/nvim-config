@@ -119,6 +119,9 @@ map('n', '<leader>td', toggle_diagnostics)
 -- Открыть файл настроек
 map('n', '<leader>cn', ':vert e ~/.config/nvim/init.lua<CR>')
 
+-- Заменить значение слова на противоположное
+map('n', '<leader>i', require('modules.toggler').toggle_cword_at_cursor)
+
 -- ========= Привязки для плагинов
 
 -- NvimTree, NeoTree

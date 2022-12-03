@@ -451,15 +451,6 @@ return packer.startup(function(use)
   -- Подсветка парных символов разными цветами
   use({ 'p00f/nvim-ts-rainbow', after = 'nvim-treesitter' })
 
-  -- Замена значения на противоположное (тригер <leader>i)
-  use({
-    'nguyenvukhang/nvim-toggler',
-    disable = true,
-    config = function()
-      require('config.plugins.toggler')
-    end,
-  })
-
   -- Автосмена кавычек, если подразумевается интерполяция текста
   use({
     'axelvc/template-string.nvim',
