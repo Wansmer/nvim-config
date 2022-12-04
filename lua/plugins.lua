@@ -110,7 +110,6 @@ return packer.startup(function(use)
     -- 'Wansmer/null-ls-embedded',
     'LostNeophyte/null-ls-embedded',
     disable = false,
-    branch = 'refactor',
     config = function()
       require('null-ls-embedded').config({
         ignore_langs = {
