@@ -1,5 +1,5 @@
-local text_width = 120
-local tab_width = 2
+local text_width = PREF.common.text_width
+local tab_width = PREF.common.tab_width
 local winbar = ''
 
 local options = {
@@ -68,57 +68,16 @@ local options = {
   mouse = 'a',
   clipboard = 'unnamedplus',
   backup = false,
-  -- noswapfile = '',
+  swapfile = false,
   completeopt = { 'menuone', 'noselect' },
   winbar = winbar,
   spell = false,
   spelllang = 'en_us,ru_ru',
+  whichwrap = vim.opt.whichwrap:append('<,>,[,],h,l'),
+  shortmess = vim.opt.shortmess:append('c'),
+  iskeyword = vim.opt.iskeyword:append('-'),
 }
-
-vim.opt.shortmess:append('c')
 
 for option_name, value in pairs(options) do
   vim.opt[option_name] = value
 end
-
--- Каким командам можно перескакивать на новую строку с окончания предыдущей
-vim.cmd('set whichwrap+=<,>,[,],h,l')
-
--- Задает, что считать словом
-vim.cmd([[set iskeyword+=-]])
-
--- Отключение автокомментирования новой строки
-vim.cmd([[au BufEnter * set formatoptions-=cro]])
-
--- Подсветить скопированное
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 100 })
-  end,
-})
-
--- Установливать активному окну ширину не менее text_width
-vim.api.nvim_create_autocmd('BufEnter', {
-  callback = function()
-    local ft_ignore = {
-      'nvim-tree',
-      'neo-tree',
-      'packer',
-      'aerial',
-      -- неизвестный тип, например telescope prompt
-      '',
-    }
-    local buf = vim.api.nvim_win_get_buf(0)
-    local buftype = vim.api.nvim_buf_get_option(buf, 'ft')
-    if vim.tbl_contains(ft_ignore, buftype) then
-      return
-    end
-    local width = vim.api.nvim_win_get_width(0)
-    if width < text_width then
-      vim.api.nvim_win_set_width(0, text_width)
-    end
-  end,
-})
-
--- Убрать сепаратор между окнами
-vim.cmd([[hi WinSeparator guibg=None]])

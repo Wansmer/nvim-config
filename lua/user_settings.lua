@@ -3,6 +3,10 @@
 -- (!) После изменения параметра в восклицаетльным знаком нужно запусить :PackerSync и перезапустить neovim;
 
 PREF = {
+  common = {
+    text_width = 120,
+    tab_width = 2,
+  },
   lsp = {
     -- форматирование при сохранении файла
     format_on_save = false,
@@ -48,6 +52,7 @@ PREF = {
     -- Cursive comment
     italic_comment = true,
   },
+
   -- (!) nvim-tree, neo-tree
   file_explorer = 'neo-tree',
   git = {

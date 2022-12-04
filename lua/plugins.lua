@@ -6,7 +6,6 @@ local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
 -- Установка Packer, если он не установлен
 if fn.empty(fn.glob(install_path)) > 0 then
-
   -- Клонирование репозитория Packer
   PACKER_BOOTSTRAP = fn.system({
     'git',
@@ -17,7 +16,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
     install_path,
   })
 
-  vim.cmd([[packadd packer.nvim]])
+  vim.cmd.packadd('packer.nvim')
 end
 
 local ok, packer = pcall(require, 'packer')
@@ -105,18 +104,18 @@ return packer.startup(function(use)
     end,
   })
 
-  -- Навигация по названиям классов/функций в файле
-  use({
-    'stevearc/aerial.nvim',
-    config = function()
-      require('config.plugins.aerial')
-    end,
-  })
-
   -- Форматтер для embeded language
   -- fork
-  use({ 'Wansmer/null-ls-embedded' })
-  -- use({ 'LostNeophyte/null-ls-embedded' })
+  use({
+    'Wansmer/null-ls-embedded',
+    -- 'LostNeophyte/null-ls-embedded',
+    config = function()
+      require('null-ls-embedded').config.ignore_langs = {
+        ['*'] = { 'comment', 'vim' }, -- don't format `comment` in all languages
+        markdown = { 'inline_markdown' }, -- don't format embedded `inline_markdown` in `markdown` files
+      }
+    end,
+  })
 
   -- ==========================================================================
   -- Treesitter
@@ -322,10 +321,6 @@ return packer.startup(function(use)
 
   -- Иконки
   use('kyazdani42/nvim-web-devicons')
-
-  -- TODO: найти замену на lua
-  -- Убирает подсветку поиска по буфферу, когда уже не надо
-  use('romainl/vim-cool')
 
   -- Визуализация отступов
   use({
