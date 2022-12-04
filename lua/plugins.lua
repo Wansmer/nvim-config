@@ -107,13 +107,18 @@ return packer.startup(function(use)
   -- Форматтер для embeded language
   -- fork
   use({
-    'Wansmer/null-ls-embedded',
-    -- 'LostNeophyte/null-ls-embedded',
+    -- 'Wansmer/null-ls-embedded',
+    'LostNeophyte/null-ls-embedded',
+    disable = false,
+    branch = 'refactor',
     config = function()
-      require('null-ls-embedded').config.ignore_langs = {
-        ['*'] = { 'comment', 'vim' }, -- don't format `comment` in all languages
-        markdown = { 'inline_markdown' }, -- don't format embedded `inline_markdown` in `markdown` files
-      }
+      require('null-ls-embedded').config({
+        ignore_langs = {
+          ['*'] = { 'comment', 'vim' }, -- ignore `comment` in all languages
+          markdown = { 'markdown_inline' }, -- ignore `markdown_inline` in `markdown`
+        },
+        timeout = 1000,
+      })
     end,
   })
 

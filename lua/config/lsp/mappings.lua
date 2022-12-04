@@ -16,11 +16,11 @@ M.set_keymap = function()
   -- Показать информацию о символе под курсором в всплывающем окне
   map('n', '<leader>lh', vim.lsp.buf.hover)
   -- Форматировать буффер
-  if nle_ok then
-    map('n', '<leader>lf', nle.buf_format)
-  else
-    map('n', '<leader>lf', vim.lsp.buf.format)
-  end
+  -- if nle_ok then
+  --   map('n', '<leader>lf', nle.buf_format)
+  -- else
+  map('n', '<leader>lf', vim.lsp.buf.format)
+  -- end
   -- TODO: Разобраться, почему не работает форматирование выделенного
   -- Форматировать выделенный фрагмент
   -- map('v', '<leader>lf', vim.lsp.buf.range_formatting, bufopts)
