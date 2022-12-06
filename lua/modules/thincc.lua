@@ -8,14 +8,14 @@
 local tccns = vim.api.nvim_create_namespace('thincc')
 local group = vim.api.nvim_create_augroup('thincc', { clear = true })
 local events = { 'BufWinEnter', 'TextChangedI', 'TextChanged' }
+local registry = {}
 
 local color = vim.api.nvim_get_hl_by_name('ColorColumn', true).background
 vim.api.nvim_set_hl(0, 'ThinCC', { fg = color, default = true })
 
-local registry = {}
-
-local function get_col_data(col)
+local function create_extmark(id, col)
   return {
+    id = id,
     virt_text = { { '▕', 'ThinCC' } },
     virt_text_pos = 'overlay',
     virt_text_win_col = col - 1,
@@ -23,13 +23,13 @@ local function get_col_data(col)
   }
 end
 
-local function get_registry_key(buf)
+local function make_registry_key(buf)
   local ft = vim.api.nvim_get_option_value('filetype', { buf = buf })
   return ft .. buf
 end
 
 local function update_registry(buf, col)
-  local key = get_registry_key(buf)
+  local key = make_registry_key(buf)
   if not registry[key] then
     registry[key] = { col = col }
   end
@@ -41,16 +41,16 @@ local function calc_colorcolumn_place(scope)
   local opts = { plain = true }
 
   if cc:match('^[+-]%d+') and tw ~= 0 then
-    local shift = tonumber(vim.tbl_map(vim.trim, vim.split(cc, ',', opts))[1])
-    local col = tw + shift
+    local shift = vim.tbl_map(vim.trim, vim.split(cc, ',', opts))[1]
+    local col = tw + tonumber(shift)
     return col > 0 and col or nil
   end
 
   return tonumber(cc)
 end
 
-local function get_col(bufnr)
-  local key = get_registry_key(bufnr)
+local function get_target_column(bufnr)
+  local key = make_registry_key(bufnr)
 
   if not registry[key] then
     local win = vim.api.nvim_get_current_win()
@@ -67,14 +67,24 @@ local function get_col(bufnr)
   return registry[key].col
 end
 
+local function set_extmark(bufnr, line, col)
+  local c_line = vim.api.nvim_buf_get_lines(bufnr, line, line + 1, false)[1]
+  if not (c_line and #c_line >= col) then
+    local extmark = create_extmark(line + 1, col)
+    vim.api.nvim_buf_set_extmark(bufnr, tccns, line, 0, extmark)
+  else
+    vim.api.nvim_buf_del_extmark(bufnr, tccns, line + 1)
+  end
+end
+
 local function set_thin_colorcolumn()
   local bufnr = vim.api.nvim_get_current_buf()
   if vim.api.nvim_buf_is_loaded(bufnr) then
-    local line_count = vim.api.nvim_buf_line_count(bufnr)
-    local col = get_col(bufnr)
+    local count = vim.api.nvim_buf_line_count(bufnr)
+    local col = get_target_column(bufnr)
     if col then
-      for line = 0, line_count, 1 do
-        vim.api.nvim_buf_set_extmark(bufnr, tccns, line, 0, get_col_data(col))
+      for line = 0, count, 1 do
+        set_extmark(bufnr, line, col)
       end
     end
   end
