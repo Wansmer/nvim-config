@@ -36,11 +36,15 @@ vim.api.nvim_create_autocmd('BufEnter', {
 
 -- Убирает подсветку после поиска после ухода со строки
 local hl_ns = vim.api.nvim_create_namespace('hl_search')
+
 local function manage_hlsearch(char)
   local keys = { '<CR>', 'n', 'N', '*', '#', '?', '/' }
-
   if vim.fn.mode() == 'n' then
-    vim.opt.hlsearch = vim.tbl_contains(keys, vim.fn.keytrans(char))
+    local new_hlsearch = vim.tbl_contains(keys, vim.fn.keytrans(char))
+    if vim.opt.hlsearch:get() ~= new_hlsearch then
+      vim.opt.hlsearch = new_hlsearch
+    end
   end
 end
+
 vim.on_key(manage_hlsearch, hl_ns)
