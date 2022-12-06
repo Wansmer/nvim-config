@@ -52,8 +52,6 @@ cmp.setup({
   mapping = {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
-    -- ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-1), { 'i', 'c' }),
-    -- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(1), { 'i', 'c' }),
     ['<C-x>'] = cmp.mapping(cmp.mapping.complete({}), { 'i', 'c' }),
     ['<C-y>'] = cmp.config.disable,
     ['<C-e>'] = cmp.mapping({
@@ -71,10 +69,7 @@ cmp.setup({
       else
         fallback()
       end
-    end, {
-      'i',
-      's',
-    }),
+    end, { 'i', 's' }),
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
@@ -83,10 +78,7 @@ cmp.setup({
       else
         fallback()
       end
-    end, {
-      'i',
-      's',
-    }),
+    end, { 'i', 's' }),
   },
   formatting = {
     fields = {
@@ -101,16 +93,38 @@ cmp.setup({
         luasnip = 'snip',
         buffer = 'buff',
         path = 'path',
+        cmdline = 'cmd ',
+        nvim_lsp_document_symbol = 'sym ',
+        rg = 'rg  ',
       })[entry.source.name]
       return vim_item
     end,
   },
   sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-    { name = 'buffer' },
-    { name = 'path' },
-    { name = 'nvim_lsp_signature_help' },
+    {
+      name = 'nvim_lsp',
+      priority = 9,
+    },
+    {
+      name = 'luasnip',
+      priority = 8,
+    },
+    {
+      name = 'buffer',
+      priority = 7,
+    },
+    {
+      name = 'path',
+      priority = 2,
+    },
+    {
+      name = 'nvim_lsp_signature_help',
+    },
+    {
+      name = 'rg',
+      keyword_length = 4,
+      priority = 1,
+    },
   },
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,
@@ -118,7 +132,6 @@ cmp.setup({
   },
   window = {
     completion = {
-      -- border = USER_SETTINGS.ui.border,
       border = 'none',
     },
     documentation = {
@@ -141,4 +154,20 @@ cmp.setup({
       cmp.config.compare.order,
     },
   },
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources(
+    { { name = 'nvim_lsp_document_symbol' } },
+    { { name = 'buffer' } }
+  ),
+})
+
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources(
+    { { name = 'path' } },
+    { { name = 'cmdline' } }
+  ),
 })
