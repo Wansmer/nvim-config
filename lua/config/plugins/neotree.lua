@@ -8,6 +8,7 @@ local fs_commands = require('neo-tree/sources/filesystem/commands')
 local function cd_or_open(state)
   local node = state.tree:get_node()
   if node.type ~= 'directory' then
+    -- TODO: check if no window is present
     fs_commands.open_with_window_picker(state)
   end
   fs_commands.set_root(state)
@@ -15,7 +16,7 @@ end
 
 local window_mappings = {
   ['l'] = 'open_with_window_picker',
-  ['o'] = 'open_with_window_picker',
+  ['o'] = 'open',
   ['sg'] = 'split_with_window_picker',
   ['sv'] = 'vsplit_with_window_picker',
   ['z'] = 'close_node',
@@ -49,6 +50,7 @@ neotree.setup({
   sources = {
     'filesystem',
     'git_status',
+    -- TODO: delete when plugin author answer on issue: https://github.com/nvim-neo-tree/neo-tree.nvim/issues/643
     'buffers',
   },
   add_blank_line_at_top = true,
