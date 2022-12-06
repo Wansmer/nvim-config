@@ -22,12 +22,13 @@ local press_esc = (function()
 
   return function(char)
     local is_escape = prev_char .. char == PREF.common.escape_keys
+    local first = vim.split(PREF.common.escape_keys, '', { plain = true })[1]
 
     if is_escape then
       -- TODO: добавить проверку, что вся строка была пустая, чтобы очищать лишний пробел
       vim.api.nvim_input('<BS><BS><ESC>')
       prev_char = ''
-    else
+    elseif char == first then
       prev_char = char
       vim.defer_fn(clear_prev, vim.opt.timeoutlen:get())
     end
