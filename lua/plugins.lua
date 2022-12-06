@@ -26,12 +26,10 @@ if not ok then
 end
 
 -- Применить изменения этого файла при сохранении и синхронизировать плагины
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]])
+vim.api.nvim_create_autocmd(
+  'BufWritePost',
+  { pattern = 'plugins.lua', command = 'source <afile> | PackerSync' }
+)
 
 packer.init({
   max_jobs = 50,
