@@ -22,5 +22,5 @@ pcall(require, 'config.colorscheme.' .. source[colorscheme])
 local present, _ = pcall(vim.cmd.colorscheme, colorscheme)
 
 if not present then
-  vim.cmd([[colorscheme default]])
+  vim.cmd.colorscheme('default')
 end
