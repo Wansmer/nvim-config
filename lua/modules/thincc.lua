@@ -4,6 +4,7 @@
 
 -- Lightly variant of setting thin colorcolumn with registry of buffers.
 -- If value of colorcolumn like a '+1,+2,+3', all values after first ',' will be ignored.
+-- TODO: rewrite with 'nvim_buf_attach': redraw only when line count are changed or current line is bigger than colorcolumn
 
 local tccns = vim.api.nvim_create_namespace('thincc')
 local group = vim.api.nvim_create_augroup('thincc', { clear = true })
