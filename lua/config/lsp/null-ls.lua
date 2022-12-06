@@ -12,7 +12,7 @@ null_ls.setup({
   debug = false,
   sources = {
     -- embedded
-    require("null-ls-embedded").nls_source,
+    require('null-ls-embedded').nls_source,
 
     -- js, ts
     diagnostics.eslint,

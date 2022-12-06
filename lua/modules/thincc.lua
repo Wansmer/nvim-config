@@ -2,8 +2,8 @@
 -- https://github.com/lukas-reineke/virt-column.nvim
 -- https://github.com/xiyaowong/virtcolumn.nvim
 
--- Light and lazy variant of setting thin colorcolumn with registry of buffers.
--- No work with textwidth and colorcolumn like '+2' or '-1'
+-- Lightly variant of setting thin colorcolumn with registry of buffers.
+-- If value of colorcolumn like a '+1,+2,+3', all values after first ',' will be ignored.
 
 local tccns = vim.api.nvim_create_namespace('thincc')
 local group = vim.api.nvim_create_augroup('thincc', { clear = true })
@@ -20,34 +20,50 @@ local function get_col_data(col)
     virt_text_pos = 'overlay',
     virt_text_win_col = col - 1,
     hl_mode = 'combine',
-    priority = 1,
   }
 end
 
 local function get_registry_key(buf)
-  local ft = vim.api.nvim_get_option_value('ft', { buf = buf })
+  local ft = vim.api.nvim_get_option_value('filetype', { buf = buf })
   return ft .. buf
 end
 
-local function update_registry(buf, cc, col)
+local function update_registry(buf, col)
   local key = get_registry_key(buf)
   if not registry[key] then
-    registry[key] = { start_cc = cc, col = col }
+    registry[key] = { col = col }
   end
+end
+
+local function calc_colorcolumn_place(scope)
+  local tw = vim.api.nvim_get_option_value('textwidth', scope)
+  local cc = vim.api.nvim_get_option_value('colorcolumn', scope)
+  local opts = { plain = true }
+
+  if cc:match('^[+-]%d+') and tw ~= 0 then
+    local shift = tonumber(vim.tbl_map(vim.trim, vim.split(cc, ',', opts))[1])
+    local col = tw + shift
+    return col > 0 and col or nil
+  end
+
+  return tonumber(cc)
 end
 
 local function get_col(bufnr)
   local key = get_registry_key(bufnr)
+
   if not registry[key] then
     local win = vim.api.nvim_get_current_win()
     local scope = { scope = 'local', win = win }
-    local cc = vim.api.nvim_get_option_value('colorcolumn', scope)
-    local col = tonumber(cc)
+    local col = calc_colorcolumn_place(scope)
+
     if col then
       vim.api.nvim_set_option_value('colorcolumn', '', scope)
     end
-    update_registry(bufnr, cc, col)
+
+    update_registry(bufnr, col)
   end
+
   return registry[key].col
 end
 

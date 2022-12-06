@@ -4,8 +4,8 @@
 
 PREF = {
   common = {
-    text_width = 120,
-    tab_width = 2,
+    textwidth = 120,
+    tabwidth = 2,
   },
   lsp = {
     -- форматирование при сохранении файла
@@ -44,7 +44,7 @@ PREF = {
 
   ui = {
     -- (!) список поддерживаемых тем: lua/config/colorscheme/init.lua
-    colorscheme = 'tokyonight',
+    colorscheme = 'tundra',
 
     -- Вид бордера для всплывающих окон. Может быть строкой или таблицей
     border = 'single',

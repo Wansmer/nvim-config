@@ -1,5 +1,5 @@
-local text_width = PREF.common.text_width
-local tab_width = PREF.common.tab_width
+local textwidth = PREF.common.textwidth
+local tabwidth = PREF.common.tabwidth
 local winbar = ''
 
 local options = {
@@ -9,8 +9,8 @@ local options = {
   expandtab = true,
   cindent = true,
   smarttab = true,
-  shiftwidth = tab_width,
-  tabstop = tab_width,
+  shiftwidth = tabwidth,
+  tabstop = tabwidth,
 
   -- ==========================================================================
   -- Визуальное оформление | UI
@@ -28,7 +28,7 @@ local options = {
   signcolumn = 'yes',
   scrolloff = 3,
   sidescrolloff = 3,
-  colorcolumn = tostring(text_width),
+  colorcolumn = tostring(textwidth),
   laststatus = 3,
   fillchars = [[eob: ,foldsep: ,foldopen:,foldclose:]],
   title = false,

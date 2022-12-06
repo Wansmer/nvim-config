@@ -1,4 +1,4 @@
--- Установливать активному окну ширину не менее text_width
+-- Установливать активному окну ширину не менее textwidth
 vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
     local ft_ignore = {
@@ -14,8 +14,8 @@ vim.api.nvim_create_autocmd('BufEnter', {
       return
     end
     local width = vim.api.nvim_win_get_width(0)
-    if width < PREF.common.text_width then
-      vim.api.nvim_win_set_width(0, PREF.common.text_width)
+    if width < PREF.common.textwidth then
+      vim.api.nvim_win_set_width(0, PREF.common.textwidth)
     end
   end,
 })
