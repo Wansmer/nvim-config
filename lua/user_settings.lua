@@ -32,7 +32,7 @@ PREF = {
     -- в lua/config/lsp/servers
     preinstall_servers = {
       'sumneko_lua',
-      -- 'tsserver',
+      'tsserver',
       'volar',
       'cssls',
       'html',
