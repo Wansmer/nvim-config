@@ -32,9 +32,6 @@ map('', '<Space>', '<Nop>')
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ';'
 
--- 'jk' как <Esc>, удобная смена режима
-map('i', 'jk', '<Esc>')
-
 -- закрыть nvim
 map('n', '<leader>q', ':qa<CR>')
 

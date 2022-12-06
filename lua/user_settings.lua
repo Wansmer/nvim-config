@@ -6,6 +6,7 @@ PREF = {
   common = {
     textwidth = 120,
     tabwidth = 2,
+    escape_keys = 'jk',
   },
   lsp = {
     -- форматирование при сохранении файла

@@ -70,6 +70,7 @@ end
 
 local function set_extmark(bufnr, line, col)
   local c_line = vim.api.nvim_buf_get_lines(bufnr, line, line + 1, false)[1]
+  -- TODO: need another way for checking length of non ANCII string
   if not (c_line and #c_line >= col) then
     local extmark = create_extmark(line + 1, col)
     vim.api.nvim_buf_set_extmark(bufnr, tccns, line, 0, extmark)
