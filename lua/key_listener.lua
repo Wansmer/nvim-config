@@ -46,8 +46,9 @@ local function key_listener(char)
   local mode = vim.fn.mode()
   if mode == 'n' then
     manage_hlsearch(key)
-  elseif mode == 'i' then
-    press_esc(key)
+    -- elseif mode == 'i' then
+    -- NOTE: неудобств больше, чем удобств
+    -- press_esc(key)
   end
 end
 

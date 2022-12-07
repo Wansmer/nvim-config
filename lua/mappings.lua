@@ -32,6 +32,9 @@ map('', '<Space>', '<Nop>')
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ';'
 
+-- jk как <ESC>
+map('i', 'jk', '<ESC>')
+
 -- закрыть nvim
 map('n', '<leader>q', ':qa<CR>')
 
@@ -48,8 +51,8 @@ map('v', 'H', '^')
 map('x', 'H', '^')
 -- К последнему символу
 map('n', 'L', '$')
-map('v', 'L', '$')
-map('x', 'L', '$')
+map('v', 'L', 'g_')
+map('x', 'L', 'g_')
 
 -- Закрытие окна
 map('n', 'q', ':close<CR>')

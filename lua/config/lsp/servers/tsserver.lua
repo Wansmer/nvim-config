@@ -1,3 +1,3 @@
 return {
-  autostart = not PREF.lsp.tom_enable
+  autostart = not PREF.lsp.tom_enable,
 }

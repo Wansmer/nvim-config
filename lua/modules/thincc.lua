@@ -71,7 +71,7 @@ end
 local function set_extmark(bufnr, line, col)
   local c_line = vim.api.nvim_buf_get_lines(bufnr, line, line + 1, false)[1]
   local len = vim.fn.strdisplaywidth(c_line)
-  
+
   if not (c_line and len >= col) then
     local extmark = create_extmark(line + 1, col)
     vim.api.nvim_buf_set_extmark(bufnr, tccns, line, 0, extmark)
