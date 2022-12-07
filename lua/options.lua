@@ -62,7 +62,6 @@ local options = {
   -- Прочее | Other
   -- ==========================================================================
   updatetime = 1000,
-  timeoutlen = 350,
   undofile = true,
   splitright = true,
   splitbelow = true,

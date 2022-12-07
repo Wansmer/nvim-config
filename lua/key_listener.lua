@@ -12,25 +12,31 @@ local function manage_hlsearch(char)
 end
 
 -- Убирает задержку между j и k (или j и j), если они назначены на <esc>
--- NOTE: рассчитана только (!!!) на два символа, потому что больше не надо
+-- NOTE: рассчитана только (!!!) на два символа, потому что больше не надо и для оптимизации
 -- Проблемы: 1) ставит буфер в modified, даже без изменений, 2) на пустых строках оставляет пробел после <S-S>
 local press_esc = (function()
   local prev_char = ''
+  local escape = PREF.common.escape_keys
+  local start = vim.fn.strcharpart(escape, 0, 1)
+  local end_ = vim.fn.strcharpart(escape, 1, 1)
+  -- Или timeoutlen
+  local delay = 350
   local clear_prev = function()
     prev_char = ''
   end
 
   return function(char)
-    local is_escape = prev_char .. char == PREF.common.escape_keys
-    local first = vim.split(PREF.common.escape_keys, '', { plain = true })[1]
-
-    if is_escape then
-      -- TODO: добавить проверку, что вся строка была пустая, чтобы очищать лишний пробел
-      vim.api.nvim_input('<BS><BS><ESC>')
-      prev_char = ''
-    elseif char == first then
+    if char == start then
       prev_char = char
-      vim.defer_fn(clear_prev, vim.opt.timeoutlen:get())
+      vim.defer_fn(clear_prev, delay)
+    elseif char == end_ and prev_char ~= '' then
+      --       ^^^                   ^^^
+      -- NOTE: чтобы не выполнять конкатинацию на каждый ввод
+      if prev_char .. char == escape then
+        -- TODO: добавить проверку на пустую строку
+        vim.api.nvim_input('<BS><BS><ESC>')
+        prev_char = ''
+      end
     end
   end
 end)()
