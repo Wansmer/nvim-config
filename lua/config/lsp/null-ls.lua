@@ -11,9 +11,6 @@ null_ls.setup({
   on_attach = require('config.lsp.default').on_attach,
   debug = false,
   sources = {
-    -- embedded
-    require('null-ls-embedded').nls_source,
-
     -- js, ts
     diagnostics.eslint,
     code_actions.eslint,

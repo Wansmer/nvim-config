@@ -33,3 +33,15 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.opt.formatoptions = vim.opt.formatoptions - { 'c', 'r', 'o' }
   end,
 })
+
+-- Автоформатирование при сохранении
+if PREF.lsp.format_on_save then
+  vim.api.nvim_create_autocmd('BufWritePre', {
+    callback = function()
+      local client = vim.lsp.get_active_clients({ bufnr = 0 })[1]
+      if client then
+        vim.lsp.buf.format()
+      end
+    end,
+  })
+end

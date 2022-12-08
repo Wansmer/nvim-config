@@ -4,13 +4,9 @@ if not ok then
   return
 end
 
-local M = {}
-
-M.autoformat = PREF.lsp.format_on_save
-
 local nls_sources = require('null-ls.sources')
 
-local method = null_ls.methods.FORMATTING
+local M = {}
 
 function M.list_registered_providers_names(filetype)
   local available_sources = nls_sources.get_available(filetype)
@@ -24,20 +20,14 @@ function M.list_registered_providers_names(filetype)
   return registered
 end
 
-function M.format()
-  if M.autoformat then
-    vim.lsp.buf.format(nil)
-  end
-end
-
 function M.has_formatter(filetype)
-  local available = nls_sources.get_available(filetype, method)
+  local available = nls_sources.get_available(filetype, null_ls.methods.FORMATTING)
   return #available > 0
 end
 
 function M.list_registered(filetype)
   local registered_providers = M.list_registered_providers_names(filetype)
-  return registered_providers[method] or {}
+  return registered_providers[null_ls.methods.FORMATTING] or {}
 end
 
 function M.list_supported(filetype)
@@ -58,14 +48,6 @@ function M.setup(client, buf)
 
   client.server_capabilities.documentFormattingProvider = enable
   client.server_capabilities.documentRangeFormattingProvider = enable
-  if client.server_capabilities.document_formatting then
-    vim.cmd([[
-      augroup LspFormat
-        autocmd! * <buffer>
-        autocmd BufWritePre <buffer> lua require("config.lsp.formatters").format()
-      augroup END
-    ]])
-  end
 end
 
 return M

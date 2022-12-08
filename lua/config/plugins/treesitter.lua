@@ -4,24 +4,6 @@ if not present then
 end
 
 configs.setup({
-  -- ensure_installed = {
-  --   'comment',
-  --   'css',
-  --   'dockerfile',
-  --   'html',
-  --   'javascript',
-  --   'json',
-  --   'lua',
-  --   'make',
-  --   'markdown',
-  --   'regex',
-  --   'scss',
-  --   'tsx',
-  --   'typescript',
-  --   'yaml',
-  --   'toml',
-  --   'vue',
-  -- },
   ensure_installed = 'all',
   sync_install = false,
   ignore_install = { 'phpdoc' },

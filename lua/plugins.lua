@@ -102,20 +102,11 @@ return packer.startup(function(use)
     end,
   })
 
-  -- Форматтер для embeded language
-  -- fork
+  -- Виртуальное окно для lsp defenitions, implementations и references
   use({
-    -- 'Wansmer/null-ls-embedded',
-    'LostNeophyte/null-ls-embedded',
-    disable = false,
+    'dnlhc/glance.nvim',
     config = function()
-      require('null-ls-embedded').config({
-        ignore_langs = {
-          ['*'] = { 'comment', 'vim' }, -- ignore `comment` in all languages
-          markdown = { 'markdown_inline' }, -- ignore `markdown_inline` in `markdown`
-        },
-        timeout = 1000,
-      })
+      require('config.plugins.glance')
     end,
   })
 

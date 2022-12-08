@@ -33,7 +33,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ';'
 
 -- jk как <ESC>
-map('i', 'jk', '<ESC>')
+map('i', PREF.common.escape_keys, '<ESC>')
 
 -- закрыть nvim
 map('n', '<leader>q', ':qa<CR>')
@@ -181,3 +181,5 @@ local neogen_ok, _ = pcall(require, 'neogen')
 if neogen_ok then
   map('n', '<localleader>a', ':Neogen<CR>')
 end
+
+map({'n', 'x'}, '<leader><leader>', require('modules.expand_selections').expand_selections)

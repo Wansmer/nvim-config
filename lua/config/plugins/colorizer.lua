@@ -5,7 +5,7 @@ if not present then
 end
 
 colorizer.setup({
-  filetypes = { 'html', 'vue', 'css', 'scss' },
+  filetypes = { 'html', 'vue', 'css', 'scss', 'javascript', 'lua' },
   user_default_options = {
     RGB = true, -- #RGB hex codes
     RRGGBB = true, -- #RRGGBB hex codes

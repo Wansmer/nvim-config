@@ -8,6 +8,7 @@ PREF = {
     tabwidth = 2,
     escape_keys = 'jk',
   },
+
   lsp = {
     -- форматирование при сохранении файла
     format_on_save = false,

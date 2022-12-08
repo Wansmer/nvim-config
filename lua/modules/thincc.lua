@@ -1,5 +1,4 @@
--- Original idea and knowledge:
--- https://github.com/lukas-reineke/virt-column.nvim
+-- Original idea and knowledge: https://github.com/lukas-reineke/virt-column.nvim
 -- https://github.com/xiyaowong/virtcolumn.nvim
 
 -- Lightly variant of setting thin colorcolumn with registry of buffers.
