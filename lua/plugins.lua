@@ -41,6 +41,7 @@ return packer.startup(function(use)
     'nvim-lua/plenary.nvim',
     -- Иконки
     'nvim-tree/nvim-web-devicons',
+    'lewis6991/impatient.nvim',
     {
       -- Улучшенные сообщения (ERROR, WARN e.t.c)
       'rcarriga/nvim-notify',
