@@ -184,5 +184,3 @@ local neogen_ok, _ = pcall(require, 'neogen')
 if neogen_ok then
   map('n', '<localleader>a', ':Neogen<CR>')
 end
-
-map('x', ',', require('modules.expand_selections').expand_selections)
