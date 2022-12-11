@@ -8,8 +8,6 @@ if not snip_status_ok then
   return
 end
 
-local cuc = require('cmp-under-comparator')
-
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 
@@ -94,6 +92,7 @@ cmp.setup({
         buffer = 'buff',
         path = 'path',
         cmdline = 'cmd ',
+        cmdline_history = 'hist',
         nvim_lsp_document_symbol = 'sym ',
         rg = 'rg  ',
       })[entry.source.name]
@@ -101,29 +100,14 @@ cmp.setup({
     end,
   },
   sources = {
-    {
-      name = 'nvim_lsp',
-      priority = 9,
-    },
-    {
-      name = 'luasnip',
-      priority = 8,
-    },
-    {
-      name = 'buffer',
-      priority = 7,
-    },
-    {
-      name = 'path',
-      priority = 2,
-    },
-    {
-      name = 'nvim_lsp_signature_help',
-    },
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+    { name = 'buffer' },
+    { name = 'path' },
+    { name = 'nvim_lsp_signature_help' },
     {
       name = 'rg',
       keyword_length = 4,
-      priority = 1,
     },
   },
   confirm_opts = {
@@ -142,29 +126,22 @@ cmp.setup({
     ghost_text = true,
     native_menu = false,
   },
-  sorting = {
-    comparators = {
-      cmp.config.compare.offset,
-      cmp.config.compare.exact,
-      cmp.config.compare.score,
-      cuc.under,
-      cmp.config.compare.kind,
-      cmp.config.compare.sort_text,
-      cmp.config.compare.length,
-      cmp.config.compare.order,
-    },
-  },
 })
 
 cmp.setup.cmdline({ '/', '?' }, {
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources(
     { { name = 'nvim_lsp_document_symbol' } },
+    { { name = 'cmdline_history' } },
     { { name = 'buffer' } }
   ),
 })
 
 cmp.setup.cmdline(':', {
   mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } }),
+  sources = cmp.config.sources(
+    { { name = 'path' } },
+    { { name = 'cmdline' } },
+    { { name = 'cmdline_history' } }
+  ),
 })

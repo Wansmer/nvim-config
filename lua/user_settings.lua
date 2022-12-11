@@ -17,7 +17,7 @@ PREF = {
     virtual_text = false,
 
     -- (!) показывать сигнатуру сразу при вводе или по триггеру
-    show_signature_on_insert = false,
+    show_signature_on_insert = true,
 
     -- показывать иконки диагностики
     show_diagnostic = true,

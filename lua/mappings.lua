@@ -70,9 +70,9 @@ map('n', '<C-l>', '<C-w>l')
 map('n', 'wr', '<C-w>x')
 
 -- К следующему буферу
-map('n', 'bn', ':bn<CR>')
+map('n', '<leader>n', ':bn<CR>')
 -- К предыдущему буферу
-map('n', 'bp', ':bp<CR>')
+map('n', '<leader>p', ':bp<CR>')
 
 -- Не копировать при удалении
 map('n', 'x', '"_x')
@@ -121,6 +121,9 @@ map('n', '<leader>cn', ':vert e ~/.config/nvim/init.lua<CR>')
 
 -- Заменить значение слова на противоположное
 map('n', '<leader>i', require('modules.toggler').toggle_cword_at_cursor)
+
+map('n', '<C-->', ':vertical resize -2<CR>')
+map('n', '<C-=>', ':vertical resize +2<CR>')
 
 -- ========= Привязки для плагинов
 
@@ -182,4 +185,4 @@ if neogen_ok then
   map('n', '<localleader>a', ':Neogen<CR>')
 end
 
-map({'n', 'x'}, '<leader><leader>', require('modules.expand_selections').expand_selections)
+map('x', ',', require('modules.expand_selections').expand_selections)

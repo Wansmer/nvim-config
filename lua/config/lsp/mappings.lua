@@ -1,4 +1,4 @@
-local glance_ok, _  = pcall(require, 'glance')
+local glance_ok, _ = pcall(require, 'glance')
 
 -- Привязки клавиш для функционала LSP
 local M = {}

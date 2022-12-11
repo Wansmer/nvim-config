@@ -234,12 +234,12 @@ return packer.startup(function(use)
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-cmdline',
+    'dmitmel/cmp-cmdline-history',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-nvim-lsp-document-symbol',
     'lukas-reineke/cmp-rg',
     'saadparwaiz1/cmp_luasnip',
     'L3MON4D3/LuaSnip',
-    'lukas-reineke/cmp-under-comparator',
     requires = 'hrsh7th/nvim-cmp',
   })
 

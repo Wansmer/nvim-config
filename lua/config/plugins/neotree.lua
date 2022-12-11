@@ -19,6 +19,7 @@ local window_mappings = {
   ['o'] = 'open',
   ['sg'] = 'split_with_window_picker',
   ['sv'] = 'vsplit_with_window_picker',
+  ['s'] = false,
   ['z'] = 'close_node',
   ['Z'] = 'close_all_nodes',
   ['N'] = { 'add', config = { show_path = 'relative' } },
