@@ -127,17 +127,10 @@ map('n', '<C-=>', ':vertical resize +2<CR>')
 
 -- ========= Привязки для плагинов
 
--- NvimTree, NeoTree
-local file_explorers = {
-  ['nvim-tree'] = 'NvimTreeToggle',
-  ['neo-tree'] = 'NeoTreeFocusToggle',
-}
-
-local fm_ok, _ = pcall(require, PREF.file_explorer)
+local fm_ok, _ = pcall(require, 'neo-tree')
 
 if fm_ok then
-  local ex = file_explorers[PREF.file_explorer]
-  map('n', '<localleader>e', ':' .. ex .. ' <CR>')
+  map('n', '<localleader>e', ':NeoTreeFocusToggle <CR>')
 else
   map('n', '<localleader>e', ':Lex 20<CR>')
 end

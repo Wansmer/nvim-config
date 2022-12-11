@@ -55,8 +55,6 @@ PREF = {
     italic_comment = true,
   },
 
-  -- (!) nvim-tree, neo-tree
-  file_explorer = 'neo-tree',
   git = {
     -- показывать информацию из git о текущей строке
     show_blame = false,

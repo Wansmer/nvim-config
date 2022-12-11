@@ -1,25 +1,12 @@
-local present, schemas = pcall(require, 'schemastore')
-if not present then
-  return
-end
+local s_ok, schemastore = pcall(require, 'schemastore')
 
 local settings = {
   json = {
-    schemas = schemas.json.schemas(),
-  },
-}
-
-local setup = {
-  commands = {
-    Format = {
-      function()
-        vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line('$'), 0 })
-      end,
-    },
+    schemas = s_ok and schemastore.json.schemas() or {},
   },
 }
 
 return {
   settings = settings,
-  setup,
+  setup = {},
 }
