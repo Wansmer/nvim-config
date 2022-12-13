@@ -18,7 +18,12 @@ local source = {
   mellow = 'mellow', -- 4/5
 }
 
-pcall(require, 'config.colorscheme.' .. source[colorscheme])
+local config = source[colorscheme]
+
+if config then
+  pcall(require, 'config.colorscheme.' .. config)
+end
+
 local present, _ = pcall(vim.cmd.colorscheme, colorscheme)
 
 if not present then
