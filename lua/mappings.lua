@@ -70,9 +70,9 @@ map('n', '<C-l>', '<C-w>l')
 map('n', 'wr', '<C-w>x')
 
 -- К следующему буферу
-map('n', '<leader>n', ':bn<CR>')
+map('n', '<leader><Tab>', ':bn<CR>')
 -- К предыдущему буферу
-map('n', '<leader>p', ':bp<CR>')
+map('n', '<leader><S-Tab>', ':bp<CR>')
 
 -- Не копировать при удалении
 map('n', 'x', '"_x')
