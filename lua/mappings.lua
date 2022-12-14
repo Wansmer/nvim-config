@@ -43,8 +43,8 @@ map({ 'i', 't', 'c' }, '<C-f>', '<Right>')
 map({ 'i', 't', 'c' }, '<C-b>', '<Left>')
 map({ 'i', 't', 'c' }, '<C-.>', '<S-Right>')
 map({ 'i', 't', 'c' }, '<C-,>', '<S-Left>')
-map({ 'i', 't', 'c' }, '<C-p>', '<Up>')
-map({ 'i', 't', 'c' }, '<C-n>', '<Down>')
+map({ 'i', 't' }, '<C-p>', '<Up>')
+map({ 'i', 't' }, '<C-n>', '<Down>')
 map({ 'i', 't', 'c' }, '<C-a>', '<Home>')
 map({ 'i', 't', 'c' }, '<C-e>', '<End>')
 map({ 'i', 't', 'c' }, '<C-d>', '<Delete>')
@@ -71,7 +71,7 @@ map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 
 -- Поменять окна местами
-map('n', 'wr', '<C-w>x')
+map('n', '<leader>r', '<C-w>x')
 
 -- К следующему буферу
 map('n', '<leader><Tab>', ':bn<CR>')
