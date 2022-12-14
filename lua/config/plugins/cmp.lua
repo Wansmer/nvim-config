@@ -127,21 +127,3 @@ cmp.setup({
     native_menu = false,
   },
 })
-
-cmp.setup.cmdline({ '/', '?' }, {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources(
-    { { name = 'nvim_lsp_document_symbol' } },
-    { { name = 'cmdline_history' } },
-    { { name = 'buffer' } }
-  ),
-})
-
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources(
-    { { name = 'path' } },
-    { { name = 'cmdline' } },
-    { { name = 'cmdline_history' } }
-  ),
-})
