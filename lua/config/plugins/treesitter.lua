@@ -10,13 +10,16 @@ configs.setup({
   highlight = {
     enable = true,
     disable = {},
-    additional_vim_regex_highlighting = true,
+    additional_vim_regex_highlighting = false,
   },
   autopairs = {
     enable = true,
   },
-  -- Делает лишний отступ во vue
-  indent = { enable = false },
+
+  -- WARNING: Делает лишний отступ во vue
+  indent = {
+    enable = true,
+  },
 
   -- TREESITTER PLUGINS
   -- Autotag 'windwp/nvim-ts-autotag'
