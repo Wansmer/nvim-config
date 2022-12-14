@@ -22,7 +22,7 @@ local window_mappings = {
   ['s'] = false,
   ['z'] = 'close_node',
   ['Z'] = 'close_all_nodes',
-  ['N'] = { 'add', config = { show_path = 'relative' } },
+  ['N'] = { 'add', config = { show_path = 'none' } },
   ['d'] = 'delete',
   ['r'] = 'rename',
   ['y'] = 'copy_to_clipboard',
@@ -56,6 +56,53 @@ neotree.setup({
   },
   add_blank_line_at_top = true,
   popup_border_style = PREF.ui.border,
+
+  event_handlers = {
+    {
+      event = 'file_added',
+      handler = function(arg)
+        local clients = vim.lsp.get_active_clients()
+        if #clients then
+          print('Restart lsp')
+          vim.cmd('LspRestart')
+        end
+      end,
+      id = 'optional unique id, only meaningful if you want to unsubscribe later',
+    },
+    {
+      event = 'file_deleted',
+      handler = function(arg)
+        local clients = vim.lsp.get_active_clients()
+        if #clients then
+          print('Restart lsp')
+          vim.cmd('LspRestart')
+        end
+      end,
+      id = 'optional unique id, only meaningful if you want to unsubscribe later',
+    },
+    {
+      event = 'file_moved',
+      handler = function(arg)
+        local clients = vim.lsp.get_active_clients()
+        if #clients then
+          print('Restart lsp')
+          vim.cmd('LspRestart')
+        end
+      end,
+      id = 'optional unique id, only meaningful if you want to unsubscribe later',
+    },
+    {
+      event = 'file_renamed',
+      handler = function(arg)
+        local clients = vim.lsp.get_active_clients()
+        if #clients then
+          print('Restart lsp')
+          vim.cmd('LspRestart')
+        end
+      end,
+      id = 'optional unique id, only meaningful if you want to unsubscribe later',
+    },
+  },
 
   default_component_configs = {
     modified = {
