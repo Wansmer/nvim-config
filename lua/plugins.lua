@@ -78,6 +78,12 @@ return packer.startup(function(use)
       end,
     },
     {
+      'jayp0521/mason-null-ls.nvim',
+      config = function ()
+        require('config.plugins.mason-null-ls')
+      end
+    },
+    {
       -- Виджет для прогресса LSP
       'j-hui/fidget.nvim',
       config = function()
@@ -217,7 +223,6 @@ return packer.startup(function(use)
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-cmdline',
-    'dmitmel/cmp-cmdline-history',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-nvim-lsp-document-symbol',
     'lukas-reineke/cmp-rg',
