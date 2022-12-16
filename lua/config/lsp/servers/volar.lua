@@ -1,3 +1,5 @@
+local cssls = require('config.lsp.servers.cssls')
+
 local tom_fts = {
   'vue',
   'typescript',
@@ -29,4 +31,5 @@ return {
       },
     },
   },
+  settings = cssls.settings,
 }

@@ -11,7 +11,7 @@ null_ls.setup({
   on_attach = require('config.lsp.default').on_attach,
   debug = false,
   sources = {
-    -- js, ts
+    -- js, ts, jsx, tsx, vue
     diagnostics.eslint_d,
     code_actions.eslint_d,
     formatting.eslint_d,
@@ -19,11 +19,17 @@ null_ls.setup({
     -- lua
     formatting.stylua,
 
-    -- css/sass/scss etc
-    diagnostics.stylelint,
-    formatting.stylelint.with({ args = { '--fix', '--stdin' } }),
+    -- css/sass/scss/vue etc
+    diagnostics.stylelint.with({
+      extra_filetypes = { 'vue' },
+    }),
+    formatting.stylelint.with({
+      extra_filetypes = { 'vue' },
+    }),
 
-    -- markdown
-    formatting.markdownlint,
+    -- html
+    formatting.prettier.with({
+      filetypes = { 'html', 'json', 'markdown' },
+    }),
   },
 })

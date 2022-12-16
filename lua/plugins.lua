@@ -79,9 +79,9 @@ return packer.startup(function(use)
     },
     {
       'jayp0521/mason-null-ls.nvim',
-      config = function ()
+      config = function()
         require('config.plugins.mason-null-ls')
-      end
+      end,
     },
     {
       -- Виджет для прогресса LSP
@@ -140,7 +140,7 @@ return packer.startup(function(use)
   })
 
   -- ==========================================================================
-  -- Навигация
+  -- Навигация (navigation)
   -- ==========================================================================
 
   use({
