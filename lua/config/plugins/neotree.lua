@@ -14,6 +14,13 @@ local function cd_or_open(state)
   fs_commands.set_root(state)
 end
 
+local function restart_lsp()
+  local clients = vim.lsp.get_active_clients()
+  if #clients then
+    vim.cmd('LspRestart')
+  end
+end
+
 local window_mappings = {
   ['l'] = 'open_with_window_picker',
   ['o'] = 'open',
@@ -60,46 +67,22 @@ neotree.setup({
   event_handlers = {
     {
       event = 'file_added',
-      handler = function(arg)
-        local clients = vim.lsp.get_active_clients()
-        if #clients then
-          print('Restart lsp')
-          vim.cmd('LspRestart')
-        end
-      end,
+      handler = restart_lsp,
       id = 'optional unique id, only meaningful if you want to unsubscribe later',
     },
     {
       event = 'file_deleted',
-      handler = function(arg)
-        local clients = vim.lsp.get_active_clients()
-        if #clients then
-          print('Restart lsp')
-          vim.cmd('LspRestart')
-        end
-      end,
+      handler = restart_lsp,
       id = 'optional unique id, only meaningful if you want to unsubscribe later',
     },
     {
       event = 'file_moved',
-      handler = function(arg)
-        local clients = vim.lsp.get_active_clients()
-        if #clients then
-          print('Restart lsp')
-          vim.cmd('LspRestart')
-        end
-      end,
+      handler = restart_lsp,
       id = 'optional unique id, only meaningful if you want to unsubscribe later',
     },
     {
       event = 'file_renamed',
-      handler = function(arg)
-        local clients = vim.lsp.get_active_clients()
-        if #clients then
-          print('Restart lsp')
-          vim.cmd('LspRestart')
-        end
-      end,
+      handler = restart_lsp,
       id = 'optional unique id, only meaningful if you want to unsubscribe later',
     },
   },
