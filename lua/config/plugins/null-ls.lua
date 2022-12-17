@@ -12,9 +12,10 @@ null_ls.setup({
   debug = false,
   sources = {
     -- js, ts, jsx, tsx, vue
-    diagnostics.eslint_d,
-    code_actions.eslint_d,
-    formatting.eslint_d,
+    -- NOTE: not eslint_d because it don't auto exit process when neovim closed
+    diagnostics.eslint,
+    code_actions.eslint,
+    formatting.eslint,
 
     -- lua
     formatting.stylua,
