@@ -165,7 +165,6 @@ return packer.startup(function(use)
     {
       -- Поиск всего и везде
       'nvim-telescope/telescope.nvim',
-      tag = '0.1.0',
       config = function()
         require('config.plugins.telescope')
       end,
