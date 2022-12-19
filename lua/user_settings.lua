@@ -17,7 +17,7 @@ PREF = {
     virtual_text = false,
 
     -- (!) показывать сигнатуру сразу при вводе или по триггеру
-    show_signature_on_insert = true,
+    show_signature_on_insert = false,
 
     -- показывать иконки диагностики
     show_diagnostic = true,
@@ -41,13 +41,14 @@ PREF = {
       'emmet_ls',
       'jsonls',
       'marksman',
+      'rust_analyzer',
     },
   },
 
   ui = {
     -- (!) список поддерживаемых тем: lua/config/colorscheme/init.lua
-    ---@type 'tundra'|'tokyonight'|'catppuccin'
-    colorscheme = 'tundra',
+    ---@type 'tundra'|'tokyonight'|'catppuccin'|'kanagawa'|'nightfox'|'gruvbox-material'
+    colorscheme = 'gruvbox-material',
 
     -- Вид бордера для всплывающих окон. Может быть строкой или таблицей
     border = 'single',
