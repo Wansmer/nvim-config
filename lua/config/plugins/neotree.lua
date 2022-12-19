@@ -14,22 +14,15 @@ local function cd_or_open(state)
   fs_commands.set_root(state)
 end
 
-local function restart_lsp()
-  local clients = vim.lsp.get_active_clients()
-  if #clients then
-    vim.cmd('LspRestart')
-  end
-end
-
 local window_mappings = {
-  ['l'] = 'open_with_window_picker',
   ['o'] = 'open',
+  ['l'] = 'open_with_window_picker',
   ['sg'] = 'split_with_window_picker',
   ['sv'] = 'vsplit_with_window_picker',
   ['s'] = false,
   ['z'] = 'close_node',
   ['Z'] = 'close_all_nodes',
-  ['N'] = { 'add', config = { show_path = 'none' } },
+  ['N'] = 'add',
   ['d'] = 'delete',
   ['r'] = 'rename',
   ['y'] = 'copy_to_clipboard',
@@ -63,29 +56,6 @@ neotree.setup({
   },
   add_blank_line_at_top = true,
   popup_border_style = PREF.ui.border,
-
-  event_handlers = {
-    {
-      event = 'file_added',
-      handler = restart_lsp,
-      id = 'optional unique id, only meaningful if you want to unsubscribe later',
-    },
-    {
-      event = 'file_deleted',
-      handler = restart_lsp,
-      id = 'optional unique id, only meaningful if you want to unsubscribe later',
-    },
-    {
-      event = 'file_moved',
-      handler = restart_lsp,
-      id = 'optional unique id, only meaningful if you want to unsubscribe later',
-    },
-    {
-      event = 'file_renamed',
-      handler = restart_lsp,
-      id = 'optional unique id, only meaningful if you want to unsubscribe later',
-    },
-  },
 
   default_component_configs = {
     modified = {
