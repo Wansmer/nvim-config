@@ -1,4 +1,9 @@
---- Original idea: https://github.com/nguyenvukhang/nvim-toggler
+-- Original idea: https://github.com/nguyenvukhang/nvim-toggler
+
+-- Switch the word under cursor to the opposite value with saving case
+-- DEMO: true => true, True => False, tRuE => fAlSE
+-- (if the opposite word longer when current word,
+-- the tail of opposite will be the same case as the last char case of current)
 
 local M = {}
 
@@ -37,12 +42,7 @@ local function to_same_register(base, str)
 
   for i, ch in ipairs(target_list) do
     local lower = is_lower(base_list[i] or base_list[#base_list])
-
-    if lower then
-      target_list[i] = string.lower(ch)
-    else
-      target_list[i] = string.upper(ch)
-    end
+    target_list[i] = lower and string.lower(ch) or string.upper(ch)
   end
 
   return table.concat(target_list)
@@ -55,8 +55,8 @@ function M.toggle_cword_at_cursor()
 
   -- Checking if the symbol under cursor is a part of received word
   -- (required to prevent wrong inserting, when cursor at punctuation and whitespace before the target word)
-  local col = vim.api.nvim_win_get_cursor(0)[2]
-  local char = vim.api.nvim_get_current_line():sub(col + 1, col + 1)
+  local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+  local char = vim.api.nvim_get_current_line():sub(col, col)
   local contains = string.find(text, char, 1, true) and true or false
 
   if text and contains then
