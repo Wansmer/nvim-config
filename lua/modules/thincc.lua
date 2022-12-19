@@ -8,11 +8,18 @@
 local tccns = vim.api.nvim_create_namespace('thincc')
 local group = vim.api.nvim_create_augroup('thincc', { clear = true })
 local events = { 'BufWinEnter', 'TextChangedI', 'TextChanged' }
+
+---Registry for saving original value of colorcolumn of each buffer
 local registry = {}
 
+---Using original color for ColorColumn
 local color = vim.api.nvim_get_hl_by_name('ColorColumn', true).background
 vim.api.nvim_set_hl(0, 'ThinCC', { fg = color, default = true })
 
+---Create extmark
+---@param id integer Id for extmark
+---@param col integer Target col to set extmark
+---@return table
 local function create_extmark(id, col)
   return {
     id = id,
@@ -23,11 +30,17 @@ local function create_extmark(id, col)
   }
 end
 
+---Create unique key for buffers registry (buf num + filetype)
+---@param buf integer Number of buffer
+---@return string
 local function make_registry_key(buf)
   local ft = vim.api.nvim_get_option_value('filetype', { buf = buf })
   return ft .. buf
 end
 
+---Add new value to registry if it don't exist
+---@param buf integer Number of buffer
+---@param col integer|nil Original value of colorcolumn or nil for disable buffer
 local function update_registry(buf, col)
   local key = make_registry_key(buf)
   if not registry[key] then
@@ -35,13 +48,15 @@ local function update_registry(buf, col)
   end
 end
 
+---Calculating target col to set extmark
+---@param scope table { scope = 'local', win = number of win }
+---@return integer|nil
 local function calc_colorcolumn_place(scope)
   local tw = vim.api.nvim_get_option_value('textwidth', scope)
   local cc = vim.api.nvim_get_option_value('colorcolumn', scope)
-  local opts = { plain = true }
 
   if cc:match('^[+-]%d+') and tw ~= 0 then
-    local shift = vim.tbl_map(vim.trim, vim.split(cc, ',', opts))[1]
+    local shift = vim.tbl_map(vim.trim, vim.split(cc, ',', { plain = true }))[1]
     local col = tw + tonumber(shift)
     return col > 0 and col or nil
   end
@@ -49,6 +64,9 @@ local function calc_colorcolumn_place(scope)
   return tonumber(cc)
 end
 
+---Get target col to set thin colorcolumn
+---@param bufnr integer Current buffer
+---@return integer|nil
 local function get_target_column(bufnr)
   local key = make_registry_key(bufnr)
 
@@ -67,7 +85,11 @@ local function get_target_column(bufnr)
   return registry[key].col
 end
 
-local function set_extmark(bufnr, line, col)
+---Set or del extmark
+---@param bufnr integer Current buffer
+---@param line integer
+---@param col integer
+local function update_exmark(bufnr, line, col)
   local c_line = vim.api.nvim_buf_get_lines(bufnr, line, line + 1, false)[1]
   local len = vim.fn.strdisplaywidth(c_line)
 
@@ -79,6 +101,7 @@ local function set_extmark(bufnr, line, col)
   end
 end
 
+---Set thin colorcolumn to buffer
 local function set_thin_colorcolumn()
   local bufnr = vim.api.nvim_get_current_buf()
   if vim.api.nvim_buf_is_loaded(bufnr) then
@@ -86,7 +109,7 @@ local function set_thin_colorcolumn()
     local col = get_target_column(bufnr)
     if col then
       for line = 0, count, 1 do
-        set_extmark(bufnr, line, col)
+        update_exmark(bufnr, line, col)
       end
     end
   end
