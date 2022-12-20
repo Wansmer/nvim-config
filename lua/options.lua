@@ -76,6 +76,8 @@ local options = {
   whichwrap = vim.opt.whichwrap:append('<,>,[,],h,l'),
   shortmess = vim.opt.shortmess:append('c'),
   iskeyword = vim.opt.iskeyword:append('-'),
+  winminwidth = 10,
+  equalalways = false,
 }
 
 for option_name, value in pairs(options) do
