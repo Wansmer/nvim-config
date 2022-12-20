@@ -1,21 +1,18 @@
--- Установливать активному окну ширину не менее textwidth
+-- Минимальная ширина текущего окна = textwidth
 vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
-    local ft_ignore = {
-      'nvim-tree',
-      'neo-tree',
-      'packer',
-      -- неизвестный тип, например telescope prompt
-      '',
-    }
+    local ft_ignore = { 'nvim-tree', 'neo-tree', 'packer', '' }
     local buf = vim.api.nvim_win_get_buf(0)
     local buftype = vim.api.nvim_buf_get_option(buf, 'ft')
+
     if vim.tbl_contains(ft_ignore, buftype) then
       return
     end
+
     local width = vim.api.nvim_win_get_width(0)
+
     if width < PREF.common.textwidth then
-      vim.api.nvim_win_set_width(0, PREF.common.textwidth)
+      vim.o.winwidth = PREF.common.textwidth
     end
   end,
 })
