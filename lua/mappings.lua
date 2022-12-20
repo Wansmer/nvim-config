@@ -110,8 +110,8 @@ map('n', '<C-n>', '<cmd>move+1<CR>==')
 map('n', '<C-p>', '<cmd>move-2<CR>==')
 
 -- Дублировать строку под курсором
-map('n', '<leader>d', 'Vm`""Y""PgV``')
-map('x', '<leader>d', '""Y""Pgv')
+map('n', '<leader>d', ':copy.<CR>')
+map('x', '<leader>d', ':copy.-1<CR>gv')
 
 -- Макросы
 map('n', 'Q', 'q')
