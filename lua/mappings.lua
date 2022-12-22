@@ -29,8 +29,13 @@ end
 
 -- Установка лидера
 map('', '<Space>', '<Nop>')
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ';'
+
+-- Перемещение по визуальным строкам как по логическим
+map('n', 'j', 'gj')
+map('n', 'k', 'gk')
 
 -- jk как <ESC>
 map('i', PREF.common.escape_keys, '<ESC>')
@@ -50,13 +55,11 @@ map({ 'i', 't', 'c' }, '<C-e>', '<End>')
 map({ 'i', 't', 'c' }, '<C-d>', '<Delete>')
 
 -- К первому не пробельному символу
-map('n', 'H', '^')
-map('v', 'H', '^')
-map('x', 'H', '^')
+map('n', 'gh', 'g^')
+map('x', 'gh', 'g^')
 -- К последнему символу
-map('n', 'L', '$')
-map('v', 'L', 'g_')
-map('x', 'L', 'g_')
+map('n', 'gl', 'g_')
+map('x', 'gl', 'g_')
 
 -- Закрытие окна
 map('n', 'q', ':close<CR>')
