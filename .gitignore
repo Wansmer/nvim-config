@@ -1,5 +1,5 @@
 plugin
 *.DS_Store
+tmp.*
 todo.md
-tmp.md
 tomem.md
