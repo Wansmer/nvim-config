@@ -1,7 +1,8 @@
 -- Минимальная ширина текущего окна = textwidth
+local ft_ignore = { 'nvim-tree', 'neo-tree', 'packer', '' }
+
 vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
-    local ft_ignore = { 'nvim-tree', 'neo-tree', 'packer', '' }
     local buf = vim.api.nvim_win_get_buf(0)
     local buftype = vim.api.nvim_buf_get_option(buf, 'ft')
 
@@ -12,7 +13,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     local width = vim.api.nvim_win_get_width(0)
 
     if width < PREF.common.textwidth then
-      vim.o.winwidth = PREF.common.textwidth
+      vim.api.nvim_win_set_width(0, PREF.common.textwidth)
     end
   end,
 })
