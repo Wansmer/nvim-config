@@ -1,13 +1,11 @@
-local ok, mlsp = pcall(require, 'mason-lspconfig')
-
-if not ok then
-  return
-end
-
--- Список lsp для предустановки
-local ensure_installed = PREF.lsp.preinstall_servers
-
-mlsp.setup({
-  ensure_installed = ensure_installed,
-  automatic_installation = true,
-})
+return {
+  'williamboman/mason-lspconfig.nvim',
+  enabled = true,
+  config = function()
+    local mlsp = require('mason-lspconfig')
+    mlsp.setup({
+      ensure_installed = PREF.lsp.preinstall_servers,
+      automatic_installation = true,
+    })
+  end,
+}

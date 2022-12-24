@@ -1,18 +1,3 @@
-local present, cmp = pcall(require, 'cmp')
-if not present then
-  return
-end
-
-local snip_status_ok, luasnip = pcall(require, 'luasnip')
-if not snip_status_ok then
-  return
-end
-
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
-
-require('luasnip/loaders/from_vscode').lazy_load()
-
 local icons = {
   Text = '',
   Method = 'm',
@@ -41,89 +26,113 @@ local icons = {
   TypeParameter = '',
 }
 
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
+return {
+  'hrsh7th/nvim-cmp',
+  enabled = true,
+  event = 'InsertEnter',
+  dependencies = {
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-nvim-lsp-document-symbol',
+    'lukas-reineke/cmp-rg',
+    'saadparwaiz1/cmp_luasnip',
+    'L3MON4D3/LuaSnip',
+    'rafamadriz/friendly-snippets',
   },
-  mapping = {
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-x>'] = cmp.mapping(cmp.mapping.complete({}), { 'i', 'c' }),
-    ['<C-y>'] = cmp.config.disable,
-    ['<C-e>'] = cmp.mapping({
-      i = cmp.mapping.abort(),
-      c = cmp.mapping.close(),
-    }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expandable() then
-        luasnip.expand({})
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  },
-  formatting = {
-    fields = {
-      'kind',
-      'abbr',
-      'menu',
-    },
-    format = function(entry, vim_item)
-      vim_item.kind = string.format('%s', icons[vim_item.kind])
-      vim_item.menu = ({
-        nvim_lsp = 'lsp ',
-        luasnip = 'snip',
-        buffer = 'buff',
-        path = 'path',
-        cmdline = 'cmd ',
-        cmdline_history = 'hist',
-        nvim_lsp_document_symbol = 'sym ',
-        rg = 'rg  ',
-      })[entry.source.name]
-      return vim_item
-    end,
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-    { name = 'buffer' },
-    { name = 'path' },
-    { name = 'nvim_lsp_signature_help' },
-    {
-      name = 'rg',
-      keyword_length = 4,
-    },
-  },
-  confirm_opts = {
-    behavior = cmp.ConfirmBehavior.Replace,
-    select = false,
-  },
-  window = {
-    completion = {
-      border = 'none',
-    },
-    documentation = {
-      border = PREF.ui.border,
-    },
-  },
-  experimental = {
-    ghost_text = true,
-    native_menu = false,
-  },
-})
+  config = function()
+    local cmp = require('cmp')
+    local luasnip = require('luasnip')
+    local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+    cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+    require('luasnip/loaders/from_vscode').lazy_load()
+
+    cmp.setup({
+      snippet = {
+        expand = function(args)
+          luasnip.lsp_expand(args.body)
+        end,
+      },
+      mapping = {
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-x>'] = cmp.mapping(cmp.mapping.complete({}), { 'i', 'c' }),
+        ['<C-y>'] = cmp.config.disable,
+        ['<C-e>'] = cmp.mapping({
+          i = cmp.mapping.abort(),
+          c = cmp.mapping.close(),
+        }),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<Tab>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+          elseif luasnip.expandable() then
+            luasnip.expand({})
+          elseif luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
+          else
+            fallback()
+          end
+        end, { 'i', 's' }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif luasnip.jumpable(-1) then
+            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, { 'i', 's' }),
+      },
+      formatting = {
+        fields = {
+          'kind',
+          'abbr',
+          'menu',
+        },
+        format = function(entry, vim_item)
+          vim_item.kind = string.format('%s', icons[vim_item.kind])
+          vim_item.menu = ({
+            nvim_lsp = 'lsp ',
+            luasnip = 'snip',
+            buffer = 'buff',
+            path = 'path',
+            cmdline = 'cmd ',
+            cmdline_history = 'hist',
+            nvim_lsp_document_symbol = 'sym ',
+            rg = 'rg  ',
+          })[entry.source.name]
+          return vim_item
+        end,
+      },
+      sources = {
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
+        { name = 'buffer' },
+        { name = 'path' },
+        { name = 'nvim_lsp_signature_help' },
+        {
+          name = 'rg',
+          keyword_length = 4,
+        },
+      },
+      confirm_opts = {
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = false,
+      },
+      window = {
+        completion = {
+          border = 'none',
+        },
+        documentation = {
+          border = PREF.ui.border,
+        },
+      },
+      experimental = {
+        ghost_text = true,
+        native_menu = false,
+      },
+    })
+  end,
+}

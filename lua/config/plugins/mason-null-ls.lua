@@ -1,9 +1,10 @@
-local ok, mnl = pcall(require, 'mason-null-ls')
-
-if not ok then
-  return
-end
-
-mnl.setup({
-  automatic_installation = true,
-})
+return {
+  'jayp0521/mason-null-ls.nvim',
+  enabled = true,
+  config = function()
+    local mnls = require('mason-null-ls')
+    mnls.setup({
+      automatic_installation = true,
+    })
+  end,
+}
