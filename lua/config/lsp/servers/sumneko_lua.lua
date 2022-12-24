@@ -1,5 +1,3 @@
-require('neodev').setup({})
-
 local settings = {
   Lua = {
     diagnostics = {

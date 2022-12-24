@@ -1,11 +1,12 @@
-local ok, mason = pcall(require, 'mason')
-
-if not ok then
-  return
-end
-
-mason.setup({
-  ui = {
-    border = PREF.ui.border,
-  },
-})
+return {
+  'williamboman/mason.nvim',
+  enabled = true,
+  config = function()
+    local mason = require('mason')
+    mason.setup({
+      ui = {
+        border = PREF.ui.border,
+      },
+    })
+  end,
+}

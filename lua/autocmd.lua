@@ -32,12 +32,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
   end,
 })
 
--- Выполнить PackerSync при сохранении plugins.lua
-vim.api.nvim_create_autocmd(
-  'BufWritePost',
-  { pattern = 'plugins.lua', command = 'source <afile> | PackerSync' }
-)
-
 -- Автоформатирование при сохранении
 if PREF.lsp.format_on_save then
   vim.api.nvim_create_autocmd('BufWritePre', {

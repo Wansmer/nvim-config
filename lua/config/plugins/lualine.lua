@@ -1,8 +1,3 @@
-local status_ok, lualine = pcall(require, 'lualine')
-if not status_ok then
-  return
-end
-
 local function diff_source()
   local gitsigns = vim.b.gitsigns_status_dict
   if gitsigns then
@@ -154,4 +149,12 @@ local config = {
   },
 }
 
-lualine.setup(config)
+return {
+  'nvim-lualine/lualine.nvim',
+  enabled = true,
+  -- event = 'VeryLazy',
+  config = function()
+    local lualine = require('lualine')
+    lualine.setup(config)
+  end,
+}

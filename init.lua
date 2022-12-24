@@ -1,5 +1,3 @@
-pcall(require, 'impatient')
-
 require('user_settings')
 require('options')
 require('autocmd')

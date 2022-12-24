@@ -1,8 +1,3 @@
-local ok, tsj = pcall(require, 'treesj')
-if not ok then
-  return
-end
-
 local recursive = {
   split = {
     recursive = true,
@@ -33,4 +28,12 @@ local opts = {
 
 opts = PREF.dev_mode and {} or opts
 
-tsj.setup(opts)
+return {
+  'Wansmer/treesj',
+  keys = { '<leader>m' },
+  enabled = true,
+  config = function()
+    local tsj = require('treesj')
+    tsj.setup(opts)
+  end,
+}
