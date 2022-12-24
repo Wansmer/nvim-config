@@ -28,7 +28,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- Отключает автокомментирование новой строки
 vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
-    vim.opt.formatoptions = vim.opt.formatoptions - { 'c', 'r', 'o' }
+    vim.opt.formatoptions:remove({ 'c', 'r', 'o' })
   end,
 })
 
