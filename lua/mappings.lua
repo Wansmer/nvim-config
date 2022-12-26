@@ -31,28 +31,28 @@ end
 map('', '<Space>', '<Nop>')
 
 vim.g.mapleader = ' '
-vim.g.maplocalleader = ';'
+vim.g.maplocalleader = ','
 
 -- Перемещение по визуальным строкам как по логическим
 map('n', 'j', 'gj')
 map('n', 'k', 'gk')
 
--- jk как <ESC>
-map('i', PREF.common.escape_keys, '<ESC>')
+-- jk как <Esc>
+map('i', PREF.common.escape_keys, '<Esc>')
 
 -- закрыть nvim
-map('n', '<leader>q', ':qa<CR>')
+map('n', '<Leader>q', '<Cmd>qa<Cr>')
 
 -- терминальные клавиши (для использования в режиме INSERT)
-map({ 'i', 't', 'c' }, '<C-f>', '<Right>')
-map({ 'i', 't', 'c' }, '<C-b>', '<Left>')
-map({ 'i', 't', 'c' }, '<C-.>', '<S-Right>')
-map({ 'i', 't', 'c' }, '<C-,>', '<S-Left>')
+map({ 'i', 't' }, '<C-f>', '<Right>')
+map({ 'i', 't' }, '<C-b>', '<Left>')
+map({ 'i', 't' }, '<C-.>', '<S-Right>')
+map({ 'i', 't' }, '<C-,>', '<S-Left>')
 map({ 'i', 't' }, '<C-p>', '<Up>')
 map({ 'i', 't' }, '<C-n>', '<Down>')
-map({ 'i', 't', 'c' }, '<C-a>', '<Home>')
-map({ 'i', 't', 'c' }, '<C-e>', '<End>')
-map({ 'i', 't', 'c' }, '<C-d>', '<Delete>')
+map({ 'i', 't' }, '<C-a>', '<Home>')
+map({ 'i', 't' }, '<C-e>', '<End>')
+map({ 'i', 't' }, '<C-d>', '<Delete>')
 
 -- К первому не пробельному символу
 map('n', 'gh', 'g^')
@@ -62,10 +62,10 @@ map('n', 'gl', 'g_')
 map('x', 'gl', 'g_')
 
 -- Закрытие окна
-map('n', 'q', ':close<CR>')
+map('n', 'q', '<Cmd>close<Cr>')
 
 -- Открыть файл под курсором vsplit
-map('n', 'sg', ':vertical wincmd f<CR>')
+map('n', 'sg', '<Cmd>vertical wincmd f<Cr>')
 
 -- Передвижение по окнам
 map('n', '<C-h>', '<C-w>h')
@@ -74,62 +74,65 @@ map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 
 -- Поменять окна местами
-map('n', '<leader>r', '<C-w>x')
+map('n', '<Leader>r', '<C-w>x')
 
 -- К следующему буферу
-map('n', '<leader><Tab>', ':bn<CR>')
+map('n', '<Leader><Tab>', '<Cmd>bn<Cr>')
 -- К предыдущему буферу
-map('n', '<leader><S-Tab>', ':bp<CR>')
+map('n', '<Leader><S-Tab>', '<Cmd>bp<Cr>')
 
 -- Не копировать при удалении
-map('n', 'x', '"_x')
-map('x', 'x', '"_x')
+-- map('n', 'x', '"_x')
+-- map('x', 'x', '"_x')
+
+-- Поменять слово со словом справа местами
+map('n', '<Leader>s', 'dawea <Esc>px')
 
 -- Замена текста без копирования в клипборд
-map('x', 'p', '"_c<esc>p')
+map('x', 'p', '"_c<Esc>p')
 
 -- К парной скобке
-map('n', '<BS>', '%')
+-- map('n', '<Bs>', '%')
 
 -- Новая строка под курсором в любой позиции в режиме ввода
-map('i', '<S-CR>', '<C-o>o')
+map('i', '<S-Cr>', '<C-o>o')
 
 -- Добавить/убрать табуляцию
 map('x', '<', '<gv')
 map('x', '>', '>gv|')
-map('x', '<S-TAB>', '<gv')
-map('x', '<TAB>', '>gv|')
+map('x', '<S-Tab>', '<gv')
+map('x', '<Tab>', '>gv|')
 
 -- Сохранить изменения
-map('n', '<C-s>', '<esc><cmd>w<CR>')
-map('i', '<C-s>', '<esc><cmd>w<CR>')
-map('v', '<C-s>', '<esc><cmd>w<CR>')
-map('x', '<C-s>', '<esc><cmd>w<CR>')
+map('n', '<C-s>', '<Esc><Cmd>w<Cr>')
+map('i', '<C-s>', '<Esc><Cmd>w<Cr>')
+map('v', '<C-s>', '<Esc><Cmd>w<Cr>')
+map('x', '<C-s>', '<Esc><Cmd>w<Cr>')
 
 -- Перемещение строк вверх/вниз
-map('x', '<C-n>', ":move'>+<CR>gv=gv")
-map('x', '<C-p>', ":move'<-2<CR>gv=gv")
-map('n', '<C-n>', '<cmd>move+1<CR>==')
-map('n', '<C-p>', '<cmd>move-2<CR>==')
+map('x', '<C-n>', "<Cmd>move'>+<Cr>gv=gv")
+map('x', '<C-p>', "<Cmd>move'<-2<Cr>gv=gv")
+map('n', '<C-n>', '<Cmd>move+1<Cr>==')
+map('n', '<C-p>', '<Cmd>move-2<Cr>==')
 
 -- Дублировать строку под курсором
-map('n', '<leader>d', ':copy.<CR>')
-map('x', '<leader>d', ':copy.-1<CR>gv')
+map('n', '<Leader>d', '<Cmd>copy.<Cr>')
+map('x', '<Leader>d', '<Cmd>copy.-1<Cr>gv')
 
 -- Макросы
 map('n', 'Q', 'q')
 map('n', 'gQ', '@q')
 
 -- Показать/скрыть сообщения диагностики в signcolumn
-map('n', '<leader>td', toggle_diagnostics)
+map('n', '<Leader>td', toggle_diagnostics)
 
 -- Открыть файл настроек
-map('n', '<leader>cn', ':vert e ~/.config/nvim/init.lua<CR>')
+map('n', '<Leader>cn', '<Cmd>vert e ~/.config/nvim/init.lua<Cr>')
 
 -- Заменить значение слова на противоположное
-map('n', '<leader>i', require('modules.toggler').toggle_cword_at_cursor)
+map('n', '<Leader>i', require('modules.toggler').toggle_cword_at_cursor)
 
-map('n', '<C-->', ':vertical resize -2<CR>')
-map('n', '<C-=>', ':vertical resize +2<CR>')
+map('n', '<C-->', '<Cmd>vertical resize -2<Cr>')
+map('n', '<C-=>', '<Cmd>vertical resize +2<Cr>')
 
-map('n', '<localleader>e', ':NeoTreeFocusToggle <CR>')
+map('n', '<Localleader>e', '<Cmd>NeoTreeFocusToggle <Cr>')
