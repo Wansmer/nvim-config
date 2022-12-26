@@ -41,7 +41,6 @@ PREF = {
       'emmet_ls',
       'jsonls',
       'marksman',
-      'rust_analyzer',
     },
   },
 
