@@ -1,6 +1,13 @@
 return {
   'numToStr/Comment.nvim',
-  keys = { 'gc', 'gcc', 'gbc' },
+  keys = {
+    {
+      'gc',
+      mode = 'x',
+    },
+    'gcc',
+    'gbc',
+  },
   config = function()
     require('Comment').setup()
   end,

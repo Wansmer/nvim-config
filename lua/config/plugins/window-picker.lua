@@ -1,6 +1,6 @@
 return {
   's1n7ax/nvim-window-picker',
-  tag = 'v1.*',
+  -- tag = 'v1.*',
   enabled = true,
   config = function()
     local wp = require('window-picker')

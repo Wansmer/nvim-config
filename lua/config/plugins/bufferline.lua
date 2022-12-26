@@ -1,7 +1,7 @@
 return {
   'akinsho/bufferline.nvim',
   enabled = true,
-  tag = 'v3.*',
+  version = 'v3.*',
   event = 'BufReadPre',
   config = function()
     local bufferline = require('bufferline')

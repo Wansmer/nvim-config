@@ -11,6 +11,7 @@ return {
     '<localleader>;',
     '<localleader>s',
   },
+  cmd = 'Telescope',
   config = function()
     local telescope = require('telescope')
 

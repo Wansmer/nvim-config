@@ -1,6 +1,7 @@
 return {
   'rcarriga/nvim-notify',
   enabled = true,
+  event = 'VeryLazy',
   config = function()
     local notify = require('notify')
     local stages_util = require('notify.stages.util')

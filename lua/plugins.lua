@@ -15,8 +15,11 @@ end
 vim.opt.runtimepath:prepend(lazypath)
 
 require('lazy').setup(configs, {
+  defaults = {
+    lazy = false,
+  },
   install = {
-    colorscheme = { 'gruvbox-material', 'tokyonight', 'catppuccin', 'habamax' },
+    colorscheme = { PREF.ui.colorscheme, 'habamax' },
   },
   ui = { border = PREF.ui.border },
 })

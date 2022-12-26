@@ -152,7 +152,7 @@ local config = {
 return {
   'nvim-lualine/lualine.nvim',
   enabled = true,
-  -- event = 'VeryLazy',
+  lazy = false,
   config = function()
     local lualine = require('lualine')
     lualine.setup(config)
