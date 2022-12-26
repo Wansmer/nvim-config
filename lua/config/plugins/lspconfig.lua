@@ -3,12 +3,14 @@ return {
   event = 'BufReadPre',
   enabled = true,
   dependencies = {
+    'b0o/SchemaStore.nvim',
     'hrsh7th/cmp-nvim-lsp',
-    'dnlhc/glance.nvim',
-    'jose-elias-alvarez/null-ls.nvim',
     'williamboman/mason.nvim',
     'jayp0521/mason-null-ls.nvim',
+    'williamboman/mason-lspconfig.nvim',
+    'jose-elias-alvarez/null-ls.nvim',
     'j-hui/fidget.nvim',
+    'dnlhc/glance.nvim',
     {
       'folke/neodev.nvim',
       config = function()
