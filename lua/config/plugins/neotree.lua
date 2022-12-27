@@ -1,10 +1,8 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
   enabled = true,
-  cmd = 'NeoTreeFocusToggle',
-  -- keys = {
-  --   { '<localleader>e', '<CMD>NeoTreeFocusToggle <CR>' },
-  -- },
+  cmd = 'Neotree',
+  branch = 'main',
   dependencies = {
     { 'MunifTanjim/nui.nvim' },
     { 's1n7ax/nvim-window-picker' },
@@ -59,7 +57,7 @@ return {
         'filesystem',
         'git_status',
         -- TODO: delete when plugin author answer on issue: https://github.com/nvim-neo-tree/neo-tree.nvim/issues/643
-        'buffers',
+        -- 'buffers',
       },
       add_blank_line_at_top = true,
       popup_border_style = PREF.ui.border,

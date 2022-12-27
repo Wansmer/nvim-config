@@ -3,40 +3,6 @@ return {
   build = ':TSUpdate',
   event = 'BufReadPost',
   enabled = true,
-  dependencies = {
-    'p00f/nvim-ts-rainbow',
-    'windwp/nvim-ts-autotag',
-    'axelvc/template-string.nvim',
-    'Wansmer/sibling-swap.nvim',
-    {
-      'nvim-treesitter/playground',
-      cmd = 'TSPlaygroundToggle',
-    },
-    {
-      'axelvc/template-string.nvim',
-      enabled = true,
-      dependencies = { 'nvim-treesitter/nvim-treesitter' },
-      config = function()
-        local tstring = require('template-string')
-        tstring.setup({
-          filetypes = {
-            'typescript',
-            'javascript',
-            'typescriptreact',
-            'javascriptreact',
-            'vue',
-          },
-          jsx_brackets = true,
-          remove_template_string = false, -- remove backticks when there are no template string
-          restore_quotes = {
-            -- quotes used when "remove_template_string" option is enabled
-            normal = [[']],
-            jsx = [["]],
-          },
-        })
-      end,
-    },
-  },
   config = function()
     local configs = require('nvim-treesitter.configs')
     configs.setup({

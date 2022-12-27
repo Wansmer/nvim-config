@@ -1,5 +1,6 @@
 return {
   'williamboman/mason.nvim',
+  -- lazy = true,
   enabled = true,
   config = function()
     local mason = require('mason')

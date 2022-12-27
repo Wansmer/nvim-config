@@ -43,3 +43,12 @@ if PREF.lsp.format_on_save then
     end,
   })
 end
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'VeryLazy',
+  callback = function()
+    require('modules.key_listener')
+    require('modules.mode_nr')
+    require('modules.thincc')
+  end,
+})
