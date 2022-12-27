@@ -5,12 +5,6 @@ return {
   dependencies = {
     'b0o/SchemaStore.nvim',
     'hrsh7th/cmp-nvim-lsp',
-    'williamboman/mason.nvim',
-    'jayp0521/mason-null-ls.nvim',
-    'williamboman/mason-lspconfig.nvim',
-    'jose-elias-alvarez/null-ls.nvim',
-    'j-hui/fidget.nvim',
-    'dnlhc/glance.nvim',
     {
       'folke/neodev.nvim',
       config = function()

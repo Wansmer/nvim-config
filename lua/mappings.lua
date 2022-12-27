@@ -135,4 +135,4 @@ map('n', '<Leader>i', require('modules.toggler').toggle_cword_at_cursor)
 map('n', '<C-->', '<Cmd>vertical resize -2<Cr>')
 map('n', '<C-=>', '<Cmd>vertical resize +2<Cr>')
 
-map('n', '<Localleader>e', '<Cmd>NeoTreeFocusToggle <Cr>')
+map('n', '<Localleader>e', '<Cmd>Neotree focus toggle <Cr>')

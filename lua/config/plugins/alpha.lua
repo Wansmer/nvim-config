@@ -202,7 +202,7 @@ return {
         colored_btn(
           'e',
           '  Open explorer',
-          ':NeoTreeFocusToggle <CR>',
+          ':Neotree focus toggle <CR>',
           'Constant'
         ),
         colored_btn(
@@ -211,7 +211,7 @@ return {
           ':e ~/.config/nvim/init.lua <CR>',
           'Constant'
         ),
-        colored_btn('u', '  Update plugins', ':PackerSync<CR>', 'Constant'),
+        colored_btn('u', '  Update plugins', ':Lazy sync<CR>', 'Constant'),
         colored_btn('q', '  Quit', ':qa<CR>', 'Constant'),
       },
       position = 'center',

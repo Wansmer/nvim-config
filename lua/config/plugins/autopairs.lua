@@ -1,7 +1,7 @@
 return {
   'windwp/nvim-autopairs',
   enabled = true,
-  event = 'BufReadPre',
+  event = 'InsertEnter',
   config = function()
     local autopairs = require('nvim-autopairs')
     local Rule = require('nvim-autopairs.rule')

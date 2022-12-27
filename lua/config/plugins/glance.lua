@@ -1,5 +1,6 @@
 return {
   'dnlhc/glance.nvim',
+  event = 'LspAttach',
   enabled = true,
   config = function()
     local glance = require('glance')
