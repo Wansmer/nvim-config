@@ -30,7 +30,13 @@ local options = {
   sidescrolloff = 3,
   colorcolumn = tostring(textwidth),
   laststatus = 3,
-  fillchars = [[eob: ,foldsep: ,foldopen:,foldclose:]],
+  fillchars = {
+    eob = ' ',
+    fold = ' ',
+    foldclose = '',
+    foldopen = '',
+    foldsep = ' ',
+  },
   title = false,
 
   -- ==========================================================================
@@ -50,7 +56,7 @@ local options = {
   -- ==========================================================================
   -- Фолдинг | Folding
   -- ==========================================================================
-  foldcolumn = '1',
+  foldcolumn = '0',
   foldlevel = 99,
   foldlevelstart = 99,
   foldenable = true,
