@@ -30,6 +30,7 @@ return {
   'hrsh7th/nvim-cmp',
   enabled = true,
   event = 'InsertEnter',
+  keys = { ':', '/', '?' },
   dependencies = {
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-buffer',
@@ -114,7 +115,7 @@ return {
         { name = 'nvim_lsp_signature_help' },
         {
           name = 'rg',
-          keyword_length = 4,
+          keyword_length = 3,
         },
       },
       confirm_opts = {
@@ -133,6 +134,34 @@ return {
         ghost_text = true,
         native_menu = false,
       },
+    })
+
+    local cmd_mapping = {
+      ['<C-n>'] = function()
+        local key = vim.api.nvim_replace_termcodes('<Down>', true, true, true)
+        vim.api.nvim_feedkeys(key, 'c', true)
+      end,
+      ['<C-p>'] = function()
+        local key = vim.api.nvim_replace_termcodes('<Up>', true, true, true)
+        vim.api.nvim_feedkeys(key, 'c', true)
+      end,
+    }
+
+    -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+    cmp.setup.cmdline({ '/', '?' }, {
+      mapping = cmp.mapping.preset.cmdline(cmd_mapping),
+      sources = {
+        { name = 'buffer' },
+      },
+    })
+
+    -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+    cmp.setup.cmdline(':', {
+      mapping = cmp.mapping.preset.cmdline(cmd_mapping),
+      sources = cmp.config.sources(
+        { { name = 'path' } },
+        { { name = 'cmdline' } }
+      ),
     })
   end,
 }
