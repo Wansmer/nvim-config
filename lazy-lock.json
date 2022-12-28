@@ -4,7 +4,6 @@
   "SchemaStore.nvim": { "branch": "main", "commit": "f36196d7044da6abf13ed3abf824fd5f3625f35d" },
   "alpha-nvim": { "branch": "main", "commit": "21a0f2520ad3a7c32c0822f943368dc063a569fb" },
   "bufferline.nvim": { "branch": "main", "commit": "028a87933d99f8bb88f2f70a4def3ff9574f3594" },
-  "catppuccin": { "branch": "main", "commit": "55f43a952856bc0029e6cef066297c6cfab3451d" },
   "cmp-buffer": { "branch": "main", "commit": "3022dbc9166796b644a841a02de8dd1cc1d311fa" },
   "cmp-cmdline": { "branch": "main", "commit": "23c51b2a3c00f6abc4e922dbd7c3b9aca6992063" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "59224771f91b86d1de12570b4070fe4ad7cd1eeb" },
@@ -50,5 +49,7 @@
   "template-string.nvim": { "branch": "main", "commit": "fa94fd309f511ac19bcba0b4390104520f07a08d" },
   "toggleterm.nvim": { "branch": "main", "commit": "b02a1674bd0010d7982b056fd3df4f717ff8a57a" },
   "treesj": { "branch": "main", "commit": "8853418ad35abc35475131fa289bc8f3d704a1fa" },
-  "vim-illuminate": { "branch": "master", "commit": "a6d0b28ea7d6b9d139374be1f94a16bd120fcda3" }
+  "vim-illuminate": { "branch": "master", "commit": "a6d0b28ea7d6b9d139374be1f94a16bd120fcda3" },
+  "vscode.nvim": { "branch": "main", "commit": "05725b48418cbd6f223e45a114c7a19d0c683fce" },
+  "zen-mode.nvim": { "branch": "main", "commit": "6f5702db4fd4a4c9a212f8de3b7b982f3d93b03c" }
 }
