@@ -21,4 +21,9 @@ return {
     lazy = false,
     enabled = PREF.ui.colorscheme == 'gruvbox-material',
   },
+  {
+    'Mofiqul/vscode.nvim',
+    lazy = false,
+    enabled = PREF.ui.colorscheme == 'vscode',
+  },
 }
