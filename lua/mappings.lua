@@ -104,20 +104,22 @@ map('x', '<S-Tab>', '<gv')
 map('x', '<Tab>', '>gv|')
 
 -- Сохранить изменения
-map('n', '<C-s>', '<Esc><Cmd>w<Cr>')
-map('i', '<C-s>', '<Esc><Cmd>w<Cr>')
-map('v', '<C-s>', '<Esc><Cmd>w<Cr>')
-map('x', '<C-s>', '<Esc><Cmd>w<Cr>')
+map('n', '<C-s>', '<Esc><Cmd>up<Cr>')
+map('i', '<C-s>', '<Esc><Cmd>up<Cr>')
+map('v', '<C-s>', '<Esc><Cmd>up<Cr>')
+map('x', '<C-s>', '<Esc><Cmd>up<Cr>')
 
 -- Перемещение строк вверх/вниз
-map('x', '<C-n>', "<Cmd>move'>+<Cr>gv=gv")
-map('x', '<C-p>', "<Cmd>move'<-2<Cr>gv=gv")
 map('n', '<C-n>', '<Cmd>move+1<Cr>==')
 map('n', '<C-p>', '<Cmd>move-2<Cr>==')
+-- ВАЖНО: использовать : вместо <Cmd>
+map('x', '<C-n>', ":move'>+<Cr>gv=gv")
+map('x', '<C-p>', ":move'<-2<Cr>gv=gv")
 
 -- Дублировать строку под курсором
 map('n', '<Leader>d', '<Cmd>copy.<Cr>')
-map('x', '<Leader>d', '<Cmd>copy.-1<Cr>gv')
+-- ВАЖНО: использовать : вместо <Cmd>
+map('x', '<Leader>d', ':copy.-1<Cr>gv')
 
 -- Макросы
 map('n', 'Q', 'q')
@@ -136,3 +138,7 @@ map('n', '<C-->', '<Cmd>vertical resize -2<Cr>')
 map('n', '<C-=>', '<Cmd>vertical resize +2<Cr>')
 
 map('n', '<Localleader>e', '<Cmd>Neotree focus toggle <Cr>')
+
+map('n', 'tsp', function()
+  vim.treesitter.show_tree({ command = 'botright 60vnew' })
+end)
