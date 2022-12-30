@@ -1,8 +1,8 @@
 return {
   'Wansmer/langmapper',
-  dir = '~/projects/code/personal/langmapper',
+  -- dir = '~/projects/code/personal/langmapper',
   enabled = true,
-  dev = true,
+  dev = false,
   lazy = false,
   priority = 2,
   config = function()
