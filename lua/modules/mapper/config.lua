@@ -1,6 +1,8 @@
 local M = {}
 
 M.config = {
+  ---@type table|nil
+  default_map_arguments = nil,
   ---@type string
   default_layout = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz,.',
   ---@type table
@@ -15,7 +17,7 @@ M.config = {
     Darwin = {
       ---Should return string with id of layouts
       ---@return string
-      get_current_layout = function()
+      get_current_layout_id = function()
         local keyboar_key = '"KeyboardLayout Name"'
         local cmd = 'defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleSelectedInputSources | rg -w '
           .. keyboar_key

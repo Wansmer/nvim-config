@@ -21,19 +21,17 @@ end
 ---@param mode string|table Same mode short names as |nvim_set_keymap()|
 ---@param lhs string Left-hand side |{lhs}| of the mapping.
 ---@param rhs string|function Right-hand side |{rhs}| of the mapping. Can also be a Lua function.
----@param opts table|nil
+---@param opts table|nil A table of |:map-arguments|.
 function M.map(mode, lhs, rhs, opts)
-  opts = opts or nil
+  opts = opts or config.default_map_arguments
+
   -- Default mapping
   map(mode, lhs, rhs, opts)
+
   -- Translate mapping for each langs in config.use_layouts
   for _, lang in ipairs(config.config.use_layouts) do
-    map(
-      mode,
-      u.translate_keycode(lhs, config.config.layouts[lang].layout),
-      rhs,
-      opts
-    )
+    local tr_lhs = u.translate_keycode(lhs, config.config.layouts[lang].layout)
+    map(mode, tr_lhs, rhs, opts)
   end
 end
 

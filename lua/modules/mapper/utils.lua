@@ -66,31 +66,27 @@ function M.set_ctrl()
 end
 
 function M.system_remap()
-  -- local os = vim.loop.os_uname()
-  local function get_current_layout()
-    local keyboar_key = '"KeyboardLayout Name"'
-    local cmd = 'defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleSelectedInputSources | rg -w '
-      .. keyboar_key
-    local output = vim.fn.system(cmd)
-    local cur_layout =
-      vim.trim(output:match('%"KeyboardLayout Name%" = (%a+);'))
-    return cur_layout
-  end
+  local os = vim.loop.os_uname().sysname
 
-  local function feed_system(keycode)
-    return function()
-      local layout = get_current_layout()
-      -- TODO:
-      if layout == config.layouts.ru.id then
-        vim.api.nvim_feedkeys(keycode, 'n', true)
+  local get_current_layout = config.os[os]
+      and config.os[os].get_current_layout_id
+    or nil
+
+  if get_current_layout then
+    local function feed_system(keycode, layout_id)
+      return function()
+        local layout = get_current_layout()
+        if layout == layout_id then
+          vim.api.nvim_feedkeys(keycode, 'n', true)
+        end
       end
     end
-  end
 
-  for lang, preset in pairs(config.system_remap) do
-    if vim.tbl_contains(config.use_layouts, lang) then
-      for key, remap in pairs(preset) do
-        vim.keymap.set('n', remap, feed_system(key))
+    for lang, preset in pairs(config.system_remap) do
+      if vim.tbl_contains(config.use_layouts, lang) then
+        for key, remap in pairs(preset) do
+          vim.keymap.set('n', remap, feed_system(key, config.layouts[lang].id))
+        end
       end
     end
   end
