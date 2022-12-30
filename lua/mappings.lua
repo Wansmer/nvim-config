@@ -1,21 +1,4 @@
-local function map(mode, new_keys, to_do, options)
-  local keymap = vim.keymap.set
-  local default_options = {
-    noremap = true,
-    silent = true,
-    expr = false,
-  }
-
-  if options then
-    default_options = vim.tbl_deep_extend('force', default_options, options)
-  end
-
-  local ok, _ = pcall(keymap, mode, new_keys, to_do, default_options)
-  if not ok then
-    local msg = 'Fail to mapping ' .. new_keys .. ' for ' .. to_do
-    vim.notify(msg, vim.log.levels.ERROR, { title = 'Keymap' })
-  end
-end
+local map = require('langmapper').map
 
 local function toggle_diagnostics()
   local state = PREF.lsp.show_diagnostic
@@ -26,12 +9,6 @@ local function toggle_diagnostics()
   end
   vim.diagnostic.enable()
 end
-
--- Установка лидера
-map('', '<Space>', '<Nop>')
-
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ','
 
 -- Перемещение по визуальным строкам как по логическим
 map('n', 'j', 'gj')

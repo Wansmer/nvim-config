@@ -4,6 +4,8 @@ return {
   keys = {
     '<C-.>',
     '<C-,>',
+    '<C-ю>',
+    '<C-б>',
   },
   dependencies = {
     'nvim-treesitter/nvim-treesitter',
@@ -12,10 +14,12 @@ return {
     require('sibling-swap').setup({
       use_default_keymaps = true,
       keymaps = {
-        ['<space>.'] = 'swap_with_right',
-        ['<space>,'] = 'swap_with_left',
+        ['<Leader>.'] = 'swap_with_right',
+        ['<Leader>,'] = 'swap_with_left',
         ['<C-.>'] = 'swap_with_right_with_opp',
         ['<C-,>'] = 'swap_with_left_with_opp',
+        ['<C-ю>'] = 'swap_with_right_with_opp',
+        ['<C-б>'] = 'swap_with_left_with_opp',
       },
     })
   end,

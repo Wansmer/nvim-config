@@ -3,6 +3,7 @@ return {
   enabled = true,
   -- ft = { 'lua', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
   cmd = 'Neogen',
+  keys = { '<localleader>a', 'бф' },
   config = function()
     local neogen = require('neogen')
     neogen.setup({

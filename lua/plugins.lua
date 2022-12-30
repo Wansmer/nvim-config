@@ -22,6 +22,9 @@ require('lazy').setup(configs, {
     colorscheme = { PREF.ui.colorscheme },
   },
   ui = { border = PREF.ui.border },
+  dev = {
+    path = "~/projects/code/personal",
+  },
   performance = {
     rtp = {
       disabled_plugins = {

@@ -1,16 +1,17 @@
 return {
   'nvim-telescope/telescope.nvim',
   enabled = true,
-  keys = {
-    '<localleader>f',
-    '<localleader>g',
-    '<localleader>b',
-    '<localleader>d',
-    '<localleader>o',
-    '<localleader>n',
-    '<localleader>;',
-    '<localleader>s',
-  },
+  event = 'VeryLazy',
+  -- keys = {
+  --   '<localleader>f',
+  --   '<localleader>g',
+  --   '<localleader>b',
+  --   '<localleader>d',
+  --   '<localleader>o',
+  --   '<localleader>n',
+  --   '<localleader>;',
+  --   '<localleader>s',
+  -- },
   cmd = 'Telescope',
   config = function()
     local telescope = require('telescope')
@@ -33,7 +34,8 @@ return {
       },
     })
 
-    local map = vim.keymap.set
+    -- local map = vim.keymap.set
+    local map = require('langmapper').map
     local builtin = require('telescope.builtin')
 
     map('n', '<localleader>f', builtin.find_files)
