@@ -4,7 +4,7 @@ local glance_ok, _ = pcall(require, 'glance')
 local M = {}
 
 -- local map = vim.keymap.set
-local map = require('modules.mapper').map
+local map = require('langmapper').map
 
 M.set_keymap = function()
   -- Общие привязки клавиш

@@ -1,5 +1,3 @@
-local mapper = require('modules.mapper.utils')
-
 return {
   'nvim-neo-tree/neo-tree.nvim',
   enabled = true,
@@ -8,8 +6,19 @@ return {
   dependencies = {
     { 'MunifTanjim/nui.nvim' },
     { 's1n7ax/nvim-window-picker' },
+    {
+      dir = '~/projects/code/personal/langmapper',
+      dev = true,
+    },
   },
   config = function()
+    local mapper = require('langmapper.utils')
+    if not mapper then
+      mapper = {}
+      mapper.trans_dict = function (tbl)
+        return tbl
+      end
+    end
     local neotree = require('neo-tree')
     local fs_commands = require('neo-tree/sources/filesystem/commands')
 

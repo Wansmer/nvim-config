@@ -1,6 +1,4 @@
-local mapper = require('modules.mapper')
-mapper.setup()
-local map = mapper.map
+local map = require('langmapper').map
 
 local function toggle_diagnostics()
   local state = PREF.lsp.show_diagnostic
@@ -11,12 +9,6 @@ local function toggle_diagnostics()
   end
   vim.diagnostic.enable()
 end
-
--- Установка лидера
-map('', '<Space>', '<Nop>')
-
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ','
 
 -- Перемещение по визуальным строкам как по логическим
 map('n', 'j', 'gj')
