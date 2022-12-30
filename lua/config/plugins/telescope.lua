@@ -33,7 +33,8 @@ return {
       },
     })
 
-    local map = vim.keymap.set
+    -- local map = vim.keymap.set
+    local map = require('modules.mapper').map
     local builtin = require('telescope.builtin')
 
     map('n', '<localleader>f', builtin.find_files)

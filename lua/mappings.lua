@@ -1,21 +1,6 @@
-local function map(mode, new_keys, to_do, options)
-  local keymap = vim.keymap.set
-  local default_options = {
-    noremap = true,
-    silent = true,
-    expr = false,
-  }
-
-  if options then
-    default_options = vim.tbl_deep_extend('force', default_options, options)
-  end
-
-  local ok, _ = pcall(keymap, mode, new_keys, to_do, default_options)
-  if not ok then
-    local msg = 'Fail to mapping ' .. new_keys .. ' for ' .. to_do
-    vim.notify(msg, vim.log.levels.ERROR, { title = 'Keymap' })
-  end
-end
+local mapper = require('modules.mapper')
+mapper.setup()
+local map = mapper.map
 
 local function toggle_diagnostics()
   local state = PREF.lsp.show_diagnostic

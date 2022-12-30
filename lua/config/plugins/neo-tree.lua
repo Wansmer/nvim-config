@@ -1,3 +1,5 @@
+local mapper = require('modules.mapper')
+
 return {
   'nvim-neo-tree/neo-tree.nvim',
   enabled = true,
@@ -20,7 +22,7 @@ return {
       fs_commands.set_root(state)
     end
 
-    local window_mappings = {
+    local window_mappings = mapper.trans_dict({
       ['o'] = 'open',
       ['l'] = 'open_with_window_picker',
       ['sg'] = 'split_with_window_picker',
@@ -41,9 +43,9 @@ return {
       ['?'] = 'show_help',
       ['<S-TAB>'] = 'prev_source',
       ['<TAB>'] = 'next_source',
-    }
+    })
 
-    local fs_mappings = {
+    local fs_mappings = mapper.trans_dict({
       ['-'] = 'navigate_up',
       ['.'] = 'toggle_hidden',
       ['<cr>'] = cd_or_open,
@@ -51,7 +53,8 @@ return {
       ['D'] = 'fuzzy_finder_directory',
       ['f'] = 'filter_on_submit',
       ['<c-x>'] = 'clear_filter',
-    }
+    })
+
     neotree.setup({
       sources = {
         'filesystem',
