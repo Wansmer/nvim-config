@@ -1,4 +1,4 @@
-local mapper = require('modules.mapper')
+local mapper = require('modules.mapper.utils')
 
 return {
   'nvim-neo-tree/neo-tree.nvim',
