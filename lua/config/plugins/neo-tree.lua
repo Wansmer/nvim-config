@@ -6,16 +6,12 @@ return {
   dependencies = {
     { 'MunifTanjim/nui.nvim' },
     { 's1n7ax/nvim-window-picker' },
-    {
-      dir = '~/projects/code/personal/langmapper',
-      dev = true,
-    },
   },
   config = function()
     local mapper = require('langmapper.utils')
     if not mapper then
       mapper = {}
-      mapper.trans_dict = function (tbl)
+      mapper.trans_dict = function(tbl)
         return tbl
       end
     end
