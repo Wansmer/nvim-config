@@ -16,7 +16,7 @@ local options = {
   -- Визуальное оформление | UI
   -- ==========================================================================
   number = true,
-  relativenumber = false,
+  relativenumber = true,
   termguicolors = true,
   showmode = false,
   showcmd = false,

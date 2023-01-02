@@ -23,7 +23,7 @@ require('lazy').setup(configs, {
   },
   ui = { border = PREF.ui.border },
   dev = {
-    path = "~/projects/code/personal",
+    path = '~/projects/code/personal',
   },
   performance = {
     rtp = {
