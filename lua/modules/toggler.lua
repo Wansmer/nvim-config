@@ -5,6 +5,7 @@
 -- (if the opposite word longer when current word,
 -- the tail of opposite will be the same case as the last char case of current)
 
+local u = require('utils')
 local M = {}
 
 ---Every key and value should be in lowercase
@@ -23,13 +24,6 @@ local opposites = vim.tbl_add_reverse_lookup({
   ['!=='] = '===',
 })
 
----Checking if the string in lowercase
----@param str string
----@return boolean
-local function is_lower(str)
-  return str == string.lower(str)
-end
-
 ---Convert string's chars to same case like base string
 ---If base string length less than target string, other chars will convert to case
 ---like last char in base string.
@@ -41,7 +35,7 @@ local function to_same_register(base, str)
   local target_list = vim.split(str, '', { plain = true })
 
   for i, ch in ipairs(target_list) do
-    local lower = is_lower(base_list[i] or base_list[#base_list])
+    local lower = u.is_lower(base_list[i] or base_list[#base_list])
     target_list[i] = lower and string.lower(ch) or string.upper(ch)
   end
 
