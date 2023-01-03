@@ -1,6 +1,7 @@
 return {
   'stevearc/dressing.nvim',
   enabled = true,
+  event = 'VeryLazy',
   config = function()
     local dressing = require('dressing')
     dressing.setup({
