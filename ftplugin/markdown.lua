@@ -20,7 +20,7 @@ end
 
 ---Adding list prefix to new line if func called on md-list (ol, ul, quote)
 ---@param cmd string Command to feed
-local function conrinue_list_if_need(cmd)
+local function continue_list_if_need(cmd)
   local line = vim.api.nvim_get_current_line()
   local prefix = is_md_list(line)
 
@@ -39,17 +39,17 @@ end
 local map = vim.keymap.set
 
 map('n', 'o', function()
-  conrinue_list_if_need('o')
+  continue_list_if_need('o')
 end)
 
 map('n', 'O', function()
-  conrinue_list_if_need('O')
+  continue_list_if_need('O')
 end)
 
 map('i', '<S-Cr>', function()
-  conrinue_list_if_need('<C-o>o')
+  continue_list_if_need('<C-o>o')
 end)
 
 map('i', '<Cr>', function()
-  conrinue_list_if_need('<C-o>o')
+  continue_list_if_need('<C-o>o')
 end)
