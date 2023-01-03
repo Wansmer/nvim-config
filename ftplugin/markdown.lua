@@ -79,7 +79,6 @@ local map = vim.keymap.set
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*.md',
   callback = function()
-    print('Md')
     local buffer = vim.api.nvim_get_current_buf()
     map('n', 'o', function()
       continue_list_if_need('o')
