@@ -93,7 +93,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     end, { buffer = buffer })
 
     map('i', '<Cr>', function()
-      continue_list_if_need('<C-o>o')
+      continue_list_if_need('<Cr>')
     end, { buffer = buffer })
   end,
 })

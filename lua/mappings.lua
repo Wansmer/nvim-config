@@ -11,8 +11,8 @@ local function toggle_diagnostics()
 end
 
 -- Перемещение по визуальным строкам как по логическим
--- map('n', 'j', 'gj')
--- map('n', 'k', 'gk')
+map('n', 'j', 'gj')
+map('n', 'k', 'gk')
 
 -- jk как <Esc>
 map('i', PREF.common.escape_keys, '<Esc>')
