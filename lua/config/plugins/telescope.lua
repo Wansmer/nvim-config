@@ -2,16 +2,6 @@ return {
   'nvim-telescope/telescope.nvim',
   enabled = true,
   event = 'VeryLazy',
-  -- keys = {
-  --   '<localleader>f',
-  --   '<localleader>g',
-  --   '<localleader>b',
-  --   '<localleader>d',
-  --   '<localleader>o',
-  --   '<localleader>n',
-  --   '<localleader>;',
-  --   '<localleader>s',
-  -- },
   cmd = 'Telescope',
   config = function()
     local telescope = require('telescope')

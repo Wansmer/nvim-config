@@ -31,6 +31,8 @@ opts = PREF.dev_mode and {} or opts
 return {
   'Wansmer/treesj',
   keys = { '<leader>m' },
+  dir = '~/projects/code/personal/treesj',
+  dev = true,
   enabled = true,
   config = function()
     local tsj = require('treesj')

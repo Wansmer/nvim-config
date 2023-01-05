@@ -3,9 +3,8 @@ return {
   enabled = true,
   lazy = false,
   config = function()
-    local alpha = require('alpha')
-
     -- Основано на https://github.com/goolord/alpha-nvim/discussions/16#discussioncomment-1927405
+    local alpha = require('alpha')
     local path = require('plenary.path')
 
     local dashboard = require('alpha.themes.dashboard')

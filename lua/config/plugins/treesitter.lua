@@ -1,6 +1,8 @@
 return {
   'nvim-treesitter/nvim-treesitter',
-  build = ':TSUpdate',
+  build = function()
+    require('nvim-treesitter.install').update({ with_sync = true })
+  end,
   event = 'BufReadPost',
   enabled = true,
   config = function()
@@ -28,13 +30,6 @@ return {
       -- Autotag 'windwp/nvim-ts-autotag'
       autotag = {
         enable = true,
-      },
-
-      -- Rainbow 'p00f/nvim-ts-rainbow'
-      rainbow = {
-        enable = true,
-        extended_mode = true,
-        max_file_lines = nil,
       },
 
       -- playground

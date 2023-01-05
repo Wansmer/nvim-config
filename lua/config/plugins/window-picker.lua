@@ -1,13 +1,14 @@
 return {
   's1n7ax/nvim-window-picker',
-  -- tag = 'v1.*',
+  version = 'v1.*',
   enabled = true,
   config = function()
     local wp = require('window-picker')
 
     wp.setup({
       autoselect_one = true,
-      include_current = false,
+      include_current_win = false,
+      show_prompt = false,
       filter_rules = {
         bo = {
           filetype = {
