@@ -15,7 +15,7 @@ map('n', 'j', 'gj')
 map('n', 'k', 'gk')
 
 -- jk как <Esc>
-map('i', PREF.common.escape_keys, '<Esc>')
+vim.keymap.set('i', PREF.common.escape_keys, '<Esc>')
 
 -- закрыть nvim
 map('n', '<Leader>q', '<Cmd>qa<Cr>')
@@ -25,6 +25,8 @@ map({ 'i', 't' }, '<C-f>', '<Right>')
 map({ 'i', 't' }, '<C-b>', '<Left>')
 map({ 'i', 't' }, '<C-.>', '<S-Right>')
 map({ 'i', 't' }, '<C-,>', '<S-Left>')
+map({ 'i' }, '<C-ю>', '<S-Right>')
+map({ 'i' }, '<C-б>', '<S-Left>')
 map({ 'i', 't' }, '<C-p>', '<Up>')
 map({ 'i', 't' }, '<C-n>', '<Down>')
 map({ 'i', 't' }, '<C-a>', '<Home>')
