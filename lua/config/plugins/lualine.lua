@@ -9,6 +9,20 @@ local function diff_source()
   end
 end
 
+-- local function current_layout()
+--   local cmd =
+--     'defaults read-type ~/Library/Preferences/com.apple.HIToolbox.plist AppleCurrentKeyboardLayoutInputSourceID'
+--
+--   local output = vim.split(vim.trim(vim.fn.system(cmd)), '\n')
+--
+--   local layouts = {
+--     ['com.apple.keylayout.RussianWin'] = 'Ru',
+--     ['com.apple.keylayout.ABC'] = 'En',
+--   }
+--
+--   return layouts[output[#output]]
+-- end
+
 local function lsp_list()
   local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
 
@@ -111,7 +125,11 @@ local config = {
   },
   sections = {
     lualine_a = { filename },
-    lualine_b = { branch, diff },
+    lualine_b = {
+      branch,
+      diff,
+      -- current_layout,
+    },
     lualine_c = {
       { '%=', separator = '' },
       lsp_servers,
