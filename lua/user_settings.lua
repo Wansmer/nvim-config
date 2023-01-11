@@ -27,7 +27,7 @@ PREF = {
 
     -- использовать take_over_mode для проектов vue3
     -- настройка отключает отдельный tsserver и использует volar для .ts, .js и т.д.
-    tom_enable = true,
+    tom_enable = false,
 
     -- (!)серверы, которые будут установлены по по умолчанию
     -- если сервер требует доп.настроек, то нужно поместить одноименный файл с настройками
@@ -41,13 +41,14 @@ PREF = {
       'emmet_ls',
       'jsonls',
       'marksman',
+      'ltex',
     },
   },
 
   ui = {
     -- (!) список поддерживаемых тем: lua/config/colorscheme/init.lua
     ---@type 'tundra'|'tokyonight'|'catppuccin'|'kanagawa'|'gruvbox-material'|'nord'
-    colorscheme = 'gruvbox-material',
+    colorscheme = 'tokyonight',
 
     -- Вид бордера для всплывающих окон. Может быть строкой или таблицей
     border = 'single',
