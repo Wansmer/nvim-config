@@ -62,5 +62,13 @@ vim.api.nvim_create_autocmd('User', {
     require('modules.key_listener')
     require('modules.mode_nr')
     require('modules.thincc')
+    require('usercmd')
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  callback = function()
+    vim.bo.shiftwidth = 80
   end,
 })
