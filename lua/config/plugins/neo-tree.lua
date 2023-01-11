@@ -101,7 +101,7 @@ return {
           hide_by_name = { '.DS_Store', 'node_modules' },
         },
         follow_current_file = true,
-        group_empty_dirs = true,
+        group_empty_dirs = false,
         use_libuv_file_watcher = true,
         window = {
           mappings = fs_mappings,
