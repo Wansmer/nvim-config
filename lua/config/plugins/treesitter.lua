@@ -32,6 +32,11 @@ return {
         enable = true,
       },
 
+      matchup = {
+        enable = true,
+        disable = {},
+      },
+
       -- playground
       playground = {
         enable = true,
