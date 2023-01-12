@@ -72,3 +72,10 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.bo.shiftwidth = 80
   end,
 })
+
+-- vim.api.nvim_create_autocmd('User', {
+--   pattern = { 'WatcherChangedFile', 'WatcherCreatedFile', 'WatcherDeletedFile' },
+--   callback = function(data)
+--     vim.pretty_print(data)
+--   end
+-- })

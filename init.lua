@@ -9,26 +9,10 @@ require('mappings')
 require('autocmd')
 require('config.colorscheme')
 
--- TODO: перенести в отдельный модуль
-local w = vim.loop.new_fs_event()
-if w then
-  local CWD = vim.loop.cwd() .. '/'
+local watcher = require('modules.watcher').new()
 
-  local Watcher = {}
+watcher:on_every_event(function()
+  vim.cmd.checktime()
+end)
 
-  local wrapper = vim.schedule_wrap(function(...)
-    Watcher.on_change(...)
-  end)
-
-  Watcher.on_change = function(err, fname, status)
-    vim.cmd.checktime()
-    w:stop()
-    Watcher.watch_file(CWD, wrapper)
-  end
-
-  Watcher.watch_file = function(path, cb)
-    w:start(path, {}, cb)
-  end
-
-  Watcher.watch_file(CWD, wrapper)
-end
+watcher:watch()
