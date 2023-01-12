@@ -21,6 +21,33 @@ local function scandir(path, prefix, tree, ignore)
   end
 end
 
+local function detect_event(fname, fullpath, tree)
+  local is_exist = vim.loop.fs_stat(fullpath)
+  local is_watched = vim.tbl_contains(tree, fname)
+
+  local event_name = 'unknown'
+  local is_changed = is_watched and is_exist
+  local is_deleted = is_watched and not is_exist
+  local is_created = not is_watched
+
+  if is_changed then
+    event_name = 'change'
+  elseif is_created then
+    event_name = 'create'
+  elseif is_deleted then
+    event_name = 'delete'
+  end
+
+  return event_name
+end
+
+local AUTOCMD = {
+  ['change'] = 'User WatcherChangedFile',
+  ['create'] = 'User WatcherCreatedFile',
+  ['delete'] = 'User WatcherDeletedFile',
+  ['rename'] = 'User WatcherRenamedFile', -- no implement. TODO: find how to detect renaming
+}
+
 local Watcher = {}
 Watcher.__index = Watcher
 
@@ -38,43 +65,72 @@ Watcher.new = function(path, opts, ignore)
     _tree = tree,
     _ignore = ignore,
     _w = nil,
-    _on_add = {},
+    _on_create = {},
     _on_delete = {},
     _on_change = {},
     _on_every = {},
   }, Watcher)
 end
 
-function Watcher:restart()
-  self._w:stop()
-  self._w:start(
-    self._path,
-    self._opts,
-    vim.schedule_wrap(function(...)
-      self:on_change(...)
-    end)
-  )
-end
-
-function Watcher:remove_file(fname)
+function Watcher:_remove_file(fname)
   self._tree = vim.tbl_filter(function(name)
     return name ~= fname
   end, self._tree)
 end
 
-function Watcher:add_file(fname)
+function Watcher:_add_file(fname)
   table.insert(self._tree, fname)
 end
 
-function Watcher:on_file_add(cbs)
-  if type(cbs) == 'table' then
-    vim.list_extend(self._on_add, cbs)
-  elseif type(cbs) == 'function' then
-    table.insert(self._on_add, cbs)
+function Watcher:_update_file_tree(event, fname)
+  if event == 'create' then
+    self:_add_file(fname)
+  elseif event == 'delete' then
+    self:_remove_file(fname)
   end
 end
 
-function Watcher:on_file_delete(cbs)
+function Watcher:_on_event(err, fname, status)
+  if err then
+    local msg = err .. '. Try to restart watcher for ' .. self._path
+    vim.notify(msg, vim.log.levels.ERROR, { title = 'Watcher: ' })
+  end
+
+  if not u.some(self._ignore, match(fname)) then
+    local fullpath = self._path .. fname
+
+    local event = detect_event(fname, fullpath, self._tree)
+    local autocmd = AUTOCMD[event]
+
+    if autocmd then
+      local cbs = vim.list_extend(self['_on_' .. event], self._on_every)
+
+      vim.cmd.doautocmd(autocmd)
+
+      for _, cb in ipairs(cbs) do
+        cb(fname, fullpath, event, status)
+      end
+
+      self:_update_file_tree(event, fname)
+    end
+
+    self:restart()
+  end
+end
+
+function Watcher:print_tree()
+  vim.pretty_print(self._tree)
+end
+
+function Watcher:on_create(cbs)
+  if type(cbs) == 'table' then
+    vim.list_extend(self._on_create, cbs)
+  elseif type(cbs) == 'function' then
+    table.insert(self._on_create, cbs)
+  end
+end
+
+function Watcher:on_delete(cbs)
   if type(cbs) == 'table' then
     vim.list_extend(self._on_delete, cbs)
   elseif type(cbs) == 'function' then
@@ -82,7 +138,7 @@ function Watcher:on_file_delete(cbs)
   end
 end
 
-function Watcher:on_file_change(cbs)
+function Watcher:on_change(cbs)
   if type(cbs) == 'table' then
     vim.list_extend(self._on_change, cbs)
   elseif type(cbs) == 'function' then
@@ -90,7 +146,7 @@ function Watcher:on_file_change(cbs)
   end
 end
 
-function Watcher:on_every_event(cbs)
+function Watcher:on_any(cbs)
   if type(cbs) == 'table' then
     vim.list_extend(self._on_every, cbs)
   elseif type(cbs) == 'function' then
@@ -98,49 +154,7 @@ function Watcher:on_every_event(cbs)
   end
 end
 
-function Watcher:on_change(err, fname, status)
-  if err then
-    local msg = err .. '. Try to restart watcher for ' .. self._path
-    vim.notify(msg, vim.log.levels.WARN, { title = 'Watcher: ' })
-    self:restart()
-    return
-  end
-
-  if not u.some(self._ignore, match(fname)) then
-    local fullpath = self._path .. fname
-
-    local is_exist = vim.loop.fs_stat(fullpath)
-    local is_watched = vim.tbl_contains(self._tree, fname)
-    local is_changed = is_watched and is_exist
-    local is_created = not is_watched
-    local is_deleted = is_watched and not is_exist
-
-    if is_changed then
-      vim.cmd.doautocmd('User WatcherChangedFile')
-      for _, cb in ipairs(self._on_change) do
-        cb(fname, fullpath)
-      end
-    elseif is_created then
-      self:add_file(fname)
-      vim.cmd.doautocmd('User WatcherCreatedFile')
-      for _, cb in ipairs(self._on_add) do
-        cb(fname, fullpath)
-      end
-    elseif is_deleted then
-      self:remove_file(fname)
-      vim.cmd.doautocmd('User WatcherDeletedFile')
-      for _, cb in ipairs(self._on_add) do
-        cb(fname, fullpath)
-      end
-    end
-
-    for _, cb in ipairs(self._on_every) do
-      cb(fname, fullpath)
-    end
-  end
-end
-
-function Watcher:watch()
+function Watcher:start()
   self._w = vim.loop.new_fs_event()
 
   if not self._w then
@@ -156,9 +170,24 @@ function Watcher:watch()
     self._path,
     self._opts,
     vim.schedule_wrap(function(...)
-      self:on_change(...)
+      self:_on_event(...)
     end)
   )
+end
+
+function Watcher:restart()
+  self._w:stop()
+  self._w:start(
+    self._path,
+    self._opts,
+    vim.schedule_wrap(function(...)
+      self:_on_event(...)
+    end)
+  )
+end
+
+function Watcher:stop()
+  self._w:stop()
 end
 
 return Watcher

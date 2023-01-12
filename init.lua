@@ -11,8 +11,9 @@ require('config.colorscheme')
 
 local watcher = require('modules.watcher').new()
 
-watcher:on_every_event(function()
-  vim.cmd.checktime()
-end)
-
-watcher:watch()
+watcher:start()
+watcher:on_any({
+  function()
+    vim.cmd.checktime()
+  end,
+})
