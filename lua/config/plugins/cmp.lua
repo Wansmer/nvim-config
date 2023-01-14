@@ -37,6 +37,7 @@ return {
     'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-nvim-lsp-document-symbol',
+    'lukas-reineke/cmp-under-comparator',
     'lukas-reineke/cmp-rg',
     'saadparwaiz1/cmp_luasnip',
     'L3MON4D3/LuaSnip',
@@ -54,6 +55,18 @@ return {
         expand = function(args)
           luasnip.lsp_expand(args.body)
         end,
+      },
+      sorting = {
+        comparators = {
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
+          cmp.config.compare.score,
+          require('cmp-under-comparator').under,
+          cmp.config.compare.kind,
+          cmp.config.compare.sort_text,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
+        },
       },
       mapping = {
         ['<C-n>'] = cmp.mapping.select_next_item(),
