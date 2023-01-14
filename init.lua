@@ -16,4 +16,7 @@ watcher:on_any({
   function()
     vim.cmd.checktime()
   end,
+  -- function()
+  --   vim.cmd('lsprestart')
+  -- end,
 })

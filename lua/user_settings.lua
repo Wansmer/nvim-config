@@ -48,7 +48,7 @@ PREF = {
   ui = {
     -- (!) список поддерживаемых тем: lua/config/colorscheme/init.lua
     ---@type 'tundra'|'tokyonight'|'catppuccin'|'kanagawa'|'gruvbox-material'|'nord'
-    colorscheme = 'tokyonight',
+    colorscheme = 'gruvbox-material',
 
     -- Вид бордера для всплывающих окон. Может быть строкой или таблицей
     border = 'single',
