@@ -22,7 +22,7 @@ return {
   single_file_support = true,
   init_options = {
     typescript = {
-      tsdk = '/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib/tsserverlibrary.js',
+      tsdk = '~/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib/tsserverlibrary.js',
     },
     languageFeatures = {
       completion = {
