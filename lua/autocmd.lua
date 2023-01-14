@@ -67,9 +67,22 @@ vim.api.nvim_create_autocmd('User', {
 })
 
 vim.api.nvim_create_autocmd('FileType', {
+  pattern = '*',
+  callback = function()
+    vim.api.nvim_win_set_option(
+      0,
+      'colorcolumn',
+      tostring(PREF.common.textwidth)
+    )
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
   pattern = 'markdown',
   callback = function()
-    vim.bo.shiftwidth = 80
+    vim.bo.textwidth = 80
+    vim.api.nvim_win_set_option(0, 'colorcolumn', '80')
+    require('modules.markdown')
   end,
 })
 
