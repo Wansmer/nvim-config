@@ -1,9 +1,8 @@
 return {
   'danymat/neogen',
   enabled = true,
-  -- ft = { 'lua', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
   cmd = 'Neogen',
-  keys = { '<localleader>a', 'бф' },
+  keys = { '<localleader>a', 'жф' },
   config = function()
     local neogen = require('neogen')
     neogen.setup({

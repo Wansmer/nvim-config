@@ -15,6 +15,7 @@ end
 local function key_listener(char)
   local key = vim.fn.keytrans(char)
   local mode = vim.fn.mode()
+  -- print('Mode: ', mode, 'Key: ', key)
   if mode == 'n' then
     toggle_hlsearch(key)
   end

@@ -73,16 +73,5 @@ return {
         enable = false,
       },
     })
-
-    local map = vim.keymap.set
-
-    map('n', '<leader>gp', ':Gitsigns prev_hunk<CR>')
-    map('n', '<leader>gn', ':Gitsigns next_hunk<CR>')
-    map('n', '<leader>gs', ':Gitsigns preview_hunk<CR>')
-    map('n', '<leader>gd', ':Gitsigns diffthis<CR>')
-    map('n', '<leader>ga', ':Gitsigns stage_hunk<CR>')
-    map('n', '<leader>gr', ':Gitsigns reset_hunk<CR>')
-    map('n', '<leader>gA', ':Gitsigns stage_buffer<CR>')
-    map('n', '<leader>gR', ':Gitsigns reset_buffer<CR>')
   end,
 }

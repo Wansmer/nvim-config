@@ -29,8 +29,8 @@ local icons = {
 return {
   'hrsh7th/nvim-cmp',
   enabled = true,
-  event = 'InsertEnter',
-  keys = { ':', '/', '?' },
+  event = { 'InsertEnter', 'CmdlineEnter' },
+  -- keys = { ':', '/', '?' },
   dependencies = {
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-buffer',
@@ -171,10 +171,7 @@ return {
     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
     cmp.setup.cmdline(':', {
       mapping = cmp.mapping.preset.cmdline(cmd_mapping),
-      sources = cmp.config.sources(
-        { { name = 'path' } },
-        { { name = 'cmdline' } }
-      ),
+      sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } }),
     })
   end,
 }

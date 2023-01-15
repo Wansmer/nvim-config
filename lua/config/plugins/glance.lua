@@ -4,6 +4,13 @@ return {
   config = function()
     local glance = require('glance')
     local actions = glance.actions
+    local mapper = require('langmapper.utils')
+    if not mapper then
+      mapper = {}
+      mapper.trans_dict = function(tbl)
+        return tbl
+      end
+    end
 
     glance.setup({
       height = 18,
@@ -27,7 +34,7 @@ return {
         mode = 'auto', -- 'brighten'|'darken'|'auto'
       },
       mappings = {
-        list = {
+        list = mapper.trans_dict({
           ['j'] = actions.next,
           ['k'] = actions.previous,
           ['<Down>'] = actions.next,
@@ -45,13 +52,13 @@ return {
           ['q'] = actions.close,
           ['Q'] = actions.close,
           ['<Esc>'] = actions.close,
-        },
-        preview = {
+        }),
+        preview = mapper.trans_dict({
           ['Q'] = actions.close,
           ['<Tab>'] = actions.next_location,
           ['<S-Tab>'] = actions.previous_location,
           ['<leader>l'] = actions.enter_win('list'),
-        },
+        }),
       },
       hooks = {},
       folds = {

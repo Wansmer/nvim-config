@@ -158,11 +158,7 @@ function Watcher:start()
   self._w = vim.loop.new_fs_event()
 
   if not self._w then
-    vim.notify(
-      'Fail to call "vim.loop.new_fs_event()"',
-      vim.log.levels.WARN,
-      { title = 'Watcher: ' }
-    )
+    vim.notify('Fail to call "vim.loop.new_fs_event()"', vim.log.levels.WARN, { title = 'Watcher: ' })
     return
   end
 

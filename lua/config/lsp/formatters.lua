@@ -21,8 +21,7 @@ function M.list_registered_providers_names(filetype)
 end
 
 function M.has_formatter(filetype)
-  local available =
-    nls_sources.get_available(filetype, null_ls.methods.FORMATTING)
+  local available = nls_sources.get_available(filetype, null_ls.methods.FORMATTING)
   return #available > 0
 end
 

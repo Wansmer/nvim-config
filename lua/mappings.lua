@@ -25,8 +25,8 @@ map({ 'i', 't' }, '<C-f>', '<Right>', { desc = 'Move cursor right one letter' })
 map({ 'i', 't' }, '<C-b>', '<Left>', { desc = 'Move cursor left one letter' })
 map({ 'i', 't' }, '<C-.>', '<S-Right>', { desc = 'Move cursor right on word' })
 map({ 'i', 't' }, '<C-,>', '<S-Left>', { desc = 'Move cursor left on word' })
-map({ 'i' }, '<C-ю>', '<S-Right>', { desc = 'Move cursor right on word' })
-map({ 'i' }, '<C-б>', '<S-Left>', { desc = 'Move cursor left on word' })
+-- map({ 'i' }, '<C-ю>', '<S-Right>', { desc = 'Move cursor right on word' })
+-- map({ 'i' }, '<C-б>', '<S-Left>', { desc = 'Move cursor left on word' })
 map({ 'i', 't' }, '<C-p>', '<Up>', { desc = 'Move cursor up one line' })
 map({ 'i', 't' }, '<C-n>', '<Down>', { desc = 'Move cursor down one line' })
 map({ 'i', 't' }, '<C-a>', '<Home>', { desc = 'Move cursor to start of the line' })
@@ -123,3 +123,59 @@ map('n', '<Localleader>e', '<Cmd>Neotree focus toggle <Cr>', { desc = 'Open file
 map('n', 'tsp', function()
   vim.treesitter.show_tree({ command = 'botright 60vnew' })
 end, { desc = 'Open treesitter tree for current buffer' })
+
+-- Gitsigns
+map('n', '<Leader>gp', ':Gitsigns prev_hunk<CR>', { desc = 'Plug Gitsigns: jump to prev hunk' })
+map('n', '<Leader>gn', ':Gitsigns next_hunk<CR>', { desc = 'Plug Gitsigns: jump to next hunk' })
+map('n', '<Leader>gs', ':Gitsigns preview_hunk<CR>', { desc = 'Plug Gitsigns: preview hunk' })
+map('n', '<Leader>gd', ':Gitsigns diffthis<CR>', { desc = 'Plug Gitsigns: open diffmode' })
+map('n', '<Leader>ga', ':Gitsigns stage_hunk<CR>', { desc = 'Plug Gitsigns: stage current hunk' })
+map('n', '<Leader>gr', ':Gitsigns reset_hunk<CR>', { desc = 'Plug Gitsigns: reset current hunk' })
+map('n', '<Leader>gA', ':Gitsigns stage_buffer<CR>', { desc = 'Plug Gitsigns: stage current buffer' })
+map('n', '<Leader>gR', ':Gitsigns reset_buffer<CR>', { desc = 'Plug Gitsigns: reset current buffer' })
+
+-- Telescope
+map('n', '<localleader>f', require('telescope.builtin').find_files, { desc = '' })
+map('n', '<localleader>g', require('telescope.builtin').live_grep, { desc = '' })
+map('n', '<localleader>b', require('telescope.builtin').buffers, { desc = '' })
+map('n', '<localleader>d', ':Telescope diagnostics<CR>', { desc = '' })
+map('n', '<localleader>o', require('telescope.builtin').oldfiles, { desc = '' })
+map('n', '<localleader>n', ':Telescope notify<CR>', { desc = '' })
+map('n', '<localleader>;', require('telescope.builtin').current_buffer_fuzzy_find, { desc = '' })
+map('n', '<localleader>s', function()
+  require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cword>') })
+end, { desc = '' })
+map('n', '<localleader>p', function()
+  require('telescope.builtin').find_files({
+    default_text = vim.fn.expand('<cword>'),
+  })
+end, { desc = '' })
+
+-- For using with langmapper
+-- Mini.surround
+map('n', 'sa', 'sa', { remap = true })
+map('n', 'sd', 'sd', { remap = true })
+map('n', 'sc', 'sc', { remap = true })
+map('x', 'sa', 'sa', { remap = true })
+
+-- Comment.nvim
+map('n', 'gcc', function()
+  return vim.v.count == 0 and '<Plug>(comment_toggle_linewise_current)' or '<Plug>(comment_toggle_linewise_count)'
+end, { expr = true })
+
+map('n', 'gbc', function()
+  return vim.v.count == 0 and '<Plug>(comment_toggle_blockwise_current)' or '<Plug>(comment_toggle_blockwise_count)'
+end, { expr = true })
+
+map('x', 'gc', '<Plug>(comment_toggle_linewise_visual)')
+map('x', 'gb', '<Plug>(comment_toggle_blockwise_visual)')
+
+-- Notify
+map('n', '<leader>a', ':Notifications<CR>')
+
+-- Ufo
+map('n', 'zR', require('ufo').openAllFolds)
+map('n', 'zM', require('ufo').closeAllFolds)
+
+-- ZenMode
+map('n', 'Z', '<Cmd>ZenMode<Cr>')

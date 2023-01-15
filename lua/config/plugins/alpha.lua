@@ -49,18 +49,10 @@ return {
       end
       ico_txt = ico .. '  '
 
-      local file_button_el = colored_btn(
-        sc,
-        ico_txt .. short_fn,
-        '<cmd>e ' .. fn .. ' <CR>',
-        'Constant'
-      )
+      local file_button_el = colored_btn(sc, ico_txt .. short_fn, '<cmd>e ' .. fn .. ' <CR>', 'Constant')
       local fn_start = short_fn:match('.*/')
       if fn_start ~= nil then
-        table.insert(
-          fb_hl,
-          { 'Comment', #ico_txt - 2, #fn_start + #ico_txt - 1 }
-        )
+        table.insert(fb_hl, { 'Comment', #ico_txt - 2, #fn_start + #ico_txt - 1 })
       end
       file_button_el.opts.hl = fb_hl
       return file_button_el
@@ -70,8 +62,7 @@ return {
 
     local mru_opts = {
       ignore = function(c_path, ext)
-        return (string.find(c_path, 'COMMIT_EDITMSG'))
-          or (vim.tbl_contains(default_mru_ignore, ext))
+        return (string.find(c_path, 'COMMIT_EDITMSG')) or (vim.tbl_contains(default_mru_ignore, ext))
       end,
     }
 
@@ -92,8 +83,7 @@ return {
         else
           cwd_cond = vim.startswith(v, cwd)
         end
-        local ignore = (opts.ignore and opts.ignore(v, get_extension(v)))
-          or false
+        local ignore = (opts.ignore and opts.ignore(v, get_extension(v))) or false
         if (vim.fn.filereadable(v) == 1) and cwd_cond and not ignore then
           oldfiles[#oldfiles + 1] = v
         end
@@ -180,36 +170,11 @@ return {
           opts = { hl = 'SpecialComment', position = 'center' },
         },
         { type = 'padding', val = 1 },
-        colored_btn(
-          'f',
-          '  Find file',
-          ':Telescope find_files<CR>',
-          'Constant'
-        ),
-        colored_btn(
-          'g',
-          '  Find text',
-          ':Telescope live_grep<CR>',
-          'Constant'
-        ),
-        colored_btn(
-          'n',
-          '  New file',
-          ':ene <BAR> startinsert <CR>',
-          'Constant'
-        ),
-        colored_btn(
-          'e',
-          '  Open explorer',
-          ':Neotree focus toggle <CR>',
-          'Constant'
-        ),
-        colored_btn(
-          'c',
-          '  Configuration',
-          ':e ~/.config/nvim/init.lua <CR>',
-          'Constant'
-        ),
+        colored_btn('f', '  Find file', ':Telescope find_files<CR>', 'Constant'),
+        colored_btn('g', '  Find text', ':Telescope live_grep<CR>', 'Constant'),
+        colored_btn('n', '  New file', ':ene <BAR> startinsert <CR>', 'Constant'),
+        colored_btn('e', '  Open explorer', ':Neotree focus toggle <CR>', 'Constant'),
+        colored_btn('c', '  Configuration', ':e ~/.config/nvim/init.lua <CR>', 'Constant'),
         colored_btn('u', '  Update plugins', ':Lazy sync<CR>', 'Constant'),
         colored_btn('q', '  Quit', ':qa<CR>', 'Constant'),
       },

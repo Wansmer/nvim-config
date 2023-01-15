@@ -2,7 +2,7 @@ return {
   'echasnovski/mini.surround',
   event = 'BufReadPost',
   enabled = true,
-  config = function ()
+  config = function()
     require('mini.surround').setup({})
-  end
+  end,
 }

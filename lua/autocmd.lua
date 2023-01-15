@@ -69,11 +69,7 @@ vim.api.nvim_create_autocmd('User', {
 vim.api.nvim_create_autocmd('FileType', {
   pattern = '*',
   callback = function()
-    vim.api.nvim_win_set_option(
-      0,
-      'colorcolumn',
-      tostring(PREF.common.textwidth)
-    )
+    vim.api.nvim_win_set_option(0, 'colorcolumn', tostring(PREF.common.textwidth))
   end,
 })
 
