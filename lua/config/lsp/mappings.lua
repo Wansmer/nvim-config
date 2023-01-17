@@ -3,8 +3,7 @@ local glance_ok, _ = pcall(require, 'glance')
 -- Привязки клавиш для функционала LSP
 local M = {}
 
--- local map = vim.keymap.set
-local map = require('langmapper').map
+local map = require('utils').map()
 
 M.set_keymap = function()
   -- Общие привязки клавиш

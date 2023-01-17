@@ -1,5 +1,7 @@
 return {
-  'echasnovski/mini.surround',
+  'Wansmer/mini.surround',
+  -- dir = '~/projects/code/github/mini_surround_pr',
+  -- dev = false,
   event = 'BufReadPost',
   enabled = true,
   config = function()

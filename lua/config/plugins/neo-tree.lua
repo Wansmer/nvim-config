@@ -8,13 +8,8 @@ return {
     { 's1n7ax/nvim-window-picker' },
   },
   config = function()
-    local mapper = require('langmapper.utils')
-    if not mapper then
-      mapper = {}
-      mapper.trans_dict = function(tbl)
-        return tbl
-      end
-    end
+    local trans_dict = require('utils').trans_dict
+
     local neotree = require('neo-tree')
     local fs_commands = require('neo-tree/sources/filesystem/commands')
 
@@ -27,7 +22,7 @@ return {
       fs_commands.set_root(state)
     end
 
-    local window_mappings = mapper.trans_dict({
+    local window_mappings = trans_dict({
       ['o'] = 'open',
       ['l'] = 'open_with_window_picker',
       ['sg'] = 'split_with_window_picker',
@@ -50,7 +45,7 @@ return {
       ['<TAB>'] = 'next_source',
     })
 
-    local fs_mappings = mapper.trans_dict({
+    local fs_mappings = trans_dict({
       ['-'] = 'navigate_up',
       ['.'] = 'toggle_hidden',
       ['<cr>'] = cd_or_open,

@@ -1,4 +1,4 @@
-local map = require('langmapper').map
+local map = require('utils').map()
 
 local function toggle_diagnostics()
   local state = PREF.lsp.show_diagnostic
@@ -25,13 +25,13 @@ map({ 'i', 't' }, '<C-f>', '<Right>', { desc = 'Move cursor right one letter' })
 map({ 'i', 't' }, '<C-b>', '<Left>', { desc = 'Move cursor left one letter' })
 map({ 'i', 't' }, '<C-.>', '<S-Right>', { desc = 'Move cursor right on word' })
 map({ 'i', 't' }, '<C-,>', '<S-Left>', { desc = 'Move cursor left on word' })
--- map({ 'i' }, '<C-ю>', '<S-Right>', { desc = 'Move cursor right on word' })
--- map({ 'i' }, '<C-б>', '<S-Left>', { desc = 'Move cursor left on word' })
 map({ 'i', 't' }, '<C-p>', '<Up>', { desc = 'Move cursor up one line' })
 map({ 'i', 't' }, '<C-n>', '<Down>', { desc = 'Move cursor down one line' })
 map({ 'i', 't' }, '<C-a>', '<Home>', { desc = 'Move cursor to start of the line' })
 map({ 'i', 't' }, '<C-e>', '<End>', { desc = 'Move cursor to end of the line' })
 map({ 'i', 't' }, '<C-d>', '<Delete>', { desc = 'Delete one letter after cursor' })
+map('t', '<esc>', [[<C-\><C-n>]], { desc = 'Leave INSERT mode in terminal' })
+map('t', 'jk', [[<C-\><C-n>]], { desc = 'Leave INSERT mode in terminal' })
 
 -- К первому не пробельному символу
 map('n', 'gh', 'g^', { desc = 'Go to first non-blank character in the line' })
@@ -141,7 +141,7 @@ map('n', '<localleader>b', require('telescope.builtin').buffers, { desc = '' })
 map('n', '<localleader>d', ':Telescope diagnostics<CR>', { desc = '' })
 map('n', '<localleader>o', require('telescope.builtin').oldfiles, { desc = '' })
 map('n', '<localleader>n', ':Telescope notify<CR>', { desc = '' })
-map('n', '<localleader>;', require('telescope.builtin').current_buffer_fuzzy_find, { desc = '' })
+map('n', '<localleader><localleader>', require('telescope.builtin').current_buffer_fuzzy_find, { desc = '' })
 map('n', '<localleader>s', function()
   require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cword>') })
 end, { desc = '' })

@@ -21,4 +21,23 @@ function M.some(tbl, cb)
   return false
 end
 
+function M.map()
+  local ok, mapper = pcall(require, 'langmapper')
+  if ok then
+    return mapper.map
+  end
+  return vim.keymap.set
+end
+
+function M.trans_dict(tbl)
+  local ok, mapper = pcall(require, 'langmapper.utils')
+  if not ok then
+    mapper = {}
+    mapper.trans_dict = function(x)
+      return x
+    end
+  end
+  return mapper.trans_dict(tbl)
+end
+
 return M

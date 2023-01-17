@@ -16,7 +16,7 @@ local options = {
   -- Визуальное оформление | UI
   -- ==========================================================================
   number = true,
-  relativenumber = true,
+  relativenumber = false,
   termguicolors = true,
   showmode = false,
   showcmd = false,
@@ -85,3 +85,7 @@ local options = {
 for option_name, value in pairs(options) do
   vim.opt[option_name] = value
 end
+
+vim.cmd([[
+  set langmap+=БЮ;<>
+]])

@@ -95,11 +95,11 @@ local function get_visual_range()
   return range
 end
 
-local function surround(prefix, postfix, range)
-  if vim.fn.mode() ~= 'v' then
-    return
-  end
-
+local function surround(prefix, postfix, range, text)
+  -- if vim.fn.mode() ~= 'v' then
+  --   return
+  -- end
+  --
   local sr, sc, er, ec
 
   if range then
@@ -109,10 +109,12 @@ local function surround(prefix, postfix, range)
   end
 
   -- save real text in 'v' register (no independent of count byte in char)
-  vim.cmd.normal('"vy')
-  local text = vim.split(vim.fn.getreg('v'), '\n', { plain = true })
-  -- clear register
-  -- vim.fn.setreg('v', '')
+  if not text then
+    vim.cmd.normal('"vy')
+    text = vim.split(vim.fn.getreg('v'), '\n', { plain = true })
+    -- clear register
+    vim.fn.setreg('v', '')
+  end
 
   -- check two byte on end of range
   local last_row = vim.fn.getline(er)
@@ -133,6 +135,7 @@ local function surround(prefix, postfix, range)
 
   text[1] = prefix .. text[1]
   text[#text] = text[#text] .. postfix
+  vim.pretty_print(text)
 
   vim.api.nvim_buf_set_text(0, sr - 1, sc - 1, er - 1, last_col, text)
 end
@@ -141,6 +144,8 @@ local function surround_link()
   local range = get_visual_range()
   local reg = vim.fn.getreg('*')
   local default = false
+  vim.cmd.normal('"vy')
+  local text = vim.split(vim.fn.getreg('v'), '\n', { plain = true })
 
   -- TODO: find better way to check urls and paths
   local re = vim.regex('^https*\\|www')
@@ -155,11 +160,11 @@ local function surround_link()
     if not link then
       return
     end
-    surround('[', '](' .. link .. ')', range)
+    surround('[', '](' .. link .. ')', range, text)
   end)
 end
 
-local map = require('langmapper').map
+local map = require('utils').map()
 
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*.md',

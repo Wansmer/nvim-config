@@ -1,5 +1,3 @@
-_G.russian_input_method = false
-
 vim.keymap.set('', '<Space>', '<Nop>')
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ';'
@@ -22,5 +20,3 @@ require('config.colorscheme')
 --   vim.cmd('lsprestart')
 -- end,
 -- })
-
--- test test test

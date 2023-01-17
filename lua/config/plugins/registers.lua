@@ -1,5 +1,5 @@
 return {
-  enabled = true,
+  enabled = false,
   'tversteeg/registers.nvim',
   event = 'BufEnter',
   config = function()
