@@ -9,14 +9,14 @@ require('mappings')
 require('autocmd')
 require('config.colorscheme')
 
--- local watcher = require('modules.watcher').new()
+local watcher = require('modules.watcher').new()
 
--- watcher:start()
--- watcher:on_any({
---   function()
---     vim.cmd.checktime()
---   end,
--- function()
---   vim.cmd('lsprestart')
--- end,
--- })
+watcher:start()
+watcher:on_any({
+  function()
+    vim.cmd.checktime()
+  end,
+  -- function()
+  --   vim.cmd('lsprestart')
+  -- end,
+})
