@@ -66,6 +66,11 @@ map('n', '<Leader>s', 'dawea <Esc>px', { desc = 'Swap word with right-side word'
 
 -- Замена текста без копирования в клипборд
 map('x', 'p', '"_c<Esc>p', { desc = 'Paste without copying into register' })
+-- Копирование текста с заменой разрыва строк на пробелы
+map('x', '<C-y>', function()
+  vim.cmd.normal('"+y')
+  vim.fn.setreg('+', string.gsub(vim.fn.getreg('+'), '\n', ' '))
+end, { desc = 'Copy and replace linebreak' })
 
 -- К парной скобке
 -- map('n', '<Bs>', '%', { desc = '' })
