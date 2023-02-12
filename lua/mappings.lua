@@ -69,8 +69,9 @@ map('x', 'p', '"_c<Esc>p', { desc = 'Paste without copying into register' })
 -- Копирование текста с заменой разрыва строк на пробелы
 map('x', '<C-y>', function()
   vim.cmd.normal('"+y')
-  vim.fn.setreg('+', string.gsub(vim.fn.getreg('+'), '\n', ' '))
-end, { desc = 'Copy and replace linebreak' })
+  local text = vim.fn.substitute(vim.fn.getreg('+'), '[^\n]\\zs\n\\ze[^\n]', ' ', 'g')
+  vim.fn.setreg('+', text)
+end, { desc = 'Copying text and replacing extra linebreaks' })
 
 -- К парной скобке
 -- map('n', '<Bs>', '%', { desc = '' })
