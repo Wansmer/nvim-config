@@ -2,6 +2,15 @@ vim.api.nvim_create_user_command('H', function(args)
   vim.cmd('vert h ' .. args.args)
 end, { nargs = 1, complete = 'help' })
 
+local function wp_scratch_buf(start, scratch, lhs)
+  for _, buf in ipairs({ scratch, start }) do
+    vim.keymap.set('n', lhs, function()
+      vim.api.nvim_buf_delete(scratch, { force = true })
+      vim.keymap.del('n', lhs, { buffer = start })
+    end, { buffer = buf })
+  end
+end
+
 vim.api.nvim_create_user_command('DiffOrig', function()
   -- Get start buffer
   local start = vim.api.nvim_get_current_buf()
@@ -20,26 +29,17 @@ vim.api.nvim_create_user_command('DiffOrig', function()
   vim.cmd('wincmd p | diffthis')
 
   -- Map `q` for both buffers to exit diff view and delete scratch buffer
-  for _, buf in ipairs({ scratch, start }) do
-    vim.keymap.set('n', 'q', function()
-      vim.api.nvim_buf_delete(scratch, { force = true })
-      vim.keymap.del('n', 'q', { buffer = start })
-    end, { buffer = buf })
-  end
+  wp_scratch_buf(start, scratch, 'q')
 end, {})
 
 vim.api.nvim_create_user_command('Gr', function(args)
   local start = vim.api.nvim_get_current_buf()
   local ft = vim.api.nvim_get_option_value('filetype', { buf = start })
-  vim.cmd('vnew | set buftype=nofile | read ++edit # | set filetype=' .. ft .. ' | 0d_ | g!/' .. args.args .. '/d')
+
+  vim.cmd(
+    'vnew | set buftype=nofile | read ++edit # | set filetype=' .. ft .. ' | 0d_ | g!/' .. args.args .. '/d | norm gg=G'
+  )
 
   local scratch = vim.api.nvim_get_current_buf()
-
-  -- Map `q` for both buffers to exit diff view and delete scratch buffer
-  for _, buf in ipairs({ scratch, start }) do
-    vim.keymap.set('n', 'q', function()
-      vim.api.nvim_buf_delete(scratch, { force = true })
-      vim.keymap.del('n', 'q', { buffer = start })
-    end, { buffer = buf })
-  end
+  wp_scratch_buf(start, scratch, 'q')
 end, { nargs = 1 })
