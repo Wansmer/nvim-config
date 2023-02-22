@@ -33,7 +33,7 @@ PREF = {
     -- если сервер требует доп.настроек, то нужно поместить одноименный файл с настройками
     -- в lua/config/lsp/servers
     preinstall_servers = {
-      'sumneko_lua',
+      'lua_ls',
       'tsserver',
       'volar',
       'cssls',
