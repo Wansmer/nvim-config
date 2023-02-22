@@ -24,15 +24,16 @@ local opts = {
   cursor_behavior = 'hold',
   notify = true,
   langs = langs,
+  dot_repeat = true,
 }
 
 opts = PREF.dev_mode and {} or opts
 
 return {
   'Wansmer/treesj',
-  keys = { '<leader>m' },
+  keys = { '<leader>m', '<leader>j', '<leader>s' },
   dir = '~/projects/code/personal/treesj',
-  dev = true,
+  dev = false,
   enabled = true,
   config = function()
     local tsj = require('treesj')
