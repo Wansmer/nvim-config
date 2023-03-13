@@ -41,6 +41,14 @@ local function detect_event(fname, fullpath, tree)
   return event_name
 end
 
+local function check_root(cwd, pattern)
+  pattern = type(pattern) == 'string' and { pattern } or pattern
+  pattern = vim.tbl_map(function(el)
+    return cwd .. el
+  end, pattern)
+  return u.some(pattern, vim.loop.fs_stat)
+end
+
 local AUTOCMD = {
   ['change'] = 'User WatcherChangedFile',
   ['create'] = 'User WatcherCreatedFile',
@@ -51,13 +59,19 @@ local AUTOCMD = {
 local Watcher = {}
 Watcher.__index = Watcher
 
-Watcher.new = function(path, opts, ignore)
+Watcher.new = function(path, opts, ignore, root_pattern)
   path = path or vim.loop.cwd() .. '/'
   opts = opts or { watch_entry = false, stat = false, recursive = true }
   ignore = ignore or { '^%.git', '%~$', '^4913$' }
-
+  root_pattern = root_pattern or '.git/'
+  local run = true
   local tree = {}
-  scandir(path, '', tree, ignore)
+
+  if not check_root(path, root_pattern) then
+    run = false
+  else
+    scandir(path, '', tree, ignore)
+  end
 
   return setmetatable({
     _path = path,
@@ -69,6 +83,7 @@ Watcher.new = function(path, opts, ignore)
     _on_delete = {},
     _on_change = {},
     _on_every = {},
+    _run = run,
   }, Watcher)
 end
 
@@ -119,7 +134,7 @@ function Watcher:_on_event(err, fname, status)
 end
 
 function Watcher:print_tree()
-  vim.pretty_print(self._tree)
+  vim.print(self._tree)
 end
 
 function Watcher:on_create(cbs)
@@ -159,6 +174,12 @@ function Watcher:start()
 
   if not self._w then
     vim.notify('Fail to call "vim.loop.new_fs_event()"', vim.log.levels.WARN, { title = 'Watcher: ' })
+    return
+  end
+
+  if not self._run then
+    vim.notify('Root pattern is not detected. Directory is not watch now', vim.log.levels.WARN, { title = 'Watcher: ' })
+    self._w:stop()
     return
   end
 
