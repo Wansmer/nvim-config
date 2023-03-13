@@ -31,12 +31,14 @@ opts = PREF.dev_mode and {} or opts
 
 return {
   'Wansmer/treesj',
-  keys = { '<leader>m', '<leader>j', '<leader>s' },
   dir = '~/projects/code/personal/treesj',
-  dev = false,
+  dev = true,
   enabled = true,
   config = function()
     local tsj = require('treesj')
+    vim.keymap.set('n', '<leader>M', function()
+      tsj.toggle({ split = { recursive = true } })
+    end)
     tsj.setup(opts)
   end,
 }

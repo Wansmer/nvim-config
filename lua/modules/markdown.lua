@@ -135,7 +135,6 @@ local function surround(prefix, postfix, range, text)
 
   text[1] = prefix .. text[1]
   text[#text] = text[#text] .. postfix
-  vim.pretty_print(text)
 
   vim.api.nvim_buf_set_text(0, sr - 1, sc - 1, er - 1, last_col, text)
 end

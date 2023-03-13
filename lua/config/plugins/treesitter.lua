@@ -35,6 +35,7 @@ return {
       matchup = {
         enable = true,
         disable = {},
+        disable_virtual_text = true,
       },
 
       -- playground
