@@ -42,7 +42,7 @@ local function register_autoclean()
   vim.api.nvim_create_autocmd('ModeChanged', {
     once = true,
     callback = function()
-      if not M.need_clear then
+      if M.need_clear then
         M.clear_registry()
       end
     end,
@@ -92,6 +92,10 @@ end
 function M.clear_registry()
   M.registry.queue = {}
   M.registry.current = nil
+end
+
+function M.print()
+  print('Expander registry:', M.registry.current and M.registry.current:type(), #M.registry.queue)
 end
 
 return M
