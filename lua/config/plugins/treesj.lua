@@ -36,7 +36,7 @@ return {
   enabled = true,
   config = function()
     local tsj = require('treesj')
-    vim.keymap.set('n', '<leader>M', function()
+    vim.keymap.set('n', '<leader>f', function()
       tsj.toggle({ split = { recursive = true } })
     end)
     tsj.setup(opts)
