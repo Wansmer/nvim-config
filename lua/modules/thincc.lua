@@ -8,6 +8,15 @@
 local tccns = vim.api.nvim_create_namespace('thincc')
 local group = vim.api.nvim_create_augroup('thincc', { clear = true })
 local events = { 'BufWinEnter', 'TextChangedI', 'TextChanged' }
+local disable_ft = {
+  'alpha',
+  'neo-tree',
+  'toggleterm',
+  'mason',
+  'lazy',
+  'lspinfo',
+  'null-ls-info',
+}
 
 ---Registry for saving original value of colorcolumn of each buffer
 local registry = {}
@@ -75,10 +84,6 @@ local function get_target_column(bufnr)
     local scope = { scope = 'local', win = win }
     local col = calc_colorcolumn_place(scope)
 
-    if col then
-      vim.api.nvim_set_option_value('colorcolumn', '', scope)
-    end
-
     update_registry(bufnr, col)
   end
 
@@ -102,12 +107,23 @@ local function update_exmark(bufnr, line, col)
 end
 
 ---Set thin colorcolumn to buffer
-local function set_thin_colorcolumn()
+local function set_thin_colorcolumn(data)
+  local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+
+  if vim.tbl_contains(disable_ft, ft) then
+    return
+  end
+
   local bufnr = vim.api.nvim_get_current_buf()
   if vim.api.nvim_buf_is_loaded(bufnr) then
     local count = vim.api.nvim_buf_line_count(bufnr)
     local col = get_target_column(bufnr)
     if col then
+      local win = vim.api.nvim_get_current_win()
+      local scope = { win = win, scope = 'local' }
+
+      vim.api.nvim_set_option_value('colorcolumn', '', scope)
+
       for line = 0, count, 1 do
         update_exmark(bufnr, line, col)
       end
