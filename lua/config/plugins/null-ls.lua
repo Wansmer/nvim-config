@@ -33,6 +33,9 @@ return {
         formatting.prettier.with({
           filetypes = { 'html', 'json', 'markdown' },
         }),
+
+        -- other
+        -- diagnostics.write_good,
       },
     })
   end,

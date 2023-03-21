@@ -4,7 +4,6 @@ return {
   config = function()
     local glance = require('glance')
     local actions = glance.actions
-    local trans_dict = require('utils').trans_dict
 
     glance.setup({
       height = 18,
@@ -28,7 +27,7 @@ return {
         mode = 'auto', -- 'brighten'|'darken'|'auto'
       },
       mappings = {
-        list = trans_dict({
+        list = {
           ['j'] = actions.next,
           ['k'] = actions.previous,
           ['<Down>'] = actions.next,
@@ -46,13 +45,13 @@ return {
           ['q'] = actions.close,
           ['Q'] = actions.close,
           ['<Esc>'] = actions.close,
-        }),
-        preview = trans_dict({
+        },
+        preview = {
           ['Q'] = actions.close,
           ['<Tab>'] = actions.next_location,
           ['<S-Tab>'] = actions.previous_location,
           ['<leader>l'] = actions.enter_win('list'),
-        }),
+        },
       },
       hooks = {},
       folds = {

@@ -21,23 +21,21 @@ function M.some(tbl, cb)
   return false
 end
 
-function M.map()
-  local ok, mapper = pcall(require, 'langmapper')
-  if ok then
-    return mapper.map
-  end
-  return vim.keymap.set
-end
+function M.get_visual_range()
+  local er, ec = unpack(vim.fn.getpos('.'), 2, 3)
+  local sr, sc = unpack(vim.fn.getpos('v'), 2, 3)
+  local range = {}
 
-function M.trans_dict(tbl)
-  local ok, mapper = pcall(require, 'langmapper.utils')
-  if not ok then
-    mapper = {}
-    mapper.trans_dict = function(x)
-      return x
-    end
+  if sr == er then
+    local cols = sc >= ec and { ec, sc } or { sc, ec }
+    range = { sr, cols[1], er, cols[2] }
+  elseif sr > er then
+    range = { er, ec, sr, sc }
+  else
+    range = { sr, sc, er, ec }
   end
-  return mapper.trans_dict(tbl)
+
+  return range
 end
 
 return M

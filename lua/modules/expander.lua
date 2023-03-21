@@ -1,17 +1,17 @@
 local ts_utils = require('nvim-treesitter.ts_utils')
 local M = {}
 
-M.registry = {
-  queue = {},
-  current = nil,
-}
-
-M.need_clear = false
-
-local function safety_update_selection(node)
-  M.need_clear = false
-  ts_utils.update_selection(0, node, 'v')
-  M.need_clear = true
+local function get_node_to_select_up()
+  local node = ts_utils.get_node_at_cursor(0)
+  if node then
+    while not node:named() and node:named_child_count() > 0 do
+      node = node:parent()
+      if not node then
+        break
+      end
+    end
+  end
+  return node
 end
 
 local function is_same_range(current, parent)
@@ -25,17 +25,10 @@ local function is_same_range(current, parent)
   return true
 end
 
-local function get_nearest_named()
-  local node = ts_utils.get_node_at_cursor(0)
-  if node then
-    while not node:named() and node:child_count() > 0 do
-      node = node:parent()
-      if not node then
-        break
-      end
-    end
-  end
-  return node
+local function safety_update_selection(node)
+  M.need_clear = false
+  ts_utils.update_selection(0, node, 'v')
+  M.need_clear = true
 end
 
 local function register_autoclean()
@@ -48,6 +41,13 @@ local function register_autoclean()
     end,
   })
 end
+
+M.registry = {
+  queue = {},
+  current = nil,
+}
+
+M.need_clear = false
 
 function M.expand_selection()
   if M.registry.current then
@@ -63,7 +63,7 @@ function M.expand_selection()
     table.insert(M.registry.queue, M.registry.current)
     M.registry.current = parent
   else
-    M.registry.current = get_nearest_named()
+    M.registry.current = get_node_to_select_up()
     register_autoclean()
   end
 
@@ -71,7 +71,6 @@ function M.expand_selection()
     safety_update_selection(M.registry.current)
   end
 end
-
 function M.collapse_selection()
   if #M.registry.queue >= 1 then
     M.registry.current = table.remove(M.registry.queue, #M.registry.queue)
@@ -81,15 +80,24 @@ function M.collapse_selection()
   elseif M.registry.current then
     local children = ts_utils.get_named_children(M.registry.current)
     for _, child in ipairs(children) do
-      if child:child_count() ~= 0 then
+      if child:named_child_count() ~= 0 then
         M.registry.current = child
         safety_update_selection(M.registry.current)
       end
     end
+  else
+    local node = get_node_to_select_up()
+    if not node then
+      return
+    end
+    M.registry.current = node
+    M.collapse_selection()
+    register_autoclean()
   end
 end
 
 function M.clear_registry()
+  M.print()
   M.registry.queue = {}
   M.registry.current = nil
 end

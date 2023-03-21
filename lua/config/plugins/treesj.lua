@@ -32,6 +32,7 @@ opts = PREF.dev_mode and {} or opts
 return {
   'Wansmer/treesj',
   dir = '~/projects/code/personal/treesj',
+  keys = { '<leader>m' },
   dev = true,
   enabled = true,
   config = function()

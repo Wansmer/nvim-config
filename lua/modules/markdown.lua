@@ -78,34 +78,13 @@ end
 -- Original idea: https://github.com/antonk52/markdowny.nvim
 -- My implementation: https://github.com/antonk52/markdowny.nvim/issues/1#issuecomment-1382060417
 
-local function get_visual_range()
-  local er, ec = unpack(vim.fn.getpos('.'), 2, 3)
-  local sr, sc = unpack(vim.fn.getpos('v'), 2, 3)
-  local range = {}
-
-  if sr == er then
-    local cols = sc >= ec and { ec, sc } or { sc, ec }
-    range = { sr, cols[1], er, cols[2] }
-  elseif sr > er then
-    range = { er, ec, sr, sc }
-  else
-    range = { sr, sc, er, ec }
-  end
-
-  return range
-end
-
 local function surround(prefix, postfix, range, text)
-  -- if vim.fn.mode() ~= 'v' then
-  --   return
-  -- end
-  --
   local sr, sc, er, ec
 
   if range then
     sr, sc, er, ec = unpack(range)
   else
-    sr, sc, er, ec = unpack(get_visual_range())
+    sr, sc, er, ec = unpack(u.get_visual_range())
   end
 
   -- save real text in 'v' register (no independent of count byte in char)
@@ -140,7 +119,7 @@ local function surround(prefix, postfix, range, text)
 end
 
 local function surround_link()
-  local range = get_visual_range()
+  local range = u.get_visual_range()
   local reg = vim.fn.getreg('*')
   local default = false
   vim.cmd.normal('"vy')

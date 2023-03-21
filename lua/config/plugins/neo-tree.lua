@@ -8,8 +8,6 @@ return {
     { 's1n7ax/nvim-window-picker' },
   },
   config = function()
-    local trans_dict = require('utils').trans_dict
-
     local neotree = require('neo-tree')
     local fs_commands = require('neo-tree/sources/filesystem/commands')
 
@@ -22,7 +20,7 @@ return {
       fs_commands.set_root(state)
     end
 
-    local window_mappings = trans_dict({
+    local window_mappings = {
       ['o'] = 'open',
       ['l'] = 'open_with_window_picker',
       ['sg'] = 'split_with_window_picker',
@@ -43,9 +41,9 @@ return {
       ['?'] = 'show_help',
       ['<S-TAB>'] = 'prev_source',
       ['<TAB>'] = 'next_source',
-    })
+    }
 
-    local fs_mappings = trans_dict({
+    local fs_mappings = {
       ['-'] = 'navigate_up',
       ['.'] = 'toggle_hidden',
       ['<cr>'] = cd_or_open,
@@ -53,14 +51,12 @@ return {
       ['D'] = 'fuzzy_finder_directory',
       ['f'] = 'filter_on_submit',
       ['<c-x>'] = 'clear_filter',
-    })
+    }
 
     neotree.setup({
       sources = {
         'filesystem',
         'git_status',
-        -- TODO: delete when plugin author answer on issue: https://github.com/nvim-neo-tree/neo-tree.nvim/issues/643
-        -- 'buffers',
       },
       add_blank_line_at_top = true,
       popup_border_style = PREF.ui.border,

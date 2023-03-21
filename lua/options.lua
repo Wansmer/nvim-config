@@ -79,13 +79,10 @@ local options = {
   whichwrap = vim.opt.whichwrap:append('<,>,[,],h,l'),
   shortmess = vim.opt.shortmess:append('c'),
   iskeyword = vim.opt.iskeyword:append('-'),
-  langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz',
+  langmap = [[ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЯЧСМИТЬБЮ;QWERTYUIOP{}ASDFGHJKL:ZXCVBNM<>,йцукенгшщзхъфывапролджячсмитьбю;qwertyuiop[]asdfghjkl\;zxcvbnm\,\.]],
+  langremap = false,
 }
 
 for option_name, value in pairs(options) do
   vim.opt[option_name] = value
 end
-
-vim.cmd([[
-  set langmap+=БЮ;<>
-]])

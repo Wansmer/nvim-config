@@ -9,7 +9,7 @@ M.on_attach = function(client, bufnr)
   -- Включает возможность форматирование диапазона
   vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
   -- Установка привязок клавиш для LSP
-  set_keymap()
+  set_keymap(client, bufnr)
   -- Текущий контекст в коде
   require('config.lsp.formatters').setup(client, bufnr)
 end

@@ -4,7 +4,6 @@ return {
   event = 'BufEnter',
   config = function()
     local registers = require('registers')
-
     registers.setup()
   end,
 }

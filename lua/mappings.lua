@@ -1,4 +1,4 @@
-local map = require('utils').map()
+local map = vim.keymap.set
 
 local function toggle_diagnostics()
   local state = PREF.lsp.show_diagnostic
@@ -15,7 +15,7 @@ map('n', 'j', 'gj', { desc = 'Move cursor down (display and real line)' })
 map('n', 'k', 'gk', { desc = 'Move cursor up (display and real line)' })
 
 -- jk как <Esc>
-vim.keymap.set('i', PREF.common.escape_keys, '<Esc>', { desc = 'Leave INSERT mode' })
+map('i', PREF.common.escape_keys, '<Esc>', { desc = 'Leave INSERT mode' })
 
 -- закрыть nvim
 map('n', '<Leader>q', '<Cmd>qa<Cr>', { desc = 'Close neovim' })
@@ -86,10 +86,7 @@ map('x', '<S-Tab>', '<gv', { desc = 'One indent left and reselect' })
 map('x', '<Tab>', '>gv|', { desc = 'One indent right and reselect' })
 
 -- Сохранить изменения
-map('n', '<C-s>', '<Esc><Cmd>up<Cr>', { desc = 'Save buffer into file' })
-map('i', '<C-s>', '<Esc><Cmd>up<Cr>', { desc = 'Save buffer into file' })
-map('v', '<C-s>', '<Esc><Cmd>up<Cr>', { desc = 'Save buffer into file' })
-map('x', '<C-s>', '<Esc><Cmd>up<Cr>', { desc = 'Save buffer into file' })
+map({ 'n', 'i', 'x' }, '<C-s>', '<Esc><Cmd>up<Cr>', { desc = 'Save buffer into file' })
 
 -- Перемещение строк вверх/вниз
 map('n', '<C-n>', '<Cmd>move+1<Cr>==', { desc = 'Move current line downward' })
@@ -157,25 +154,6 @@ map('n', '<localleader>p', function()
   })
 end, { desc = '' })
 
--- For using with langmapper
--- Mini.surround
-map('n', 'sa', 'sa', { remap = true })
-map('n', 'sd', 'sd', { remap = true })
-map('n', 'sc', 'sc', { remap = true })
-map('x', 'sa', 'sa', { remap = true })
-
--- Comment.nvim
-map('n', 'gcc', function()
-  return vim.v.count == 0 and '<Plug>(comment_toggle_linewise_current)' or '<Plug>(comment_toggle_linewise_count)'
-end, { expr = true })
-
-map('n', 'gbc', function()
-  return vim.v.count == 0 and '<Plug>(comment_toggle_blockwise_current)' or '<Plug>(comment_toggle_blockwise_count)'
-end, { expr = true })
-
-map('x', 'gc', '<Plug>(comment_toggle_linewise_visual)')
-map('x', 'gb', '<Plug>(comment_toggle_blockwise_visual)')
-
 -- Notify
 map('n', '<leader>a', ':Notifications<CR>')
 
@@ -185,3 +163,7 @@ map('n', 'zM', require('ufo').closeAllFolds)
 
 -- ZenMode
 map('n', 'Z', '<Cmd>ZenMode<Cr>')
+
+-- Expander
+vim.keymap.set({ 'x' }, ',', require('modules.expander').expand_selection)
+vim.keymap.set({ 'x' }, '.', require('modules.expander').collapse_selection)
