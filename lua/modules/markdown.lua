@@ -142,7 +142,7 @@ local function surround_link()
   end)
 end
 
-local map = require('utils').map()
+local map = vim.keymap.set
 
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*.md',
