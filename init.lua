@@ -1,6 +1,6 @@
 vim.keymap.set('', '<Space>', '<Nop>')
 vim.g.mapleader = ' '
-vim.g.maplocalleader = ';'
+vim.g.maplocalleader = ','
 
 local load = {
   'user_settings',
@@ -23,9 +23,6 @@ watcher:on_any({
     vim.cmd.checktime()
   end,
 })
-
-vim.keymap.set('n', 'H', '^')
-vim.keymap.set('n', 'L', '$')
 
 local ok, lm = pcall(require, 'langmapper')
 if ok then
