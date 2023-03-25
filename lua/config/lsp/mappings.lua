@@ -29,7 +29,10 @@ M.set_keymap = function(_, bufnr)
   map('n', '<leader>lD', vim.lsp.buf.declaration, opts)
 
   -- Rename
-  map('n', '<leader>lr', vim.lsp.buf.rename, opts)
+  -- map('n', '<leader>lr', vim.lsp.buf.rename, opts)
+  map('n', '<leader>lr', function()
+    return ':IncRename ' .. vim.fn.expand('<cword>')
+  end, { expr = true })
 
   -- Signature help
   map('n', '<leader>ls', vim.lsp.buf.signature_help, opts)
