@@ -1,11 +1,13 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
   enabled = true,
-  keys = { {
-    '<Localleader>e',
-    '<Cmd>Neotree focus toggle<Cr>',
-    desc = 'Open file explorer',
-  } },
+  keys = {
+    {
+      '<Localleader>e',
+      '<Cmd>Neotree focus toggle<Cr>',
+      desc = 'Open file explorer',
+    },
+  },
   dependencies = {
     'MunifTanjim/nui.nvim',
     {
@@ -66,7 +68,8 @@ return {
       ['m'] = 'move',
       ['q'] = 'close_window',
       ['R'] = 'refresh',
-      ['?'] = 'show_help',
+      ['g?'] = 'show_help',
+      ['?'] = false,
       ['<S-TAB>'] = 'prev_source',
       ['<TAB>'] = 'next_source',
     }

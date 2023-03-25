@@ -22,7 +22,6 @@ map('n', '<C-j>', '<C-w>j', { desc = 'Focus to right-side window' })
 map('n', '<C-k>', '<C-w>k', { desc = 'Focus to top-side window' })
 map('n', '<C-l>', '<C-w>l', { desc = 'Focus to bottom-side window' })
 map({ 'n', 'i', 'x' }, '<C-s>', '<Esc><Cmd>up<Cr>', { desc = 'Save buffer into file' })
-map('n', 'Q', 'q', { desc = 'Start recording macro' })
 map('n', '<C-->', '<Cmd>vertical resize -2<Cr>', { desc = 'Vertical resize +' })
 map('n', '<C-=>', '<Cmd>vertical resize +2<Cr>', { desc = 'Vertical resize -' })
 map('n', 'tsp', function()
@@ -32,8 +31,14 @@ end, { desc = 'Open treesitter tree for current buffer' })
 -- ============================================================================
 -- Movements on text
 -- ============================================================================
-map('n', 'j', 'gj', { desc = 'Move cursor down (display and real line)' })
-map('n', 'k', 'gk', { desc = 'Move cursor up (display and real line)' })
+map('n', 'j', "v:count == 0 ? 'gj' : 'j'", {
+  expr = true,
+  desc = 'Move cursor down (display and real line)',
+})
+map('n', 'k', "v:count == 0 ? 'gk' : 'k'", {
+  expr = true,
+  desc = 'Move cursor up (display and real line)',
+})
 map({ 'i', 't' }, '<C-f>', '<Right>', { desc = 'Move cursor right one letter' })
 map({ 'i', 't' }, '<C-b>', '<Left>', { desc = 'Move cursor left one letter' })
 map({ 'i', 't' }, '<C-.>', '<S-Right>', { desc = 'Move cursor right on word' })
@@ -47,6 +52,10 @@ map('n', 'gh', 'g^', { desc = 'Go to first non-blank character in the line' })
 map('x', 'gh', 'g^', { desc = 'Go to first non-blank character in the line' })
 map('n', 'gl', 'g_', { desc = 'Go to last non-blank character in the line' })
 map('x', 'gl', 'g_', { desc = 'Go to last non-blank character in the line' })
+map({ 'n', 'x' }, '*', '*N', { desc = 'Search word or selection' })
+-- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
+map({ 'n', 'x', 'o' }, 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next search result' })
+map({ 'n', 'x', 'o' }, 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result' })
 
 -- ============================================================================
 -- Text edit
@@ -96,3 +105,4 @@ local function toggle_diagnostics()
   vim.diagnostic.enable()
 end
 map('n', '<Leader>td', toggle_diagnostics, { desc = 'Toggle diagnostic' })
+map('n', 'Q', 'q', { desc = 'Start recording macro' })

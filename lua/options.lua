@@ -1,16 +1,15 @@
 local textwidth = PREF.common.textwidth
 local tabwidth = PREF.common.tabwidth
-local winbar = ' '
 
 local function escape(str)
   local escape_chars = [[;,."|\]]
   return vim.fn.escape(str, escape_chars)
 end
 
-local en = [[qwertyuiop[]asdfghjkl;zxcvbnm,.]]
-local ru = [[йцукенгшщзхъфывапролджячсмитьбю]]
-local en_shift = [[QWERTYUIOP{}ASDFGHJKL:ZXCVBNM<>]]
-local ru_shift = [[ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЯЧСМИТЬБЮ]]
+local en = [[`qwertyuiop[]asdfghjkl;'zxcvbnm.]]
+local ru = [[ёйцукенгшщзхъфывапролджэячсмитью]]
+local en_shift = [[~QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>]]
+local ru_shift = [[ËЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ]]
 local langmap = vim.fn.join({
   escape(ru_shift) .. ';' .. escape(en_shift),
   escape(ru) .. ';' .. escape(en),
@@ -95,7 +94,7 @@ local options = {
   backup = false,
   swapfile = false,
   completeopt = { 'menuone', 'noselect' },
-  winbar = winbar,
+  winbar = ' ',
   spell = false,
   spelllang = 'en_us,ru_ru',
   whichwrap = vim.opt.whichwrap:append('<,>,[,],h,l'),
