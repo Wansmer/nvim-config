@@ -1,4 +1,4 @@
--- Минимальная ширина текущего окна = textwidth
+-- Sets minimum width of current window equals to textwidth
 vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
     local ft_ignore = { '', 'nvim-tree', 'neo-tree', 'packer', 'query' }
@@ -17,21 +17,20 @@ vim.api.nvim_create_autocmd('BufEnter', {
   end,
 })
 
--- Подсветить скопированное
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 100 })
   end,
 })
 
--- Отключает автокомментирование новой строки
+-- Rid auto comment for new string
 vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
     vim.opt.formatoptions:remove({ 'c', 'r', 'o' })
   end,
 })
 
--- Автоформатирование при сохранении
+-- Autoformatting
 if PREF.lsp.format_on_save then
   vim.api.nvim_create_autocmd('BufWritePre', {
     callback = function()
@@ -43,7 +42,7 @@ if PREF.lsp.format_on_save then
   })
 end
 
--- Перейти к месту в файле, на котором остановились
+-- Jump to the last place you’ve visited in a file before exiting
 vim.api.nvim_create_autocmd('BufReadPost', {
   callback = function()
     local ignore_ft = { 'neo-tree', 'toggleterm', 'lazy' }
@@ -58,7 +57,6 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
--- Загрузка модулей по событию VeryLazy (Lazy.nvim)
 vim.api.nvim_create_autocmd('User', {
   pattern = 'VeryLazy',
   callback = function()
@@ -69,6 +67,7 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
+-- Set default colorcolumn
 vim.api.nvim_create_autocmd('FileType', {
   pattern = '*',
   callback = function()
@@ -78,9 +77,9 @@ vim.api.nvim_create_autocmd('FileType', {
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'markdown',
-  callback = function()
-    vim.bo.textwidth = 80
-    vim.api.nvim_win_set_option(0, 'colorcolumn', '80')
+  callback = function(data)
+    vim.api.nvim_buf_set_option(data.buf, 'textwidth', 80)
+    vim.api.nvim_win_set_option(vim.api.nvim_get_current_win(), 'colorcolumn', '80')
     require('modules.markdown')
   end,
 })

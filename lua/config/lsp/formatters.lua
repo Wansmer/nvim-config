@@ -1,4 +1,4 @@
--- На основе https://github.com/alpha2phi/neovim-for-beginner
+-- Based on https://github.com/alpha2phi/neovim-for-beginner
 local ok, null_ls = pcall(require, 'null-ls')
 if not ok then
   return

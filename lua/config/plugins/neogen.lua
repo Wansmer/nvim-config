@@ -4,6 +4,7 @@ return {
   cmd = 'Neogen',
   keys = { '<localleader>a', 'жф' },
   config = function()
+    vim.keymap.set('n', '<localleader>a', ':Neogen<CR>')
     require('neogen').setup({
       snippet_engine = 'luasnip',
       languages = {

@@ -4,8 +4,7 @@ return {
   flags = { debounce_text_changes = 300 },
   settings = {
     ltex = {
-      language = 'auto',
-      -- language = 'ru-RU',
+      language = 'auto', -- 'ru-RU'
     },
   },
 }

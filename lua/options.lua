@@ -18,7 +18,7 @@ local langmap = vim.fn.join({
 
 local options = {
   -- ==========================================================================
-  -- Табуляция и отступы | Indents, spaces, tabulation
+  -- Indents, spaces, tabulation
   -- ==========================================================================
   expandtab = true,
   cindent = true,
@@ -27,7 +27,7 @@ local options = {
   tabstop = tabwidth,
 
   -- ==========================================================================
-  -- Визуальное оформление | UI
+  -- UI
   -- ==========================================================================
   number = true,
   relativenumber = false,
@@ -51,21 +51,21 @@ local options = {
   title = false,
 
   -- ==========================================================================
-  -- Текст | Text
+  -- Text
   -- ==========================================================================
   textwidth = PREF.common.textwidth,
   wrap = true,
   linebreak = true,
 
   -- ==========================================================================
-  -- Поиск | Search
+  -- Search
   -- ==========================================================================
   ignorecase = true,
   smartcase = true,
   hlsearch = true,
 
   -- ==========================================================================
-  -- Фолдинг | Folding
+  -- Folding
   -- ==========================================================================
   foldcolumn = '1',
   foldlevel = 99,
@@ -84,7 +84,7 @@ local options = {
     .. '} ',
 
   -- ==========================================================================
-  -- Прочее | Other
+  -- Other
   -- ==========================================================================
   updatetime = 1000,
   undofile = true,
@@ -103,8 +103,6 @@ local options = {
   iskeyword = vim.opt.iskeyword:append('-'),
   langmap = langmap,
 }
-
--- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 for option_name, value in pairs(options) do
   vim.opt[option_name] = value

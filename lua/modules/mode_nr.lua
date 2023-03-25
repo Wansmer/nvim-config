@@ -3,10 +3,10 @@
 -- TODO: Using highlight groups from lualine modes
 
 ---Keep original colors of group
-local origin_hl = vim.api.nvim_get_hl_by_name('CursorLineNr', true)
+local origin_hl = vim.api.nvim_get_hl(0, { name = 'CursorLineNr' })
 vim.api.nvim_create_autocmd('ColorScheme', {
   callback = function()
-    origin_hl = vim.api.nvim_get_hl_by_name('CursorLineNr', true)
+    origin_hl = vim.api.nvim_get_hl(0, { name = 'CursorLineNr' })
   end,
 })
 
@@ -14,8 +14,8 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 ---@param name string Name of base group
 ---@return table
 local function get_override(name)
-  local hl = vim.api.nvim_get_hl_by_name(name, true)
-  return vim.tbl_extend('force', origin_hl, { foreground = hl.foreground })
+  local hl = vim.api.nvim_get_hl(0, { name = name })
+  return vim.tbl_extend('force', origin_hl, { fg = hl.fg })
 end
 
 local modes_colors = {

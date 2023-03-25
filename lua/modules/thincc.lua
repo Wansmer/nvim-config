@@ -22,7 +22,8 @@ local disable_ft = {
 local registry = {}
 
 ---Using original color for ColorColumn
-local color = vim.api.nvim_get_hl_by_name('ColorColumn', true).background
+-- local color = vim.api.nvim_get_hl_by_name('ColorColumn', true).background
+local color = vim.api.nvim_get_hl(0, { name = 'ColorColumn' }).bg
 vim.api.nvim_set_hl(0, 'ThinCC', { fg = color, default = true })
 
 ---Create extmark
@@ -107,7 +108,7 @@ local function update_exmark(bufnr, line, col)
 end
 
 ---Set thin colorcolumn to buffer
-local function set_thin_colorcolumn(data)
+local function set_thin_colorcolumn()
   local ft = vim.api.nvim_buf_get_option(0, 'filetype')
 
   if vim.tbl_contains(disable_ft, ft) then

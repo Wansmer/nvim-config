@@ -2,7 +2,7 @@ local lsp = require('lspconfig')
 local mlsp = require('mason-lspconfig')
 require('config.lsp.diagnostics')
 
--- объединение общих настроек с пользовательскими
+-- Premerge user settings
 local function make_config(server_name)
   local path = 'config.lsp.servers.'
   local config = require('config.lsp.default')
