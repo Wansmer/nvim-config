@@ -63,24 +63,16 @@ vim.api.nvim_create_autocmd('User', {
     require('modules.key_listener')
     require('modules.mode_nr')
     require('modules.thincc')
+    require('modules.markdown')
     require('usercmd')
   end,
 })
 
 -- Set default colorcolumn
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = '*',
-  callback = function()
-    vim.api.nvim_win_set_option(0, 'colorcolumn', tostring(PREF.common.textwidth))
-  end,
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'markdown',
+vim.api.nvim_create_autocmd('BufWinEnter', {
   callback = function(data)
-    vim.api.nvim_buf_set_option(data.buf, 'textwidth', 80)
-    vim.api.nvim_win_set_option(vim.api.nvim_get_current_win(), 'colorcolumn', '80')
-    require('modules.markdown')
+    local tw = vim.api.nvim_buf_get_option(data.buf, 'textwidth')
+    vim.api.nvim_win_set_option(0, 'colorcolumn', tostring(tw))
   end,
 })
 
