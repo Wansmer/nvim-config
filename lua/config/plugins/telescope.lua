@@ -1,12 +1,26 @@
 return {
   'nvim-telescope/telescope.nvim',
   enabled = true,
-  event = 'VeryLazy',
+  event = 'UIEnter',
   config = function()
     local telescope = require('telescope')
 
-    telescope.load_extension('notify')
-
+    local map = vim.keymap.set
+    map('n', '<localleader>f', require('telescope.builtin').find_files, { desc = '' })
+    map('n', '<localleader>g', require('telescope.builtin').live_grep, { desc = '' })
+    map('n', '<localleader>b', require('telescope.builtin').buffers, { desc = '' })
+    map('n', '<localleader>d', ':Telescope diagnostics<CR>', { desc = '' })
+    map('n', '<localleader>o', require('telescope.builtin').oldfiles, { desc = '' })
+    map('n', '<localleader>n', ':Telescope notify<CR>', { desc = '' })
+    map('n', '<localleader><localleader>', require('telescope.builtin').current_buffer_fuzzy_find, { desc = '' })
+    map('n', '<localleader>s', function()
+      require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cword>') })
+    end, { desc = '' })
+    map('n', '<localleader>p', function()
+      require('telescope.builtin').find_files({
+        default_text = vim.fn.expand('<cword>'),
+      })
+    end, { desc = '' })
     telescope.setup({
       defaults = {
         prompt_prefix = ' ',

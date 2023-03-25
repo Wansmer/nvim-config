@@ -16,7 +16,7 @@ vim.opt.runtimepath:prepend(lazypath)
 
 require('lazy').setup(configs, {
   defaults = {
-    lazy = false,
+    lazy = true,
   },
   install = {
     colorscheme = { PREF.ui.colorscheme },

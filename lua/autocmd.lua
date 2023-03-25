@@ -1,8 +1,7 @@
 -- Минимальная ширина текущего окна = textwidth
-local ft_ignore = { 'nvim-tree', 'neo-tree', 'packer', '' }
-
 vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
+    local ft_ignore = { '', 'nvim-tree', 'neo-tree', 'packer', 'query' }
     local buf = vim.api.nvim_win_get_buf(0)
     local buftype = vim.api.nvim_buf_get_option(buf, 'ft')
 
@@ -47,10 +46,14 @@ end
 -- Перейти к месту в файле, на котором остановились
 vim.api.nvim_create_autocmd('BufReadPost', {
   callback = function()
-    local mark = vim.api.nvim_buf_get_mark(0, '"')
-    local lcount = vim.api.nvim_buf_line_count(0)
-    if mark[1] > 0 and mark[1] <= lcount then
-      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    local ignore_ft = { 'neo-tree', 'toggleterm', 'lazy' }
+    local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    if not vim.tbl_contains(ignore_ft, ft) then
+      local mark = vim.api.nvim_buf_get_mark(0, '"')
+      local lcount = vim.api.nvim_buf_line_count(0)
+      if mark[1] > 0 and mark[1] <= lcount then
+        pcall(vim.api.nvim_win_set_cursor, 0, mark)
+      end
     end
   end,
 })

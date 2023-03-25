@@ -4,8 +4,7 @@ return {
   cmd = 'Neogen',
   keys = { '<localleader>a', 'жф' },
   config = function()
-    local neogen = require('neogen')
-    neogen.setup({
+    require('neogen').setup({
       snippet_engine = 'luasnip',
       languages = {
         lua = {
@@ -15,8 +14,5 @@ return {
         },
       },
     })
-
-    local map = require('utils').map()
-    map('n', '<localleader>a', ':Neogen<CR>')
   end,
 }

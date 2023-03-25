@@ -1,11 +1,9 @@
 return {
   'lukas-reineke/indent-blankline.nvim',
   enabled = true,
-  event = 'BufReadPre',
+  event = 'BufReadPost',
   config = function()
-    local ib = require('indent_blankline')
-
-    ib.setup({
+    require('indent_blankline').setup({
       char = '',
       pace_char_blankline = ' ',
       show_current_context = true,

@@ -1,5 +1,7 @@
 return {
   'Wansmer/sibling-swap.nvim',
+  dir = '~/projects/code/personal/sibling-swap',
+  dev = false,
   enabled = true,
   keys = {
     '<C-.>',

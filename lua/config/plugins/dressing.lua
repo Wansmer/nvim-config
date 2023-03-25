@@ -9,9 +9,6 @@ return {
         -- Set to false to disable the vim.ui.input implementation
         enabled = true,
 
-        -- Default prompt string
-        default_prompt = ' ',
-
         -- Can be 'left', 'right', or 'center'
         prompt_align = 'left',
 

@@ -1,12 +1,12 @@
 -- Специальные указания:
 -- Любые изменения применятся только после перезапуска neovim;
--- (!) После изменения параметра в восклицаетльным знаком нужно запусить :PackerSync и перезапустить neovim;
+-- (!) После изменения параметра в восклицаетльным знаком нужно перезапустить neovim;
 
 PREF = {
   common = {
     textwidth = 120,
     tabwidth = 2,
-    escape_keys = 'jk',
+    escape_keys = { 'jk', 'JK', 'jj' },
   },
 
   lsp = {
@@ -17,17 +17,14 @@ PREF = {
     virtual_text = false,
 
     -- (!) показывать сигнатуру сразу при вводе или по триггеру
-    show_signature_on_insert = false,
+    show_signature_on_insert = true,
 
     -- показывать иконки диагностики
     show_diagnostic = true,
 
-    -- показывать текущий контекст в коде в winbar
-    show_current_context = true,
-
     -- использовать take_over_mode для проектов vue3
     -- настройка отключает отдельный tsserver и использует volar для .ts, .js и т.д.
-    tom_enable = false,
+    tom_enable = true,
 
     -- (!)серверы, которые будут установлены по по умолчанию
     -- если сервер требует доп.настроек, то нужно поместить одноименный файл с настройками
@@ -47,8 +44,7 @@ PREF = {
 
   ui = {
     -- (!) список поддерживаемых тем: lua/config/colorscheme/init.lua
-    ---@type 'tundra'|'tokyonight'|'catppuccin'|'kanagawa'|'gruvbox-material'|'nord'|'melange'
-    colorscheme = 'gruvbox-material',
+    colorscheme = 'tundra',
 
     -- Вид бордера для всплывающих окон. Может быть строкой или таблицей
     border = 'single',

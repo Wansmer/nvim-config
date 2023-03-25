@@ -26,9 +26,4 @@ return {
     lazy = false,
     enabled = PREF.ui.colorscheme == 'vscode',
   },
-  {
-    'savq/melange-nvim',
-    lazy = false,
-    enabled = PREF.ui.colorscheme == 'melange',
-  },
 }

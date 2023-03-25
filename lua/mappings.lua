@@ -15,7 +15,9 @@ map('n', 'j', 'gj', { desc = 'Move cursor down (display and real line)' })
 map('n', 'k', 'gk', { desc = 'Move cursor up (display and real line)' })
 
 -- jk как <Esc>
-map('i', PREF.common.escape_keys, '<Esc>', { desc = 'Leave INSERT mode' })
+for _, keys in ipairs(PREF.common.escape_keys) do
+  map('i', keys, '<Esc>', { desc = 'Leave INSERT mode' })
+end
 
 -- закрыть nvim
 map('n', '<Leader>q', '<Cmd>qa<Cr>', { desc = 'Close neovim' })
@@ -68,10 +70,10 @@ map('n', '<Leader>s', 'dawea <Esc>px', { desc = 'Swap word with right-side word'
 map('x', 'p', '"_c<Esc>p', { desc = 'Paste without copying into register' })
 -- Копирование текста с заменой разрыва строк на пробелы
 map('x', '<C-y>', function()
-  vim.cmd.normal('"+y')
+  vim.api.nvim_feedkeys('"+y', 'n', true)
   local text = vim.fn.substitute(vim.fn.getreg('+'), '[^\n]\\zs\n\\ze[^\n]', ' ', 'g')
   vim.fn.setreg('+', text)
-end, { desc = 'Copying text and replacing extra linebreaks' })
+end, { desc = 'Copying text and replacing extra linebreaks', remap = false })
 
 -- К парной скобке
 -- map('n', '<Bs>', '%', { desc = '' })
@@ -124,7 +126,7 @@ map('n', '<C-=>', '<Cmd>vertical resize +2<Cr>', { desc = 'Vertical resize -' })
 map('n', '<Localleader>e', '<Cmd>Neotree focus toggle <Cr>', { desc = 'Open file explorer' })
 
 map('n', 'tsp', function()
-  vim.treesitter.show_tree({ command = 'botright 60vnew' })
+  vim.treesitter.inspect_tree({ command = 'set nonumber | 60vnew' })
 end, { desc = 'Open treesitter tree for current buffer' })
 
 -- Gitsigns
@@ -137,33 +139,16 @@ map('n', '<Leader>gr', ':Gitsigns reset_hunk<CR>', { desc = 'Plug Gitsigns: rese
 map('n', '<Leader>gA', ':Gitsigns stage_buffer<CR>', { desc = 'Plug Gitsigns: stage current buffer' })
 map('n', '<Leader>gR', ':Gitsigns reset_buffer<CR>', { desc = 'Plug Gitsigns: reset current buffer' })
 
--- Telescope
-map('n', '<localleader>f', require('telescope.builtin').find_files, { desc = '' })
-map('n', '<localleader>g', require('telescope.builtin').live_grep, { desc = '' })
-map('n', '<localleader>b', require('telescope.builtin').buffers, { desc = '' })
-map('n', '<localleader>d', ':Telescope diagnostics<CR>', { desc = '' })
-map('n', '<localleader>o', require('telescope.builtin').oldfiles, { desc = '' })
-map('n', '<localleader>n', ':Telescope notify<CR>', { desc = '' })
-map('n', '<localleader><localleader>', require('telescope.builtin').current_buffer_fuzzy_find, { desc = '' })
-map('n', '<localleader>s', function()
-  require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cword>') })
-end, { desc = '' })
-map('n', '<localleader>p', function()
-  require('telescope.builtin').find_files({
-    default_text = vim.fn.expand('<cword>'),
-  })
-end, { desc = '' })
-
 -- Notify
 map('n', '<leader>a', ':Notifications<CR>')
 
--- Ufo
-map('n', 'zR', require('ufo').openAllFolds)
-map('n', 'zM', require('ufo').closeAllFolds)
-
--- ZenMode
-map('n', 'Z', '<Cmd>ZenMode<Cr>')
+-- Neogen
+map('n', '<localleader>a', ':Neogen<CR>')
 
 -- Expander
-vim.keymap.set({ 'x' }, ',', require('modules.expander').expand_selection)
-vim.keymap.set({ 'x' }, '.', require('modules.expander').collapse_selection)
+map({ 'x' }, '.', function()
+  require('modules.expander').collapse_selection()
+end)
+map({ 'x' }, ',', function()
+  require('modules.expander').expand_selection()
+end)

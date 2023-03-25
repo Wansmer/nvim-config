@@ -1,9 +1,11 @@
+local u = require('utils')
+
 return {
   'goolord/alpha-nvim',
   enabled = true,
-  lazy = false,
+  event = 'VimEnter',
   config = function()
-    -- Основано на https://github.com/goolord/alpha-nvim/discussions/16#discussioncomment-1927405
+    -- Based on https://github.com/goolord/alpha-nvim/discussions/16#discussioncomment-1927405
     local alpha = require('alpha')
     local path = require('plenary.path')
 
@@ -117,21 +119,33 @@ return {
       }
     end
 
-    -- https://patorjk.com/software/taag/#p=display&h=0&v=0&f=ANSI%20Shadow&t=NEOVIM%0A
-    local header_title = {
-      '                                                     ',
-      '  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ',
-      '  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ',
-      '  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ',
-      '  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ',
-      '  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ',
-      '  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ',
-      '                                                     ',
-    }
+    local function nvim_version()
+      return ' v' .. vim.version().major .. '.' .. vim.version().minor .. '.' .. vim.version().patch
+    end
 
-    local header = {
+    local function build_title()
+      -- https://patorjk.com/software/taag/#p=display&h=0&v=0&f=ANSI%20Shadow&t=NEOVIM%0A
+      local title = {
+        '                                                  ',
+        '███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗',
+        '████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║',
+        '██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║',
+        '██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║',
+        '██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║',
+        '╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝',
+      }
+      local vers = nvim_version()
+      local title_len = vim.fn.strdisplaywidth(title[1])
+      local tail = 4
+
+      table.insert(title, 1, (' '):rep(title_len - tail) .. vers)
+
+      return title
+    end
+
+    local section_header = {
       type = 'text',
-      val = header_title,
+      val = build_title(),
       opts = {
         shrink_margin = false,
         position = 'center',
@@ -161,43 +175,29 @@ return {
       },
     }
 
-    local buttons = {
-      type = 'group',
-      val = {
-        {
-          type = 'text',
-          val = 'Quick actions',
-          opts = { hl = 'SpecialComment', position = 'center' },
-        },
-        { type = 'padding', val = 1 },
-        colored_btn('f', '  Find file', ':Telescope find_files<CR>', 'Constant'),
-        colored_btn('g', '  Find text', ':Telescope live_grep<CR>', 'Constant'),
-        colored_btn('n', '  New file', ':ene <BAR> startinsert <CR>', 'Constant'),
-        colored_btn('e', '  Open explorer', ':Neotree focus toggle <CR>', 'Constant'),
-        colored_btn('c', '  Configuration', ':e ~/.config/nvim/init.lua <CR>', 'Constant'),
-        colored_btn('u', '  Update plugins', ':Lazy sync<CR>', 'Constant'),
-        colored_btn('q', '  Quit', ':qa<CR>', 'Constant'),
-      },
-      position = 'center',
-    }
-
     local function config_info()
-      -- local total_plugins = #vim.tbl_keys(packer_plugins)
       local total_plugins = require('lazy').stats().count
       local datetime = os.date(' %d-%m-%Y   %H:%M:%S')
-      return datetime
-        .. '   '
-        .. total_plugins
-        .. ' plugins'
-        .. '   v'
-        .. vim.version().major
-        .. '.'
-        .. vim.version().minor
-        .. '.'
-        .. vim.version().patch
+      return datetime .. '   ' .. total_plugins .. ' plugins'
     end
 
-    local info = {
+    local function project_info()
+      local gs = u.git_status()
+      local cwd = vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.')
+      if cwd == '~' then
+        cwd = 'home'
+      end
+      local pwd = ' ' .. cwd
+      local repo = ''
+
+      if gs.exist then
+        repo = '   ' .. ' ' .. gs.repo .. ':' .. gs.branch
+      end
+
+      return pwd .. repo
+    end
+
+    local section_info = {
       type = 'text',
       val = config_info(),
       opts = {
@@ -207,16 +207,26 @@ return {
       },
     }
 
+    local section_project = {
+      type = 'text',
+      val = project_info(),
+      opts = {
+        shrink_margin = false,
+        position = 'center',
+        hl = 'SpecialComment',
+      },
+    }
+
     local opts = {
       layout = {
-        { type = 'padding', val = 2 },
-        header,
-        { type = 'padding', val = 0 },
-        info,
+        { type = 'padding', val = 5 },
+        section_header,
+        { type = 'padding', val = 3 },
+        section_info,
+        { type = 'padding', val = 1 },
+        section_project,
         { type = 'padding', val = 3 },
         section_mru,
-        { type = 'padding', val = 2 },
-        buttons,
       },
       opts = {
         margin = 5,

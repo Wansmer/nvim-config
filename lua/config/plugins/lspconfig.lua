@@ -1,14 +1,16 @@
 return {
   'neovim/nvim-lspconfig',
-  event = 'BufReadPre',
+  event = { 'BufReadPre', 'BufNewFile' },
   enabled = true,
   dependencies = {
     'b0o/SchemaStore.nvim',
     'hrsh7th/cmp-nvim-lsp',
+    'mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
     {
       'folke/neodev.nvim',
       config = function()
-        require('neodev').setup()
+        require('neodev').setup({ { experimental = { pathStrict = true } } })
       end,
     },
   },

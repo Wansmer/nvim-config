@@ -1,45 +1,14 @@
-local recursive = {
-  split = {
-    recursive = true,
-    recursive_ignore = {
-      'arguments',
-      'parameters',
-      'formal_parameters',
-    },
-  },
-}
-
-local langs = {
-  javascript = {
-    object = { split = recursive.split },
-    array = { split = recursive.split },
-    statement_block = { split = recursive.split },
-  },
-}
-
-local opts = {
-  use_default_keymaps = true,
-  check_syntax_error = true,
-  max_join_length = 1000,
-  cursor_behavior = 'hold',
-  notify = true,
-  langs = langs,
-  dot_repeat = true,
-}
-
-opts = PREF.dev_mode and {} or opts
-
 return {
   'Wansmer/treesj',
-  dir = '~/projects/code/personal/treesj',
-  keys = { '<leader>m' },
-  dev = true,
+  keys = { '<Leader>m', '<Leader>M' },
+  dev = false,
   enabled = true,
   config = function()
-    local tsj = require('treesj')
-    vim.keymap.set('n', '<leader>f', function()
-      tsj.toggle({ split = { recursive = true } })
-    end)
-    tsj.setup(opts)
+    require('treesj').setup({
+      max_join_length = 1000,
+    })
+    vim.keymap.set('n', '<Leader>M', function()
+      require('treesj').toggle({ split = { recursive = true }, join = { recursive = true } })
+    end, { desc = 'Toggle single/multiline block of code' })
   end,
 }

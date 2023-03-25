@@ -38,4 +38,42 @@ function M.get_visual_range()
   return range
 end
 
+local function system(cmd)
+  local output = vim.fn.system(cmd)
+  -- To skip no needed terminal messages. Payload is last string.
+  local lines = vim.split(vim.trim(output), '\n')
+  return lines[#lines]
+end
+
+function M.git_status()
+  local status = {
+    ---@type string Current git branch
+    branch = '',
+    ---@type string Short name of repo 'User/nameofrepo'
+    repo = '',
+    ---@type string Remote url of git repo
+    remote_url = '',
+    ---@type boolean If '.git' exist in current directory
+    exist = false,
+  }
+
+  local skip = '\\(git@github.com:\\|https:\\/\\/github.com\\/\\|\\.git\\)'
+
+  if vim.loop.fs_stat(vim.loop.cwd() .. '/.git') then
+    status.exist = true
+    status.branch = system('git branch --show-current')
+    status.remote_url = system('git remote get-url --push origin')
+    status.repo = vim.fn.substitute(status.remote_url, skip, '', 'g')
+  end
+
+  return status
+end
+
+function M.current_branch()
+  if vim.loop.fs_stat(vim.loop.cwd() .. '/.git') then
+    return vim.fn.system('git branch --show-current')
+  end
+  return ''
+end
+
 return M

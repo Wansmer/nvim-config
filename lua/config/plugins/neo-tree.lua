@@ -2,14 +2,38 @@ return {
   'nvim-neo-tree/neo-tree.nvim',
   enabled = true,
   cmd = 'Neotree',
-  branch = 'main',
   dependencies = {
-    { 'MunifTanjim/nui.nvim' },
-    { 's1n7ax/nvim-window-picker' },
+    'MunifTanjim/nui.nvim',
+    {
+      's1n7ax/nvim-window-picker',
+      version = 'v1.*',
+      config = function()
+        require('window-picker').setup({
+          autoselect_one = true,
+          include_current_win = false,
+          show_prompt = false,
+          filter_rules = {
+            bo = {
+              filetype = {
+                'neo-tree',
+                'neo-tree-popup',
+                'notify',
+                'quickfix',
+                'qf',
+                'toggleterm',
+              },
+              buftype = { 'terminal', 'toggleterm' },
+            },
+          },
+          other_win_hl_color = '#e35e4f',
+        })
+      end,
+    },
   },
   config = function()
     local neotree = require('neo-tree')
     local fs_commands = require('neo-tree/sources/filesystem/commands')
+    vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
     local function cd_or_open(state)
       local node = state.tree:get_node()
@@ -47,10 +71,11 @@ return {
       ['-'] = 'navigate_up',
       ['.'] = 'toggle_hidden',
       ['<cr>'] = cd_or_open,
-      ['/'] = 'fuzzy_finder',
       ['D'] = 'fuzzy_finder_directory',
       ['f'] = 'filter_on_submit',
       ['<c-x>'] = 'clear_filter',
+      -- Use '/' for regular search
+      ['/'] = false,
     }
 
     neotree.setup({
@@ -119,8 +144,8 @@ return {
         content_layout = 'center',
         tab_labels = {
           filesystem = '  Project ',
-          buffers = nil,
           git_status = '  Git ',
+          buffers = nil,
         },
       },
     })

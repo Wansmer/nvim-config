@@ -4,10 +4,11 @@
 
 ## Зависимости
 
-1. [Neovim 0.8.+](https://github.com/neovim/neovim);
+1. [Neovim 0.9.+](https://github.com/neovim/neovim);
 2. [NerdFonts](https://www.nerdfonts.com);
 3. [rigrep](https://github.com/BurntSushi/ripgrep);
 4. [fd](https://github.com/sharkdp/fd);
 5. `wget` или `curl`;
 6. `git`;
 7. `node`, `npm`;
+8. [im-select](https://github.com/daipeihust/im-select);

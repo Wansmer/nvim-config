@@ -1,6 +1,20 @@
 local textwidth = PREF.common.textwidth
 local tabwidth = PREF.common.tabwidth
-local winbar = ''
+local winbar = ' '
+
+local function escape(str)
+  local escape_chars = [[;,."|\]]
+  return vim.fn.escape(str, escape_chars)
+end
+
+local en = [[qwertyuiop[]asdfghjkl;zxcvbnm,.]]
+local ru = [[йцукенгшщзхъфывапролджячсмитьбю]]
+local en_shift = [[QWERTYUIOP{}ASDFGHJKL:ZXCVBNM<>]]
+local ru_shift = [[ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЯЧСМИТЬБЮ]]
+local langmap = vim.fn.join({
+  escape(ru_shift) .. ';' .. escape(en_shift),
+  escape(ru) .. ';' .. escape(en),
+}, ',')
 
 local options = {
   -- ==========================================================================
@@ -29,13 +43,10 @@ local options = {
   scrolloff = 3,
   sidescrolloff = 3,
   colorcolumn = tostring(textwidth),
-  laststatus = 3,
+  laststatus = 0,
   fillchars = {
     eob = ' ',
     fold = ' ',
-    foldclose = '',
-    foldopen = '',
-    foldsep = ' ',
   },
   title = false,
 
@@ -56,10 +67,21 @@ local options = {
   -- ==========================================================================
   -- Фолдинг | Folding
   -- ==========================================================================
-  foldcolumn = '0',
+  foldcolumn = '1',
   foldlevel = 99,
   foldlevelstart = 99,
   foldenable = true,
+  foldmethod = 'expr',
+  foldexpr = 'v:lua.vim.treesitter.foldexpr()',
+  statuscolumn = '%s%=%l %#FoldColumn#%{'
+    .. 'foldlevel(v:lnum) > foldlevel(v:lnum - 1)'
+    .. '? foldclosed(v:lnum) == -1'
+    .. '? ""'
+    .. ': ""'
+    .. ': foldlevel(v:lnum) == 0'
+    .. '? " "'
+    .. ': " "' -- "│" -- to use bar for show fold area
+    .. '} ',
 
   -- ==========================================================================
   -- Прочее | Other
@@ -79,9 +101,10 @@ local options = {
   whichwrap = vim.opt.whichwrap:append('<,>,[,],h,l'),
   shortmess = vim.opt.shortmess:append('c'),
   iskeyword = vim.opt.iskeyword:append('-'),
-  langmap = [[ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЯЧСМИТЬБЮ;QWERTYUIOP{}ASDFGHJKL:ZXCVBNM<>,йцукенгшщзхъфывапролджячсмитьбю;qwertyuiop[]asdfghjkl\;zxcvbnm\,\.]],
-  langremap = false,
+  langmap = langmap,
 }
+
+-- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 for option_name, value in pairs(options) do
   vim.opt[option_name] = value

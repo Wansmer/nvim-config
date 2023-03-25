@@ -1,5 +1,3 @@
-local glance_ok, _ = pcall(require, 'glance')
-
 -- Привязки клавиш для функционала LSP
 local M = {}
 
@@ -32,15 +30,9 @@ M.set_keymap = function(_, bufnr)
   -- Перейти к определению символа под курсором (Jump to defenition)
   -- Показать имплементацию символа под курсором (Show implementation)
   -- Показать список с использованием символа под курсором (Show references)
-  if glance_ok then
-    map('n', '<leader>ld', '<CMD>Glance definitions<CR>', opts)
-    map('n', '<leader>li', '<CMD>Glance implementations<CR>', opts)
-    map('n', '<leader>lu', '<CMD>Glance references<CR>', opts)
-  else
-    map('n', '<leader>ld', vim.lsp.buf.definition, opts)
-    map('n', '<leader>li', vim.lsp.buf.implementation, opts)
-    map('n', '<leader>lu', vim.lsp.buf.references, opts)
-  end
+  map('n', '<leader>ld', vim.lsp.buf.definition, opts)
+  map('n', '<leader>li', vim.lsp.buf.implementation, opts)
+  map('n', '<leader>lu', vim.lsp.buf.references, opts)
 
   -- Перейти к объявлению символа под курсором (Jump to declaration)
   map('n', '<leader>lD', vim.lsp.buf.declaration, opts)

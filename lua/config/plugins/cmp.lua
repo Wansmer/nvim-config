@@ -30,7 +30,6 @@ return {
   'hrsh7th/nvim-cmp',
   enabled = true,
   event = { 'InsertEnter', 'CmdlineEnter' },
-  -- keys = { ':', '/', '?' },
   dependencies = {
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-buffer',
@@ -42,6 +41,10 @@ return {
     'saadparwaiz1/cmp_luasnip',
     'L3MON4D3/LuaSnip',
     'rafamadriz/friendly-snippets',
+    {
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      enabled = PREF.lsp.show_signature_on_insert,
+    },
   },
   config = function()
     local cmp = require('cmp')
