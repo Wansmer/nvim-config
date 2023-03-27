@@ -2,7 +2,7 @@ return {
   'danymat/neogen',
   enabled = true,
   cmd = 'Neogen',
-  keys = { '<localleader>a', 'жф' },
+  keys = { '<localleader>a' },
   config = function()
     vim.keymap.set('n', '<localleader>a', ':Neogen<CR>')
     require('neogen').setup({

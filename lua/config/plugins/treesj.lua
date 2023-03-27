@@ -1,7 +1,8 @@
 return {
   'Wansmer/treesj',
+  dir = '~/projects/code/personal/treesj',
   keys = { '<Leader>m', '<Leader>M' },
-  dev = false,
+  dev = true,
   enabled = true,
   config = function()
     require('treesj').setup({
