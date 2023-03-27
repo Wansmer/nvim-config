@@ -6,8 +6,8 @@ local function escape(str)
   return vim.fn.escape(str, escape_chars)
 end
 
-local en = [[`qwertyuiop[]asdfghjkl;'zxcvbnm.]]
-local ru = [[ёйцукенгшщзхъфывапролджэячсмитью]]
+local en = [[`qwertyuiop[]asdfghjkl;'zxcvbnm]]
+local ru = [[ёйцукенгшщзхъфывапролджэячсмить]]
 local en_shift = [[~QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>]]
 local ru_shift = [[ËЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ]]
 local langmap = vim.fn.join({
@@ -53,7 +53,7 @@ local options = {
   -- Text
   -- ==========================================================================
   textwidth = PREF.common.textwidth,
-  wrap = true,
+  wrap = false,
   linebreak = true,
 
   -- ==========================================================================
@@ -62,6 +62,7 @@ local options = {
   ignorecase = true,
   smartcase = true,
   hlsearch = true,
+  infercase = true,
 
   -- ==========================================================================
   -- Folding

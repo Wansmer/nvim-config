@@ -1,7 +1,3 @@
-vim.api.nvim_create_user_command('H', function(args)
-  vim.cmd('vert h ' .. args.args)
-end, { nargs = 1, complete = 'help' })
-
 local function wp_scratch_buf(start, scratch, lhs)
   for _, buf in ipairs({ scratch, start }) do
     vim.keymap.set('n', lhs, function()
