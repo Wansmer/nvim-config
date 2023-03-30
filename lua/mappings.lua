@@ -106,3 +106,5 @@ local function toggle_diagnostics()
 end
 map('n', '<Leader>td', toggle_diagnostics, { desc = 'Toggle diagnostic' })
 map('n', 'Q', 'q', { desc = 'Start recording macro' })
+map('n', '[q', '<Cmd>cnext<Cr>', { desc = 'Go to next match in quickfix list' })
+map('n', ']q', '<Cmd>cprev<Cr>', { desc = 'Go to next match in quickfix list' })
