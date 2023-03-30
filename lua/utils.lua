@@ -86,11 +86,11 @@ function M.get_visual_range()
 
   if sr == er then
     local cols = sc >= ec and { ec, sc } or { sc, ec }
-    range = { sr, cols[1], er, cols[2] }
+    range = { sr, cols[1] - 1, er, cols[2] - 1 }
   elseif sr > er then
-    range = { er, ec, sr, sc }
+    range = { er, ec - 1, sr, sc - 1 }
   else
-    range = { sr, sc, er, ec }
+    range = { sr, sc - 1, er, ec - 1 }
   end
 
   return range

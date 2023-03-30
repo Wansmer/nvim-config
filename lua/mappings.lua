@@ -95,6 +95,10 @@ end)
 map('v', 'gc', u.lazy_rhs_cb('modules.comment', 'toggle_visual'))
 map('n', 'gc', u.lazy_rhs_cb('modules.comment', 'toggle_object'), { expr = true })
 map('n', 'gcc', u.lazy_rhs_cb('modules.comment', 'toggle_line'), { expr = true })
+map('v', 'sa', u.lazy_rhs_cb('modules.surround', 'add_visual'))
+map('n', 'sa', u.lazy_rhs_cb('modules.surround', 'add'))
+map('n', 'sr', u.lazy_rhs_cb('modules.surround', 'remove'))
+map('n', 'sc', u.lazy_rhs_cb('modules.surround', 'replace'))
 
 -- ============================================================================
 -- Other
