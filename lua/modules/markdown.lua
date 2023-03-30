@@ -115,7 +115,8 @@ local function surround(prefix, postfix, range, text)
   text[1] = prefix .. text[1]
   text[#text] = text[#text] .. postfix
 
-  vim.api.nvim_buf_set_text(0, sr - 1, sc - 1, er - 1, last_col, text)
+  print('last_col', last_col)
+  vim.api.nvim_buf_set_text(0, sr - 1, sc, er - 1, last_col + 1, text)
 end
 
 local function surround_link()
