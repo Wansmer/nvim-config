@@ -1,11 +1,9 @@
--- Diagnostics config
 local config = {
   virtual_text = PREF.lsp.virtual_text,
   signs = true,
   underline = true,
   update_in_insert = false,
   severity_sort = true,
-  -- more :h nvim_open_win, :h open_float
   float = {
     source = true,
     focusable = true,
@@ -21,12 +19,25 @@ local signs = {
   Info = '',
 }
 
-vim.diagnostic.config(config)
+local M = {}
 
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, config.float)
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, config.float)
-
-for type, icon in pairs(signs) do
-  local hl = 'DiagnosticSign' .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
+function M.toggle_diagnostics()
+  local state = PREF.lsp.show_diagnostic
+  PREF.lsp.show_diagnostic = not state
+  if state then
+    vim.diagnostic.disable()
+    return
+  end
+  vim.diagnostic.enable()
 end
+
+function M.apply()
+  vim.diagnostic.config(config)
+
+  for type, icon in pairs(signs) do
+    local hl = 'DiagnosticSign' .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
+  end
+end
+
+return M

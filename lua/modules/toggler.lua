@@ -45,7 +45,7 @@ local function to_same_register(base, str)
 end
 
 ---Toggle word (<cword>) under cursor to opposite value.
-function M.toggle_cword_at_cursor()
+function M.toggle_word()
   -- Get text under cursor
   local text = vim.fn.expand('<cword>')
 

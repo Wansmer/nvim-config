@@ -80,12 +80,7 @@ map('x', '<C-y>', function()
   local text = vim.fn.substitute(vim.fn.getreg('+'), '[^\n]\\zs\n\\ze[^\n]', ' ', 'g')
   vim.fn.setreg('+', text)
 end, { desc = 'Copying text and replacing extra linebreaks', remap = false })
-map(
-  'n',
-  '<Leader>i',
-  require('modules.toggler').toggle_cword_at_cursor,
-  { desc = 'Module Toggler: toggle word under cursor' }
-)
+map('n', '<Leader>i', u.lazy_rhs_cb('modules.toggler', 'toggle_word'), { desc = 'Module Toggler: toggle word under cursor' })
 map({ 'x' }, '.', function()
   require('modules.expander').collapse_selection()
 end)
@@ -103,16 +98,7 @@ map('n', 'sc', u.lazy_rhs_cb('modules.surround', 'replace'))
 -- ============================================================================
 -- Other
 -- ============================================================================
-local function toggle_diagnostics()
-  local state = PREF.lsp.show_diagnostic
-  PREF.lsp.show_diagnostic = not state
-  if state then
-    vim.diagnostic.disable()
-    return
-  end
-  vim.diagnostic.enable()
-end
-map('n', '<Leader>td', toggle_diagnostics, { desc = 'Toggle diagnostic' })
+map('n', '<Leader>td', u.lazy_rhs_cb('config.lsp.diagnostics', 'toggle_diagnostics'), { desc = 'Toggle diagnostic' })
 map('n', 'Q', 'q', { desc = 'Start recording macro' })
 map('n', '[q', '<Cmd>cnext<Cr>', { desc = 'Go to next match in quickfix list' })
 map('n', ']q', '<Cmd>cprev<Cr>', { desc = 'Go to next match in quickfix list' })

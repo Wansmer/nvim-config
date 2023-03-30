@@ -1,6 +1,8 @@
 local lsp = require('lspconfig')
 local mlsp = require('mason-lspconfig')
-require('config.lsp.diagnostics')
+local diagnostics = require('config.lsp.diagnostics')
+
+diagnostics.apply()
 
 -- Premerge user settings
 local function make_config(server_name)
