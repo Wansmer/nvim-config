@@ -18,13 +18,14 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight copied text',
   callback = function()
     vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 100 })
   end,
 })
 
--- Rid auto comment for new string
 vim.api.nvim_create_autocmd('BufEnter', {
+  desc = 'Rid auto comment for new string',
   callback = function()
     vim.opt.formatoptions:remove({ 'c', 'r', 'o' })
   end,
@@ -42,8 +43,8 @@ if PREF.lsp.format_on_save then
   })
 end
 
--- Jump to the last place you’ve visited in a file before exiting
 vim.api.nvim_create_autocmd('BufReadPost', {
+  desc = 'Jump to the last place you’ve visited in a file before exiting',
   callback = function()
     local ignore_ft = { 'neo-tree', 'toggleterm', 'lazy' }
     local ft = vim.api.nvim_buf_get_option(0, 'filetype')
@@ -70,6 +71,7 @@ vim.api.nvim_create_autocmd('User', {
 
 -- Set default colorcolumn
 vim.api.nvim_create_autocmd('BufWinEnter', {
+  desc = 'Set colorcolumn equals textwidth',
   callback = function(data)
     local tw = vim.api.nvim_buf_get_option(data.buf, 'textwidth')
     vim.api.nvim_win_set_option(0, 'colorcolumn', tostring(tw))
@@ -82,6 +84,24 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
   callback = function()
     if vim.bo.filetype == 'help' then
       vim.cmd.wincmd('L')
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function()
+    local watcher = require('modules.watcher').new()
+
+    watcher:start()
+    watcher:on_any({
+      function()
+        vim.cmd.checktime()
+      end,
+    })
+
+    local ok, lm = pcall(require, 'langmapper')
+    if ok then
+      lm.automapping({ buffer = false })
     end
   end,
 })
