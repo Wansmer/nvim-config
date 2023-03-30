@@ -84,47 +84,25 @@ local function surround(prefix, postfix, range, text)
   if range then
     sr, sc, er, ec = unpack(range)
   else
-    sr, sc, er, ec = unpack(u.get_visual_range())
+    sr, sc, er, ec = u.to_api_range(u.get_visual_range())
   end
 
-  -- save real text in 'v' register (no independent of count byte in char)
   if not text then
-    vim.cmd.normal('"vy')
-    text = vim.split(vim.fn.getreg('v'), '\n', { plain = true })
-    -- clear register
-    vim.fn.setreg('v', '')
-  end
-
-  -- check two byte on end of range
-  local last_row = vim.fn.getline(er)
-  local char = last_row:sub(ec, ec + 1)
-
-  local last_col
-  if #char ~= 0 then
-    if #char == vim.fn.strdisplaywidth(char) then
-      -- if display len equals with byte len, use normal end col
-      last_col = ec
-    else
-      -- if display len not equals with byte len, use delta
-      last_col = #char - vim.fn.strdisplaywidth(char) + ec
-    end
-  else
-    last_col = 0
+    text = vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {})
   end
 
   text[1] = prefix .. text[1]
   text[#text] = text[#text] .. postfix
 
-  print('last_col', last_col)
-  vim.api.nvim_buf_set_text(0, sr - 1, sc, er - 1, last_col + 1, text)
+  u.feedkeys('<Esc>')
+  vim.api.nvim_buf_set_text(0, sr, sc, er, ec, text)
 end
 
 local function surround_link()
-  local range = u.get_visual_range()
+  local range = { u.to_api_range(u.get_visual_range()) }
   local reg = vim.fn.getreg('*')
   local default = false
-  vim.cmd.normal('"vy')
-  local text = vim.split(vim.fn.getreg('v'), '\n', { plain = true })
+  local text = vim.api.nvim_buf_get_text(0, range[1], range[2], range[3], range[4], {})
 
   -- TODO: find better way to check urls and paths
   local re = vim.regex('^https*\\|www')
