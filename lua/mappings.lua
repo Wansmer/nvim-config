@@ -1,3 +1,4 @@
+local u = require('utils')
 local map = vim.keymap.set
 
 -- ============================================================================
@@ -91,6 +92,9 @@ end)
 map({ 'x' }, ',', function()
   require('modules.expander').expand_selection()
 end)
+map('v', 'gc', u.lazy_rhs_cb('modules.comment', 'toggle_visual'))
+map('n', 'gc', u.lazy_rhs_cb('modules.comment', 'toggle_object'), { expr = true })
+map('n', 'gcc', u.lazy_rhs_cb('modules.comment', 'toggle_line'), { expr = true })
 
 -- ============================================================================
 -- Other
