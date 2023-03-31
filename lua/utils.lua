@@ -36,6 +36,10 @@ end
 
 -- From: https://neovim.discourse.group/t/how-do-you-work-with-strings-with-multibyte-characters-in-lua/2437/4
 local function char_byte_count(s, i)
+  if not s or s == '' then
+    return 1
+  end
+
   local char = string.byte(s, i or 1)
 
   -- Get byte count of unicode character (RFC 3629)
@@ -154,6 +158,34 @@ function M.current_branch()
     return vim.fn.system('git branch --show-current')
   end
   return ''
+end
+
+
+local function lang_for_range(tree, range)
+  for name, child in pairs(tree:children()) do
+    if name ~= 'comment' and child:contains(range) then
+      return vim.tbl_isempty(child:children()) and name or lang_for_range(child, range)
+    end
+  end
+  return tree:lang()
+end
+
+function M.get_lang()
+  local lang = vim.bo.filetype
+  local ts_ok, parsers = pcall(require, 'nvim-treesitter.parsers')
+
+  if ts_ok then
+    local cur = vim.api.nvim_win_get_cursor(0)
+    local indent = vim.fn.indent(cur[1])
+    if cur[2] < indent then
+      cur[2] = cur[2] + indent
+    end
+    local range = { cur[1] - 1, cur[2], cur[1] - 1, cur[2] }
+    local lang_tree = parsers.get_parser()
+    lang = lang_for_range(lang_tree, range)
+  end
+
+  return lang
 end
 
 return M

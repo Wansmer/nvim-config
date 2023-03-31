@@ -1,11 +1,14 @@
 local u = require('utils')
 
 local function get_comment_pattern()
-  return vim.split(vim.bo.commentstring, '%s', { plain = true })
+  local lang = u.get_lang()
+  local cs = tostring(vim.filetype.get_option(lang, 'commentstring'))
+  return vim.split(cs, '%s', { plain = true })
 end
 
 local function comment(line)
-  return vim.bo.commentstring:format(line)
+  local cs = tostring(vim.filetype.get_option(u.get_lang(), 'commentstring'))
+  return cs:format(line)
 end
 
 local function uncomment(line)
@@ -48,7 +51,7 @@ _G.__comment = function(method)
   local is_v = method == 'visual'
   local patterns = get_comment_pattern()
   if not vim.tbl_isempty(patterns) then
-    local sr, sc, er, ec = u.to_api_range(is_v and u.get_visual_range() or u.get_object_range())
+    local sr, _, er, _ = u.to_api_range(is_v and u.get_visual_range() or u.get_object_range())
 
     local lines = vim.api.nvim_buf_get_lines(0, sr, er + 1, true)
     local mode = is_commented(lines[1]) and 'uncomment' or 'comment'
