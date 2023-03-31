@@ -5,6 +5,6 @@ vim.g.maplocalleader = '['
 require('user_settings')
 require('options')
 require('plugins')
+require('config.colorscheme')
 require('mappings')
 require('autocmd')
-require('config.colorscheme')

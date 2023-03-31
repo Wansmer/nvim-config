@@ -65,6 +65,7 @@ vim.api.nvim_create_autocmd('User', {
     require('modules.mode_nr')
     require('modules.thincc')
     require('modules.markdown')
+    require('modules.router')
     require('usercmd')
   end,
 })
