@@ -24,8 +24,6 @@ local route_cmd = {
 }
 
 local function open_split(cmd, title)
-  vim.keymap.set('n', 'q', '<Cmd>bw!<Cr>', { buffer = buf })
-
   local result = vim.split(vim.fn.execute(cmd), '\n')
   result = vim.tbl_filter(function(line)
     return line ~= ''
@@ -51,6 +49,7 @@ local function open_split(cmd, title)
 
   vim.api.nvim_buf_set_lines(buf, 0, -1, true, result)
   vim.cmd.norm('G')
+  vim.keymap.set('n', 'q', '<Cmd>bw!<Cr>', { buffer = buf })
 end
 
 local function need_route(cmd)
@@ -91,13 +90,12 @@ vim.api.nvim_create_autocmd('CmdlineLeave', {
   callback = function()
     local event = vim.v.event
     if not event.abort and event.cmdtype == ':' then
-      local cmdcontent = vim.fn.getcmdline()
-      local need, data = need_route(cmdcontent)
+      local cmd = vim.fn.getcmdline()
+      local need, data = need_route(cmd)
       if need then
-        vim.fn.setcmdline(cmdcontent) -- to save history
-        -- TODO: find the way to silent abort current cmd
-        u.feedkeys('<C-c>') -- abort current cmd
-        open_split(cmdcontent, data.title) -- execute cmd and redirect to new window
+        vim.fn.setcmdline(cmd) -- to save history
+        u.feedkeys('<Esc>') -- abort current cmd
+        open_split(cmd, data.title) -- execute cmd and redirect to new window
       end
     end
   end,
