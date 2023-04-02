@@ -43,7 +43,6 @@ local function change_surround(from, to)
     local sr, sc, er, ec = u.to_api_range(u.get_visual_range())
 
     local lines = vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {})
-    print('Lines:', vim.inspect(lines), 'Range:', sr, sc, er, ec)
 
     lines[1] = replace_non_blank(lines[1], 'left', from_left, to_left)
     lines[#lines] = replace_non_blank(lines[#lines], 'right', from_right, to_right)
@@ -65,7 +64,6 @@ Surround.add_surround = function(char, is_v)
 
     local sr, sc, er, ec = u.to_api_range(is_v and u.get_visual_range() or u.get_object_range())
     local lines = vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {})
-    print('Lines:', vim.inspect(lines), 'Range:', sr, sc, er, ec)
 
     lines[1] = left .. lines[1]
     lines[#lines] = lines[#lines] .. right
