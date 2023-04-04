@@ -14,7 +14,7 @@ M.set_keymap = function(_, bufnr)
   map('n', '<leader>lp', vim.diagnostic.goto_prev, opts)
 
   -- Hover (symbol info)
-  map('n', '<leader>lh', vim.lsp.buf.hover, opts)
+  map('n', 'K', vim.lsp.buf.hover, opts)
 
   -- Formatting
   map('n', '<leader>lf', vim.lsp.buf.format, opts)
