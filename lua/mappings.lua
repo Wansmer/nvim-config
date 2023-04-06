@@ -1,4 +1,5 @@
 local u = require('utils')
+local cb = u.lazy_rhs_cb
 local map = vim.keymap.set
 
 -- ============================================================================
@@ -80,25 +81,43 @@ map('x', '<C-y>', function()
   local text = vim.fn.substitute(vim.fn.getreg('+'), '[^\n]\\zs\n\\ze[^\n]', ' ', 'g')
   vim.fn.setreg('+', text)
 end, { desc = 'Copying text and replacing extra linebreaks', remap = false })
-map('n', '<Leader>i', u.lazy_rhs_cb('modules.toggler', 'toggle_word'), { desc = 'Module Toggler: toggle word under cursor' })
+map('n', '<Leader>i', cb('modules.toggler', 'toggle_word'), { desc = 'Module Toggler: toggle word under cursor' })
 map({ 'x' }, '.', function()
   require('modules.expander').collapse_selection()
 end)
 map({ 'x' }, ',', function()
   require('modules.expander').expand_selection()
 end)
-map('v', 'gc', u.lazy_rhs_cb('modules.comment', 'toggle_visual'))
-map('n', 'gc', u.lazy_rhs_cb('modules.comment', 'toggle_object'), { expr = true })
-map('n', 'gcc', u.lazy_rhs_cb('modules.comment', 'toggle_line'), { expr = true })
-map('v', 'sa', u.lazy_rhs_cb('modules.surround', 'add_visual'))
-map('n', 'sa', u.lazy_rhs_cb('modules.surround', 'add'))
-map('n', 'sr', u.lazy_rhs_cb('modules.surround', 'remove'))
-map('n', 'sc', u.lazy_rhs_cb('modules.surround', 'replace'))
+map('v', 'gc', cb('modules.comment', 'toggle_visual'))
+map('n', 'gc', cb('modules.comment', 'toggle_object'), { expr = true })
+map('n', 'gcc', cb('modules.comment', 'toggle_line'), { expr = true })
+map('v', 'sa', cb('modules.surround', 'add_visual'))
+map('n', 'sa', cb('modules.surround', 'add'))
+map('n', 'sr', cb('modules.surround', 'remove'))
+map('n', 'sc', cb('modules.surround', 'replace'))
 
 -- ============================================================================
 -- Other
 -- ============================================================================
-map('n', '<Leader>td', u.lazy_rhs_cb('config.lsp.diagnostics', 'toggle_diagnostics'), { desc = 'Toggle diagnostic' })
+map('n', '<Leader>td', cb('config.lsp.diagnostics', 'toggle_diagnostics'), { desc = 'Toggle diagnostic' })
 map('n', 'Q', 'q', { desc = 'Start recording macro' })
 map('n', '[q', '<Cmd>cnext<Cr>', { desc = 'Go to next match in quickfix list' })
 map('n', ']q', '<Cmd>cprev<Cr>', { desc = 'Go to next match in quickfix list' })
+
+map('n', '<Leader><Leader>', function()
+  local plugins = require('lazy.core.config').plugins
+  for _, plug in ipairs(plugins) do
+    if plug.dev then
+      -- See: https://github.com/folke/lazy.nvim/issues/445#issuecomment-1426070401
+      local to_reload = plugins[plug.name]
+      require('lazy.core.loader').reload(to_reload)
+
+      local loader = vim.loader.find(plug.name)
+      for _, item in ipairs(loader) do
+        vim.loader.reset(item.modpath)
+      end
+
+      vim.notify('Reload ' .. plug.name)
+    end
+  end
+end, { desc = 'Reload all dev plugins' })
