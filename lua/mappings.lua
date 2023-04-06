@@ -106,18 +106,18 @@ map('n', ']q', '<Cmd>cprev<Cr>', { desc = 'Go to next match in quickfix list' })
 
 map('n', '<Leader><Leader>', function()
   local plugins = require('lazy.core.config').plugins
-  for _, plug in ipairs(plugins) do
+  for name, plug in pairs(plugins) do
     if plug.dev then
       -- See: https://github.com/folke/lazy.nvim/issues/445#issuecomment-1426070401
-      local to_reload = plugins[plug.name]
+      local to_reload = plugins[name]
       require('lazy.core.loader').reload(to_reload)
 
-      local loader = vim.loader.find(plug.name)
+      local loader = vim.loader.find(name)
       for _, item in ipairs(loader) do
         vim.loader.reset(item.modpath)
       end
 
-      vim.notify('Reload ' .. plug.name)
+      vim.notify('Reload ' .. name)
     end
   end
 end, { desc = 'Reload all dev plugins' })
