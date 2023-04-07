@@ -1,3 +1,4 @@
+local u = require('utils')
 local textwidth = PREF.common.textwidth
 local tabwidth = PREF.common.tabwidth
 
@@ -48,6 +49,10 @@ _G.__foldcolumn = function()
   else
     return chars.foldsep
   end
+end
+
+_G.__toggle_fold = function()
+  u.feedkeys('za')
 end
 
 local options = {
@@ -112,7 +117,7 @@ local options = {
   foldenable = true,
   foldmethod = 'expr',
   foldexpr = 'v:lua.vim.treesitter.foldexpr()',
-  statuscolumn = '%s%=' .. '%{v:lua.__number()}' .. ' %#FoldColumn#%{v:lua.__foldcolumn()} ',
+  statuscolumn = '%s%=' .. '%{v:lua.__number()}' .. ' %@v:lua.__toggle_fold@%#FoldColumn#%{v:lua.__foldcolumn()} ',
 
   -- ==========================================================================
   -- Other
