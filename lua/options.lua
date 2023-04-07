@@ -15,6 +15,39 @@ local langmap = vim.fn.join({
   escape(ru) .. ';' .. escape(en),
 }, ',')
 
+-- To display the `number` in the `statuscolumn` according to
+-- the `number` and `relativenumber` options and their combinations
+_G.__number = function()
+  local nu = vim.opt.number:get()
+  local rnu = vim.opt.relativenumber:get()
+  local cur_line = vim.fn.line('.') == vim.v.lnum and vim.v.lnum or vim.v.relnum
+
+  if nu and rnu then
+    return cur_line
+  elseif nu then
+    return vim.v.lnum
+  elseif rnu then
+    return vim.v.relnum
+  end
+
+  return ''
+end
+
+-- To display pretty fold's icons in `statuscolumn`
+_G.__foldcolumn = function()
+  if vim.fn.foldlevel(vim.v.lnum) > vim.fn.foldlevel(vim.v.lnum - 1) then
+    if vim.fn.foldclosed(vim.v.lnum) == -1 then
+      return ''
+    else
+      return ''
+    end
+  elseif vim.fn.foldlevel(vim.v.lnum) == 0 then
+    return ' '
+  else
+    return ' ' -- or "│" to use bar for show fold area
+  end
+end
+
 local options = {
   -- ==========================================================================
   -- Indents, spaces, tabulation
@@ -74,15 +107,7 @@ local options = {
   foldenable = true,
   foldmethod = 'expr',
   foldexpr = 'v:lua.vim.treesitter.foldexpr()',
-  statuscolumn = '%s%=%l %#FoldColumn#%{'
-    .. 'foldlevel(v:lnum) > foldlevel(v:lnum - 1)'
-    .. '? foldclosed(v:lnum) == -1'
-    .. '? ""'
-    .. ': ""'
-    .. ': foldlevel(v:lnum) == 0'
-    .. '? " "'
-    .. ': " "' -- "│" -- to use bar for show fold area
-    .. '} ',
+  statuscolumn = '%s%=' .. '%{v:lua.__number()}' .. ' %#FoldColumn#%{v:lua.__foldcolumn()} ',
 
   -- ==========================================================================
   -- Other
