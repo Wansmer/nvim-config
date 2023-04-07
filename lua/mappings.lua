@@ -112,9 +112,9 @@ map('n', '<Leader><Leader>', function()
       local to_reload = plugins[name]
       require('lazy.core.loader').reload(to_reload)
 
-      local loader = vim.loader.find(name)
-      for _, item in ipairs(loader) do
-        vim.loader.reset(item.modpath)
+      local loaders = vim.loader.find(name, { all = true })
+      for _, loader in ipairs(loaders) do
+        vim.loader.reset(loader.modpath)
       end
 
       vim.notify('Reload ' .. name)
