@@ -1,9 +1,11 @@
+local DEV = false
+
 return {
   'Wansmer/langmapper',
   enabled = true,
-  dir = '~/projects/code/personal/langmapper',
-  dev = true,
-  lazy = true, -- important
+  dir = DEV and '~/projects/code/personal/langmapper' or nil,
+  dev = DEV,
+  lazy = false,
   priority = 1,
   config = function()
     require('langmapper').setup()

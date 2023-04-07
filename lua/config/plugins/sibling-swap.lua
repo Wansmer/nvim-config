@@ -1,7 +1,9 @@
+local DEV = true
+
 return {
   'Wansmer/sibling-swap.nvim',
-  dir = '~/projects/code/personal/sibling-swap',
-  dev = false,
+  dir = DEV and '~/projects/code/personal/sibling-swap' or nil,
+  dev = DEV,
   enabled = true,
   keys = {
     '<C-.>',
