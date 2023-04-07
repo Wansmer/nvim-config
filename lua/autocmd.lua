@@ -90,6 +90,7 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
 })
 
 vim.api.nvim_create_autocmd('VimEnter', {
+  desc = 'Common watcher for every dir opened by Nvim',
   callback = function()
     local watcher = require('modules.watcher').new()
 
@@ -104,5 +105,36 @@ vim.api.nvim_create_autocmd('VimEnter', {
     if ok then
       lm.automapping({ buffer = false })
     end
+  end,
+})
+
+vim.api.nvim_create_autocmd('VimEnter', {
+  desc = 'Reload config if it possible',
+  callback = function()
+    local dir = vim.fn.fnamemodify(vim.fn.expand('$MYVIMRC'), ':p:h') .. '/'
+    local ignore = { '%.git$', '%.git/', '%~$', '4913$', 'plugins', 'colorscheme' }
+    local watcher = require('modules.watcher').new(dir, nil, ignore)
+
+    watcher:start()
+
+    watcher:on_change({
+      function(_, fname, _)
+        if vim.endswith(fname, '.lua') then
+          local path = vim.fn.fnamemodify(fname, ':.:r')
+          local modpath = path:gsub('lua/', ''):gsub('/', '.')
+
+          if package.loaded[modpath] then
+            package.loaded[modpath] = nil
+          end
+
+          if package.preload[modpath] then
+            package.preload[modpath] = nil
+          end
+
+          vim.loader.reset(fname)
+          pcall(vim.cmd.source, fname)
+        end
+      end,
+    })
   end,
 })
