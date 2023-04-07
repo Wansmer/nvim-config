@@ -62,7 +62,7 @@ Watcher.__index = Watcher
 Watcher.new = function(path, opts, ignore, root_pattern)
   path = path or vim.loop.cwd() .. '/'
   opts = opts or { watch_entry = false, stat = false, recursive = true }
-  ignore = ignore or { '^%.git', '%~$', '^4913$' }
+  ignore = ignore or { '^%.git', '%.git/', '%~$', '4913$' }
   root_pattern = root_pattern or '.git/'
   local run = true
   local tree = {}
