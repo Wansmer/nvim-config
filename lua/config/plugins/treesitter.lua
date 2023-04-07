@@ -8,7 +8,39 @@ return {
   config = function()
     local configs = require('nvim-treesitter.configs')
     configs.setup({
-      ensure_installed = 'all',
+      ensure_installed = {
+        'bash',
+        'c',
+        'cmake',
+        'cpp',
+        'css',
+        'diff',
+        'dockerfile',
+        'gitignore',
+        'html',
+        'javascript',
+        'jsdoc',
+        'json',
+        'json5',
+        'jsonc',
+        'lua',
+        'luadoc',
+        'luap',
+        'make',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'regex',
+        'scss',
+        'sql',
+        'toml',
+        'tsx',
+        'typescript',
+        'vim',
+        'vimdoc',
+        'vue',
+        'yaml',
+      },
       sync_install = false,
       ignore_install = { 'phpdoc', 'comment' },
       highlight = {
@@ -20,6 +52,16 @@ return {
       -- WARNING: Делает лишний отступ во vue
       indent = {
         enable = true,
+      },
+
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = 'gnn', -- set to `false` to disable one of the mappings
+          node_incremental = ',',
+          scope_incremental = 'grc',
+          node_decremental = '.',
+        },
       },
 
       -- TREESITTER PLUGINS
