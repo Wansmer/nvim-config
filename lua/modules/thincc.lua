@@ -136,3 +136,8 @@ vim.api.nvim_create_autocmd(events, {
   group = group,
   callback = set_thin_colorcolumn,
 })
+
+vim.api.nvim_create_autocmd('OptionSet', {
+  pattern = 'colorcolumn',
+  callback = set_thin_colorcolumn,
+})
