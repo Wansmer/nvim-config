@@ -44,7 +44,7 @@ PREF = {
 
   ui = {
     -- (!) список поддерживаемых тем: lua/config/colorscheme/init.lua
-    colorscheme = 'catppuccin',
+    colorscheme = 'tundra',
 
     -- Вид бордера для всплывающих окон. Может быть строкой или таблицей
     border = 'single',
