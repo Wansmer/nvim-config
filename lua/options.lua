@@ -33,18 +33,20 @@ _G.__number = function()
   return ''
 end
 
--- To display pretty fold's icons in `statuscolumn`
+-- To display pretty fold's icons in `statuscolumn` and show it according to `fillchars`
 _G.__foldcolumn = function()
+  local chars = vim.opt.fillchars:get()
+
   if vim.fn.foldlevel(vim.v.lnum) > vim.fn.foldlevel(vim.v.lnum - 1) then
     if vim.fn.foldclosed(vim.v.lnum) == -1 then
-      return ''
+      return chars.foldopen
     else
-      return ''
+      return chars.foldclosed
     end
   elseif vim.fn.foldlevel(vim.v.lnum) == 0 then
     return ' '
   else
-    return ' ' -- or "│" to use bar for show fold area
+    return chars.foldsep
   end
 end
 
@@ -79,6 +81,9 @@ local options = {
   fillchars = {
     eob = ' ',
     fold = ' ',
+    foldopen = '',
+    foldclose = '',
+    foldsep = ' ', -- or "│" to use bar for show fold area
   },
   title = false,
 
