@@ -7,7 +7,7 @@ local function is_list(line)
   local list_reg = {
     '^%s*([%-%>%+%*]) ',
     '^%s*(%d+). ',
-    '^%s*(%w). ',
+    '^%s*(%w)%. ',
   }
 
   for _, reg in ipairs(list_reg) do
