@@ -1,5 +1,4 @@
 local lsp = require('lspconfig')
-local mlsp = require('mason-lspconfig')
 local diagnostics = require('config.lsp.diagnostics')
 
 diagnostics.apply()
@@ -15,7 +14,16 @@ local function make_config(server_name)
   return config
 end
 
-local servers = mlsp.get_installed_servers()
+local servers = {
+  'volar',
+  'tsserver',
+  'lua_ls',
+  'html',
+  'emmet_ls',
+  'marksman',
+  'cssls',
+  'jsonls',
+}
 
 for _, server_name in pairs(servers) do
   local opts = make_config(server_name)

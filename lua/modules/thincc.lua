@@ -12,7 +12,6 @@ local disable_ft = {
   'alpha',
   'neo-tree',
   'toggleterm',
-  'mason',
   'lazy',
   'lspinfo',
   'null-ls-info',

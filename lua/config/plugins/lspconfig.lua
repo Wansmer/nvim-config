@@ -5,8 +5,6 @@ return {
   dependencies = {
     'b0o/SchemaStore.nvim',
     'hrsh7th/cmp-nvim-lsp',
-    'mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
     {
       'folke/neodev.nvim',
       config = function()
