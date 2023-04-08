@@ -32,3 +32,14 @@ Clone the repo to `config` directory and run Neovim:
 $ git clone https://github.com/Wansmer/nvim-config ~/.config/nvim
 $ nvim
 ```
+
+## LSP
+
+```bash
+$ npm i -g typescript-language-server typescript
+$ npm i -g @volar/vue-language-server
+$ npm i -g vscode-langservers-extracted # css, html, json
+$ npm i -g emmet-ls
+$ brew install lua-language-server
+$ brew install marksman
+```
