@@ -25,21 +25,6 @@ PREF = {
     -- использовать take_over_mode для проектов vue3
     -- настройка отключает отдельный tsserver и использует volar для .ts, .js и т.д.
     tom_enable = true,
-
-    -- (!)серверы, которые будут установлены по по умолчанию
-    -- если сервер требует доп.настроек, то нужно поместить одноименный файл с настройками
-    -- в lua/config/lsp/servers
-    preinstall_servers = {
-      'lua_ls',
-      'tsserver',
-      'volar',
-      'cssls',
-      'html',
-      'emmet_ls',
-      'jsonls',
-      'marksman',
-      'ltex',
-    },
   },
 
   ui = {
