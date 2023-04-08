@@ -43,3 +43,12 @@ $ npm i -g emmet-ls
 $ brew install lua-language-server
 $ brew install marksman
 ```
+
+## Linters/Formatters
+
+```bash
+$ brew install stylua
+$ npm i -g eslint # or `npm init @eslint/config` to generate default `.eslintrc`
+$ npm i -g prettier
+$ npm i -g stylelint
+```
