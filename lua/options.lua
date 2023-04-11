@@ -1,4 +1,4 @@
-local u = require('utils')
+local stl = require('modules.statusline')
 local textwidth = PREF.common.textwidth
 local tabwidth = PREF.common.tabwidth
 
@@ -51,10 +51,6 @@ _G.__foldcolumn = function()
   end
 end
 
-_G.__toggle_fold = function()
-  u.feedkeys('za')
-end
-
 local options = {
   -- ==========================================================================
   -- Indents, spaces, tabulation
@@ -82,7 +78,7 @@ local options = {
   scrolloff = 3,
   sidescrolloff = 3,
   colorcolumn = tostring(textwidth),
-  laststatus = 0,
+  laststatus = 3,
   fillchars = {
     eob = ' ',
     fold = ' ',
@@ -91,6 +87,7 @@ local options = {
     foldsep = ' ', -- or "│" to use bar for show fold area
   },
   title = false,
+  statusline = stl,
 
   -- ==========================================================================
   -- Text
@@ -117,7 +114,11 @@ local options = {
   foldenable = true,
   foldmethod = 'expr',
   foldexpr = 'v:lua.vim.treesitter.foldexpr()',
-  statuscolumn = '%s%=' .. '%{v:lua.__number()}' .. ' %@v:lua.__toggle_fold@%#FoldColumn#%{v:lua.__foldcolumn()} ',
+  statuscolumn = vim.fn.join({
+    '%s%=',
+    '%{v:lua.__number()}',
+    ' %#FoldColumn#%{v:lua.__foldcolumn()} ',
+  }, ''),
 
   -- ==========================================================================
   -- Other
