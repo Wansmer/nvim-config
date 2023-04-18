@@ -149,10 +149,9 @@ return {
       source_selector = {
         winbar = true,
         content_layout = 'center',
-        tab_labels = {
-          filesystem = '  Project ',
-          git_status = '  Git ',
-          buffers = nil,
+        sources = {
+          { source = 'filesystem' },
+          { source = 'git_status' },
         },
       },
     })
