@@ -25,6 +25,7 @@ M.flags = {
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Luasnip
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.semanticTokensProvider = nil
 
 M.capabilities = capabilities
 
