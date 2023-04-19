@@ -14,7 +14,14 @@ return {
       's1n7ax/nvim-window-picker',
       version = 'v1.*',
       config = function()
-        require('window-picker').setup({
+        local picker = require('window-picker')
+
+        require('window-picker.util').get_user_input_char = function()
+          local char = vim.fn.getcharstr()
+          return require('langmapper.utils').translate_keycode(char, 'default', 'ru')
+        end
+
+        picker.setup({
           autoselect_one = true,
           include_current_win = false,
           show_prompt = false,
