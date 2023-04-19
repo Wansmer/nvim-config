@@ -16,9 +16,12 @@ return {
       config = function()
         local picker = require('window-picker')
 
-        require('window-picker.util').get_user_input_char = function()
-          local char = vim.fn.getcharstr()
-          return require('langmapper.utils').translate_keycode(char, 'default', 'ru')
+        local lm_ok, lm_utils = pcall(require, 'langmapper.utils')
+        if lm_ok then
+          require('window-picker.util').get_user_input_char = function()
+            local char = vim.fn.getcharstr()
+            return lm_utils.translate_keycode(char, 'default', 'ru')
+          end
         end
 
         picker.setup({
