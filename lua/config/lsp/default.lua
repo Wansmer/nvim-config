@@ -7,6 +7,9 @@ M.on_attach = function(client, bufnr)
   -- Enable formatting for ranges
   vim.api.nvim_buf_set_option(bufnr, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
 
+  -- Disable semantic tokens highlight
+  client.server_capabilities.semanticTokensProvider = nil
+
   set_keymaps(client, bufnr)
 
   -- Disables built-in LSP formatters if null-ls provides specials formatters for current filetype
@@ -25,7 +28,6 @@ M.flags = {
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Luasnip
 capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.semanticTokensProvider = nil
 
 M.capabilities = capabilities
 
