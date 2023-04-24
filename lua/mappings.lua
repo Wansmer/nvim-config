@@ -1,6 +1,7 @@
 local u = require('utils')
 local cb = u.lazy_rhs_cb
 local map = vim.keymap.set
+local del = vim.keymap.del
 
 -- ============================================================================
 -- Escape mappings
@@ -50,11 +51,11 @@ map({ 'i', 't' }, '<C-n>', '<Down>', { desc = 'Move cursor down one line' })
 map({ 'i', 't' }, '<C-a>', '<Home>', { desc = 'Move cursor to start of the line' })
 map({ 'i', 't' }, '<C-e>', '<End>', { desc = 'Move cursor to end of the line' })
 map({ 'i', 't' }, '<C-d>', '<Delete>', { desc = 'Delete one letter after cursor' })
-map('n', 'gh', 'g^', { desc = 'Go to first non-blank character in the line' })
-map('x', 'gh', 'g^', { desc = 'Go to first non-blank character in the line' })
-map('n', 'gl', 'g_', { desc = 'Go to last non-blank character in the line' })
-map('x', 'gl', 'g_', { desc = 'Go to last non-blank character in the line' })
-map({ 'n', 'x' }, '*', '*N', { desc = 'Search word or selection' })
+-- map('n', 'gh', 'g^', { desc = 'Go to first non-blank character in the line' })
+-- map('x', 'gh', 'g^', { desc = 'Go to first non-blank character in the line' })
+-- map('n', 'gl', 'g_', { desc = 'Go to last non-blank character in the line' })
+-- map('x', 'gl', 'g_', { desc = 'Go to last non-blank character in the line' })
+-- map({ 'n', 'x' }, '*', '*N', { desc = 'Search word or selection' })
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map({ 'n', 'x', 'o' }, 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next search result' })
 map({ 'n', 'x', 'o' }, 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result' })
@@ -65,8 +66,8 @@ map({ 'n', 'x', 'o' }, 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev
 -- WARNING: use ':' instead <Cmd> in visual mode (x, s, v) + ex command
 map('n', '<Leader>s', 'dawea <Esc>px', { desc = 'Swap word with right-side word' })
 map('i', '<S-Cr>', '<C-o>o', { desc = 'Create new line below and jump there' })
-map('x', '<', '<gv', { desc = 'One indent left and reselect' })
-map('x', '>', '>gv|', { desc = 'One indent right and reselect' })
+-- map('x', '<', '<gv', { desc = 'One indent left and reselect' })
+-- map('x', '>', '>gv|', { desc = 'One indent right and reselect' })
 map('x', '<S-Tab>', '<gv', { desc = 'One indent left and reselect' })
 map('x', '<Tab>', '>gv|', { desc = 'One indent right and reselect' })
 map('n', '<C-n>', '<Cmd>move+1<Cr>==', { desc = 'Move current line downward' })
@@ -112,3 +113,5 @@ map('n', '<Leader><Leader>', function()
     end
   end
 end, { desc = 'Reload all dev plugins' })
+
+del('n', 'Y')
