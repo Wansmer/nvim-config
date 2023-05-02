@@ -40,14 +40,14 @@ _G.__foldcolumn = function()
 
   if vim.fn.foldlevel(vim.v.lnum) > vim.fn.foldlevel(vim.v.lnum - 1) then
     if vim.fn.foldclosed(vim.v.lnum) == -1 then
-      return chars.foldopen
+      return chars.foldopen or ' '
     else
-      return chars.foldclose
+      return chars.foldclose or ' '
     end
   elseif vim.fn.foldlevel(vim.v.lnum) == 0 then
     return ' '
   else
-    return chars.foldsep
+    return chars.foldsep or ' '
   end
 end
 
