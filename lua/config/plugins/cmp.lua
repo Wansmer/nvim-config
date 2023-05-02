@@ -74,7 +74,6 @@ return {
       mapping = {
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-x>'] = cmp.mapping(cmp.mapping.complete({}), { 'i', 'c' }),
         ['<C-y>'] = cmp.config.disable,
         ['<C-e>'] = cmp.mapping({
           i = cmp.mapping.abort(),
