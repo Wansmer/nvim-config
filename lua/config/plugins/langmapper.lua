@@ -8,6 +8,8 @@ return {
   lazy = false,
   priority = 1,
   config = function()
-    require('langmapper').setup()
+    local lm = require('langmapper')
+    lm.setup()
+    lm.hack_get_keymap()
   end,
 }
