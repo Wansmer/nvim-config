@@ -54,6 +54,7 @@ return {
     require('luasnip/loaders/from_vscode').lazy_load()
 
     cmp.setup({
+      preselect = 'None',
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
@@ -126,7 +127,21 @@ return {
       sources = {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
-        { name = 'buffer' },
+        {
+          name = 'buffer',
+          option = {
+            -- uses 'iskeyword' to indicate words for completion
+            keyword_pattern = [[\k\+]],
+            -- completion from all visible buffers
+            get_bufnrs = function()
+              local bufs = {}
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                bufs[vim.api.nvim_win_get_buf(win)] = true
+              end
+              return vim.tbl_keys(bufs)
+            end,
+          },
+        },
         { name = 'path' },
         { name = 'nvim_lsp_signature_help' },
         {
@@ -147,19 +162,25 @@ return {
         },
       },
       experimental = {
-        ghost_text = true,
-        native_menu = false,
+        ghost_text = false,
+      },
+
+      view = {
+        entries = {
+          name = 'custom',
+          selection_order = 'top_down',
+        },
       },
     })
 
     local cmd_mapping = {
       ['<C-n>'] = function()
         local key = vim.api.nvim_replace_termcodes('<Down>', true, true, true)
-        vim.api.nvim_feedkeys(key, 'c', true)
+        vim.api.nvim_feedkeys(key, 'n', true)
       end,
       ['<C-p>'] = function()
         local key = vim.api.nvim_replace_termcodes('<Up>', true, true, true)
-        vim.api.nvim_feedkeys(key, 'c', true)
+        vim.api.nvim_feedkeys(key, 'n', true)
       end,
     }
 
