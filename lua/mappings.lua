@@ -95,6 +95,7 @@ map('n', '<Leader>td', cb('config.lsp.diagnostics', 'toggle_diagnostics'), { des
 map('n', 'Q', 'q', { desc = 'Start recording macro' })
 map('n', '[q', '<Cmd>cnext<Cr>', { desc = 'Go to next match in quickfix list' })
 map('n', ']q', '<Cmd>cprev<Cr>', { desc = 'Go to next match in quickfix list' })
+map('n', '<LocalLeader>e', '<Cmd>Neotree focus toggle<Cr>', { desc = 'Open file explorer' })
 
 map('n', '<Leader><Leader>', function()
   local plugins = require('lazy.core.config').plugins
