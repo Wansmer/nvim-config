@@ -63,7 +63,6 @@ vim.api.nvim_create_autocmd('User', {
   callback = function()
     require('modules.key_listener')
     require('modules.mode_nr')
-    require('modules.thincc')
     require('modules.markdown')
     require('modules.router')
     require('usercmd')
@@ -92,19 +91,19 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
 vim.api.nvim_create_autocmd('VimEnter', {
   desc = 'Common watcher for every dir opened by Nvim',
   callback = function()
-    local watcher = require('modules.watcher').new()
-
-    watcher:start()
-    watcher:on_any({
-      function()
-        vim.cmd.checktime()
-      end,
-    })
-
-    local ok, lm = pcall(require, 'langmapper')
-    if ok then
-      lm.automapping({ buffer = false })
-    end
+    -- local watcher = require('modules.watcher').new()
+    --
+    -- watcher:start()
+    -- watcher:on_any({
+    --   function()
+    --     vim.cmd.checktime()
+    --   end,
+    -- })
+    --
+    -- local ok, lm = pcall(require, 'langmapper')
+    -- if ok then
+    --   lm.automapping({ buffer = false })
+    -- end
   end,
 })
 
@@ -137,4 +136,9 @@ vim.api.nvim_create_autocmd('VimEnter', {
       end,
     })
   end,
+})
+
+vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
+  desc = 'Reload file if it changed',
+  command = 'checktime',
 })
