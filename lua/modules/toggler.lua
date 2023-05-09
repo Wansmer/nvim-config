@@ -22,8 +22,10 @@ local opposites = vim.tbl_add_reverse_lookup({
   ['left'] = 'right',
   ['up'] = 'down',
   ['split'] = 'join',
+  -- TODO: below is not working. Need fix
   ['!='] = '==',
   ['!=='] = '===',
+  ['<'] = '>',
 })
 
 ---Convert string's chars to same case like base string
