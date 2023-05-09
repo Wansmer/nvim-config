@@ -23,6 +23,7 @@ local servers = {
   'marksman',
   'cssls',
   'jsonls',
+  'rust_analyzer',
 }
 
 for _, server_name in pairs(servers) do

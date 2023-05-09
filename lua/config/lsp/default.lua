@@ -8,7 +8,9 @@ M.on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
 
   -- Disable semantic tokens highlight
-  client.server_capabilities.semanticTokensProvider = nil
+  if client.server_capabilities.semanticTokensProvider then
+    client.server_capabilities.semanticTokensProvider = nil
+  end
 
   set_keymaps(client, bufnr)
 

@@ -40,6 +40,8 @@ return {
         'vimdoc',
         'vue',
         'yaml',
+        'dart',
+        'rust',
       },
       sync_install = false,
       ignore_install = { 'phpdoc', 'comment' },
