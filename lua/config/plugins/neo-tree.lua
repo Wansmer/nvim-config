@@ -1,13 +1,7 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
   enabled = true,
-  keys = {
-    {
-      '<Localleader>e',
-      '<Cmd>Neotree focus toggle<Cr>',
-      desc = 'Open file explorer',
-    },
-  },
+  cmd = { 'Neotree' },
   dependencies = {
     'MunifTanjim/nui.nvim',
     {
