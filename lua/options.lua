@@ -1,4 +1,4 @@
-local stl = require('modules.statusline')
+-- local stl = require('modules.statusline')
 local textwidth = PREF.common.textwidth
 local tabwidth = PREF.common.tabwidth
 
@@ -87,7 +87,7 @@ local options = {
     foldsep = ' ', -- or "│" to use bar for show fold area
   },
   title = false,
-  statusline = stl,
+  -- statusline = stl,
 
   -- ==========================================================================
   -- Text
