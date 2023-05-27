@@ -52,9 +52,7 @@ end
 ---@param col integer|nil Original value of colorcolumn or nil for disable buffer
 local function update_registry(buf, col)
   local key = make_registry_key(buf)
-  if not registry[key] then
-    registry[key] = { col = col }
-  end
+  if not registry[key] then registry[key] = { col = col } end
 end
 
 ---Calculating target col to set extmark
@@ -110,9 +108,7 @@ end
 local function set_thin_colorcolumn()
   local ft = vim.api.nvim_buf_get_option(0, 'filetype')
 
-  if vim.tbl_contains(disable_ft, ft) then
-    return
-  end
+  if vim.tbl_contains(disable_ft, ft) then return end
 
   local bufnr = vim.api.nvim_get_current_buf()
   if vim.api.nvim_buf_is_loaded(bufnr) then

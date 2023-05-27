@@ -57,18 +57,14 @@ local function need_route(cmd)
   local cleared = vim.trim(cmd)
   local has, need, data
 
-  if start and end_ then
-    cleared = vim.trim(cmd:sub(end_ + 1))
-  end
+  if start and end_ then cleared = vim.trim(cmd:sub(end_ + 1)) end
 
   local commands = vim.tbl_keys(route_cmd)
   local key = ''
 
   has = u.some(commands, function(el)
     local found = vim.startswith(cleared, el)
-    if found then
-      key = el
-    end
+    if found then key = el end
     return found
   end)
 
