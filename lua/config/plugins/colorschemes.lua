@@ -26,4 +26,19 @@ return {
     lazy = false,
     enabled = PREF.ui.colorscheme == 'vscode',
   },
+  {
+    'neanias/everforest-nvim',
+    version = false,
+    lazy = false,
+    enabled = PREF.ui.colorscheme == 'everforest',
+  },
+  {
+    'ramojus/mellifluous.nvim',
+    dependencies = { 'rktjmp/lush.nvim' },
+    enabled = PREF.ui.colorscheme == 'mellifluous',
+  },
+  {
+    'loctvl842/monokai-pro.nvim',
+    enabled = PREF.ui.colorscheme == 'monokai-pro',
+  },
 }

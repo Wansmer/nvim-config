@@ -16,7 +16,7 @@ PREF = {
 
   ui = {
     -- (!) List of colorschemes lua/config/colorscheme/init.lua
-    colorscheme = 'tundra',
+    colorscheme = 'monokai-pro',
     border = 'single',
     italic_comment = true,
   },
