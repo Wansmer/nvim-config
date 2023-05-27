@@ -27,9 +27,13 @@ map('n', '<C-l>', '<C-w>l', { desc = 'Focus to bottom-side window' })
 map({ 'n', 'i', 'x' }, '<C-s>', '<Esc><Cmd>up<Cr>', { desc = 'Save buffer into file' })
 map('n', '<C-->', '<Cmd>vertical resize -2<Cr>', { desc = 'Vertical resize +' })
 map('n', '<C-=>', '<Cmd>vertical resize +2<Cr>', { desc = 'Vertical resize -' })
-map('n', 'tsp', function()
-  vim.treesitter.inspect_tree({ command = 'set nonumber | 60vnew' })
-end, { desc = 'Open treesitter tree for current buffer' })
+map('n', 'tsp', '<Cmd>TSPlaygroundToggle<Cr>')
+map('n', 'tsn', '<Cmd>TSNodeUnderCursor<Cr>')
+map('n', 'tsh', '<Cmd>TSHighlightCapturesUnderCursor<Cr>')
+-- Use playground plugin instead
+-- map('n', 'tsp', function()
+--   vim.treesitter.inspect_tree({ command = '60vnew' })
+-- end, { desc = 'Open treesitter tree for current buffer' })
 
 -- ============================================================================
 -- Movements on text
