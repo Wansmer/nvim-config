@@ -1,4 +1,4 @@
-local DEV = true
+local DEV = false
 
 return {
   'Wansmer/sibling-swap.nvim',
