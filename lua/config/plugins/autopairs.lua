@@ -29,6 +29,7 @@ return {
         local pair = opts.line:sub(opts.col - 1, opts.col)
         return vim.tbl_contains({ '()', '[]', '{}' }, pair)
       end),
+      Rule('|', '|', 'rust'),
     })
   end,
 }

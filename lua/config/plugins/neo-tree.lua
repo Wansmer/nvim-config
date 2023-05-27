@@ -1,6 +1,7 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
   enabled = true,
+  version = 'v2.*',
   cmd = { 'Neotree' },
   dependencies = {
     'MunifTanjim/nui.nvim',
@@ -88,6 +89,16 @@ return {
       -- Use '/' for regular search
       ['/'] = false,
     }
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'neo-tree',
+      callback = function()
+        vim.schedule(function()
+          local winid = vim.api.nvim_get_current_win()
+          if vim.wo[winid] ~= '' then vim.wo[winid].statuscolumn = '' end
+        end)
+      end,
+    })
 
     neotree.setup({
       sources = {

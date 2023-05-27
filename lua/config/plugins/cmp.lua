@@ -80,6 +80,7 @@ return {
           i = cmp.mapping.abort(),
           c = cmp.mapping.close(),
         }),
+        ['<C-x>'] = cmp.mapping(cmp.mapping.complete({}), { 'i', 'c' }),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
@@ -148,6 +149,7 @@ return {
           name = 'rg',
           keyword_length = 3,
         },
+        { name = 'crates' },
       },
       confirm_opts = {
         behavior = cmp.ConfirmBehavior.Replace,

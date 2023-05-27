@@ -8,6 +8,7 @@ return {
     rt.setup({
       tools = {
         inlay_hints = {
+          show_parameter_hints = true,
           only_current_line = true,
           parameter_hints_prefix = '<- ',
           other_hints_prefix = '=> ',
@@ -37,8 +38,8 @@ return {
         },
         on_attach = function(_, bufnr)
           -- Remap defaul hover and code_actions keybindings
-          vim.keymap.set('n', 'K', rt.hover_actions.hover_actions, { buffer = bufnr })
-          vim.keymap.set('n', '<Leader>la', rt.code_action_group.code_action_group, { buffer = bufnr })
+          vim.keymap.set('n', '<Leader>lh', rt.hover_actions.hover_actions, { buffer = bufnr })
+          vim.keymap.set('n', '<Leader>lA', rt.code_action_group.code_action_group, { buffer = bufnr })
         end,
       },
     })

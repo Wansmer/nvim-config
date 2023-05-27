@@ -32,7 +32,7 @@ return {
 
         -- html
         formatting.prettier.with({
-          filetypes = { 'html', 'json', 'markdown' },
+          filetypes = { 'html', 'json', 'markdown', 'toml' },
         }),
         diagnostics.tidy,
 
