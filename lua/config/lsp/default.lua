@@ -5,12 +5,15 @@ local set_keymaps = require('config.lsp.mappings').set_keymap
 
 M.on_attach = function(client, bufnr)
   -- Enable formatting for ranges
-  vim.api.nvim_buf_set_option(bufnr, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
+  if vim.fn.has('nvim-0.10.0') then
+    vim.api.nvim_set_option_value('formatexpr', 'v:lua.vim.lsp.formatexpr()', { buf = bufnr })
+  else
+    ---@diagnostic disable-next-line: redundant-parameter
+    vim.api.nvim_buf_set_option(bufnr, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
+  end
 
   -- Disable semantic tokens highlight
-  if client.server_capabilities.semanticTokensProvider then
-    client.server_capabilities.semanticTokensProvider = nil
-  end
+  if client.server_capabilities.semanticTokensProvider then client.server_capabilities.semanticTokensProvider = nil end
 
   set_keymaps(client, bufnr)
 

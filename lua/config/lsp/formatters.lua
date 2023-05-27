@@ -1,8 +1,6 @@
 -- Based on https://github.com/alpha2phi/neovim-for-beginner
 local ok, null_ls = pcall(require, 'null-ls')
-if not ok then
-  return
-end
+if not ok then return end
 
 local nls_sources = require('null-ls.sources')
 
