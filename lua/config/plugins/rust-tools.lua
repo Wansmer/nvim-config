@@ -8,7 +8,8 @@ return {
     rt.setup({
       tools = {
         inlay_hints = {
-          show_parameter_hints = true,
+          auto = false,
+          show_parameter_hints = false,
           only_current_line = true,
           parameter_hints_prefix = '<- ',
           other_hints_prefix = '=> ',

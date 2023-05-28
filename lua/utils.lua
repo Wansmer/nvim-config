@@ -8,10 +8,14 @@ function M.is_lower(str)
 end
 
 function M.some(tbl, cb)
-  if not vim.tbl_islist(tbl) or vim.tbl_isempty(tbl) then return false end
+  if not vim.tbl_islist(tbl) or vim.tbl_isempty(tbl) then
+    return false
+  end
 
   for _, item in ipairs(tbl) do
-    if cb(item) then return true end
+    if cb(item) then
+      return true
+    end
   end
 
   return false
@@ -32,7 +36,9 @@ end
 
 -- From: https://neovim.discourse.group/t/how-do-you-work-with-strings-with-multibyte-characters-in-lua/2437/4
 local function char_byte_count(s, i)
-  if not s or s == '' then return 1 end
+  if not s or s == '' then
+    return 1
+  end
 
   local char = string.byte(s, i or 1)
 
@@ -148,7 +154,9 @@ function M.git_status()
 end
 
 function M.current_branch()
-  if vim.loop.fs_stat(vim.loop.cwd() .. '/.git') then return vim.fn.system('git branch --show-current') end
+  if vim.loop.fs_stat(vim.loop.cwd() .. '/.git') then
+    return vim.fn.system('git branch --show-current')
+  end
   return ''
 end
 
@@ -168,7 +176,9 @@ function M.get_lang()
   if ts_ok then
     local cur = vim.api.nvim_win_get_cursor(0)
     local indent = vim.fn.indent(cur[1])
-    if cur[2] < indent then cur[2] = cur[2] + indent end
+    if cur[2] < indent then
+      cur[2] = cur[2] + indent
+    end
     local range = { cur[1] - 1, cur[2], cur[1] - 1, cur[2] }
     local lang_tree = parsers.get_parser()
     lang = lang_for_range(lang_tree, range)

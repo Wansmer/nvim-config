@@ -17,9 +17,13 @@ local paired = {
 local function replace_non_blank(line, side, from, to)
   local pad_l, trim_line, pad_r = u.split_padline(line, side)
 
-  if side == 'left' and vim.startswith(trim_line, from) then trim_line = to .. trim_line:sub(#from + 1) end
+  if side == 'left' and vim.startswith(trim_line, from) then
+    trim_line = to .. trim_line:sub(#from + 1)
+  end
 
-  if side == 'right' and vim.endswith(trim_line, from) then trim_line = trim_line:sub(1, -(#from + 1)) .. to end
+  if side == 'right' and vim.endswith(trim_line, from) then
+    trim_line = trim_line:sub(1, -(#from + 1)) .. to
+  end
 
   return vim.fn.join({ pad_l, trim_line, pad_r }, '')
 end

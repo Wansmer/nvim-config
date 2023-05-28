@@ -13,7 +13,9 @@ M.on_attach = function(client, bufnr)
   end
 
   -- Disable semantic tokens highlight
-  if client.server_capabilities.semanticTokensProvider then client.server_capabilities.semanticTokensProvider = nil end
+  if client.server_capabilities.semanticTokensProvider then
+    client.server_capabilities.semanticTokensProvider = nil
+  end
 
   set_keymaps(client, bufnr)
 

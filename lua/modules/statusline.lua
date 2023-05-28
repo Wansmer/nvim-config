@@ -7,7 +7,9 @@ local function lsp_list()
 
   -- Получает все клиенты LSP, которые не null-ls
   for _, client in pairs(buf_clients) do
-    if client.name ~= 'null-ls' then table.insert(buf_client_names, client.name) end
+    if client.name ~= 'null-ls' then
+      table.insert(buf_client_names, client.name)
+    end
   end
 
   return table.concat(buf_client_names, ', ')
@@ -44,19 +46,25 @@ _G.__stl = {
     local buf = vim.api.nvim_get_current_buf()
     local highlighter = require('vim.treesitter.highlighter')
     local hl = '%#WinSeparator#' .. icon .. ' TS%*'
-    if highlighter.active[buf] then hl = '%#String#' .. icon .. '%*' .. '%#Text# TS%*' end
+    if highlighter.active[buf] then
+      hl = '%#String#' .. icon .. '%*' .. '%#Text# TS%*'
+    end
     return hl
   end,
   lsp = function()
     local lsp = lsp_list()
     local text = ' LSP:'
-    if lsp == '' then text = '%#WinSeparator#' .. text .. '%*' end
+    if lsp == '' then
+      text = '%#WinSeparator#' .. text .. '%*'
+    end
     return vim.trim(vim.fn.join({ text, lsp }, ' '))
   end,
   formatters = function()
     local formatters = formatters_list()
     local text = ' Format:'
-    if formatters == '' then text = '%#WinSeparator#' .. text .. '%*' end
+    if formatters == '' then
+      text = '%#WinSeparator#' .. text .. '%*'
+    end
     return vim.trim(vim.fn.join({ text, formatters }, ' '))
   end,
 }

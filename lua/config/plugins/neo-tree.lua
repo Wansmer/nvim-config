@@ -95,7 +95,9 @@ return {
       callback = function()
         vim.schedule(function()
           local winid = vim.api.nvim_get_current_win()
-          if vim.wo[winid] ~= '' then vim.wo[winid].statuscolumn = '' end
+          if vim.wo[winid] ~= '' then
+            vim.wo[winid].statuscolumn = ''
+          end
         end)
       end,
     })

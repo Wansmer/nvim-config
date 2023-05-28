@@ -7,7 +7,9 @@ local function get_typescript_server_path(root_dir)
   local found_ts = ''
   local function check_dir(path)
     found_ts = util.path.join(path, 'node_modules', 'typescript', 'lib')
-    if util.path.exists(found_ts) then return path end
+    if util.path.exists(found_ts) then
+      return path
+    end
   end
   if util.search_ancestors(root_dir, check_dir) then
     return found_ts

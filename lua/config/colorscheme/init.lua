@@ -15,11 +15,15 @@ local source = {
 
 local config = source[colorscheme]
 
-if config then pcall(require, 'config.colorscheme.' .. config) end
+if config then
+  pcall(require, 'config.colorscheme.' .. config)
+end
 
 local present, _ = pcall(vim.cmd.colorscheme, colorscheme)
 
-if not present then vim.cmd.colorscheme('habamax') end
+if not present then
+  vim.cmd.colorscheme('habamax')
+end
 
 for _, type in pairs({ 'Error', 'Warn', 'Hint', 'Info' }) do
   local hl = 'DiagnosticUnderline' .. type

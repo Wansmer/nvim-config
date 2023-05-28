@@ -16,7 +16,9 @@ return {
     local function get_extension(fn)
       local match = fn:match('^.+(%..+)$')
       local ext = ''
-      if match ~= nil then ext = match:sub(2) end
+      if match ~= nil then
+        ext = match:sub(2)
+      end
       return ext
     end
 
@@ -40,14 +42,20 @@ return {
       local ico, hl = icon(fn)
       local hl_option_type = type(nvim_web_devicons.highlight)
       if hl_option_type == 'boolean' then
-        if hl and nvim_web_devicons.highlight then table.insert(fb_hl, { hl, 0, 1 }) end
+        if hl and nvim_web_devicons.highlight then
+          table.insert(fb_hl, { hl, 0, 1 })
+        end
       end
-      if hl_option_type == 'string' then table.insert(fb_hl, { nvim_web_devicons.highlight, 0, 1 }) end
+      if hl_option_type == 'string' then
+        table.insert(fb_hl, { nvim_web_devicons.highlight, 0, 1 })
+      end
       ico_txt = ico .. '  '
 
       local file_button_el = colored_btn(sc, ico_txt .. short_fn, '<cmd>e ' .. fn .. ' <CR>', 'Constant')
       local fn_start = short_fn:match('.*/')
-      if fn_start ~= nil then table.insert(fb_hl, { 'Comment', #ico_txt - 2, #fn_start + #ico_txt - 1 }) end
+      if fn_start ~= nil then
+        table.insert(fb_hl, { 'Comment', #ico_txt - 2, #fn_start + #ico_txt - 1 })
+      end
       file_button_el.opts.hl = fb_hl
       return file_button_el
     end
@@ -68,7 +76,9 @@ return {
 
       local oldfiles = {}
       for _, v in pairs(vim.v.oldfiles) do
-        if #oldfiles == items_number then break end
+        if #oldfiles == items_number then
+          break
+        end
         local cwd_cond
         if not cwd then
           cwd_cond = true
@@ -76,7 +86,9 @@ return {
           cwd_cond = vim.startswith(v, cwd)
         end
         local ignore = (opts.ignore and opts.ignore(v, get_extension(v))) or false
-        if (vim.fn.filereadable(v) == 1) and cwd_cond and not ignore then oldfiles[#oldfiles + 1] = v end
+        if (vim.fn.filereadable(v) == 1) and cwd_cond and not ignore then
+          oldfiles[#oldfiles + 1] = v
+        end
       end
 
       local target_width = 35
@@ -92,7 +104,9 @@ return {
 
         if #short_fn > target_width then
           short_fn = path.new(short_fn):shorten(1, { -2, -1 })
-          if #short_fn > target_width then short_fn = path.new(short_fn):shorten(1, { -1 }) end
+          if #short_fn > target_width then
+            short_fn = path.new(short_fn):shorten(1, { -1 })
+          end
         end
 
         local file_button_el = file_button(file_name, ' ' .. index, short_fn)
@@ -170,11 +184,15 @@ return {
     local function project_info()
       local gs = u.git_status()
       local cwd = vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.')
-      if cwd == '~' then cwd = 'home' end
+      if cwd == '~' then
+        cwd = 'home'
+      end
       local pwd = ' ' .. cwd
       local repo = ''
 
-      if gs.exist then repo = '   ' .. ' ' .. gs.repo .. ':' .. gs.branch end
+      if gs.exist then
+        repo = '   ' .. ' ' .. gs.repo .. ':' .. gs.branch
+      end
 
       return pwd .. repo
     end

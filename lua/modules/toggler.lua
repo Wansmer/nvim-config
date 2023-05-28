@@ -60,7 +60,9 @@ function M.toggle_word()
   if text and contains then
     local opp = opposites[string.lower(text)]
 
-    if opp then vim.cmd('normal! "_ciw' .. to_same_register(text, opp)) end
+    if opp then
+      vim.cmd('normal! "_ciw' .. to_same_register(text, opp))
+    end
   end
 end
 

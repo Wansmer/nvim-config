@@ -35,10 +35,12 @@ return {
   {
     'ramojus/mellifluous.nvim',
     dependencies = { 'rktjmp/lush.nvim' },
+    lazy = false,
     enabled = PREF.ui.colorscheme == 'mellifluous',
   },
   {
     'loctvl842/monokai-pro.nvim',
+    lazy = false,
     enabled = PREF.ui.colorscheme == 'monokai-pro',
   },
 }

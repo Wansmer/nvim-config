@@ -12,7 +12,9 @@ local function is_list(line)
 
   for _, reg in ipairs(list_reg) do
     local match = line:match(reg)
-    if match then return match end
+    if match then
+      return match
+    end
   end
 
   return false
@@ -85,7 +87,9 @@ local function surround(prefix, postfix, range, text)
     sr, sc, er, ec = u.to_api_range(u.get_visual_range())
   end
 
-  if not text then text = vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {}) end
+  if not text then
+    text = vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {})
+  end
 
   text[1] = prefix .. text[1]
   text[#text] = text[#text] .. postfix
@@ -102,13 +106,17 @@ local function surround_link()
 
   -- TODO: find better way to check urls and paths
   local re = vim.regex('^https*\\|www')
-  if re and re:match_str(reg) then default = true end
+  if re and re:match_str(reg) then
+    default = true
+  end
 
   vim.ui.input({
     prompt = 'Link:',
     default = default and reg or nil, -- Paste reg * if it contains url
   }, function(link)
-    if not link then return end
+    if not link then
+      return
+    end
     surround('[', '](' .. link .. ')', range, text)
   end)
 end

@@ -8,7 +8,9 @@ local function make_config(server_name)
   local path = 'config.lsp.servers.'
   local config = require('config.lsp.default')
   local present, user_config = pcall(require, path .. server_name)
-  if present then config = vim.tbl_deep_extend('force', config, user_config) end
+  if present then
+    config = vim.tbl_deep_extend('force', config, user_config)
+  end
   return config
 end
 
