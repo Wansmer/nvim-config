@@ -7,7 +7,7 @@
 
 local tccns = vim.api.nvim_create_namespace('thincc')
 local group = vim.api.nvim_create_augroup('thincc', { clear = true })
-local events = { 'BufWinEnter', 'TextChangedI', 'TextChanged', 'FileChangedShellPost' }
+local events = { 'ColorScheme', 'BufWinEnter', 'TextChangedI', 'TextChanged', 'FileChangedShellPost' }
 local disable_ft = {
   'alpha',
   'neo-tree',
@@ -23,6 +23,15 @@ local registry = {}
 ---Using original color for ColorColumn
 -- local color = vim.api.nvim_get_hl_by_name('ColorColumn', true).background
 local color = vim.api.nvim_get_hl(0, { name = 'ColorColumn' }).bg
+
+vim.api.nvim_create_autocmd('ColorScheme', {
+  desc = 'Reload color for thincc if colorscheme is changed',
+  callback = function()
+    color = vim.api.nvim_get_hl(0, { name = 'ColorColumn' }).bg
+    vim.api.nvim_set_hl(0, 'ThinCC', { fg = color, default = true })
+  end,
+})
+
 vim.api.nvim_set_hl(0, 'ThinCC', { fg = color, default = true })
 
 ---Create extmark
@@ -52,7 +61,9 @@ end
 ---@param col integer|nil Original value of colorcolumn or nil for disable buffer
 local function update_registry(buf, col)
   local key = make_registry_key(buf)
-  if not registry[key] then registry[key] = { col = col } end
+  if not registry[key] then
+    registry[key] = { col = col }
+  end
 end
 
 ---Calculating target col to set extmark
@@ -108,7 +119,9 @@ end
 local function set_thin_colorcolumn()
   local ft = vim.api.nvim_buf_get_option(0, 'filetype')
 
-  if vim.tbl_contains(disable_ft, ft) then return end
+  if vim.tbl_contains(disable_ft, ft) then
+    return
+  end
 
   local bufnr = vim.api.nvim_get_current_buf()
   if vim.api.nvim_buf_is_loaded(bufnr) then
