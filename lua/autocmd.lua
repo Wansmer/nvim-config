@@ -44,7 +44,9 @@ if PREF.lsp.format_on_save then
   vim.api.nvim_create_autocmd('BufWritePre', {
     callback = function()
       local client = vim.lsp.get_active_clients({ bufnr = 0 })[1]
-      if client then vim.lsp.buf.format() end
+      if client then
+        vim.lsp.buf.format()
+      end
     end,
   })
 end
@@ -57,7 +59,9 @@ vim.api.nvim_create_autocmd('BufReadPost', {
     if not vim.tbl_contains(ignore_ft, ft) then
       local mark = vim.api.nvim_buf_get_mark(0, '"')
       local lcount = vim.api.nvim_buf_line_count(0)
-      if mark[1] > 0 and mark[1] <= lcount then pcall(vim.api.nvim_win_set_cursor, 0, mark) end
+      if mark[1] > 0 and mark[1] <= lcount then
+        pcall(vim.api.nvim_win_set_cursor, 0, mark)
+      end
     end
   end,
 })
@@ -86,30 +90,39 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
   desc = 'Open :help with vertical split',
   pattern = { '*.txt' },
   callback = function()
-    if vim.bo.filetype == 'help' then vim.cmd.wincmd('L') end
+    if vim.bo.filetype == 'help' then
+      vim.cmd.wincmd('L')
+    end
   end,
 })
 
-vim.api.nvim_create_autocmd('VimEnter', {
-  desc = 'Reload buffer if it has been modified externally',
-  callback = function()
-    local watcher = require('modules.watcher').new()
-
-    watcher:start()
-    watcher:on_change({
-      function()
-        vim.cmd.checktime()
-      end,
-    })
-  end,
-})
+-- vim.api.nvim_create_autocmd('VimEnter', {
+--   desc = 'Reload buffer if it has been modified externally',
+--   callback = function()
+--     local watcher = require('modules.watcher').new()
+--
+--     watcher:start()
+--     watcher:on_change({
+--       function()
+--         vim.cmd.checktime()
+--       end,
+--     })
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd('VimEnter', {
   desc = 'Translate global keybindings',
   callback = function()
     local ok, lm = pcall(require, 'langmapper')
-    if ok then lm.automapping({ buffer = false }) end
+    if ok then
+      lm.automapping({ buffer = false })
+    end
   end,
+})
+
+vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
+  desc = 'Redraw buffer when associated file is changed',
+  command = 'checktime',
 })
 
 -- TODO: Hot rebooting the config was not a good idea. Needs improvement
