@@ -26,6 +26,7 @@ local servers = {
   'rust_analyzer',
   'sqlls',
   'bashls',
+  'dockerls',
 }
 
 for _, server_name in pairs(servers) do
