@@ -4,9 +4,10 @@ return {
   keys = { '<C-;>' },
   config = function()
     local toggleterm = require('toggleterm')
+    vim.keymap.set('t', '<C-d>', '<C-c>exit<Cr>')
 
     toggleterm.setup({
-      size = 15,
+      size = 20,
       open_mapping = [[<C-;>]],
       hide_numbers = true,
       shade_filetypes = {},
