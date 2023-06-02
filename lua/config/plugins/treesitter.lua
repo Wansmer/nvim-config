@@ -42,6 +42,8 @@ return {
         'yaml',
         'dart',
         'rust',
+        'hcl',
+        'terraform',
       },
       sync_install = false,
       ignore_install = { 'phpdoc', 'comment' },
