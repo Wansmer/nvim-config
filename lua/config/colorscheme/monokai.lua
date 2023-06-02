@@ -4,15 +4,15 @@ require('monokai-pro').setup({
   devicons = true, -- highlight the icons of `nvim-web-devicons`
   styles = {
     comment = { italic = PREF.ui.italic_comment },
-    keyword = { italic = true }, -- any other keyword
-    type = { italic = true }, -- (preferred) int, long, char, etc
-    storageclass = { italic = true }, -- static, register, volatile, etc
-    structure = { italic = true }, -- struct, union, enum, etc
-    parameter = { italic = true }, -- parameter pass in function
-    annotation = { italic = true },
-    tag_attribute = { italic = true }, -- attribute of tag in reactjs
+    keyword = { italic = false }, -- any other keyword
+    type = { italic = false }, -- (preferred) int, long, char, etc
+    storageclass = { italic = false }, -- static, register, volatile, etc
+    structure = { italic = false }, -- struct, union, enum, etc
+    parameter = { italic = false }, -- parameter pass in function
+    annotation = { italic = false },
+    tag_attribute = { italic = false }, -- attribute of tag in reactjs
   },
-  filter = 'octagon', -- classic | octagon | pro | machine | ristretto | spectrum
+  filter = 'spectrum', -- classic | octagon | pro | machine | ristretto | spectrum
   -- Enable this will disable filter option
   day_night = {
     enable = false, -- turn off by default
