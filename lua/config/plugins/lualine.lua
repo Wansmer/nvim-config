@@ -31,6 +31,7 @@ end
 return {
   'nvim-lualine/lualine.nvim',
   event = 'VeryLazy',
+  enable = true,
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   config = function()
     set_hl()

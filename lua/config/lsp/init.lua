@@ -27,6 +27,7 @@ local servers = {
   'sqlls',
   'bashls',
   'dockerls',
+  'gopls',
 }
 
 for _, server_name in pairs(servers) do

@@ -63,7 +63,7 @@ return {
       ['s'] = false,
       ['z'] = 'close_node',
       ['Z'] = 'close_all_nodes',
-      ['N'] = 'add',
+      ['a'] = 'add',
       ['d'] = 'delete',
       ['r'] = 'rename',
       ['y'] = 'copy_to_clipboard',

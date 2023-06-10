@@ -24,7 +24,8 @@ return {
     telescope.setup({
       defaults = {
         -- For cool view with 'monokai-pro' scheme
-        borderchars = { '█', ' ', '▀', '█', '█', ' ', ' ', '▀' },
+        borderchars = PREF.ui.colorscheme == 'monokai-pro' and { '█', ' ', '▀', '█', '█', ' ', ' ', '▀' }
+          or nil,
         prompt_prefix = ' ',
         selection_caret = ' ',
         path_display = { 'smart' },
