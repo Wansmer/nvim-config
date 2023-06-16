@@ -100,7 +100,6 @@ map('n', 'Q', 'q', { desc = 'Start recording macro' })
 map('n', '[q', '<Cmd>cnext<Cr>', { desc = 'Go to next match in quickfix list' })
 map('n', ']q', '<Cmd>cprev<Cr>', { desc = 'Go to next match in quickfix list' })
 map('n', '<LocalLeader>e', '<Cmd>Neotree focus toggle<Cr>', { desc = 'Open file explorer' })
-
 map('n', '<Leader><Leader>', function()
   local plugins = require('lazy.core.config').plugins
   for name, plug in pairs(plugins) do
@@ -118,5 +117,8 @@ map('n', '<Leader><Leader>', function()
     end
   end
 end, { desc = 'Reload all dev plugins' })
+map('n', 'S', '"_S', { desc = "'S' without copying to clipboard" })
+map('n', 'C', '"_C', { desc = "'C' without copying to clipboard" })
+map('n', 'D', '"_D', { desc = "'D' without copying to clipboard" })
 
 del('n', 'Y')
