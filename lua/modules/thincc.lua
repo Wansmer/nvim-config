@@ -9,6 +9,7 @@ local tccns = vim.api.nvim_create_namespace('thincc')
 local group = vim.api.nvim_create_augroup('thincc', { clear = true })
 local events = { 'ColorScheme', 'BufWinEnter', 'TextChangedI', 'TextChanged', 'FileChangedShellPost' }
 local disable_ft = {
+  '', -- e.g. popups and other windows without filetype
   'alpha',
   'neo-tree',
   'toggleterm',
