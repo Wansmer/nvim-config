@@ -1,6 +1,10 @@
 return {
   'neovim/nvim-lspconfig',
-  event = { 'BufReadPre', 'BufNewFile' },
+  event = {
+    'BufEnter',
+    'BufReadPre',
+    'BufNewFile',
+  },
   enabled = true,
   dependencies = {
     'b0o/SchemaStore.nvim',
