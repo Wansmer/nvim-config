@@ -1,5 +1,6 @@
 local settings = {
   Lua = {
+    hint = { enable = true },
     diagnostics = {
       globals = { 'vim', 'packer_plugins', 'USER_SETTINGS' },
     },
