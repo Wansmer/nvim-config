@@ -65,7 +65,7 @@ local options = {
   -- UI
   -- ==========================================================================
   number = true,
-  relativenumber = true,
+  relativenumber = false,
   termguicolors = true,
   showmode = false,
   showcmd = false,
