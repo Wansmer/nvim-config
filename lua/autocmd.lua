@@ -153,3 +153,14 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
 --   end,
 -- })
 --
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local bufnr = args.buf
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client.server_capabilities.inlayHintProvider then
+      print('ENABLE INLINE HINTS')
+      vim.lsp.buf.inlay_hint(bufnr, true)
+    end
+  end,
+})
