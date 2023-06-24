@@ -11,6 +11,7 @@ local source = {
   everforest = 'everforest',
   mellifluous = 'mellifluous',
   ['monokai-pro'] = 'monokai',
+  midnight = 'midnight',
 }
 
 local config = source[colorscheme]

@@ -43,4 +43,9 @@ return {
     lazy = false,
     enabled = PREF.ui.colorscheme == 'monokai-pro',
   },
+  {
+    'dasupradyumna/midnight.nvim',
+    lazy = false,
+    enabled = PREF.ui.colorscheme == 'midnight',
+  },
 }
