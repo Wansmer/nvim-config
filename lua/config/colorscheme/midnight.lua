@@ -1,0 +1,1 @@
+require('midnight').setup({})
