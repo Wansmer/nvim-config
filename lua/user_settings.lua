@@ -6,7 +6,7 @@ PREF = {
   },
 
   lsp = {
-    format_on_save = false,
+    format_on_save = true,
     virtual_text = false,
     show_signature_on_insert = false,
     show_diagnostic = true,
@@ -16,7 +16,7 @@ PREF = {
 
   ui = {
     -- (!) List of colorschemes lua/config/colorscheme/init.lua
-    colorscheme = 'monokai-pro',
+    colorscheme = 'tokyonight',
     border = 'single',
     italic_comment = true,
   },
