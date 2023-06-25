@@ -16,8 +16,8 @@ PREF = {
 
   ui = {
     -- (!) List of colorschemes lua/config/colorscheme/init.lua
-    colorscheme = 'tokyonight',
-    border = 'single',
+    colorscheme = 'monokai-pro',
+    border = { '┏', ' ', ' ', ' ', '┛', ' ', ' ', ' ' },
     italic_comment = true,
   },
 

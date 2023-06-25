@@ -33,3 +33,7 @@ for _, type in pairs({ 'Error', 'Warn', 'Hint', 'Info' }) do
 end
 
 vim.api.nvim_set_hl(0, 'LspInlayHint', { link = 'Comment' })
+
+if colorscheme == 'monokai-pro' then
+  vim.api.nvim_set_hl(0, 'FloatBorder', { link = 'NormalFloat' })
+end
