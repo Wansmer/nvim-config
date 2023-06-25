@@ -139,6 +139,7 @@ local options = {
   shortmess = vim.opt.shortmess:append('c'),
   iskeyword = vim.opt.iskeyword:append('-'),
   langmap = langmap,
+  smoothscroll = true,
 }
 
 for option_name, value in pairs(options) do
