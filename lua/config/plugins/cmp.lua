@@ -128,21 +128,7 @@ return {
       sources = {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
-        {
-          name = 'buffer',
-          -- option = {
-          --   -- uses 'iskeyword' to indicate words for completion
-          --   keyword_pattern = [[\k\+]],
-          --   -- completion from all visible buffers
-          --   get_bufnrs = function()
-          --     local bufs = {}
-          --     for _, win in ipairs(vim.api.nvim_list_wins()) do
-          --       bufs[vim.api.nvim_win_get_buf(win)] = true
-          --     end
-          --     return vim.tbl_keys(bufs)
-          --   end,
-          -- },
-        },
+        { name = 'buffer' },
         { name = 'path' },
         { name = 'nvim_lsp_signature_help' },
         {
