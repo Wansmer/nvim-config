@@ -3,6 +3,9 @@ local M = {}
 
 local set_keymaps = require('config.lsp.mappings').set_keymap
 
+---Lsp attach callback
+---@param client lsp.Client
+---@param bufnr integer
 M.on_attach = function(client, bufnr)
   -- Enable formatting for ranges
   if vim.fn.has('nvim-0.10.0') then
