@@ -31,3 +31,5 @@ for _, type in pairs({ 'Error', 'Warn', 'Hint', 'Info' }) do
   local colors = vim.api.nvim_get_hl(0, { name = hl })
   vim.api.nvim_set_hl(0, hl, vim.tbl_extend('force', colors, { undercurl = true }))
 end
+
+vim.api.nvim_set_hl(0, 'LspInlayHint', { link = 'Comment' })
