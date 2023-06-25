@@ -1,7 +1,7 @@
 require('monokai-pro').setup({
   transparent_background = false,
   terminal_colors = true,
-  devicons = true, -- highlight the icons of `nvim-web-devicons`
+  devicons = false, -- highlight the icons of `nvim-web-devicons`
   styles = {
     comment = { italic = PREF.ui.italic_comment },
     keyword = { italic = false }, -- any other keyword

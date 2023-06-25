@@ -21,7 +21,7 @@ require('lazy').setup(configs, {
   install = {
     colorscheme = { PREF.ui.colorscheme },
   },
-  ui = { border = PREF.ui.border },
+  ui = { border = 'none' },
   performance = {
     rtp = {
       disabled_plugins = {

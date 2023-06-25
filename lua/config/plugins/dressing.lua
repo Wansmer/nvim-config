@@ -20,7 +20,7 @@ return {
 
         -- These are passed to nvim_open_win
         anchor = 'SW',
-        border = PREF.ui.border,
+        border = 'single',
         -- 'editor' and 'win' will default to being centered
         relative = 'cursor',
 
