@@ -1,8 +1,12 @@
+-- https://github.com/luals/lua-language-server
 local settings = {
   Lua = {
-    hint = { enable = true },
+    hint = {
+      enable = true,
+      arrayIndex = 'Disable',
+    },
     diagnostics = {
-      globals = { 'vim', 'packer_plugins', 'USER_SETTINGS' },
+      globals = { 'vim', 'USER_SETTINGS' },
     },
     workspace = {
       library = {
