@@ -159,7 +159,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local bufnr = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     if client.supports_method('textDocument/inlayHint', { bufnr = bufnr }) then
-      vim.lsp.buf.inlay_hint(bufnr, true)
+      vim.lsp.inlay_hint(bufnr, true)
     end
   end,
 })
