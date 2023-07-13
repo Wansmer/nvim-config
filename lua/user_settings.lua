@@ -6,7 +6,7 @@ PREF = {
   },
 
   lsp = {
-    format_on_save = true,
+    format_on_save = false,
     virtual_text = false,
     show_signature_on_insert = false,
     show_diagnostic = true,
