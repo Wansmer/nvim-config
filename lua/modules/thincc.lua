@@ -68,7 +68,7 @@ local function update_registry(buf, col)
 end
 
 ---Calculating target col to set extmark
----@param scope table { scope = 'local', win = number of win }
+---@param scope table { scope = 'local' }
 ---@return integer|nil
 local function calc_colorcolumn_place(scope)
   local tw = vim.api.nvim_get_option_value('textwidth', scope)
@@ -90,8 +90,7 @@ local function get_target_column(bufnr)
   local key = make_registry_key(bufnr)
 
   if not registry[key] then
-    local win = vim.api.nvim_get_current_win()
-    local scope = { scope = 'local', win = win }
+    local scope = { scope = 'local' }
     local col = calc_colorcolumn_place(scope)
 
     update_registry(bufnr, col)
