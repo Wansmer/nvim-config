@@ -27,7 +27,7 @@ local modes_colors = {
 
 ---Update highlight group for CursorLineNr considering current mode
 local function update_cursorlinenr_hl()
-  local num = vim.api.nvim_get_option_value('number', { buf = 0 })
+  local num = vim.api.nvim_get_option_value('number', { win = 0, scope = 'local' })
   if num then
     local mode = vim.fn.strtrans(vim.fn.mode()):lower():gsub('%W', '')
     local override = modes_colors[mode] or modes_colors.n
