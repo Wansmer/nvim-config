@@ -24,7 +24,7 @@ map('n', '<C-h>', '<C-w>h', { desc = 'Focus to left-side window' })
 map('n', '<C-j>', '<C-w>j', { desc = 'Focus to right-side window' })
 map('n', '<C-k>', '<C-w>k', { desc = 'Focus to top-side window' })
 map('n', '<C-l>', '<C-w>l', { desc = 'Focus to bottom-side window' })
-map({ 'n', 'i', 'x' }, '<C-s>', '<Esc><Cmd>up<Cr>', { desc = 'Save buffer into file' })
+map({ 'n', 'i', 'x' }, '<C-s>', '<Esc><Cmd>up<kr>', { desc = 'Save buffer into file' })
 map('n', '<C-->', '<Cmd>vertical resize -2<Cr>', { desc = 'Vertical resize +' })
 map('n', '<C-=>', '<Cmd>vertical resize +2<Cr>', { desc = 'Vertical resize -' })
 map('n', 'tsp', '<Cmd>TSPlaygroundToggle<Cr>')
@@ -42,7 +42,7 @@ map('n', 'k', "v:count == 0 ? 'gk' : 'k'", {
   expr = true,
   desc = 'Move cursor up (display and real line)',
 })
-map({ 'i', 't', 'c' }, '<C-f>', '<Right>', { desc = 'Move cursor right one letter' })
+map({ 'i', 't' }, '<C-f>', '<Right>', { desc = 'Move cursor right one letter' })
 map({ 'i', 't', 'c' }, '<C-b>', '<Left>', { desc = 'Move cursor left one letter' })
 map({ 'i', 't', 'c' }, '<C-.>', '<S-Right>', { desc = 'Move cursor right on word' })
 map({ 'i', 't', 'c' }, '<C-,>', '<S-Left>', { desc = 'Move cursor left on word' })
