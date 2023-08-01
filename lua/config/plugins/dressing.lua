@@ -19,7 +19,6 @@ return {
         start_in_insert = true,
 
         -- These are passed to nvim_open_win
-        anchor = 'SW',
         border = 'single',
         -- 'editor' and 'win' will default to being centered
         relative = 'cursor',
@@ -117,7 +116,6 @@ return {
         -- Options for built-in selector
         builtin = {
           -- These are passed to nvim_open_win
-          anchor = 'NW',
           border = 'single',
           -- 'editor' and 'win' will default to being centered
           relative = 'editor',
