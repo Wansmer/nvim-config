@@ -43,7 +43,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 if PREF.lsp.format_on_save then
   vim.api.nvim_create_autocmd('BufWritePre', {
     callback = function()
-      local client = vim.lsp.get_active_clients({ bufnr = 0 })[1]
+      local client = vim.lsp.get_clients({ bufnr = 0 })[1]
       if client then
         vim.lsp.buf.format()
       end
@@ -158,7 +158,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local bufnr = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client.supports_method('textDocument/inlayHint', { bufnr = bufnr }) then
+    if client and client.supports_method('textDocument/inlayHint', { bufnr = bufnr }) then
       vim.lsp.inlay_hint(bufnr, true)
     end
   end,

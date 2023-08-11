@@ -143,5 +143,8 @@ local options = {
 }
 
 for option_name, value in pairs(options) do
-  vim.opt[option_name] = value
+  -- To avoid errors on toggle nvim version
+  if vim.opt[option_name] ~= nil then
+    vim.opt[option_name] = value
+  end
 end

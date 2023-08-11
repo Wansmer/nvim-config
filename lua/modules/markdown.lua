@@ -66,7 +66,7 @@ local function continue_list_if_need(cmd, action)
   local marker = is_list(line)
 
   if marker then
-    marker = update_prefix(marker, action)
+    marker = update_prefix(tostring(marker), action)
     cmd = cmd .. marker
   end
 
@@ -106,7 +106,7 @@ local function surround_link()
 
   -- TODO: find better way to check urls and paths
   local re = vim.regex('^https*\\|www')
-  if re and re:match_str(reg) then
+  if type(reg) == 'string' and re and re:match_str(reg) then
     default = true
   end
 

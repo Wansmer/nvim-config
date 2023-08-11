@@ -23,7 +23,7 @@ end
 
 function M.char_on_pos(pos)
   pos = pos or vim.fn.getpos('.')
-  return vim.fn.getline(pos[1]):sub(pos[2], pos[2])
+  return tostring(vim.fn.getline(pos[1])):sub(pos[2], pos[2])
 end
 
 function M.get_object_range()
