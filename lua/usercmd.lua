@@ -33,7 +33,11 @@ vim.api.nvim_create_user_command('Gr', function(args)
   local ft = vim.api.nvim_get_option_value('filetype', { buf = start })
 
   vim.cmd(
-    'vnew | set buftype=nofile | read ++edit # | set filetype=' .. ft .. ' | 0d_ | g!/' .. args.args .. '/d | norm gg=G'
+    'vnew | set buftype=nofile | read ++edit # | set filetype='
+      .. ft
+      .. ' | 0d_ | g!/'
+      .. args.args
+      .. '/d | silent norm gg=G'
   )
 
   local scratch = vim.api.nvim_get_current_buf()
