@@ -13,7 +13,7 @@ return {
     for _, nodes in pairs(langs) do
       nodes.comment = {
         both = {
-          fallback = function(tsn)
+          fallback = function(_)
             local res = require('mini.splitjoin').toggle()
             if not res then
               vim.cmd('normal! gww')
