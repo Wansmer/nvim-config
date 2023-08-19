@@ -44,7 +44,6 @@ return {
   config = function()
     local neotree = require('neo-tree')
     local fs_commands = require('neo-tree/sources/filesystem/commands')
-    vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
     local function cd_or_open(state)
       local node = state.tree:get_node()
@@ -54,6 +53,13 @@ return {
       end
       fs_commands.set_root(state)
     end
+
+    -- Update git_status in tree after 'fg'
+    vim.api.nvim_create_autocmd({ 'VimResume' }, {
+      callback = function()
+        require('neo-tree.sources.git_status').refresh()
+      end,
+    })
 
     local window_mappings = {
       ['o'] = 'open',
