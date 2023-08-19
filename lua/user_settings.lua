@@ -15,7 +15,7 @@ PREF = {
   },
 
   ui = {
-    -- (!) List of colorschemes lua/config/colorscheme/init.lua
+    ---(!) List of colorschemes lua/config/colorscheme/init.lua
     colorscheme = 'monokai-pro',
     border = { '┏', ' ', ' ', ' ', '┛', ' ', ' ', ' ' },
     italic_comment = true,
