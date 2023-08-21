@@ -1,3 +1,4 @@
 plugin
 *.DS_Store
 *tmp*.*
+.tmp
