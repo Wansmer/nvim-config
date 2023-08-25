@@ -1,6 +1,7 @@
 return {
   'simrat39/rust-tools.nvim',
   dependencies = { 'neovim/nvim-lspconfig' },
+  enabled = false,
   ft = { 'rust' },
   config = function()
     local rt = require('rust-tools')
@@ -9,8 +10,8 @@ return {
       tools = {
         inlay_hints = {
           auto = false,
-          show_parameter_hints = false,
-          only_current_line = true,
+          show_parameter_hints = true,
+          only_current_line = false,
           parameter_hints_prefix = '<- ',
           other_hints_prefix = '=> ',
           right_align = false,
