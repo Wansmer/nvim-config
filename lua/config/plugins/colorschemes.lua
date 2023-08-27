@@ -17,6 +17,16 @@ return {
     enabled = PREF.ui.colorscheme == 'tundra',
   },
   {
+    'rebelot/kanagawa.nvim',
+    lazy = false,
+    enabled = PREF.ui.colorscheme == 'kanagawa',
+  },
+  {
+    'ramojus/mellifluous.nvim',
+    lazy = false,
+    enabled = PREF.ui.colorscheme == 'mellifluous',
+  },
+  {
     'sainnhe/gruvbox-material',
     lazy = false,
     enabled = PREF.ui.colorscheme == 'gruvbox-material',
