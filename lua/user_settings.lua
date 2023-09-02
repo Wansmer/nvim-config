@@ -11,7 +11,7 @@ PREF = {
     show_signature_on_insert = false,
     show_diagnostic = true,
     -- Use take_over_mode for vue projects or not
-    tom_enable = true,
+    tom_enable = false,
   },
 
   ui = {
