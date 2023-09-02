@@ -58,4 +58,10 @@ return {
     lazy = false,
     enabled = PREF.ui.colorscheme == 'midnight',
   },
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    lazy = false,
+    enabled = PREF.ui.colorscheme == 'rose-pine',
+  },
 }
