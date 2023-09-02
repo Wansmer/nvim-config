@@ -6,11 +6,12 @@ return {
       checkOnSave = true,
       check = { command = 'clippy' },
       inlayHints = {
-        expressionAdjustmentHints = { enable = false },
-        bindingModeHints = { enable = true },
-        chainingHints = { enable = false },
-        closingBraceHints = { enable = true },
-        closureCaptureHints = { enable = true },
+        enabled = false,
+        expressionAdjustmentHints = { enable = false },  -- do not enable
+        bindingModeHints = { enable = false },
+        chainingHints = { enable = false }, -- do not enable
+        closingBraceHints = { enable = false },
+        closureCaptureHints = { enable = false },
       },
     },
   },
