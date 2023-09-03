@@ -21,5 +21,12 @@ return {
       close_on_exit = true,
       shell = vim.o.shell,
     })
+
+    vim.api.nvim_create_autocmd('filetype', {
+      pattern = 'toggleterm',
+      callback = function()
+        vim.wo.statuscolumn = '    '
+      end,
+    })
   end,
 }
