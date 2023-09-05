@@ -1,4 +1,4 @@
-# Neovim 0.9+ configuration
+# Neovim 0.10+ configuration
 
 Personal configuration for Neovim with a focus on web (vue3, js, ts) and lua-plugins development.
 
