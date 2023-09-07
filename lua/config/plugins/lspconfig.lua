@@ -12,7 +12,7 @@ return {
     {
       'folke/neodev.nvim',
       config = function()
-        require('neodev').setup({ { experimental = { pathStrict = true } } })
+        require('neodev').setup({})
       end,
     },
   },
