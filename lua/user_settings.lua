@@ -8,7 +8,7 @@ PREF = {
   lsp = {
     format_on_save = false,
     virtual_text = false,
-    show_signature_on_insert = false,
+    -- show_signature_on_insert = true,
     show_diagnostic = true,
     -- Use take_over_mode for vue projects or not
     tom_enable = false,
@@ -16,7 +16,7 @@ PREF = {
 
   ui = {
     ---(!) List of colorschemes lua/config/colorscheme/init.lua
-    colorscheme = 'monokai-pro',
+    colorscheme = 'tokyonight',
     border = { '┏', ' ', ' ', ' ', '┛', ' ', ' ', ' ' },
     italic_comment = true,
   },

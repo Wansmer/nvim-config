@@ -41,17 +41,13 @@ return {
     'saadparwaiz1/cmp_luasnip',
     'L3MON4D3/LuaSnip',
     'rafamadriz/friendly-snippets',
-    {
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      enabled = PREF.lsp.show_signature_on_insert,
-    },
   },
   config = function()
     local cmp = require('cmp')
     local luasnip = require('luasnip')
     local cmp_autopairs = require('nvim-autopairs.completion.cmp')
     cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
-    require('luasnip/loaders/from_vscode').lazy_load()
+    require('luasnip.loaders.from_vscode').lazy_load()
 
     cmp.setup({
       preselect = 'None',
@@ -60,18 +56,18 @@ return {
           luasnip.lsp_expand(args.body)
         end,
       },
-      sorting = {
-        comparators = {
-          cmp.config.compare.offset,
-          cmp.config.compare.exact,
-          cmp.config.compare.score,
-          require('cmp-under-comparator').under,
-          cmp.config.compare.kind,
-          cmp.config.compare.sort_text,
-          cmp.config.compare.length,
-          cmp.config.compare.order,
-        },
-      },
+      -- sorting = {
+      --   comparators = {
+      --     cmp.config.compare.offset,
+      --     cmp.config.compare.exact,
+      --     cmp.config.compare.score,
+      --     require('cmp-under-comparator').under,
+      --     cmp.config.compare.kind,
+      --     cmp.config.compare.sort_text,
+      --     cmp.config.compare.length,
+      --     cmp.config.compare.order,
+      --   },
+      -- },
       mapping = {
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -130,7 +126,6 @@ return {
         { name = 'nvim_lsp' },
         { name = 'buffer' },
         { name = 'path' },
-        { name = 'nvim_lsp_signature_help' },
         {
           name = 'rg',
           keyword_length = 3,
