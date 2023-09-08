@@ -22,7 +22,9 @@ return {
     enabled = PREF.ui.colorscheme == 'kanagawa',
   },
   {
-    'ramojus/mellifluous.nvim',
+    'Wansmer/mellifluous.nvim',
+    dev = true,
+    dir = '~/projects/code/github/mellifluous',
     lazy = false,
     enabled = PREF.ui.colorscheme == 'mellifluous',
   },
