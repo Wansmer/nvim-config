@@ -16,6 +16,7 @@ map('t', '<esc>', [[<C-\><C-n>]], { desc = 'Leave INSERT mode in terminal' })
 -- Manage Neovim, buffers and windows
 -- ============================================================================
 map('n', '<Leader>q', '<Cmd>qa<Cr>', { desc = 'Close neovim' })
+map('x', '<Leader>q', '<Esc><Cmd>qa<Cr>', { desc = 'Close neovim' })
 map('n', 'q', '<Cmd>close<Cr>', { desc = 'Close current window' })
 map('n', '<Leader>r', '<C-w>x', { desc = 'Swap windows with each other' })
 map('n', '<Tab>', '<Cmd>bn<Cr>', { desc = 'Go to next buffer' })
@@ -88,6 +89,7 @@ map('n', 'Q', 'q', { desc = 'Start recording macro' })
 map('n', '[q', '<Cmd>cnext<Cr>', { desc = 'Go to next match in quickfix list' })
 map('n', ']q', '<Cmd>cprev<Cr>', { desc = 'Go to next match in quickfix list' })
 map('n', '<LocalLeader>e', '<Cmd>Neotree focus toggle<Cr>', { desc = 'Open file explorer' })
+map('x', '<LocalLeader>e', '<Esc><Cmd>Neotree focus toggle<Cr>', { desc = 'Open file explorer' })
 map('n', '<Leader><Leader>', function()
   local plugins = require('lazy.core.config').plugins
   for name, plug in pairs(plugins) do
