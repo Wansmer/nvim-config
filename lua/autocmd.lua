@@ -179,10 +179,12 @@ if vim.opt.relativenumber:get() then
   vim.api.nvim_create_autocmd('CmdlineEnter', {
     group = vim.api.nvim_create_augroup('cmd-line-relnum-toggle', { clear = true }),
     callback = function()
-      local win = vim.api.nvim_get_current_win()
-      vim.wo[win].relativenumber = false
-      vim.cmd('redraw')
-      set_relnum_back(win)
+      if vim.wo.relativenumber then
+        local win = vim.api.nvim_get_current_win()
+        vim.wo[win].relativenumber = false
+        vim.cmd('redraw')
+        set_relnum_back(win)
+      end
     end,
   })
 end
