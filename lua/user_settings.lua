@@ -16,8 +16,8 @@ PREF = {
 
   ui = {
     ---(!) List of colorschemes lua/config/colorscheme/init.lua
-    colorscheme = 'mellifluous',
-    border = { '┏', ' ', ' ', ' ', '┛', ' ', ' ', ' ' },
+    colorscheme = 'serenity',
+    border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
     italic_comment = true,
   },
 
