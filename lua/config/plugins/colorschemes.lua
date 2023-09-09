@@ -22,14 +22,6 @@ return {
     enabled = PREF.ui.colorscheme == 'kanagawa',
   },
   {
-    'Wansmer/mellifluous.nvim',
-    dev = true,
-    dir = '~/projects/code/github/mellifluous',
-    lazy = false,
-    enabled = PREF.ui.colorscheme == 'mellifluous',
-  },
-  {
-    -- 'Wansmer/mellifluous.nvim',
     dev = true,
     dir = '~/projects/code/personal/serenity',
     lazy = false,
@@ -59,8 +51,6 @@ return {
   },
   {
     'loctvl842/monokai-pro.nvim',
-    dev = true,
-    dir = '~/projects/code/github/monokai',
     lazy = false,
     enabled = PREF.ui.colorscheme == 'monokai-pro',
   },
