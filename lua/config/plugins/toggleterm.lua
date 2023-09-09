@@ -26,6 +26,7 @@ return {
       pattern = 'toggleterm',
       callback = function()
         vim.wo.statuscolumn = '    '
+        vim.wo.cursorline = false
       end,
     })
   end,

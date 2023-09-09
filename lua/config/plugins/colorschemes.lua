@@ -29,6 +29,13 @@ return {
     enabled = PREF.ui.colorscheme == 'mellifluous',
   },
   {
+    -- 'Wansmer/mellifluous.nvim',
+    dev = true,
+    dir = '~/projects/code/personal/serenity',
+    lazy = false,
+    enabled = PREF.ui.colorscheme == 'serenity',
+  },
+  {
     'sainnhe/gruvbox-material',
     lazy = false,
     enabled = PREF.ui.colorscheme == 'gruvbox-material',
@@ -52,6 +59,8 @@ return {
   },
   {
     'loctvl842/monokai-pro.nvim',
+    dev = true,
+    dir = '~/projects/code/github/monokai',
     lazy = false,
     enabled = PREF.ui.colorscheme == 'monokai-pro',
   },

@@ -230,6 +230,7 @@ return {
       },
       opts = {
         margin = 5,
+        noautocmd = false,
       },
     }
     alpha.setup(opts)
