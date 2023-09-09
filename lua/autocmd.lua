@@ -141,18 +141,22 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
 --           local path = vim.fn.fnamemodify(fname, ':.:r')
 --           local modpath = path:gsub('lua/', ''):gsub('/', '.')
 --
---           if package.loaded[modpath] then package.loaded[modpath] = nil end
+--           if package.loaded[modpath] then
+--             package.loaded[modpath] = nil
+--           end
 --
---           if package.preload[modpath] then package.preload[modpath] = nil end
+--           if package.preload[modpath] then
+--             package.preload[modpath] = nil
+--           end
 --
 --           vim.loader.reset(fname)
 --           pcall(vim.cmd.source, fname)
+--           vim.cmd.redraw()
 --         end
 --       end,
 --     })
 --   end,
 -- })
---
 
 -- if vim.fn.has('nvim-0.10.0') then
 --   vim.api.nvim_create_autocmd('LspAttach', {
@@ -193,5 +197,17 @@ end
 vim.api.nvim_create_autocmd('VimSuspend', {
   callback = function()
     vim.system({ 'im-select', 'com.apple.keylayout.ABC' }, nil, nil)
+  end,
+})
+
+-- Delete [No Name] buffers
+vim.api.nvim_create_autocmd('BufHidden', {
+  desc = 'Delete [No Name] buffers',
+  callback = function(data)
+    if data.file == '' and vim.bo[data.buf].buftype == '' and not vim.bo[data.buf].modified then
+      vim.schedule(function()
+        pcall(vim.api.nvim_buf_delete, data.buf, {})
+      end)
+    end
   end,
 })
