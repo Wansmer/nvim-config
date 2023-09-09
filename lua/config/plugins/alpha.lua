@@ -234,5 +234,15 @@ return {
       },
     }
     alpha.setup(opts)
+    -- No works
+    -- vim.api.nvim_create_autocmd('FileType', {
+    --   pattern = 'alpha',
+    --   callback = function()
+    --     vim.defer_fn(function()
+    --       local win = vim.api.nvim_get_current_win()
+    --       vim.wo[win].cursorline = false
+    --     end, 100)
+    --   end,
+    -- })
   end,
 }

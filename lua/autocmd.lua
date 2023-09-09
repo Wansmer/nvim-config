@@ -188,3 +188,10 @@ if vim.opt.relativenumber:get() then
     end,
   })
 end
+
+-- Change input method to English before suspend nvim
+vim.api.nvim_create_autocmd('VimSuspend', {
+  callback = function()
+    vim.system({ 'im-select', 'com.apple.keylayout.ABC' }, nil, nil)
+  end,
+})
