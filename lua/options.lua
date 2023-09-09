@@ -37,18 +37,25 @@ end
 -- To display pretty fold's icons in `statuscolumn` and show it according to `fillchars`
 _G.__foldcolumn = function()
   local chars = vim.opt.fillchars:get()
+  local fc = '%#FoldColumn#'
+  local clf = '%#CursorLineFold#'
+  local hl = vim.fn.line('.') == vim.v.lnum and clf or fc
 
   if vim.fn.foldlevel(vim.v.lnum) > vim.fn.foldlevel(vim.v.lnum - 1) then
     if vim.fn.foldclosed(vim.v.lnum) == -1 then
-      return chars.foldopen or ' '
+      return hl .. (chars.foldopen or ' ')
     else
-      return chars.foldclose or ' '
+      return hl .. (chars.foldclose or ' ')
     end
   elseif vim.fn.foldlevel(vim.v.lnum) == 0 then
-    return ' '
+    return hl .. ' '
   else
-    return chars.foldsep or ' '
+    return hl .. (chars.foldsep or ' ')
   end
+end
+
+_G.__test = function()
+  return '%C'
 end
 
 local options = {
@@ -117,7 +124,7 @@ local options = {
   statuscolumn = vim.fn.join({
     '%s%=',
     '%{v:lua.__number()}',
-    ' %#FoldColumn#%{v:lua.__foldcolumn()} ',
+    ' %{%v:lua.__foldcolumn()%} ',
   }, ''),
 
   -- ==========================================================================
