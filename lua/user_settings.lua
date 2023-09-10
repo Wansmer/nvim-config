@@ -11,7 +11,21 @@ PREF = {
     -- show_signature_on_insert = true,
     show_diagnostic = true,
     -- Use take_over_mode for vue projects or not
-    tom_enable = false,
+    tom_enable = true,
+    preinstall_servers = {
+      'volar',
+      'tsserver',
+      'lua_ls',
+      'html',
+      'emmet_ls',
+      'marksman',
+      'cssls',
+      'jsonls',
+      'rust_analyzer',
+      'sqlls',
+      'bashls',
+      'dockerls',
+    },
   },
 
   ui = {
