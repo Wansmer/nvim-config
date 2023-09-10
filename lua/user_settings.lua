@@ -1,6 +1,6 @@
 PREF = {
   common = {
-    textwidth = 120,
+    textwidth = 100,
     tabwidth = 2,
     escape_keys = { 'jk', 'JK', 'jj' },
   },
