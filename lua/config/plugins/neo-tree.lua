@@ -1,7 +1,7 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
   enabled = true,
-  version = 'v2.*',
+  version = 'v3.*',
   cmd = { 'Neotree' },
   dependencies = {
     'MunifTanjim/nui.nvim',
@@ -146,7 +146,7 @@ return {
           hide_gitignored = false,
           hide_by_name = { '.DS_Store', 'node_modules' },
         },
-        follow_current_file = true,
+        follow_current_file = { enabled = true },
         group_empty_dirs = false,
         use_libuv_file_watcher = true,
         window = {
