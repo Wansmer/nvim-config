@@ -36,33 +36,3 @@ Clone the repo to `config` directory and run Neovim:
 $ git clone https://github.com/Wansmer/nvim-config ~/.config/nvim
 $ nvim
 ```
-
-## LSP, linters, formatters
-
-I have been using `Mason` to manage LSP, linters and formatters, but I came to the conclusion that it is not correct to use Neovim as a package manager.
-
-### LSP
-
-To auto setup LSP uses [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
-
-To ovveride lsp-config for specific servers add same-name file with settings to [lsp section](/lua/config/lsp/servers)
-
-```bash
-$ npm i -g typescript-language-server typescript
-$ npm i -g @volar/vue-language-server
-$ npm i -g vscode-langservers-extracted # css, html, json
-$ npm i -g emmet-ls
-$ brew install lua-language-server
-$ brew install marksman
-```
-
-### Linters and formatters
-
-[Null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim) replace lsp-builtins linters and formatters for specific filetypes.
-
-```bash
-$ brew install stylua
-$ npm i -g eslint # or `npm init @eslint/config` to generate default `.eslintrc`
-$ npm i -g prettier
-$ npm i -g stylelint
-```
