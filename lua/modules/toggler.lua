@@ -23,6 +23,8 @@ local opposites = vim.tbl_add_reverse_lookup({
   ['up'] = 'down',
   ['split'] = 'join',
   ['const'] = 'let',
+  ['open'] = 'close',
+  ['global'] = 'local',
   -- TODO: below is not working. Need fix
   ['!='] = '==',
   ['!=='] = '===',
