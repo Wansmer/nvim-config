@@ -7,7 +7,7 @@ return {
       check = { command = 'clippy' },
       inlayHints = {
         enabled = false,
-        expressionAdjustmentHints = { enable = false },  -- do not enable
+        expressionAdjustmentHints = { enable = false }, -- do not enable
         bindingModeHints = { enable = false },
         chainingHints = { enable = false }, -- do not enable
         closingBraceHints = { enable = false },
