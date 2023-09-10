@@ -1,7 +1,7 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
   enabled = true,
-  version = 'v3.*',
+  -- branch = 'v3.*',
   cmd = { 'Neotree' },
   dependencies = {
     'MunifTanjim/nui.nvim',
@@ -109,6 +109,10 @@ return {
     })
 
     neotree.setup({
+      enable_git_status = true,
+      enable_diagnostics = true,
+      enable_normal_mode_for_inputs = false,
+      open_files_do_not_replace_types = { 'terminal', 'trouble', 'qf' },
       sources = {
         'filesystem',
         'git_status',
@@ -146,7 +150,7 @@ return {
           hide_gitignored = false,
           hide_by_name = { '.DS_Store', 'node_modules' },
         },
-        follow_current_file = { enabled = true },
+        follow_current_file = { enabled = false },
         group_empty_dirs = false,
         use_libuv_file_watcher = true,
         window = {
