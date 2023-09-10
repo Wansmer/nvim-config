@@ -54,10 +54,6 @@ _G.__foldcolumn = function()
   end
 end
 
-_G.__test = function()
-  return '%C'
-end
-
 local options = {
   -- ==========================================================================
   -- Indents, spaces, tabulation
