@@ -231,6 +231,10 @@ return {
       opts = {
         margin = 5,
         noautocmd = false,
+        setup = function()
+          -- No statuscolumn in Alpha
+          vim.cmd('setlocal statuscolumn=')
+        end,
       },
     }
     alpha.setup(opts)
