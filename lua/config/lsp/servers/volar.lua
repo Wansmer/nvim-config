@@ -37,13 +37,25 @@ local accepted_filetypes = is_take_over_mode and tom_fts or vue_fts
 
 return {
   filetypes = accepted_filetypes,
-  single_file_support = true,
+  single_file_support = false,
+  -- https://github.com/vuejs/language-tools/blob/20d713b/packages/shared/src/types.ts
   init_options = {
     languageFeatures = {
+      references = true,
+      implementation = true,
+      definition = true,
+      typeDefinition = true,
+      callHierarchy = true,
+      hover = true,
+      rename = true,
+      renameFileRefactoring = true,
+      signatureHelp = true,
       completion = {
         defaultAttrNameCase = 'kebabCase',
         defaultTagNameCase = 'kebabCase',
       },
+      inlayHints = true,
+      diagnostics = true,
     },
   },
   on_new_config = function(new_config, new_root_dir)
