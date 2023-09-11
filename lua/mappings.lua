@@ -84,7 +84,6 @@ map('n', 'sc', cb('modules.surround', 'replace'))
 -- ============================================================================
 -- Other
 -- ============================================================================
-map('n', '<Leader>td', cb('config.lsp.diagnostics', 'toggle_diagnostics'), { desc = 'Toggle diagnostic' })
 map('n', 'Q', 'q', { desc = 'Start recording macro' })
 map('n', '[q', '<Cmd>cnext<Cr>', { desc = 'Go to next match in quickfix list' })
 map('n', ']q', '<Cmd>cprev<Cr>', { desc = 'Go to next match in quickfix list' })
