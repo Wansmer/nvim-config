@@ -179,12 +179,12 @@ if vim.opt.relativenumber:get() then
     })
   end
 
-  -- Disables `relativenumber` when entering command line mode and enables it again when leaving.
   vim.api.nvim_create_autocmd('CmdlineEnter', {
+    desc = 'Disables `relativenumber` when entering command line mode and enables it again when leaving',
     group = vim.api.nvim_create_augroup('cmd-line-relnum-toggle', { clear = true }),
     callback = function()
-      if vim.wo.relativenumber then
-        local win = vim.api.nvim_get_current_win()
+      local win = vim.api.nvim_get_current_win()
+      if vim.wo[win].relativenumber then
         vim.wo[win].relativenumber = false
         vim.cmd('redraw')
         set_relnum_back(win)
@@ -193,14 +193,13 @@ if vim.opt.relativenumber:get() then
   })
 end
 
--- Change input method to English before suspend nvim
 vim.api.nvim_create_autocmd('VimSuspend', {
+  desc = 'Change input method to English before suspend nvim',
   callback = function()
     vim.system({ 'im-select', 'com.apple.keylayout.ABC' }, nil, nil)
   end,
 })
 
--- Delete [No Name] buffers
 vim.api.nvim_create_autocmd('BufHidden', {
   desc = 'Delete [No Name] buffers',
   callback = function(data)
