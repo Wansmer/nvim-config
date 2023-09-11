@@ -8,8 +8,8 @@ PREF = {
   lsp = {
     format_on_save = false,
     virtual_text = false,
-    -- show_signature_on_insert = true,
     show_diagnostic = true,
+    show_inlay_hints = true,
     -- Use take_over_mode for vue projects or not
     tom_enable = true,
     preinstall_servers = {

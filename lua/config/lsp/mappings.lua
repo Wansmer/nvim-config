@@ -1,3 +1,5 @@
+local u = require('utils')
+
 local M = {}
 
 local map = vim.keymap.set
@@ -31,7 +33,7 @@ M.set_keymap = function(_, bufnr)
   map('n', '<leader>lu', '<Cmd>Glance references<Cr>', opts)
   map('n', '<leader>lD', vim.lsp.buf.declaration, opts)
 
-  --   vim.keymap.set('n', 'gD', '<CMD>Glance definitions<CR>')
+  -- vim.keymap.set('n', 'gD', '<CMD>Glance definitions<CR>')
   -- vim.keymap.set('n', 'gR', '<CMD>Glance references<CR>')
   -- vim.keymap.set('n', 'gY', '<CMD>Glance type_definitions<CR>')
   -- vim.keymap.set('n', 'gM', '<CMD>Glance implementations<CR>')
@@ -42,6 +44,11 @@ M.set_keymap = function(_, bufnr)
   -- Signature help
   map('n', '<leader>ls', vim.lsp.buf.signature_help, opts)
   map('i', '<C-q>', vim.lsp.buf.signature_help, opts)
+
+  map('n', '<Leader>;', u.bind(vim.lsp.inlay_hint, bufnr), {
+    buffer = bufnr,
+    desc = 'Toggle inlayHint for current buffer',
+  })
 end
 
 return M
