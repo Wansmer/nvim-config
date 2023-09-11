@@ -187,4 +187,18 @@ function M.get_lang()
   return lang
 end
 
+---Bind arguments to callback
+---@param cb function callback to invoke
+---@vararg ...any
+function M.bind(cb, ...)
+  local args = { ... }
+  return function()
+    if #args == 0 then
+      cb()
+    else
+      cb(unpack(args))
+    end
+  end
+end
+
 return M
