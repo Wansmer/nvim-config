@@ -158,18 +158,6 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
 --   end,
 -- })
 
--- if vim.fn.has('nvim-0.10.0') then
---   vim.api.nvim_create_autocmd('LspAttach', {
---     callback = function(args)
---       local bufnr = args.buf
---       local client = vim.lsp.get_client_by_id(args.data.client_id)
---       if client and client.supports_method('textDocument/inlayHint', { bufnr = bufnr }) then
---         vim.lsp.inlay_hint(bufnr, true)
---       end
---     end,
---   })
--- end
-
 if vim.opt.relativenumber:get() then
   local function set_relnum_back(win)
     vim.api.nvim_create_autocmd('CmdlineLeave', {
