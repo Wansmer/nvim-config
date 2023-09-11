@@ -1,6 +1,6 @@
 return {
   'projekt0n/circles.nvim',
-  enabled = true,
+  enabled = false,
   event = 'VeryLazy',
   requires = { 'nvim-tree/nvim-web-devicons' },
   config = function()
