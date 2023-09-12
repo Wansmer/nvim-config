@@ -21,6 +21,13 @@ function M.some(tbl, cb)
   return false
 end
 
+function M.list_contains(list, value)
+  return M.some(list, function(v)
+    print(v, value, v == value)
+    return v == value
+  end)
+end
+
 function M.char_on_pos(pos)
   pos = pos or vim.fn.getpos('.')
   return tostring(vim.fn.getline(pos[1])):sub(pos[2], pos[2])
