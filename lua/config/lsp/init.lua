@@ -1,6 +1,7 @@
 local lsp = require('lspconfig')
 local mlsp = require('mason-lspconfig')
 local diagnostics = require('config.lsp.diagnostics')
+require('config.lsp.autocmd')
 
 diagnostics.apply()
 
@@ -20,16 +21,4 @@ local servers = mlsp.get_installed_servers()
 for _, server_name in pairs(servers) do
   local opts = make_config(server_name)
   lsp[server_name].setup(opts)
-end
-
-if vim.fn.has('nvim-0.10.0') then
-  vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(args)
-      local bufnr = args.buf
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if client and client.supports_method('textDocument/inlayHint', { bufnr = bufnr }) then
-        vim.lsp.inlay_hint(bufnr, PREF.lsp.show_inlay_hints)
-      end
-    end,
-  })
 end
