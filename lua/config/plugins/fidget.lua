@@ -1,7 +1,7 @@
 return {
   'j-hui/fidget.nvim',
   event = 'LspAttach',
-  enabled = true,
+  enabled = false,
   config = function()
     require('fidget').setup()
   end,
