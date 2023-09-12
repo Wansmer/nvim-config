@@ -36,9 +36,6 @@ return {
         }),
         diagnostics.tidy,
 
-        -- rust
-        formatting.rustfmt,
-
         -- other
         -- diagnostics.write_good,
       },
