@@ -3,6 +3,10 @@ return {
   enabled = true,
   -- branch = 'v3.*',
   cmd = { 'Neotree' },
+  init = function()
+    vim.keymap.set('n', '<LocalLeader>e', '<Cmd>Neotree focus toggle<Cr>', { desc = 'Open file explorer' })
+    vim.keymap.set('x', '<LocalLeader>e', '<Esc><Cmd>Neotree focus toggle<Cr>', { desc = 'Open file explorer' })
+  end,
   dependencies = {
     'MunifTanjim/nui.nvim',
     {
@@ -13,9 +17,13 @@ return {
 
         local lm_ok, lm_utils = pcall(require, 'langmapper.utils')
         if lm_ok then
+          ---@diagnostic disable-next-line: duplicate-set-field
           require('window-picker.util').get_user_input_char = function()
             local char = vim.fn.getcharstr()
-            return lm_utils.translate_keycode(char, 'default', 'ru')
+            if char then
+              return lm_utils.translate_keycode(char, 'default', 'ru')
+            end
+            return char
           end
         end
 
@@ -64,8 +72,8 @@ return {
     local window_mappings = {
       ['o'] = 'open',
       ['l'] = 'open_with_window_picker',
-      ['sg'] = 'split_with_window_picker',
-      ['sv'] = 'vsplit_with_window_picker',
+      ['<C-g>'] = 'split_with_window_picker',
+      ['<C-v>'] = 'vsplit_with_window_picker',
       ['s'] = false,
       ['z'] = 'close_node',
       ['Z'] = 'close_all_nodes',

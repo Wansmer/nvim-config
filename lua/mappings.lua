@@ -28,9 +28,6 @@ map('n', '<C-l>', '<C-w>l', { desc = 'Focus to bottom-side window' })
 map({ 'n', 'i', 'x' }, '<C-s>', '<Esc><Cmd>up<Cr>', { desc = 'Save buffer into file' })
 map('n', '<C-->', '<Cmd>vertical resize -2<Cr>', { desc = 'Vertical resize +' })
 map('n', '<C-=>', '<Cmd>vertical resize +2<Cr>', { desc = 'Vertical resize -' })
-map('n', 'tsp', '<Cmd>TSPlaygroundToggle<Cr>')
-map('n', 'tsn', '<Cmd>TSNodeUnderCursor<Cr>')
-map('n', 'tsh', '<Cmd>TSHighlightCapturesUnderCursor<Cr>')
 
 -- ============================================================================
 -- Movements on text
@@ -87,8 +84,6 @@ map('n', 'sc', cb('modules.surround', 'replace'))
 map('n', 'Q', 'q', { desc = 'Start recording macro' })
 map('n', '[q', '<Cmd>cnext<Cr>', { desc = 'Go to next match in quickfix list' })
 map('n', ']q', '<Cmd>cprev<Cr>', { desc = 'Go to next match in quickfix list' })
-map('n', '<LocalLeader>e', '<Cmd>Neotree focus toggle<Cr>', { desc = 'Open file explorer' })
-map('x', '<LocalLeader>e', '<Esc><Cmd>Neotree focus toggle<Cr>', { desc = 'Open file explorer' })
 map('n', '<Leader><Leader>', function()
   local plugins = require('lazy.core.config').plugins
   for name, plug in pairs(plugins) do

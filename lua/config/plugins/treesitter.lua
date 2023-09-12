@@ -5,7 +5,11 @@ return {
   end,
   event = { 'BufReadPost', 'BufNewFile' },
   enabled = true,
-  config = function()
+  conkig = function()
+    vim.keymap.set('n', 'tsp', '<Cmd>TSPlaygroundToggle<Cr>')
+    vim.keymap.set('n', 'tsn', '<Cmd>TSNodeUnderCursor<Cr>')
+    vim.keymap.set('n', 'tsh', '<Cmd>TSHighlightCapturesUnderCursor<Cr>')
+
     local configs = require('nvim-treesitter.configs')
     configs.setup({
       ensure_installed = 'all',
