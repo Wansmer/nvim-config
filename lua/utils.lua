@@ -23,7 +23,6 @@ end
 
 function M.list_contains(list, value)
   return M.some(list, function(v)
-    print(v, value, v == value)
     return v == value
   end)
 end
