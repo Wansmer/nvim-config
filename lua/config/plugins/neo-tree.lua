@@ -20,10 +20,7 @@ return {
           ---@diagnostic disable-next-line: duplicate-set-field
           require('window-picker.util').get_user_input_char = function()
             local char = vim.fn.getcharstr()
-            if char then
-              return lm_utils.translate_keycode(char, 'default', 'ru')
-            end
-            return char
+            return lm_utils.translate_keycode(char, 'default', 'ru')
           end
         end
 
