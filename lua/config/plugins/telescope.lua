@@ -42,6 +42,7 @@ return {
       end
     end
 
+    local actions = require('telescope.actions')
     telescope.setup({
       defaults = {
         prompt_prefix = ' ',
@@ -54,7 +55,8 @@ return {
           i = {
             ['<C-2>'] = switch_picker('live_grep'),
             ['<C-3>'] = switch_picker('find_files'),
-            i = { ['<C-u>'] = false }, -- Clear instead of preview scroll up
+            ['<C-g>'] = actions.select_horizontal,
+            ['<C-u>'] = false, -- Clear instead of preview scroll up
             ['<S-Cr>'] = function(prompt_bufnr)
               -- Use nvim-window-picker to choose the window by dynamically attaching a function
               local action_set = require('telescope.actions.set')
