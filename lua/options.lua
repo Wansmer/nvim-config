@@ -25,9 +25,9 @@ _G.__number = function()
 
   -- Repeats the behavior for `vim.opt.numberwidth`
   local width = vim.opt.numberwidth:get()
-  local l_count = vim.api.nvim_buf_line_count(0)
+  local l_count_width = #tostring(vim.api.nvim_buf_line_count(0))
   -- If buffer have more lines than `vim.opt.numberwidth` then use width of line count
-  width = width >= l_count and width or #tostring(l_count)
+  width = width >= l_count_width and width or l_count_width
 
   local function pad_start(n)
     local len = width - #tostring(n)
@@ -81,13 +81,13 @@ local options = {
   number = true,
   relativenumber = true,
   termguicolors = true,
+  numberwidth = 3,
   showmode = false,
   showcmd = false,
   cmdheight = 1,
   pumheight = 10,
   showtabline = 0,
   cursorline = true,
-  numberwidth = 3,
   signcolumn = 'yes',
   scrolloff = 3,
   sidescrolloff = 3,
