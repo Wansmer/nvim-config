@@ -207,4 +207,37 @@ function M.bind(cb, ...)
   end
 end
 
+---Clear autocmds by group and return callback to restore them
+---@param group number|string Group name or id
+---@return function Callback to restore cleared group's autocmds
+function M.disable_autocmd(group)
+  local aus = vim.api.nvim_get_autocmds({ group = group })
+  vim.api.nvim_clear_autocmds({ group = group })
+
+  local function make_opts(au)
+    local opts = {
+      group = au.group,
+      desc = au.desc,
+      once = au.once,
+      pattern = au.pattern,
+    }
+
+    if au.command ~= '' then
+      opts.command = au.command
+    else
+      opts.callback = au.callback
+    end
+
+    return opts
+  end
+
+  return function()
+    vim.defer_fn(function()
+      for _, au in ipairs(aus) do
+        vim.api.nvim_create_autocmd(au.event, make_opts(au))
+      end
+    end, 0)
+  end
+end
+
 return M
