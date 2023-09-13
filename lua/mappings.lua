@@ -93,10 +93,13 @@ local function move_selected(op)
   return function()
     local restore_autocmd = u.disable_autocmd('toggle_relnum')
 
+    -- ":move'>+<Cr>gv=gv"
+    -- ":move'<-2<Cr>gv=gv"
     local start = op == '+' and '' or 2
     local count = vim.v.count
     local times = count == 0 and start or (op == '+' and count or count + 1)
-    vim.api.nvim_feedkeys(vim.keycode(":move'>" .. op .. times .. '<Cr>gv=gv'), 'n', true)
+    local mark = op == '+' and "'>" or "'<"
+    vim.api.nvim_feedkeys(vim.keycode(":move" .. mark .. op .. times .. '<Cr>gv=gv'), 'n', true)
 
     restore_autocmd()
   end
