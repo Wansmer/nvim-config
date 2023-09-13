@@ -23,12 +23,23 @@ _G.__number = function()
   local rnu = vim.opt.relativenumber:get()
   local cur_line = vim.fn.line('.') == vim.v.lnum and vim.v.lnum or vim.v.relnum
 
+  -- Repeats the behavior for `vim.opt.numberwidth`
+  local width = vim.opt.numberwidth:get()
+  local l_count = vim.api.nvim_buf_line_count(0)
+  -- If buffer have more lines than `vim.opt.numberwidth` then use width of line count
+  width = width >= l_count and width or #tostring(l_count)
+
+  local function pad_start(n)
+    local len = width - #tostring(n)
+    return len < 1 and n or (' '):rep(len) .. n
+  end
+
   if nu and rnu then
-    return cur_line
+    return pad_start(cur_line)
   elseif nu then
-    return vim.v.lnum
+    return pad_start(vim.v.lnum)
   elseif rnu then
-    return vim.v.relnum
+    return pad_start(vim.v.relnum)
   end
 
   return ''
