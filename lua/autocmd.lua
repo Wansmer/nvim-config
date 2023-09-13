@@ -159,8 +159,11 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
 -- })
 
 if vim.opt.relativenumber:get() then
+  local group = vim.api.nvim_create_augroup('toggle_relnum', { clear = false })
   local function set_relnum_back(win)
     vim.api.nvim_create_autocmd('CmdlineLeave', {
+      group = group,
+      once = true,
       callback = function()
         vim.wo[win].relativenumber = true
       end,
@@ -169,7 +172,7 @@ if vim.opt.relativenumber:get() then
 
   vim.api.nvim_create_autocmd('CmdlineEnter', {
     desc = 'Disables `relativenumber` when entering command line mode and enables it again when leaving',
-    group = vim.api.nvim_create_augroup('cmd-line-relnum-toggle', { clear = true }),
+    group = group,
     callback = function()
       local win = vim.api.nvim_get_current_win()
       if vim.wo[win].relativenumber then
