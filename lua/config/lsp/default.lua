@@ -17,7 +17,10 @@ M.on_attach = function(client, bufnr)
 
   -- Disable semantic tokens highlight
   if client.server_capabilities.semanticTokensProvider then
+    -- Disable
     client.server_capabilities.semanticTokensProvider = nil
+    -- Enable
+    -- vim.lsp.semantic_tokens.start(bufnr, client.id)
   end
 
   set_keymaps(client, bufnr)
