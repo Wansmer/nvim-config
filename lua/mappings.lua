@@ -59,18 +59,61 @@ map({ 'n', 'x', 'o' }, 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev
 -- Text edit
 -- ============================================================================
 -- WARNING: use ':' instead <Cmd> in visual mode (x, s, v) + ex command
+local function duplicate_line()
+  local times = vim.v.count == 0 and 1 or vim.v.count
+  for _ = 1, times, 1 do
+    vim.cmd.copy('.')
+  end
+end
+
+local function duplicate_selection()
+  local restore_autocmd = u.disable_autocmd('toggle_relnum')
+
+  local times = vim.v.count == 0 and 1 or vim.v.count
+  for _ = 1, times, 1 do
+    vim.api.nvim_feedkeys(vim.keycode(':copy.-1<Cr>gv'), 'n', true)
+  end
+
+  restore_autocmd()
+end
+
+local function move_line(op)
+  return function()
+    local start = op == '+' and 1 or 2
+    local count = vim.v.count
+    local times = count == 0 and start or (op == '+' and count or count + 1)
+    local ok, _ = pcall(vim.cmd.move, op .. times)
+    if ok then
+      vim.cmd.norm('==')
+    end
+  end
+end
+
+local function move_selected(op)
+  return function()
+    local restore_autocmd = u.disable_autocmd('toggle_relnum')
+
+    local start = op == '+' and '' or 2
+    local count = vim.v.count
+    local times = count == 0 and start or (op == '+' and count or count + 1)
+    vim.api.nvim_feedkeys(vim.keycode(":move'>" .. op .. times .. '<Cr>gv=gv'), 'n', true)
+
+    restore_autocmd()
+  end
+end
+
+map('n', '<Leader>d', duplicate_line, { desc = 'Duplicate current line' })
+map('x', '<Leader>d', duplicate_selection, { desc = 'Duplicate current selection and reselect' })
+map('n', '<C-n>', move_line('+'), { desc = 'Move current line downward' })
+map('n', '<C-p>', move_line('-'), { desc = 'Move current line upward' })
+map('x', '<C-n>', move_selected('+'), { desc = 'Move current selection downward and reselect' })
+map('x', '<C-p>', move_selected('-'), { desc = 'Move current selection upward and reselect' })
 map('n', '<Leader>s', 'dawea <Esc>px', { desc = 'Swap word with right-side word' })
 map('i', '<S-Cr>', '<C-o>o', { desc = 'Create new line below and jump there' })
 map('x', '<', '<gv', { desc = 'One indent left and reselect' })
 map('x', '>', '>gv|', { desc = 'One indent right and reselect' })
 map('x', '<S-Tab>', '<gv', { desc = 'One indent left and reselect' })
 map('x', '<Tab>', '>gv|', { desc = 'One indent right and reselect' })
-map('n', '<C-n>', '<Cmd>move+1<Cr>==', { desc = 'Move current line downward' })
-map('n', '<C-p>', '<Cmd>move-2<Cr>==', { desc = 'Move current line upward' })
-map('x', '<C-n>', ":move'>+<Cr>gv=gv", { desc = 'Move current selection downward and reselect' })
-map('x', '<C-p>', ":move'<-2<Cr>gv=gv", { desc = 'Move current selection upward and reselect' })
-map('n', '<Leader>d', '<Cmd>copy.<Cr>', { desc = 'Duplicate current line' })
-map('x', '<Leader>d', ':copy.-1<Cr>gv', { desc = 'Duplicate current selection and reselect' })
 map('x', 'p', '"_c<Esc>p', { desc = 'Paste without copying into register' })
 map('n', '<Leader>i', cb('modules.toggler', 'toggle_word'), { desc = 'Module Toggler: toggle word under cursor' })
 map('v', 'sa', cb('modules.surround', 'add_visual'))
