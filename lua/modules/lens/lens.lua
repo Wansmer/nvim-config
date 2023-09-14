@@ -92,13 +92,13 @@ function Lens:filter(symbols, prefix)
   end
 end
 
-local function defer_times(times, lens)
+function Lens:clear_irrelevant_extmark(times)
   return function(i)
     if i == times then
-      for key, data in pairs(lens.state:get_buffer(lens.state_id)) do
-        if not lens.potrogano[key] then
-          vim.api.nvim_buf_del_extmark(lens.bufnr, ns, data.id)
-          lens.state:del_record(lens.state_id, key)
+      for key, data in pairs(self.state:get_buffer(self.state_id)) do
+        if not self.potrogano[key] then
+          vim.api.nvim_buf_del_extmark(self.bufnr, ns, data.id)
+          self.state:del_record(self.state_id, key)
         end
       end
     end
@@ -106,13 +106,13 @@ local function defer_times(times, lens)
 end
 
 function Lens:_collect_references()
-  local update_state = defer_times(#self.symbols, self)
+  local cb = self:clear_irrelevant_extmark(#self.symbols)
   for i, sym in ipairs(self.symbols) do
     local function handler(err, response)
       if not err and response then
         self:_show({ symbol_id = sym.id, references = #response, line = sym.params.position.line })
       end
-      update_state(i)
+      cb(i)
     end
 
     self.client.request(REFERENCES, sym.params, handler, self.bufnr)
