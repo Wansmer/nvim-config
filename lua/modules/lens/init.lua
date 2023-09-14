@@ -5,6 +5,9 @@ local SymbolUsage = {}
 
 local group = vim.api.nvim_create_augroup('__symbol_usage__', { clear = false })
 
+---@class UserOptions
+---@field only_current_line boolean Show usage information on the cursor line only
+
 ---Attach buffer to SymbolUsage
 ---@param bufnr integer
 function SymbolUsage.attach(bufnr)
@@ -13,11 +16,14 @@ function SymbolUsage.attach(bufnr)
   state:add_buffer(state_key)
 
   for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-    Lens.new(bufnr, client, state_key, state):run()
+    Lens.new(bufnr, client, state):run()
   end
 end
 
-function SymbolUsage.setup()
+---Setup SymbolUsage
+---@param opts UserOptions
+function SymbolUsage.setup(opts)
+  opts = opts or {}
   vim.api.nvim_create_autocmd({ 'LspAttach', 'BufEnter', 'TextChanged', 'InsertLeave' }, {
     group = group,
     callback = function(event)
