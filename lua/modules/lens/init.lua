@@ -1,7 +1,7 @@
 local Lens = require('modules.lens.lens')
 local state = require('modules.lens.state')
 
-local SymbolUsage = { state = {} }
+local SymbolUsage = {}
 
 local group = vim.api.nvim_create_augroup('__symbol_usage__', { clear = false })
 
