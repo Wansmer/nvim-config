@@ -47,7 +47,7 @@ end
 local function make_params(ref)
   return {
     context = { includeDeclaration = false },
-    position = ref.selectionRange.start,
+    position = ref.selectionRange['end'],
     textDocument = { uri = vim.uri_from_bufnr(0) },
   }
 end
@@ -60,6 +60,12 @@ end
 ---Checks buffer and print virtual text with symbol usage information
 function Lens:run()
   if self:support_client() then
+    -- local state = self.state:get_buffer(self.state_id)
+    -- if state then
+    --   for _, record in pairs(state) do
+    --     set_extmark(self.bufnr, record.line, { id = record.id })
+    --   end
+    -- end
     self:collect_symbols()
   end
 end
@@ -108,6 +114,30 @@ function Lens:filter(symbols, prefix)
   end
 end
 
+-- detail = "function (symbols, prefix)",
+-- kind = 6,
+-- name = "Lens:filter",
+-- range = {
+--   ["end"] = {
+--     character = 3,
+--     line = 111
+--   },
+--   start = {
+--     character = 0,
+--     line = 94
+--   }
+-- },
+-- selectionRange = {
+--   ["end"] = {
+--     character = 20,
+--     line = 94
+--   },
+--   start = {
+--     character = 9,
+--     line = 94
+--   }
+-- }
+
 ---@alias ClearExtmarkCB function(idx: integer): void
 
 ---Deletes irrelevant extmark and dependent records in state
@@ -116,14 +146,12 @@ end
 function Lens:clear_irrelevant_extmark(count)
   return function(idx)
     if idx == count then
-      vim.defer_fn(function()
-        for key, data in pairs(self.state:get_buffer(self.state_id)) do
-          if not self.potrogano[key] then
-            vim.api.nvim_buf_del_extmark(self.bufnr, ns, data.id)
-            self.state:del_record(self.state_id, key)
-          end
+      for key, data in pairs(self.state:get_buffer(self.state_id)) do
+        if not self.potrogano[key] then
+          vim.api.nvim_buf_del_extmark(self.bufnr, ns, data.id)
+          self.state:del_record(self.state_id, key)
         end
-      end, 0)
+      end
     end
   end
 end
@@ -150,19 +178,21 @@ end
 ---Prints extmarks
 ---@param data table
 function Lens:print_extmark(data)
-  if data.references ~= 0 then
+  if data.ref_count ~= 0 then
     local record = self.state:get_record(self.state_id, data.symbol_id)
 
     local opts = {
-      -- virt_text = { { ' ' .. data.ref_count .. ' usage', 'Comment' } },
       virt_text = { { ' ' .. data.ref_count .. ' usage', 'SymbolUsageText' } },
     }
 
     opts.id = record and record.id or nil
-    local id = set_extmark(self.bufnr, data.line, opts)
-    self.state:set_record(self.state_id, data.symbol_id, { id = id })
-
-    self.potrogano[data.symbol_id] = { id = id }
+    local record_data = {
+      id = set_extmark(self.bufnr, data.line, opts),
+      ref_count = data.ref_count,
+      line = data.line,
+    }
+    self.state:set_record(self.state_id, data.symbol_id, record_data)
+    self.potrogano[data.symbol_id] = record_data
   end
 end
 

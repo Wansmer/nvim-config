@@ -7,6 +7,7 @@ local group = vim.api.nvim_create_augroup('__symbol_usage__', { clear = false })
 
 ---@class UserOptions
 ---@field only_current_line boolean Show usage information on the cursor line only
+---@field include_declaration boolean Add number of declaration to count of usage
 
 ---Attach buffer to SymbolUsage
 ---@param bufnr integer
@@ -21,10 +22,10 @@ function SymbolUsage.attach(bufnr)
 end
 
 ---Setup SymbolUsage
----@param opts UserOptions
+---@param opts? UserOptions
 function SymbolUsage.setup(opts)
   opts = opts or {}
-  vim.api.nvim_create_autocmd({ 'LspAttach', 'BufEnter', 'TextChanged', 'InsertLeave' }, {
+  vim.api.nvim_create_autocmd({ 'LspAttach', 'TextChanged', 'InsertLeave' }, {
     group = group,
     callback = function(event)
       SymbolUsage.attach(event.buf)

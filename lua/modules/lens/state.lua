@@ -43,7 +43,6 @@ end
 ---@param state_id string
 ---@param record_id string
 function State:del_record(state_id, record_id)
-  print('TO DEL: ', record_id)
   self.state[state_id][record_id] = nil
 end
 
