@@ -3,12 +3,15 @@ return {
   build = function()
     require('nvim-treesitter.install').update({ with_sync = true })
   end,
-  event = { 'BufReadPost', 'BufNewFile' },
-  enabled = true,
-  conkig = function()
+  -- event = { 'BufReadPost', 'BufNewFile' },
+  lazy = false,
+  init = function ()
     vim.keymap.set('n', 'tsp', '<Cmd>TSPlaygroundToggle<Cr>')
     vim.keymap.set('n', 'tsn', '<Cmd>TSNodeUnderCursor<Cr>')
     vim.keymap.set('n', 'tsh', '<Cmd>TSHighlightCapturesUnderCursor<Cr>')
+  end,
+  enabled = true,
+  conkig = function()
 
     local configs = require('nvim-treesitter.configs')
     configs.setup({
@@ -17,7 +20,7 @@ return {
       ignore_install = { 'phpdoc', 'comment' },
       highlight = {
         enable = true,
-        disable = {},
+        -- disable = {},
         additional_vim_regex_highlighting = false,
       },
 
