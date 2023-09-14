@@ -1,3 +1,6 @@
+---State - storage for extmark of symbol usage per buffer
+---@class State
+---@field state table
 local State = {}
 State.__index = State
 
