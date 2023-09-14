@@ -99,7 +99,7 @@ local function move_selected(op)
     local count = vim.v.count
     local times = count == 0 and start or (op == '+' and count or count + 1)
     local mark = op == '+' and "'>" or "'<"
-    vim.api.nvim_feedkeys(vim.keycode(":move" .. mark .. op .. times .. '<Cr>gv=gv'), 'n', true)
+    vim.api.nvim_feedkeys(vim.keycode(':move' .. mark .. op .. times .. '<Cr>gv=gv'), 'n', true)
 
     restore_autocmd()
   end
