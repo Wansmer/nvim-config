@@ -1,7 +1,5 @@
 return {
   'nvim-telescope/telescope.nvim',
-  dev = true,
-  dir = '~/projects/code/github/telescope.nvim',
   enabled = true,
   event = 'UIEnter',
   config = function()
