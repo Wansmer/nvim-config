@@ -21,6 +21,20 @@ function M.some(tbl, cb)
   return false
 end
 
+function M.every(tbl, cb)
+  if not vim.tbl_islist(tbl) or vim.tbl_isempty(tbl) then
+    return false
+  end
+
+  for _, item in ipairs(tbl) do
+    if not cb(item) then
+      return true
+    end
+  end
+
+  return true
+end
+
 function M.list_contains(list, value)
   return M.some(list, function(v)
     return v == value
@@ -123,8 +137,10 @@ function M.lazy_rhs_cb(module, cb_name, ...)
   end
 end
 
-function M.feedkeys(feed)
-  local term = vim.api.nvim_replace_termcodes(feed, true, true, true)
+---Feedkeys witn 'n' (noremap) mode and auto 'replace_termcodes'
+---@param f string
+function M.feedkeys(f)
+  local term = vim.api.nvim_replace_termcodes(f, true, true, true)
   vim.api.nvim_feedkeys(term, 'n', true)
 end
 
