@@ -81,7 +81,7 @@ return {
         hooks = {},
       },
       winbar = {
-        enable = false, -- Available strating from nvim-0.8+
+        enable = true, -- Available strating from nvim-0.8+
       },
     })
   end,
