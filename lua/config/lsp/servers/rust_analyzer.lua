@@ -13,6 +13,12 @@ return {
         closingBraceHints = { enable = false },
         closureCaptureHints = { enable = false },
       },
+      lens = {
+        enable = true,
+        methodReferences = true,
+        references = true,
+        implementations = false,
+      },
     },
   },
 }

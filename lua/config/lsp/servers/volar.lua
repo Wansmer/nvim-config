@@ -56,6 +56,9 @@ return {
       },
       inlayHints = true,
       diagnostics = true,
+      codeLens = {
+        showReferencesNotification = true,
+      }
     },
   },
   on_new_config = function(new_config, new_root_dir)

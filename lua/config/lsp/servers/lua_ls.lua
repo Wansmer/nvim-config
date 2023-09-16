@@ -21,6 +21,9 @@ local settings = {
     format = {
       enabled = false,
     },
+    codeLens = {
+      enable = false,
+    },
     completion = {
       callSnippet = 'Replace',
     },
