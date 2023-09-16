@@ -117,6 +117,12 @@ local options = {
     foldsep = ' ', -- or "│" to use bar for show fold area
   },
   title = false,
+  statuscolumn = vim.fn.join({
+    '%{%v:lua.__signcolumn()%}%=',
+    '%{v:lua.__number()}',
+    ' %{%v:lua.__foldcolumn()%} ',
+  }, ''),
+
   -- statusline = stl,
 
   -- ==========================================================================
@@ -144,11 +150,6 @@ local options = {
   foldenable = true,
   foldmethod = 'expr',
   foldexpr = 'v:lua.vim.treesitter.foldexpr()',
-  statuscolumn = vim.fn.join({
-    '%{%v:lua.__signcolumn()%}%=',
-    '%{v:lua.__number()}',
-    ' %{%v:lua.__foldcolumn()%} ',
-  }, ''),
 
   -- ==========================================================================
   -- Other
