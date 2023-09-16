@@ -19,6 +19,10 @@ local langmap = vim.fn.join({
 -- To display the `number` in the `statuscolumn` according to
 -- the `number` and `relativenumber` options and their combinations
 _G.__number = function()
+  if vim.v.virtnum < 0 then
+    return ''
+  end
+
   local nu = vim.opt.number:get()
   local rnu = vim.opt.relativenumber:get()
   local cur_line = vim.fn.line('.') == vim.v.lnum and vim.v.lnum or vim.v.relnum
@@ -47,6 +51,10 @@ end
 
 -- To display pretty fold's icons in `statuscolumn` and show it according to `fillchars`
 _G.__foldcolumn = function()
+  if vim.v.virtnum < 0 then
+    return ''
+  end
+
   local chars = vim.opt.fillchars:get()
   local fc = '%#FoldColumn#'
   local clf = '%#CursorLineFold#'
@@ -63,6 +71,14 @@ _G.__foldcolumn = function()
   else
     return hl .. (chars.foldsep or ' ')
   end
+end
+
+_G.__signcolumn = function()
+  if vim.v.virtnum < 0 then
+    return ''
+  end
+
+  return '%s'
 end
 
 local options = {
@@ -129,7 +145,7 @@ local options = {
   foldmethod = 'expr',
   foldexpr = 'v:lua.vim.treesitter.foldexpr()',
   statuscolumn = vim.fn.join({
-    '%s%=',
+    '%{%v:lua.__signcolumn()%}%=',
     '%{v:lua.__number()}',
     ' %{%v:lua.__foldcolumn()%} ',
   }, ''),
