@@ -56,7 +56,7 @@ M.set_keymap = function(_, bufnr)
 
   -- Signature help
   map('n', 'gs', vim.lsp.buf.signature_help, d('Signature help'))
-  map('i', '<C-g>', vim.lsp.buf.signature_help, d('Signature help'))
+  map('i', '<C-q>', vim.lsp.buf.signature_help, d('Signature help'))
 end
 
 return M
