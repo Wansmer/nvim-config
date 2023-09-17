@@ -1,6 +1,7 @@
 return {
-  dir = '~/projects/code/personal/symbol-usage',
-  dev = true,
+  'Wansmer/symbol-usage.nvim',
+  dir = '~/projects/code/personal/symbol-usage.nvim',
+  dev = false,
   enabled = true,
   event = 'LspAttach',
   config = function()
@@ -31,8 +32,10 @@ return {
     if ok then
       hl = { fg = c.cursor_line_number, bold = false, italic = true }
     end
+
     require('symbol-usage').setup({
       hl = hl,
+      vt_position = 'above',
       filetypes = {
         javascript = { text_format = js_like },
         typescript = { text_format = js_like },
