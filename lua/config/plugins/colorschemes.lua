@@ -22,8 +22,9 @@ return {
     enabled = PREF.ui.colorscheme == 'kanagawa',
   },
   {
+    'Wansmer/serenity.nvim',
     dev = true,
-    dir = '~/projects/code/personal/serenity',
+    dir = '~/projects/code/personal/serenity.nvim',
     lazy = false,
     enabled = PREF.ui.colorscheme == 'serenity',
   },
