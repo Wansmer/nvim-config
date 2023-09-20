@@ -3,6 +3,11 @@ return {
   dir = '~/projects/code/personal/symbol-usage.nvim',
   dev = true,
   enabled = true,
+  init = function()
+    vim.keymap.set('n', '<leader>lu', function()
+      require('symbol-usage').toggle()
+    end)
+  end,
   event = 'LspAttach',
   config = function()
     local ok, c = pcall(require, 'serenity.colors')
