@@ -175,7 +175,8 @@ local options = {
 
 for option_name, value in pairs(options) do
   -- To avoid errors on toggle nvim version
-  if vim.opt[option_name] ~= nil then
+  local ok, _ = pcall(vim.api.nvim_get_option_info, option_name)
+  if ok then
     vim.opt[option_name] = value
   end
 end
