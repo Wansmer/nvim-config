@@ -99,6 +99,18 @@ local function get_target_column(bufnr)
   return registry[key].col
 end
 
+local function collect_ih_len(mark)
+  local len = 0
+
+  for _, value in ipairs(mark or {}) do
+    for _, text in ipairs(value[4].virt_text or {}) do
+      len = len + #text[1]
+    end
+  end
+
+  return len
+end
+
 ---Set or del extmark
 ---@param bufnr integer Current buffer
 ---@param line integer
@@ -106,6 +118,13 @@ end
 local function update_exmark(bufnr, line, col)
   local c_line = vim.api.nvim_buf_get_lines(bufnr, line, line + 1, false)[1]
   local len = vim.fn.strdisplaywidth(c_line)
+
+  -- Take into account the width of virtual text inlayHint during redrawing
+  local ihns = vim.api.nvim_get_namespaces()['vim_lsp_inlayhint']
+  if ihns then
+    local mark = vim.api.nvim_buf_get_extmarks(bufnr, ihns, { line, 0 }, { line + 1, 0 }, { details = true })
+    len = len + collect_ih_len(mark or {})
+  end
 
   if not (c_line and len >= col) then
     local extmark = create_extmark(line + 1, col)
@@ -146,6 +165,18 @@ vim.api.nvim_create_autocmd(events, {
 })
 
 vim.api.nvim_create_autocmd('OptionSet', {
+  group = group,
   pattern = 'colorcolumn',
   callback = set_thin_colorcolumn,
+})
+
+-- Redraw thincc when inlayHint setted
+vim.api.nvim_create_autocmd('LspRequest', {
+  group = group,
+  callback = function(e)
+    local req = e.data.request
+    if req.method == 'textDocument/inlayHint' and req.type == 'complete' then
+      set_thin_colorcolumn()
+    end
+  end,
 })
