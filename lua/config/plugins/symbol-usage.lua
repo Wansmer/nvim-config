@@ -1,7 +1,7 @@
 return {
   'Wansmer/symbol-usage.nvim',
   dir = '~/projects/code/personal/symbol-usage.nvim',
-  dev = false,
+  dev = true,
   enabled = true,
   event = 'LspAttach',
   config = function()
@@ -9,24 +9,24 @@ return {
     local hl = { link = 'Comment' }
 
     local js_like = function(symbol)
-      local refs, defs, impls
+      local res = {}
 
       if symbol.references then
         symbol.references = symbol.references - 1
         local usage = symbol.references <= 1 and 'usage' or 'usages'
         local num = symbol.references == 0 and 'no' or symbol.references
-        refs = ('%s %s'):format(num, usage)
+        table.insert(res, ('%s %s'):format(num, usage))
       end
 
       if symbol.definition then
-        defs = symbol.definition .. ' defs'
+        table.insert(res, symbol.definition .. ' defs')
       end
 
       if symbol.implementation then
-        impls = symbol.implementation .. ' impls'
+        table.insert(res, symbol.implementation .. ' impls')
       end
 
-      return table.concat({ refs, defs, impls }, ', ')
+      return table.concat(res, ', ')
     end
 
     if ok then
@@ -36,7 +36,9 @@ return {
     require('symbol-usage').setup({
       hl = hl,
       vt_position = 'above',
+      implementation = { enabled = true },
       filetypes = {
+        vue = { text_format = js_like },
         javascript = { text_format = js_like },
         typescript = { text_format = js_like },
         typescriptreact = { text_format = js_like },
