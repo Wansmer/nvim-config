@@ -11,7 +11,7 @@ M.float_opts = {
   max_width = math.floor(vim.o.columns * 0.4),
 }
 
-local function set_float_hl(buf)
+local function set_float_hl(buf, win)
   local hls = {
     ['|%S-|'] = '@text.reference',
     ['@%S+'] = '@parameter',
@@ -20,6 +20,12 @@ local function set_float_hl(buf)
     ['^%s*(See also:)'] = '@text.title',
     ['{%S-}'] = '@parameter',
   }
+
+  local ok, c = pcall(require, 'serenity.colors')
+  if ok then
+    vim.api.nvim_set_hl(ns, '@text.reference', { fg = c.blue, underline = true })
+    vim.api.nvim_win_set_hl_ns(win, ns)
+  end
 
   -- Extra highlights.
   for l, line in ipairs(vim.api.nvim_buf_get_lines(buf, 0, -1, false)) do
@@ -70,7 +76,7 @@ local function set_float_keymaps(buf)
 end
 
 ---LSP handler that adds extra inline highlights, keymaps, and window options.
----Code inspired from `noice` ([noice repo](https://github.com/folke/noice.nvim)).
+---Code inspired from [noice](https://github.com/folke/noice.nvim).
 ---@param handler fun(err: any, result: any, ctx: any, config: any): integer, integer
 ---@return function
 local function on_float(handler)
@@ -84,7 +90,7 @@ local function on_float(handler)
     -- Conceal everything.
     vim.wo[win].concealcursor = 'n'
 
-    set_float_hl(buf)
+    set_float_hl(buf, win)
     set_float_keymaps(buf)
   end
 end
