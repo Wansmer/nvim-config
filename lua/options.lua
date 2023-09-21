@@ -52,7 +52,8 @@ local options = {
     foldsep = ' ', -- or "│" to use bar for show fold area
   },
   title = false,
-  statuscolumn = require('modules.status').columns(),
+  statuscolumn = require('modules.status').column(),
+  statusline = require('modules.status').line(),
 
   -- statusline = stl,
 
