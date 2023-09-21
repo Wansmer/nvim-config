@@ -1,8 +1,8 @@
-local C = {}
+local M = {}
 
 ---To display the `number` in the `statuscolumn` according to
 ---the `number` and `relativenumber` options and their combinations
-function C.number()
+function M.number()
   local nu = vim.opt.number:get()
   local rnu = vim.opt.relativenumber:get()
   local cur_line = vim.fn.line('.') == vim.v.lnum and vim.v.lnum or vim.v.relnum
@@ -30,7 +30,7 @@ function C.number()
 end
 
 ---To display pretty fold's icons in `statuscolumn` and show it according to `fillchars`
-function C.foldcolumn()
+function M.foldcolumn()
   local chars = vim.opt.fillchars:get()
   local fc = '%#FoldColumn#'
   local clf = '%#CursorLineFold#'
@@ -72,44 +72,54 @@ local function formatters_list()
   return table.concat(supported_formatters, ', ')
 end
 
-function C.lsp()
+function M.lsp()
   local lsp = lsp_list()
   local prefix = (lsp == '' and ' no lsp' or '%#LSPStatusActive#%*')
   return vim.trim(vim.fn.join({ prefix, lsp }, ' '))
 end
 
-function C.formatters()
+function M.formatters()
   local formatters = formatters_list()
   local prefix = (formatters == '' and ' no formatters' or '%#FormatterStatusActive#%*')
   return vim.trim(vim.fn.join({ prefix, formatters }, ' '))
 end
 
-function C.cur_mode()
+function M.cur_mode()
   -- TODO: find better hls
   local modes = { ['n'] = 'NormalStatus', ['i'] = 'InsertStatus', ['v'] = 'VisualStatus', ['r'] = 'ReplaceStatus' }
   local mode = modes[vim.fn.strtrans(vim.fn.mode()):lower():gsub('%W', '')] or 'DiffText'
   return '%#' .. mode .. '# %*'
 end
 
-function C.filename()
+function M.filename()
   local icon = ''
+  local hl = ''
   local ok, di = pcall(require, 'nvim-web-devicons')
   if ok then
-    icon, _ = di.get_icon_by_filetype(vim.bo.filetype, { default = true })
+    icon, hl = di.get_icon_by_filetype(vim.bo.filetype, { default = true })
+    icon = '%#' .. hl .. '#' .. icon .. '%*'
   end
-  local fname = '%t'
-  return icon .. ' ' .. fname .. '%*'
+  return icon .. ' %t'
 end
 
-function C.treesitter()
+function M.treesitter()
   local highlighter = require('vim.treesitter.highlighter')
   local buf = vim.api.nvim_get_current_buf()
   return (highlighter.active[buf] and '%#TSStatusActive#%*' or '') .. ' TS'
 end
 
-function C.branch()
-  local head = vim.b.gitsigns_head
-  return head and (' ' .. head) or ''
+function M.branch()
+  local icon = ' '
+  if not (vim.g.__git_branch or vim.g.__git_dirty) or vim.g.__git_branch == '' then
+    return icon .. 'no git'
+  end
+  local head = vim.g.__git_branch
+  if vim.g.__git_dirty then
+    icon = '%#DiagnosticError#' .. icon .. '%*'
+  else
+    icon = '%#DiagnosticInfo#' .. icon .. '%*'
+  end
+  return icon .. head
 end
 
-return C
+return M

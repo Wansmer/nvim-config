@@ -13,9 +13,8 @@ M.statuscolumn = {
 ---See :h 'statusline'
 M.statusline = {
   { c.cur_mode },
-  { ' ', c.branch },
-  { ' ', c.filename, ' ' },
-  { '#', '%n' },
+  { '   ', c.branch, ' ' },
+  { ' ', c.filename, '(#%n)' },
   { '%=' },
   { c.lsp, ' | ', c.formatters, ' | ', c.treesitter },
   { ' ', '%6.(%l:%c%)', ' ' },
