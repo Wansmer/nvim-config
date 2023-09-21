@@ -52,17 +52,18 @@ local function foldcolumn()
   return text
 end
 
-local statuscolumn = {
+M.statuscolumn = {
   { '%s' },
   { '%=', number },
   { ' ', foldcolumn, ' ' },
 }
 
-function M.join_sections(sections)
-  if vim.v.virtnum < 0 then
-    return ''
-  end
+M.statusline = {}
 
+---Join statuscolumn|statusline sections to string
+---@param sections table
+---@return string
+function M.join_sections(sections)
   local res = ''
   for _, col in ipairs(sections) do
     for _, sym in ipairs(col) do
@@ -72,12 +73,28 @@ function M.join_sections(sections)
   return res
 end
 
+---Build string for `statuscolumn`
+---@return string
 function M.build_stc()
-  return M.join_sections(statuscolumn)
+  return vim.v.virtnum < 0 and '' or M.join_sections(M.statuscolumn)
 end
 
+---Return value for `statuscolumn`
+---@return string
 function M.columns()
   return '%{%v:lua.require("modules.status").build_stc()%}'
+end
+
+---Build string for `statusline`
+---@return string
+function M.build_stl()
+  return M.join_sections(M.statusline)
+end
+
+---Return value for `statusline`
+---@return string
+function M.line()
+  return '%{%v:lua.require("modules.status").build_stl()%}'
 end
 
 return M
