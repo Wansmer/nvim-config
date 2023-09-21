@@ -55,8 +55,6 @@ local options = {
   statuscolumn = require('modules.status').column(),
   statusline = require('modules.status').line(),
 
-  -- statusline = stl,
-
   -- ==========================================================================
   -- Text
   -- ==========================================================================
