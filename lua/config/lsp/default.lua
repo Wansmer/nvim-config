@@ -44,14 +44,4 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 M.capabilities = capabilities
 
-local float_opts = {
-  border = PREF.ui.border,
-  max_width = 80,
-}
-
-M.handlers = {
-  ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, float_opts),
-  ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, float_opts),
-}
-
 return M

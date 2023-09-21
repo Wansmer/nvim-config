@@ -1,9 +1,10 @@
 local lsp = require('lspconfig')
 local mlsp = require('mason-lspconfig')
 local diagnostics = require('config.lsp.diagnostics')
+local float = require('config.lsp.floats')
 require('config.lsp.autocmd')
-
 diagnostics.apply()
+float.apply()
 
 -- Premerge user settings
 local function make_config(server_name)
