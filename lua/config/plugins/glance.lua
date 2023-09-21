@@ -51,6 +51,8 @@ return {
         list = {
           ['j'] = actions.next, -- Bring the cursor to the next item in the list
           ['k'] = actions.previous, -- Bring the cursor to the previous item in the list
+          ['<C-n>'] = actions.next, -- Bring the cursor to the next item in the list
+          ['<C-p>'] = actions.previous, -- Bring the cursor to the previous item in the list
           ['<Down>'] = actions.next,
           ['<Up>'] = actions.previous,
           ['<Tab>'] = actions.next_location, -- Bring the cursor to the next location skipping groups in the list
