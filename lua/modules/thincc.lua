@@ -171,6 +171,7 @@ vim.api.nvim_create_autocmd('OptionSet', {
 })
 
 -- Redraw thincc when inlayHint setted
+-- TODO: still requires any other event to redraw.
 vim.api.nvim_create_autocmd('LspRequest', {
   group = group,
   callback = function(e)
