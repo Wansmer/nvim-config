@@ -8,7 +8,7 @@ return {
       require('symbol-usage').toggle()
     end)
   end,
-  event = 'LspAttach',
+  event = 'BufReadPre',
   config = function()
     local ok, c = pcall(require, 'serenity.colors')
     local hl = { link = 'Comment' }
@@ -17,7 +17,7 @@ return {
       local res = {}
 
       if symbol.references then
-        symbol.references = symbol.references - 1
+        symbol.references = symbol.references > 0 and symbol.references - 1 or symbol.references
         local usage = symbol.references <= 1 and 'usage' or 'usages'
         local num = symbol.references == 0 and 'no' or symbol.references
         table.insert(res, ('%s %s'):format(num, usage))
