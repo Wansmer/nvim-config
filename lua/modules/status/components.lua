@@ -122,4 +122,12 @@ function M.branch()
   return icon .. head
 end
 
+function M.navic()
+  local ok, navic = pcall(require, 'nvim-navic')
+  if ok and navic.is_available() then
+    return navic.get_location()
+  end
+  return ''
+end
+
 return M
