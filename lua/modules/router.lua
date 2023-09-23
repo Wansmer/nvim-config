@@ -29,7 +29,8 @@ local function open_split(cmd, title)
     return line ~= ''
   end, result)
 
-  local height = #result >= 30 and 30 or #result
+  -- local height = #result >= 30 and 30 or #result
+  local height = 30
   title = #result == 0 and 'Wow! So clean!' or title
 
   local buf = vim.api.nvim_create_buf(false, true)
