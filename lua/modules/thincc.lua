@@ -170,14 +170,16 @@ vim.api.nvim_create_autocmd('OptionSet', {
   callback = set_thin_colorcolumn,
 })
 
--- Redraw thincc when inlayHint setted
--- TODO: still requires any other event to redraw.
-vim.api.nvim_create_autocmd('LspRequest', {
-  group = group,
-  callback = function(e)
-    local req = e.data.request
-    if req.method == 'textDocument/inlayHint' and req.type == 'complete' then
-      set_thin_colorcolumn()
-    end
-  end,
-})
+if vim.fn.has('nvim-0.10') == 1 then
+  -- Redraw thincc when inlayHint setted
+  -- TODO: still requires any other event to redraw.
+  vim.api.nvim_create_autocmd('LspRequest', {
+    group = group,
+    callback = function(e)
+      local req = e.data.request
+      if req.method == 'textDocument/inlayHint' and req.type == 'complete' then
+        set_thin_colorcolumn()
+      end
+    end,
+  })
+end
