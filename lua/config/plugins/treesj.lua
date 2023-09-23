@@ -23,10 +23,21 @@ return {
       }
     end
 
-    require('treesj').setup({ max_join_length = 1000 })
+    require('treesj').setup({
+      max_join_length = 1000,
+      use_default_keymaps = false,
+    })
 
     vim.keymap.set('n', '<Leader>M', function()
       require('treesj').toggle({ split = { recursive = true }, join = { recursive = true } })
     end, { desc = 'Toggle single/multiline block of code' })
+    vim.keymap.set('n', '<Leader>m', function()
+      local tsj_langs = require('treesj.langs')['presets']
+      if tsj_langs[vim.bo.filetype] then
+        require('treesj').toggle()
+      else
+        require('mini.splitjoin').toggle()
+      end
+    end)
   end,
 }
