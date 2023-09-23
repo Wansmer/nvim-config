@@ -6,12 +6,21 @@ local function match(str)
   end
 end
 
+local function iter_dir(path)
+  local fs = vim.uv.fs_scandir(path)
+  return function()
+    if not fs then
+      return
+    end
+    return vim.uv.fs_scandir_next(fs)
+  end
+end
+
 local function scandir(path, prefix, tree, ignore)
-  local dir = vim.fn.readdir(path)
-  for _, item in ipairs(dir) do
+  for item, t in iter_dir(path) do
     local file = path .. '/' .. item
     if not u.some(ignore, match(item)) then
-      if vim.fn.isdirectory(file) == 1 then
+      if t == 'directory' then
         scandir(file, item, tree)
       else
         local p = prefix == '' and item or prefix .. '/' .. item
@@ -121,6 +130,7 @@ function Watcher:_on_event(err, fname, status)
       local cbs = vim.list_extend(self['_on_' .. event], self._on_every)
 
       vim.cmd.doautocmd(autocmd)
+      print('Len cbs: ' .. #cbs)
 
       for _, cb in ipairs(cbs) do
         cb(fname, fullpath, event, status)
