@@ -1,3 +1,10 @@
 Neovim
 gitcommit
 rigrep
+textDocument
+TODO
+textwidth
+semanticTokensProvider
+filetype
+Luasnip
+nvim-cmp
