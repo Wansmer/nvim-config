@@ -1,6 +1,3 @@
-local ndir = 'config.plugins.neo-tree'
-local deps = require('config.plugins.neo-tree.deps')
-
 return {
   'nvim-neo-tree/neo-tree.nvim',
   cmd = 'Neotree',
@@ -8,14 +5,56 @@ return {
     vim.keymap.set('n', '<LocalLeader>e', '<Cmd>Neotree focus toggle<Cr>', { desc = 'Open file explorer' })
     vim.keymap.set('x', '<LocalLeader>e', '<Esc><Cmd>Neotree focus toggle<Cr>', { desc = 'Open file explorer' })
   end,
-  dependencies = deps,
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    'nvim-tree/nvim-web-devicons',
+    'MunifTanjim/nui.nvim',
+    {
+      's1n7ax/nvim-window-picker',
+      version = 'v1.*',
+      config = function()
+        local picker = require('window-picker')
+
+        local lm_ok, lm_utils = pcall(require, 'langmapper.utils')
+        if lm_ok then
+          ---@diagnostic disable-next-line: duplicate-set-field
+          require('window-picker.util').get_user_input_char = function()
+            local char = vim.fn.getcharstr()
+            return lm_utils.translate_keycode(char, 'default', 'ru')
+          end
+        end
+
+        picker.setup({
+          autoselect_one = true,
+          include_current_win = false,
+          show_prompt = false,
+          filter_rules = {
+            bo = {
+              filetype = {
+                'neo-tree',
+                'neo-tree-popup',
+                'notify',
+                'quickfix',
+                'qf',
+                'toggleterm',
+                'aerial',
+              },
+              buftype = { 'terminal', 'toggleterm' },
+            },
+          },
+          other_win_hl_color = '#e35e4f',
+        })
+      end,
+    },
+  },
   config = function()
     local mappings = require('config.plugins.neo-tree.mappings')
     -- See: https://github.com/nvim-neo-tree/neo-tree.nvim/blob/main/lua/neo-tree/defaults.lua
     require('neo-tree').setup({
       sources = { 'filesystem', 'git_status' },
       add_blank_line_at_top = true,
-      enable_modified_markers = false,
+      enable_modified_markers = true,
+      popup_border_style = PREF.ui.border,
 
       source_selector = {
         winbar = true,
@@ -24,6 +63,8 @@ return {
       },
 
       default_component_configs = {
+        modified = { symbol = '' },
+
         git_status = {
           symbols = {
             deleted = '',
@@ -46,6 +87,12 @@ return {
         window = {
           mappings = mappings.filesystem,
         },
+        filtered_items = {
+          hide_dotfiles = false,
+          hide_gitignored = false,
+          hide_by_name = { '.DS_Store', 'node_modules' },
+        },
+        follow_current_file = { enabled = false },
       },
 
       git_status = {
