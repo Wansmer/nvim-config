@@ -20,6 +20,23 @@ map('n', '<Leader>li', u.bind(vim.lsp.inlay_hint, 0), {
 map('n', '<Leader>ld', u.lazy_rhs_cb('config.lsp.diagnostics', 'toggle_diagnostics'), {
   desc = 'Toggle diagnostic',
 })
+
+local function toggle_ltex_lang()
+  local client = vim.lsp.get_clients({ name = 'ltex', bufnr = 0 })[1]
+  if not client then
+    return
+  end
+  local langs = vim.tbl_add_reverse_lookup({
+    ['ru-RU'] = 'en-US',
+  })
+  local current_lang = client.config.settings.ltex.language
+  local lang = langs[current_lang]
+  vim.notify('Toggle ltex lang from ' .. current_lang .. ' to ' .. lang, vim.log.levels.INFO, { title = 'Ltex:' })
+  client.config.settings.ltex.language = lang
+  vim.lsp.buf_notify(0, 'workspace/didChangeConfiguration', { settings = client.config.settings })
+end
+
+vim.keymap.set('n', '<leader>ll', toggle_ltex_lang, { desc = 'Toggle ltex language' })
 -- }}
 
 ---Setup mappings
