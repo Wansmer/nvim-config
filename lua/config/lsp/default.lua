@@ -23,6 +23,22 @@ M.on_attach = function(client, bufnr)
     vim.lsp.semantic_tokens.start(bufnr, client.id)
   end
 
+  if client.name == 'ltex' then
+    local ok, ltex_extra = pcall(require, 'ltex_extra')
+    if ok then
+      ltex_extra.setup({
+        -- https://valentjn.github.io/ltex/supported-languages.html#natural-languages
+        load_langs = { 'en-US', 'ru-RU' }, -- en-US as default
+        -- boolean : whether to load dictionaries on startup
+        init_check = true,
+        -- string : relative or absolute path to store dictionaries
+        path = vim.fn.stdpath('config') .. '/' .. '.ltex',
+        -- string : "none", "trace", "debug", "info", "warn", "error", "fatal"
+        log_level = 'none',
+      })
+    end
+  end
+
   set_keymaps(client, bufnr)
 
   -- Disables built-in LSP formatters if null-ls provides specials formatters for current filetype
