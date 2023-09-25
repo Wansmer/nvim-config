@@ -2,6 +2,7 @@ local colorscheme = PREF.ui.colorscheme
 
 -- Uses if one colorscheme could have different names but one config (e.g. nightfor, dayfox e.t.c)
 local source = {
+  serenity = 'serenity',
   catppuccin = 'catppuccin', -- 5/5
   tundra = 'tundra', -- 5/5
   kanagawa = 'kanagawa', -- 5/5

@@ -20,9 +20,12 @@ end
 
 local modes_colors = {
   ['n'] = origin_hl,
-  ['i'] = get_override('DiagnosticInfo'),
-  ['v'] = get_override('DiagnosticHint'),
-  ['r'] = get_override('DiagnosticError'),
+  -- ['i'] = get_override('DiagnosticInfo'),
+  -- ['v'] = get_override('DiagnosticHint'),
+  -- ['r'] = get_override('DiagnosticError'),
+  ['i'] = get_override('String'),
+  ['v'] = get_override('Statement'),
+  ['r'] = get_override('Error'),
 }
 
 ---Update highlight group for CursorLineNr considering current mode
