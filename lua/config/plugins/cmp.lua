@@ -124,7 +124,15 @@ return {
       sources = {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
-        { name = 'buffer' },
+        {
+          -- See: https://github.com/hrsh7th/cmp-buffer#all-buffers
+          name = 'buffer',
+          option = {
+            get_bufnrs = function()
+              return vim.api.nvim_list_bufs()
+            end,
+          },
+        },
         { name = 'path' },
         {
           name = 'rg',

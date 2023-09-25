@@ -18,9 +18,7 @@ return {
       direction = 'float', -- 'float', 'horizontal', 'vertical', 'tab'
       close_on_exit = true,
       shell = vim.o.shell,
-      highlights = {
-        Normal = { link = 'NeoTreeNorml' },
-      },
+      -- highlights = {}, -- Not working
       float_opts = {
         border = { '', '', '', ' ', ' ', ' ', ' ', ' ' },
         relative = 'editor',
@@ -38,14 +36,6 @@ return {
         vim.api.nvim_set_hl(ns, 'Normal', { link = 'TTNormal' })
         vim.api.nvim_set_hl(ns, 'FloatBorder', { link = 'TTBorder' })
         vim.api.nvim_win_set_hl_ns(term.window, ns)
-      end,
-    })
-
-    vim.api.nvim_create_autocmd('filetype', {
-      pattern = 'toggleterm',
-      callback = function()
-        -- vim.wo.statuscolumn = '    '
-        vim.wo.cursorline = false
       end,
     })
   end,

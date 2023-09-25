@@ -11,24 +11,9 @@ return {
   },
   config = function()
     require('aerial').setup({
-      on_attach = function(bufnr)
-        vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', { buffer = bufnr })
-        vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', { buffer = bufnr })
-      end,
       layout = {
         width = 30,
-        win_opts = {
-          statuscolumn = ' ',
-          winhighlight = table.concat({
-            'Normal:AerialNormal',
-            'WinBar:AerialNormal',
-            'SignColumn:AerialNormal',
-            'FoldColumn:AerialNormal',
-            'LineNr:AerialNormal',
-            'TabLine:AerialNormal',
-            'CursorLine:AerialNormal',
-          }, ','),
-        },
+        win_opts = { statuscolumn = ' ' },
       },
       autojump = true,
       post_jump_cmd = 'normal! zt',
