@@ -15,6 +15,10 @@ local function set_hl()
   vim.api.nvim_set_hl(0, 'InsertStatus', { bg = diag_info_hl.fg })
   vim.api.nvim_set_hl(0, 'VisualStatus', { bg = diag_hint_hl.fg })
   vim.api.nvim_set_hl(0, 'ReplaceStatus', { bg = diag_err_hl.fg })
+
+  -- Git indicator
+  vim.api.nvim_set_hl(0, 'StatusGitClean', { fg = '#00af87', bg = statusline_hl.bg })
+  vim.api.nvim_set_hl(0, 'StatusGitDirty', { fg = '#870000', bg = statusline_hl.bg })
 end
 
 set_hl()

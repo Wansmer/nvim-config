@@ -109,15 +109,15 @@ function M.treesitter()
 end
 
 function M.branch()
-  local icon = ' '
+  local icon = ' '
   if not (vim.g.__git_branch or vim.g.__git_dirty) or vim.g.__git_branch == '' then
     return icon .. 'no git'
   end
   local head = vim.g.__git_branch
   if vim.g.__git_dirty then
-    icon = '%#DiagnosticError#' .. icon .. '%*'
+    icon = '%#StatusGitDirty#' .. icon .. '%*'
   else
-    icon = '%#DiagnosticInfo#' .. icon .. '%*'
+    icon = '%#StatusGitClean#' .. icon .. '%*'
   end
   return icon .. head
 end
