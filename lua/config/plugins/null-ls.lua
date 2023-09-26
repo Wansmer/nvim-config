@@ -36,6 +36,10 @@ return {
         }),
         diagnostics.tidy,
 
+        -- sh
+        -- formatting.shellharden,
+        formatting.shfmt,
+
         -- other
         -- diagnostics.write_good,
       },
