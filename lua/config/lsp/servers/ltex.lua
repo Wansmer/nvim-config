@@ -13,7 +13,7 @@ local ft = {
   'typescript',
   'typescriptreact',
   'typescript',
-  'vue',
+  -- 'vue',
   'html',
   'toml',
   'yaml',
