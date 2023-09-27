@@ -8,3 +8,5 @@ semanticTokensProvider
 filetype
 Luasnip
 nvim-cmp
+bufnr
+treesitter
