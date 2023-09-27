@@ -103,9 +103,14 @@ function M.filename()
 end
 
 function M.treesitter()
-  local highlighter = require('vim.treesitter.highlighter')
+  local icon = ''
   local buf = vim.api.nvim_get_current_buf()
-  return (highlighter.active[buf] and '%#TSStatusActive#%*' or '') .. ' TS'
+  local ok, _ = pcall(vim.treesitter.get_parser, buf)
+  if ok then
+    local is_active = vim.treesitter.highlighter[buf]
+    icon = is_active and '%#TSStatusActive#' .. icon .. '%*' or icon
+  end
+  return icon .. ' TS'
 end
 
 function M.branch()
