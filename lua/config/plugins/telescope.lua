@@ -29,7 +29,7 @@ return {
     -- Plugin's pickers
     map('n', '<localleader>n', ':Telescope notify<CR>', { desc = 'Telescope: show notifications' })
 
-    -- WARNING: now works only with 'cwd' pickers, becase no need know bufnr
+    -- WARNING: now works only with 'cwd' pickers, because no need know bufnr
     local switch_picker = function(picker_name)
       return function(prompt_bufnr)
         local cur_picker = require('telescope.actions.state').get_current_picker(prompt_bufnr)
