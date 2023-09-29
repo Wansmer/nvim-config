@@ -3,16 +3,14 @@ return {
   build = function()
     require('nvim-treesitter.install').update({ with_sync = true })
   end,
-  -- event = { 'BufReadPost', 'BufNewFile' },
   lazy = false,
-  init = function ()
+  init = function()
     vim.keymap.set('n', 'tsp', '<Cmd>TSPlaygroundToggle<Cr>')
     vim.keymap.set('n', 'tsn', '<Cmd>TSNodeUnderCursor<Cr>')
     vim.keymap.set('n', 'tsh', '<Cmd>TSHighlightCapturesUnderCursor<Cr>')
   end,
   enabled = true,
   conkig = function()
-
     local configs = require('nvim-treesitter.configs')
     configs.setup({
       ensure_installed = 'all',

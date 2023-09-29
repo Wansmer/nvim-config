@@ -10,7 +10,7 @@ PREF = {
     virtual_text = false,
     show_diagnostic = true,
     show_inlay_hints = true,
-    -- Use take_over_mode for vue projects or not
+    -- Use take_over_mode for Vue projects or not
     tom_enable = true,
     preinstall_servers = {
       'volar',

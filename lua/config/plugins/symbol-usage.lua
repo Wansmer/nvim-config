@@ -10,10 +10,6 @@ return {
   end,
   event = 'BufReadPre',
   config = function()
-    local ok, c = pcall(require, 'serenity.colors')
-    local hl = { link = 'Comment' }
-    local SymbolKind = vim.lsp.protocol.SymbolKind
-
     local js = {
       text_format = function(symbol)
         local res = {}
@@ -37,6 +33,9 @@ return {
       end,
     }
 
+    local hl = { link = 'Comment' }
+
+    local ok, c = pcall(require, 'serenity.colors')
     if ok then
       hl = { fg = c.cursor_line_number, bold = false, italic = true }
     end
