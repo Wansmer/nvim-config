@@ -1,13 +1,30 @@
 return {
   'lukas-reineke/indent-blankline.nvim',
-  event = 'BufEnter',
-  enabled = true,
+  event = { 'BufReadPost', 'BufNewFile' },
   config = function()
-    require('indent_blankline').setup({
-      show_current_context = true,
-      char = '▏',
-      context_char = '▏',
-      show_current_context_start = false,
+    require('ibl').setup({
+      indent = { char = '▏' },
+      scope = {
+        show_start = false,
+        show_end = false,
+      },
+      exclude = {
+        filetypes = {
+          'help',
+          'alpha',
+          'dashboard',
+          '*oil*',
+          'neo-tree',
+          'Trouble',
+          'lazy',
+          'mason',
+          'notify',
+          'toggleterm',
+          'lazyterm',
+          'asm',
+        },
+      },
     })
   end,
+  main = 'ibl',
 }
