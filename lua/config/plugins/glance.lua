@@ -3,12 +3,12 @@ local map = vim.keymap.set
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'Set Glance.nvim mappings',
   callback = function(event)
-    -- `defer_fn` here because must to be set after `on_attach` lspconfig method
+    -- `defer_fn` here because must be set after `on_attach` lsp-config method
     vim.defer_fn(function()
-      map('n', 'gd', '<Cmd>Glance definitions<Cr>', {
-        buffer = event.buf,
-        desc = 'Glance definitions',
-      })
+      -- map('n', 'gd', '<Cmd>Glance definitions<Cr>', {
+      --   buffer = event.buf,
+      --   desc = 'Glance definitions',
+      -- })
       map('n', 'gi', '<Cmd>Glance implementations<Cr>', {
         buffer = event.buf,
         desc = 'Glance implementations',
