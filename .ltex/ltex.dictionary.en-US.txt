@@ -10,3 +10,4 @@ Luasnip
 nvim-cmp
 bufnr
 treesitter
+Vite
