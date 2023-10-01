@@ -14,7 +14,6 @@ return {
       debug = false,
       sources = {
         -- js, ts, jsx, tsx, vue
-        -- NOTE: not eslint_d because it don't auto exit process when neovim closed
         diagnostics.eslint_d,
         code_actions.eslint_d,
         formatting.eslint_d,
@@ -32,12 +31,19 @@ return {
 
         -- html
         formatting.prettierd.with({
-          filetypes = { 'vue', 'html', 'json', 'markdown', 'toml' },
+          filetypes = {
+            'vue',
+            'javascriptreact',
+            'typescriptreact',
+            'html',
+            'json',
+            'markdown',
+            'toml',
+          },
         }),
         diagnostics.tidy,
 
         -- sh
-        -- formatting.shellharden,
         formatting.shfmt,
 
         -- other
