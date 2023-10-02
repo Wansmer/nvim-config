@@ -1,52 +1,87 @@
 ---@module Foldtext
 ---Based on https://www.reddit.com/r/neovim/comments/16sqyjz/finally_we_can_have_highlighted_folds/
+---Updated with vim.treesitter._fold.foldtext()
 
-local function parse_line(pos)
-  local line = vim.api.nvim_buf_get_lines(0, pos - 1, pos, false)[1]
+local function parse_line(linenr)
+  local bufnr = vim.api.nvim_get_current_buf()
 
-  local ok, parser = pcall(vim.treesitter.get_parser, 0)
-  -- If treesitter is not attached to the buffer
+  local line = vim.api.nvim_buf_get_lines(bufnr, linenr - 1, linenr, false)[1]
+  if not line then
+    return nil
+  end
+
+  local ok, parser = pcall(vim.treesitter.get_parser, bufnr)
   if not ok then
     return nil
   end
 
   local query = vim.treesitter.query.get(parser:lang(), 'highlights')
-
   if not query then
     return nil
   end
 
-  local tree = parser:parse({ pos - 1, pos })[1]
+  local tree = parser:parse({ linenr - 1, linenr })[1]
+
   local result = {}
 
   local line_pos = 0
 
-  local prev_range = nil
-
-  for id, node, _ in query:iter_captures(tree:root(), 0, pos - 1, pos) do
+  for id, node, metadata in query:iter_captures(tree:root(), 0, linenr - 1, linenr) do
     local name = query.captures[id]
-    local sr, sc, er, ec = node:range()
+    local start_row, start_col, end_row, end_col = node:range()
 
-    if sr == pos - 1 and er == pos - 1 then
-      local range = { sc, ec }
+    local priority = tonumber(metadata.priority or vim.highlight.priorities.treesitter)
 
-      -- Indent and whitespace
-      if sc > line_pos then
-        table.insert(result, { line:sub(line_pos + 1, sc), 'Folded' })
+    if start_row == linenr - 1 and end_row == linenr - 1 then
+      -- check for characters ignored by treesitter
+      if start_col > line_pos then
+        table.insert(result, {
+          line:sub(line_pos + 1, start_col),
+          { { 'Folded', priority } },
+          range = { line_pos, start_col },
+        })
       end
+      line_pos = end_col
 
-      line_pos = ec
-      local text = vim.treesitter.get_node_text(node, 0)
-
-      if prev_range ~= nil and range[1] == prev_range[1] and range[2] == prev_range[2] then
-        result[#result] = { text, '@' .. name }
-      else
-        table.insert(result, { text, '@' .. name })
-      end
-
-      prev_range = range
+      local text = line:sub(start_col + 1, end_col)
+      table.insert(result, { text, { { '@' .. name, priority } }, range = { start_col, end_col } })
     end
   end
+
+  local i = 1
+  while i <= #result do
+    -- find first capture that is not in current range and apply highlights on the way
+    local j = i + 1
+    while j <= #result and result[j].range[1] >= result[i].range[1] and result[j].range[2] <= result[i].range[2] do
+      for k, v in ipairs(result[i][2]) do
+        if not vim.tbl_contains(result[j][2], v) then
+          table.insert(result[j][2], k, v)
+        end
+      end
+      j = j + 1
+    end
+
+    -- remove the parent capture if it is split into children
+    if j > i + 1 then
+      table.remove(result, i)
+    else
+      -- highlights need to be sorted by priority, on equal prio, the deeper nested capture (earlier
+      -- in list) should be considered higher prio
+      if #result[i][2] > 1 then
+        table.sort(result[i][2], function(a, b)
+          return a[2] < b[2]
+        end)
+      end
+
+      result[i][2] = vim.tbl_map(function(tbl)
+        return tbl[1]
+      end, result[i][2])
+      result[i] = { result[i][1], result[i][2] }
+
+      i = i + 1
+    end
+  end
+
   return result
 end
 
@@ -57,9 +92,9 @@ function HighlightedFoldtext()
   end
 
   local folded = {
-    { ' ', 'Folded' },
-    { '+' .. vim.v.foldend - vim.v.foldstart .. ' lines', 'CursorLine' },
-    { ' ', 'Folded' },
+    { ' ', 'FoldedIcon' },
+    { '+' .. vim.v.foldend - vim.v.foldstart .. ' lines', 'FoldedText' },
+    { ' ', 'FoldedIcon' },
   }
 
   for _, item in ipairs(folded) do
@@ -79,10 +114,9 @@ function HighlightedFoldtext()
 end
 
 local function set_fold_hl()
-  local fg = vim.api.nvim_get_hl(0, { name = 'CursorLineNr' }).fg
-  local hl = vim.api.nvim_get_hl(0, { name = 'Folded' })
-  hl.fg = fg
-  vim.api.nvim_set_hl(0, 'Folded', hl)
+  local cl = vim.api.nvim_get_hl(0, { name = 'CursorLineNr' })
+  vim.api.nvim_set_hl(0, 'FoldedIcon', { fg = cl.bg })
+  vim.api.nvim_set_hl(0, 'FoldedText', { bg = cl.bg, fg = cl.fg, italic = true })
 end
 
 set_fold_hl()
