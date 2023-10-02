@@ -11,3 +11,6 @@ nvim-cmp
 bufnr
 treesitter
 Vite
+nvim
+TREESITTER
+useCallback
