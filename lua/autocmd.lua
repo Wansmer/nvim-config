@@ -158,6 +158,7 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
 --   end,
 -- })
 
+-- Autoenable when 'relativenumber' is set to true. Need to restart neovim
 if vim.opt.relativenumber:get() then
   local group = vim.api.nvim_create_augroup('toggle_relnum', { clear = false })
   local function set_relnum_back(win)
