@@ -22,7 +22,7 @@ return {
         additional_vim_regex_highlighting = false,
       },
 
-      -- WARNING: Делает лишний отступ во vue
+      -- WARNING: Делает лишний отступ во Vue
       indent = {
         enable = true,
       },
