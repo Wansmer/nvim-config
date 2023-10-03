@@ -30,7 +30,7 @@ local options = {
   -- UI
   -- ==========================================================================
   number = true,
-  relativenumber = false,
+  relativenumber = true,
   termguicolors = true,
   numberwidth = 3,
   showmode = false,
@@ -106,8 +106,10 @@ local options = {
 
 for option_name, value in pairs(options) do
   -- To avoid errors on toggle nvim version
-  local ok, _ = pcall(vim.api.nvim_get_option_info, option_name)
+  local ok, _ = pcall(vim.api.nvim_get_option_info2, option_name, {})
   if ok then
     vim.opt[option_name] = value
+  else
+    vim.notify('Option ' .. option_name .. ' is not supported', vim.log.levels.WARN)
   end
 end
