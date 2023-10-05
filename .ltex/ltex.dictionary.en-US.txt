@@ -16,3 +16,5 @@ TREESITTER
 useCallback
 AutoPreferSingle
 statusline
+autocommands
+luarocks
