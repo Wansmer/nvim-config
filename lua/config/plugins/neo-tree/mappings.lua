@@ -1,3 +1,4 @@
+local u = require('utils')
 local fs_commands = require('neo-tree/sources/filesystem/commands')
 
 local function cd_or_open(state)
@@ -32,6 +33,12 @@ local function copy_patch_to_clipboard(mode)
   end
 end
 
+local function image_previes(state)
+  local width = state.window.width + 1
+  local node = state.tree:get_node()
+  u.show_image(node:get_id(), { col = width })
+end
+
 return {
   window = {
     -- Override default mappings
@@ -52,6 +59,7 @@ return {
     ['Y'] = copy_patch_to_clipboard('full'),
     ['gY'] = copy_patch_to_clipboard('rel_home'),
     ['gy'] = copy_patch_to_clipboard('rel_cwd'),
+    ['K'] = image_previes,
 
     -- Default window mappings
     -- ['<space>'] = {
