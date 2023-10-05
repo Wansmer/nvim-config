@@ -35,28 +35,33 @@ return {
     vim.api.nvim_create_autocmd('BufEnter', {
       pattern = '*.png,*.jpg,*.jpeg,*.gif,*.webp',
       callback = function(event)
+        local ok, api = pcall(require, 'image')
+        if not ok then
+          return
+        end
+
+        local has, img = has_image(event.file)
+        if has then
+          vim.schedule(function()
+            img:render()
+          end)
+          return
+        end
+
         local win = vim.api.nvim_get_current_win()
         local buf = vim.api.nvim_create_buf(true, true)
         vim.api.nvim_win_set_buf(win, buf)
         vim.cmd('bw ' .. event.buf)
         vim.api.nvim_buf_set_name(buf, event.file)
 
-        local ok, api = pcall(require, 'image')
-        if not ok then
-          return
-        end
-
-        local image = api.from_file(event.file, {
-          id = event.file,
-          buffer = buf,
-          window = win,
-        })
-
-        image:render()
+        local image = api.from_file(event.file, { id = event.file, buffer = buf, window = win })
+        vim.schedule(function()
+          image:render()
+        end)
 
         vim.api.nvim_create_autocmd({ 'BufHidden', 'BufDelete', 'BufUnload', 'WinClosed' }, {
           buffer = buf,
-          callback = function(e)
+          callback = function()
             image:clear()
           end,
         })
