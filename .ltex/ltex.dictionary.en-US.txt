@@ -14,3 +14,5 @@ Vite
 nvim
 TREESITTER
 useCallback
+AutoPreferSingle
+statusline

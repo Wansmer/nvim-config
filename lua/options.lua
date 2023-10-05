@@ -1,4 +1,3 @@
--- local stl = require('modules.statusline')
 local textwidth = PREF.common.textwidth
 local tabwidth = PREF.common.tabwidth
 
