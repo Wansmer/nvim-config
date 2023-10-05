@@ -9,6 +9,29 @@ local function cd_or_open(state)
   fs_commands.set_root(state)
 end
 
+---Copy path of node under cursor to clipboard
+---@param mode 'full'|'rel_home'|'rel_cwd'
+---@return function
+local function copy_patch_to_clipboard(mode)
+  local modes = {
+    full = function(path)
+      return path
+    end,
+    rel_home = function(path)
+      return vim.fn.fnamemodify(path, ':~')
+    end,
+    rel_cwd = function(path)
+      return vim.fn.fnamemodify(path, ':.')
+    end,
+  }
+
+  return function(state)
+    local node = state.tree:get_node()
+    local filepath = modes[mode](node:get_id())
+    vim.fn.setreg('+', filepath)
+  end
+end
+
 return {
   window = {
     -- Override default mappings
@@ -26,6 +49,9 @@ return {
     ['<S-TAB>'] = 'prev_source',
     ['<TAB>'] = 'next_source',
     ['a'] = 'add',
+    ['Y'] = copy_patch_to_clipboard('full'),
+    ['gY'] = copy_patch_to_clipboard('rel_home'),
+    ['gy'] = copy_patch_to_clipboard('rel_cwd'),
 
     -- Default window mappings
     -- ['<space>'] = {
