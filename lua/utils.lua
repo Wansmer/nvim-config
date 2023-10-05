@@ -259,4 +259,60 @@ function M.disable_autocmd(group)
   end
 end
 
+---Show image in float window
+---@param path string Path to image
+---@param win_opts? table Options for float window
+---@param image_opts? table Options for image render (see image.nvim ImageGeometry)
+function M.show_image(path, win_opts, image_opts)
+  local buf = vim.api.nvim_create_buf(false, true)
+
+  local ok, api = pcall(require, 'image')
+  if not ok then
+    return
+  end
+
+  local ok_image, image = pcall(api.from_file, path, { buffer = buf })
+  if not ok_image then
+    return
+  end
+
+  local term = require('image.utils.term')
+  local term_size = term.get_size()
+  local image_rows = math.floor(image.image_height / term_size.cell_height)
+  local image_columns = math.floor(image.image_width / term_size.cell_width)
+
+  win_opts = vim.tbl_deep_extend('force', {
+    relative = 'cursor',
+    col = 0,
+    row = 0,
+    width = image_columns,
+    height = image_rows + 1,
+    style = 'minimal',
+  }, win_opts or {})
+
+  local win = vim.api.nvim_open_win(buf, false, win_opts)
+
+  image.window = win
+  -- Needed to correct render if window is moved
+  vim.schedule(function()
+    image:render(image_opts or {})
+  end)
+
+  local group = vim.api.nvim_create_augroup('__image__', { clear = true })
+  local cursor = vim.api.nvim_win_get_cursor(0)
+
+  vim.api.nvim_create_autocmd('CursorMoved', {
+    group = group,
+    callback = function()
+      local c = vim.api.nvim_win_get_cursor(0)
+      if c[1] ~= cursor[1] then
+        image:clear()
+        vim.api.nvim_win_close(win, true)
+        vim.api.nvim_buf_delete(buf, { force = true })
+        vim.api.nvim_del_augroup_by_name('__image__')
+      end
+    end,
+  })
+end
+
 return M
