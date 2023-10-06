@@ -15,6 +15,7 @@ return {
     require('image').setup({
       backend = 'kitty',
       max_height_window_percentage = 100,
+      window_overlap_clear_enabled = true,
       integrations = {
         markdown = {
           enabled = true,
@@ -33,7 +34,7 @@ return {
     end
 
     vim.api.nvim_create_autocmd('BufEnter', {
-      pattern = '*.png,*.jpg,*.jpeg,*.gif,*.webp',
+      pattern = '*.png,*.jpg,*.jpeg,*.gif,*.webp,*.pdf',
       callback = function(event)
         local ok, api = pcall(require, 'image')
         if not ok then
