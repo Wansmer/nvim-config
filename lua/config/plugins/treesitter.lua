@@ -44,10 +44,6 @@ return {
       },
 
       -- TREESITTER PLUGINS
-      autotag = {
-        enable = true,
-      },
-
       autopairs = {
         enable = true,
       },
