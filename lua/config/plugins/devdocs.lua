@@ -2,6 +2,7 @@
 return {
   'luckasRanarison/nvim-devdocs',
   lazy = false,
+  enabled = true,
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-telescope/telescope.nvim',

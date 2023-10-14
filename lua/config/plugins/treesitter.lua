@@ -10,7 +10,7 @@ return {
     vim.keymap.set('n', 'tsh', '<Cmd>TSHighlightCapturesUnderCursor<Cr>')
   end,
   enabled = true,
-  conkig = function()
+  config = function()
     local configs = require('nvim-treesitter.configs')
     configs.setup({
       ensure_installed = 'all',
@@ -28,12 +28,12 @@ return {
       },
 
       incremental_selection = {
-        enable = true,
+        enable = false,
         keymaps = {
-          init_selection = 'gnn', -- set to `false` to disable one of the mappings
-          node_incremental = ',',
+          init_selection = '<Cr>', -- set to `false` to disable one of the mappings
+          node_incremental = '<Cr>',
           scope_incremental = 'grc',
-          node_decremental = '.',
+          node_decremental = '<S-Cr>',
         },
       },
 
