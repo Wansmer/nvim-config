@@ -1,7 +1,7 @@
 return {
   'SmiteshP/nvim-navic',
   dependencies = 'neovim/nvim-lspconfig',
-  enabled = true,
+  enabled = false,
   event = 'LspAttach',
   config = function()
     require('nvim-navic').setup({
