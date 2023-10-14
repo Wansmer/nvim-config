@@ -19,3 +19,4 @@ statusline
 autocommands
 luarocks
 colorcolumn
+thincc
