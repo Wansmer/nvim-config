@@ -1,6 +1,6 @@
 return {
   'stevearc/aerial.nvim',
-  -- Optional dependencies
+  enabled = false,
   event = 'LspAttach',
   init = function()
     vim.keymap.set('n', '<localleader>v', '<cmd>AerialToggle<CR>')

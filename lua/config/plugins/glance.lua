@@ -27,6 +27,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 return {
   'dnlhc/glance.nvim',
+  enabled = true,
   event = 'LspAttach',
   config = function()
     local actions = require('glance').actions

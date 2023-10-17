@@ -1,5 +1,6 @@
 return {
   'NvChad/nvim-colorizer.lua',
+  enabled = true,
   lazy = false,
   -- ft = { 'vue', 'js', 'lua', 'scc', 'scss', 'ts' },
   config = function()

@@ -1,5 +1,6 @@
 return {
   'axelvc/template-string.nvim',
+  enabled = true,
   event = 'BufReadPre',
   config = function()
     require('template-string').setup({

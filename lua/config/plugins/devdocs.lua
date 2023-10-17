@@ -1,8 +1,8 @@
 -- Don't forget to call `:DevdocsFetch`  during the first installation.
 return {
   'luckasRanarison/nvim-devdocs',
+  enabled = false,
   lazy = false,
-  enabled = true,
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-telescope/telescope.nvim',

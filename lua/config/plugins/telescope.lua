@@ -1,6 +1,6 @@
 return {
   'nvim-telescope/telescope.nvim',
-  enabled = true,
+  enabled = false,
   event = 'UIEnter',
   config = function()
     local telescope = require('telescope')

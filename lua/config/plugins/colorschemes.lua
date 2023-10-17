@@ -12,7 +12,12 @@ return vim.tbl_map(set_prior, {
   'rebelot/kanagawa.nvim',
   'sainnhe/gruvbox-material',
   'sam4llis/nvim-tundra',
-  { 'Wansmer/serenity.nvim', dev = true, dir = '~/projects/code/personal/serenity.nvim' },
+  {
+    -- 'Wansmer/serenity.nvim',
+    -- dev = false,
+    dir = '~/projects/code/personal/serenity.nvim',
+    name = 'serenity',
+  },
   { 'catppuccin/nvim', name = 'catppuccin' },
   { 'neanias/everforest-nvim', version = false },
   { 'ramojus/mellifluous.nvim', dependencies = { 'rktjmp/lush.nvim' } },

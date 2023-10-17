@@ -1,5 +1,6 @@
 return {
   'nvim-treesitter/nvim-treesitter',
+  enabled = true,
   build = function()
     require('nvim-treesitter.install').update({ with_sync = true })
   end,
@@ -9,7 +10,6 @@ return {
     vim.keymap.set('n', 'tsn', '<Cmd>TSNodeUnderCursor<Cr>')
     vim.keymap.set('n', 'tsh', '<Cmd>TSHighlightCapturesUnderCursor<Cr>')
   end,
-  enabled = true,
   config = function()
     local configs = require('nvim-treesitter.configs')
     configs.setup({

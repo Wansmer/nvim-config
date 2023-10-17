@@ -1,8 +1,8 @@
 return {
   'Wansmer/symbol-usage.nvim',
-  dir = '~/projects/code/personal/symbol-usage.nvim',
-  dev = true,
   enabled = true,
+  dir = '~/projects/code/personal/symbol-usage.nvim',
+  dev = false,
   init = function()
     vim.keymap.set('n', '<leader>lu', function()
       require('symbol-usage').toggle()
@@ -93,15 +93,19 @@ return {
     require('symbol-usage').setup({
       hl = hl,
       vt_position = 'above',
-      request_pending_text = {
-        { '', 'SymbolUsageRounding' },
-        { ' loading...', 'SymbolUsageContent' },
-        { '', 'SymbolUsageRounding' },
-      },
+      -- request_pending_text = { { '', 'SymbolUsageRounding' }, { ' loading...', 'SymbolUsageContent' }, { '', 'SymbolUsageRounding' } },
       references = { enabled = true, include_declaration = false },
       definition = { enabled = false },
       implementation = { enabled = false },
-      text_format = text_format,
+      text_format = function(symbol)
+        if symbol.references then
+          local usage = symbol.references <= 1 and 'usage' or 'usages'
+          local num = symbol.references == 0 and 'no' or symbol.references
+          return string.format('󰌹 %s %s', num, usage)
+        else
+          return ''
+        end
+      end,
       filetypes = { vue = js },
     })
   end,
