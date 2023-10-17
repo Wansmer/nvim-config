@@ -109,6 +109,7 @@ return {
     -- Override default mappings
     ['-'] = 'navigate_up',
     ['.'] = 'toggle_hidden',
+    ['/'] = false,
 
     -- Default filesystem mappings
     -- ['H'] = 'toggle_hidden',

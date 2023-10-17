@@ -1,5 +1,6 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
+  enabled = true,
   cmd = 'Neotree',
   init = function()
     vim.keymap.set('n', '<LocalLeader>e', '<Cmd>Neotree focus toggle<Cr>', { desc = 'Open file explorer' })
@@ -92,7 +93,7 @@ return {
           hide_gitignored = false,
           hide_by_name = { '.DS_Store', 'node_modules' },
         },
-        follow_current_file = { enabled = false },
+        follow_current_file = { enabled = true },
       },
 
       git_status = {
