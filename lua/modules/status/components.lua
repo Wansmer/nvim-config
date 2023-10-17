@@ -67,6 +67,9 @@ end
 
 local function formatters_list()
   local formatters = require('config.lsp.formatters')
+  if not formatters then
+    return ''
+  end
   local buf_ft = vim.bo.filetype
   local supported_formatters = formatters.list_registered(buf_ft)
   return table.concat(supported_formatters, ', ')
