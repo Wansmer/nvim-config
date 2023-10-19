@@ -1,11 +1,11 @@
 local DEV = true
 
 return {
-  -- 'Wansmer/treesj',
-  dir = DEV and '~/projects/code/personal/treesj' or nil,
-  -- dev = DEV,
-  keys = { '<Leader>m', '<Leader>M', '<leader>s', '<leader>j' },
+  'Wansmer/treesj',
   enabled = true,
+  dir = DEV and '~/projects/code/personal/treesj' or nil,
+  dev = DEV,
+  keys = { '<Leader>m', '<Leader>M', '<leader>s', '<leader>j' },
   dependencies = { 'nvim-treesitter/nvim-treesitter' },
   config = function()
     local langs = require('treesj.langs').presets
