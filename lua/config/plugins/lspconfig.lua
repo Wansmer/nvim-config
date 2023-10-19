@@ -1,16 +1,13 @@
 return {
   'neovim/nvim-lspconfig',
-  event = {
-    'BufEnter',
-    'BufReadPre',
-    'BufNewFile',
-  },
   enabled = true,
+  event = { 'VeryLazy' },
   dependencies = {
     'b0o/SchemaStore.nvim',
     'hrsh7th/cmp-nvim-lsp',
     {
       'folke/neodev.nvim',
+      ft = { 'lua' },
       config = function()
         require('neodev').setup({})
       end,

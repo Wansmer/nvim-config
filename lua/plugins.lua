@@ -22,6 +22,7 @@ require('lazy').setup(configs, {
   install = {
     colorscheme = { PREF.ui.colorscheme },
   },
+  change_detection = { notify = false },
   ui = { border = 'none' },
   performance = {
     rtp = {

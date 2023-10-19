@@ -1,6 +1,6 @@
 return {
   'Exafunction/codeium.vim',
-  event = 'BufEnter',
+  event = 'BufReadPre',
   enabled = true,
   config = function()
     vim.g.codeium_disable_bindings = 1

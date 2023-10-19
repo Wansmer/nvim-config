@@ -182,7 +182,6 @@ return {
     end
 
     local function project_info()
-      local gs = u.git_status()
       local cwd = vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.')
       if cwd == '~' then
         cwd = 'home'
@@ -190,6 +189,7 @@ return {
       local pwd = ' ' .. cwd
       local repo = ''
 
+      local gs = u.git_status()
       if gs.exist then
         repo = '   ' .. ' ' .. gs.repo .. ':' .. gs.branch
       end
@@ -238,15 +238,5 @@ return {
       },
     }
     alpha.setup(opts)
-    -- No works
-    -- vim.api.nvim_create_autocmd('FileType', {
-    --   pattern = 'alpha',
-    --   callback = function()
-    --     vim.defer_fn(function()
-    --       local win = vim.api.nvim_get_current_win()
-    --       vim.wo[win].cursorline = false
-    --     end, 100)
-    --   end,
-    -- })
   end,
 }

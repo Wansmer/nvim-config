@@ -1,12 +1,12 @@
 -- Install magick: luarocks --local --lua-version=5.1 install magick
 return {
   '3rd/image.nvim',
-  event = 'VeryLazy',
   -- enabled = function()
   --   local is_exist = vim.loop.fs_stat(vim.fn.expand('$HOME') .. '/.luarocks/share/lua/5.1/magick/init.lua')
   --   return is_exist ~= nil
   -- end,
   enabled = false,
+  event = 'VeryLazy',
   init = function()
     -- Example for configuring Neovim to load user-installed installed Lua rocks:
     package.path = package.path .. ';' .. vim.fn.expand('$HOME') .. '/.luarocks/share/lua/5.1/?/init.lua;'
@@ -70,5 +70,4 @@ return {
       end,
     })
   end,
-  lazy = false,
 }

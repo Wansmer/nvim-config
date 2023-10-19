@@ -1,9 +1,9 @@
-local DEV = false
+local DEV = true
 
 return {
-  'Wansmer/treesj',
+  -- 'Wansmer/treesj',
   dir = DEV and '~/projects/code/personal/treesj' or nil,
-  dev = DEV,
+  -- dev = DEV,
   keys = { '<Leader>m', '<Leader>M', '<leader>s', '<leader>j' },
   enabled = true,
   dependencies = { 'nvim-treesitter/nvim-treesitter' },

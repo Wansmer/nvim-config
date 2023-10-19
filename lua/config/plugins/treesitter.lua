@@ -4,7 +4,8 @@ return {
   build = function()
     require('nvim-treesitter.install').update({ with_sync = true })
   end,
-  lazy = false,
+  lazy = true,
+  event = { 'BufReadPre' },
   init = function()
     vim.keymap.set('n', 'tsp', '<Cmd>TSPlaygroundToggle<Cr>')
     vim.keymap.set('n', 'tsn', '<Cmd>TSNodeUnderCursor<Cr>')

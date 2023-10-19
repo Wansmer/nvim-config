@@ -1,8 +1,16 @@
 return {
   'NvChad/nvim-colorizer.lua',
   enabled = true,
-  lazy = false,
-  -- ft = { 'vue', 'js', 'lua', 'scc', 'scss', 'ts' },
+  ft = {
+    'vue',
+    'javascript',
+    'typescript',
+    'javascriptreact',
+    'typescriptreact',
+    'lua',
+    'scc',
+    'scss',
+  },
   config = function()
     require('colorizer').setup({
       -- filetypes = { 'vue', 'js', 'lua', 'scc', 'scss', 'ts' },
