@@ -20,3 +20,5 @@ autocommands
 luarocks
 colorcolumn
 thincc
+charset
+doctype
