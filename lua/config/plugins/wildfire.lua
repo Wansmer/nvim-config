@@ -1,6 +1,6 @@
 return {
   'sustech-data/wildfire.nvim',
-  enabled = false,
+  enabled = true,
   event = 'VeryLazy',
   dependencies = { 'nvim-treesitter/nvim-treesitter' },
   config = function()
