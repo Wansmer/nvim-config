@@ -1,7 +1,7 @@
 return {
   'echasnovski/mini.pick',
   event = 'VeryLazy',
-  enabled = true,
+  enabled = false,
   version = false,
   config = function()
     local MiniPick = require('mini.pick')

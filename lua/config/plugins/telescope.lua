@@ -1,7 +1,7 @@
 return {
   'nvim-telescope/telescope.nvim',
-  enabled = false,
-  event = 'UIEnter',
+  enabled = true,
+  event = 'VeryLazy',
   config = function()
     local telescope = require('telescope')
     local pickers = require('telescope.builtin')
@@ -11,7 +11,7 @@ return {
     map('n', '<localleader>f', pickers.find_files, { desc = 'Telescope: Find files in (cwd>' })
     map('n', '<localleader>g', pickers.live_grep, { desc = 'Telescope: live grep (cwd>' })
     map('n', '<localleader>b', pickers.buffers, { desc = 'Telescope: show open buffers' })
-    map('n', '<localleader>d', pickers.diagnostics, { desc = 'Telescope: show diagnostics' })
+    -- map('n', '<localleader>d', pickers.diagnostics, { desc = 'Telescope: show diagnostics' })
     map('n', '<localleader>o', pickers.oldfiles, { desc = 'Telescope: show recent using files' })
     map('n', '<localleader><localleader>', function()
       pickers.current_buffer_fuzzy_find({ default_text = vim.fn.expand('<cword>') })
@@ -47,7 +47,7 @@ return {
         selection_caret = ' ',
         path_display = { 'smart' },
         layout_strategy = 'horizontal',
-        layout_config = { prompt_position = 'top' },
+        layout_config = { prompt_position = 'bottom' },
         file_ignore_patterns = { '.git/', 'node_modules/*' },
         mappings = {
           i = {
