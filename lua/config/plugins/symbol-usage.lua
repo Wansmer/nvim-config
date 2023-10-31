@@ -16,6 +16,7 @@ return {
 
     require('symbol-usage').setup({
       hl = hl,
+      vt_position = 'end_of_line',
       text_format = function(symbol)
         if symbol.references then
           local usage = symbol.references <= 1 and 'usage' or 'usages'
