@@ -24,6 +24,9 @@ function M.get_layout()
   local res_buf, res_win = M.open_win(false, vim.tbl_deep_extend('force', common_opts, result))
   local prompt_buf, prompt_win = M.open_win(true, vim.tbl_deep_extend('force', common_opts, prompt))
 
+  vim.api.nvim_set_option_value('filetype', 'markdown', { buf = res_buf })
+  vim.api.nvim_set_option_value('filetype', 'markdown', { buf = prompt_buf })
+
   return {
     prompt = { buf = prompt_buf, win = prompt_win },
     result = { buf = res_buf, win = res_win },
