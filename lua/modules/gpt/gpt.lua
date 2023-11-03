@@ -19,12 +19,8 @@ function GPT:run()
   self:open_win()
 end
 
-local function is_valid_response(response)
-  return response
-    and response.choices
-    and response.choices[1]
-    and response.choices[1].delta
-    and response.choices[1].delta.content
+local function is_valid_response(r)
+  return r and r.choices and r.choices[1] and r.choices[1].delta and r.choices[1].delta.content
 end
 
 function GPT:send_request()
@@ -39,10 +35,14 @@ function GPT:send_request()
   local request = vim.api.nvim_buf_get_lines(prompt_buf, 0, -1, false)
   self:add_message({ role = 'user', content = vim.fn.join(request, '\n') })
   vim.api.nvim_buf_set_lines(res_buf, count, count, false, u.concat(USER, request, ASSISTANT, { '...' }))
-  local cur_line = vim.api.nvim_buf_line_count(res_buf)
+
+  -- To replace placeholder (...)
+  local cur_line = vim.api.nvim_buf_line_count(res_buf) - 1
 
   local content = ''
   local answer = { role = 'assistant', content = '' }
+
+  vim.api.nvim_set_current_win(self.layout.result.win)
 
   local on_delta = function(response)
     if not is_valid_response(response) then
@@ -53,7 +53,9 @@ function GPT:send_request()
     answer.content = answer.content .. delta
 
     if delta == '\n' then
-      vim.api.nvim_buf_set_lines(res_buf, cur_line, cur_line + 1, false, { '' })
+      vim.api.nvim_buf_set_lines(res_buf, cur_line, cur_line + 1, false, { content })
+      cur_line = cur_line + 1
+      content = ''
     elseif delta:match('\n') then
       for line in delta:gmatch('[^\n]+') do
         vim.api.nvim_buf_set_lines(res_buf, cur_line, cur_line + 1, false, { content .. line })
@@ -63,12 +65,16 @@ function GPT:send_request()
     else
       content = content .. delta
     end
+
+    vim.cmd.normal('G')
   end
 
   local on_complete = function()
     vim.api.nvim_buf_set_lines(res_buf, cur_line, cur_line + 1, false, { content })
     self:add_message(answer)
     vim.api.nvim_buf_set_lines(prompt_buf, 0, -1, false, {})
+    vim.api.nvim_set_current_win(self.layout.prompt.win)
+    vim.cmd.startinsert()
   end
 
   api.fetch(self.messages, on_delta, on_complete)
@@ -78,11 +84,23 @@ function GPT:open_win()
   self.layout = require('modules.gpt.ui').get_layout()
   self:set_keymaps()
   self:print_messages()
+  vim.cmd.startinsert()
+end
+
+function GPT:clear_messages()
+  self.messages = {}
+  self:print_messages()
 end
 
 function GPT:print_messages()
   local buf = self.layout.result.buf
   local count = vim.api.nvim_buf_line_count(buf) + 1
+
+  if vim.tbl_isempty(self.messages) then
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, {})
+    return
+  end
+
   for _, message in ipairs(self.messages) do
     if message.role == 'user' then
       vim.api.nvim_buf_set_lines(buf, count, count, false, u.concat(USER, vim.split(message.content, '\n')))
@@ -106,6 +124,10 @@ function GPT:set_keymaps()
   vim.keymap.set('n', 'q', close, { buffer = layout.result.buf })
   vim.keymap.set({ 'n', 'i' }, "<C-'>", close, { buffer = layout.result.buf })
   vim.keymap.set('i', '<C-c>', close, { buffer = layout.result.buf })
+
+  vim.keymap.set('n', '<Leader>c', function()
+    self:clear_messages()
+  end, { buffer = layout.prompt.buf })
 
   vim.keymap.set('n', '<CR>', function()
     self:send_request()
