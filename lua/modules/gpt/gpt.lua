@@ -53,7 +53,7 @@ function GPT:send_request()
     answer.content = answer.content .. delta
 
     if delta == '\n' then
-      vim.api.nvim_buf_set_lines(res_buf, cur_line, cur_line + 1, false, { content })
+      vim.api.nvim_buf_set_lines(res_buf, cur_line, cur_line + 1, false, { content, '' })
       cur_line = cur_line + 1
       content = ''
     elseif delta:match('\n') then
@@ -114,8 +114,11 @@ end
 function GPT:set_keymaps()
   local layout = self.layout
   local close = function()
+    vim.api.nvim_win_close(layout.result.win, true)
+    vim.api.nvim_win_close(layout.prompt.win, true)
     vim.api.nvim_buf_delete(layout.result.buf, { force = true })
     vim.api.nvim_buf_delete(layout.prompt.buf, { force = true })
+    vim.cmd.stopinsert()
   end
 
   vim.keymap.set('n', 'q', close, { buffer = layout.prompt.buf })
