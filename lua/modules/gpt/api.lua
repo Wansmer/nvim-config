@@ -18,9 +18,9 @@ function M.fetch(messages, on_delta, on_complete)
       messages = messages,
       stream = true,
     }),
-    stream = vim.schedule_wrap(function(_, data, _)
-      if vim.startswith(data, 'error:') then
-        error(data)
+    stream = vim.schedule_wrap(function(err, data, _)
+      if err or vim.startswith(data, 'error:') then
+        error(data or err)
       end
 
       local raw_message = string.gsub(data, '^data: ', '')

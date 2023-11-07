@@ -1,8 +1,8 @@
 local u = require('utils')
 local api = require('modules.gpt.api')
 
-local USER = { '', '# User:' }
-local ASSISTANT = { '', '# Assistant:' }
+local USER = { '# User:' }
+local ASSISTANT = { '# Assistant:' }
 
 local GPT = {}
 GPT.__index = GPT
@@ -34,7 +34,7 @@ function GPT:send_request()
 
   local request = vim.api.nvim_buf_get_lines(prompt_buf, 0, -1, false)
   self:add_message({ role = 'user', content = vim.fn.join(request, '\n') })
-  vim.api.nvim_buf_set_lines(res_buf, count, count, false, u.concat(USER, request, ASSISTANT, { '...' }))
+  vim.api.nvim_buf_set_lines(res_buf, count, count, false, u.concat(USER, request, { '' }, ASSISTANT, { '...' }))
 
   -- To replace placeholder (...)
   local cur_line = vim.api.nvim_buf_line_count(res_buf) - 1
@@ -58,7 +58,7 @@ function GPT:send_request()
       content = ''
     elseif delta:match('\n') then
       for line in delta:gmatch('[^\n]+') do
-        vim.api.nvim_buf_set_lines(res_buf, cur_line, cur_line + 1, false, { content .. line })
+        vim.api.nvim_buf_set_lines(res_buf, cur_line, cur_line + 1, false, { content .. line, '' })
         cur_line = cur_line + 1
         content = ''
       end
@@ -66,11 +66,11 @@ function GPT:send_request()
       content = content .. delta
     end
 
-    vim.cmd.normal('G')
+    vim.cmd.normal('G100|')
   end
 
   local on_complete = function()
-    vim.api.nvim_buf_set_lines(res_buf, cur_line, cur_line + 1, false, { content })
+    vim.api.nvim_buf_set_lines(res_buf, cur_line, cur_line + 1, false, { content, '' })
     self:add_message(answer)
     vim.api.nvim_buf_set_lines(prompt_buf, 0, -1, false, {})
     vim.api.nvim_set_current_win(self.layout.prompt.win)
@@ -122,13 +122,12 @@ function GPT:set_keymaps()
   end
 
   vim.keymap.set('n', 'q', close, { buffer = layout.prompt.buf })
-  vim.keymap.set({ 'n', 'i' }, "<C-'>", close, { buffer = layout.prompt.buf })
-  vim.keymap.set('i', '<C-c>', close, { buffer = layout.prompt.buf })
   vim.keymap.set('n', 'q', close, { buffer = layout.result.buf })
-  vim.keymap.set({ 'n', 'i' }, "<C-'>", close, { buffer = layout.result.buf })
-  vim.keymap.set('i', '<C-c>', close, { buffer = layout.result.buf })
 
-  vim.keymap.set('n', '<Leader>c', function()
+  vim.keymap.set({ 'n', 'i' }, "<C-'>", close, { buffer = layout.prompt.buf })
+  vim.keymap.set({ 'n', 'i' }, "<C-'>", close, { buffer = layout.result.buf })
+
+  vim.keymap.set('i', '<C-l>', function()
     self:clear_messages()
   end, { buffer = layout.prompt.buf })
 
