@@ -12,7 +12,3 @@ require('mappings')
 require('autocmd')
 require('modules.thincc')
 require('modules.git_watcher')
-
-vim.keymap.set('n', '<leader>ff', function()
-  require('modules.gpt').open()
-end, { desc = 'GPT' })
