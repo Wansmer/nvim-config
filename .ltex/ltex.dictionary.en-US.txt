@@ -22,3 +22,4 @@ colorcolumn
 thincc
 charset
 doctype
+Knowleges

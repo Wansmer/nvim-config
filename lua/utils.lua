@@ -315,4 +315,18 @@ function M.show_image(path, win_opts, image_opts)
   })
 end
 
+---Concatenate list-like tables
+---@vararg table
+---@return table
+function M.concat(...)
+  local res = {}
+  local l2 = { ... }
+  for _, l in ipairs(l2) do
+    for i = 1, #l do
+      res[#res + 1] = l[i]
+    end
+  end
+  return res
+end
+
 return M
