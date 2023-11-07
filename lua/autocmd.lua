@@ -185,13 +185,6 @@ if vim.opt.relativenumber:get() then
   })
 end
 
-vim.api.nvim_create_autocmd('VimSuspend', {
-  desc = 'Change input method to English before suspend nvim',
-  callback = function()
-    vim.system({ 'im-select', 'com.apple.keylayout.ABC' }, nil, nil)
-  end,
-})
-
 vim.api.nvim_create_autocmd('BufHidden', {
   desc = 'Delete [No Name] buffers',
   callback = function(data)
