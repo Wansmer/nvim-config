@@ -3,10 +3,10 @@ local listener_ls = vim.api.nvim_create_namespace('key_listener')
 ---Deleting hlsearch when it already no needed
 local function toggle_hlsearch(char)
   local keys = { '<CR>', 'n', 'N', '*', '#', '?', '/' }
-  local new_hlsearch = vim.tbl_contains(keys, char)
+  local new_hlsearch = vim.tbl_contains(keys, char) and 1 or 0
 
-  if vim.opt.hlsearch:get() ~= new_hlsearch then
-    vim.opt.hlsearch = new_hlsearch
+  if vim.api.nvim_get_vvar('hlsearch') ~= new_hlsearch then
+    vim.api.nvim_set_vvar('hlsearch', new_hlsearch)
   end
 end
 
