@@ -14,6 +14,7 @@ return {
   },
   config = function()
     require('sibling-swap').setup({
+      highlight_node_at_cursor = true,
       use_default_keymaps = true,
       keymaps = {
         ['<Leader>.'] = 'swap_with_right',
