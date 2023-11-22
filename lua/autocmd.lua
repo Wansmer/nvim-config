@@ -197,11 +197,11 @@ vim.api.nvim_create_autocmd('BufHidden', {
 })
 
 -- TODO: delete when core team fix auto start treesitter
-vim.api.nvim_create_autocmd('BufEnter', {
-  callback = function(event)
-    local ok, _ = pcall(vim.treesitter.get_parser, event.buf)
-    if ok then
-      vim.treesitter.start()
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd('BufEnter', {
+--   callback = function(event)
+--     local ok, _ = pcall(vim.treesitter.get_parser, event.buf)
+--     if ok then
+--       vim.treesitter.start()
+--     end
+--   end,
+-- })
