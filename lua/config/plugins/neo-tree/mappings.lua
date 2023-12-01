@@ -13,7 +13,7 @@ end
 ---Copy path of node under cursor to clipboard
 ---@param mode 'full'|'rel_home'|'rel_cwd'
 ---@return function
-local function copy_patch_to_clipboard(mode)
+local function copy_path_to_clipboard(mode)
   local modes = {
     full = function(path)
       return path
@@ -56,9 +56,9 @@ return {
     ['<S-TAB>'] = 'prev_source',
     ['<TAB>'] = 'next_source',
     ['a'] = 'add',
-    ['Y'] = copy_patch_to_clipboard('full'),
-    ['gY'] = copy_patch_to_clipboard('rel_home'),
-    ['gy'] = copy_patch_to_clipboard('rel_cwd'),
+    ['Y'] = copy_path_to_clipboard('full'),
+    ['gY'] = copy_path_to_clipboard('rel_home'),
+    ['gy'] = copy_path_to_clipboard('rel_cwd'),
     ['K'] = image_previes,
 
     -- Default window mappings
