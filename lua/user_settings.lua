@@ -13,7 +13,6 @@ PREF = {
     -- Use take_over_mode for Vue projects or not
     tom_enable = false,
     preinstall_servers = {
-      'volar',
       'tsserver',
       'lua_ls',
       'html',
