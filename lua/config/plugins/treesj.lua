@@ -23,9 +23,32 @@ return {
       }
     end
 
+    local classnames = {
+      both = {
+        enable = function(tsn)
+          print('IS JSX?', tsn:parent():type() == 'jsx_attribute')
+          return tsn:parent():type() == 'jsx_attribute'
+        end,
+      },
+      split = {
+        format_tree = function(tsj)
+          local str = tsj:child('string_fragment')
+          local words = vim.split(str:text(), ' ')
+          tsj:remove_child('string_fragment')
+          for i, word in ipairs(words) do
+            tsj:create_child({ text = word }, i + 1)
+          end
+        end,
+      },
+    }
+
     require('treesj').setup({
       max_join_length = 1000,
       use_default_keymaps = true,
+      langs = {
+        tsx = { ['string'] = classnames },
+        javascript = { ['string'] = classnames },
+      },
     })
 
     vim.keymap.set('n', '<Leader>M', function()
@@ -47,7 +70,6 @@ return {
     vim.keymap.set('n', '<Leader>m', function()
       local tsj_langs = require('treesj.langs')['presets']
       local lang = get_pos_lang()
-      print('Lang: ' .. lang)
       if lang ~= '' and tsj_langs[lang] then
         require('treesj').toggle()
       else
