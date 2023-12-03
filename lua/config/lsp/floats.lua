@@ -78,10 +78,12 @@ end
 ---LSP handler that adds extra inline highlights, keymaps, and window options.
 ---Code inspired from [noice](https://github.com/folke/noice.nvim).
 ---@param handler fun(err: any, result: any, ctx: any, config: any): integer, integer
+---@param opts? table
 ---@return function
-local function on_float(handler)
+local function on_float(handler, opts)
   return function(err, result, ctx, config)
-    local buf, win = handler(err, result, ctx, vim.tbl_deep_extend('force', config or {}, M.float_opts))
+    config = vim.tbl_deep_extend('force', config or {}, opts or {})
+    local buf, win = handler(err, result, ctx, vim.tbl_deep_extend('force', config, M.float_opts))
 
     if not (buf and win) then
       return
@@ -98,7 +100,7 @@ end
 ---Improves view of LSP hover and signature_help.
 function M.apply()
   local handlers = vim.lsp.handlers
-  handlers['textDocument/hover'] = on_float(handlers.hover)
+  handlers['textDocument/hover'] = on_float(handlers.hover, { silent = true })
   handlers['textDocument/signatureHelp'] = on_float(handlers.signature_help)
 end
 
