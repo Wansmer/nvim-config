@@ -65,8 +65,8 @@ return {
         enabled = true,
 
         -- Priority list of preferred vim.select implementations
-        -- backend = { 'telescope', 'fzf_lua', 'fzf', 'builtin', 'nui' },
-        backend = { 'telescope' },
+        backend = { 'telescope', 'fzf_lua', 'fzf', 'builtin', 'nui' },
+        -- backend = { 'telescope' },
 
         -- Trim trailing `:` from prompt
         trim_prompt = true,
@@ -153,11 +153,13 @@ return {
 
         -- Used to override format_item. See :help dressing-format
         format_item_override = {
-          codeaction = function(action_tuple)
-            local title = action_tuple[2].title:gsub('\r\n', '\\r\\n')
-            local client = vim.lsp.get_client_by_id(action_tuple[1])
-            return string.format('%s\t[%s]', title:gsub('\n', '\\n'), client.name)
-          end,
+          -- TODO: this is not working. Reason: structure of action_tuple was changed
+          -- codeaction = function(action_tuple)
+          --   vim.print(action_tuple)
+          --   local title = action_tuple[2].title:gsub('\r\n', '\\r\\n')
+          --   local client = vim.lsp.get_client_by_id(action_tuple[1])
+          --   return string.format('%s\t[%s]', title:gsub('\n', '\\n'), client.name)
+          -- end,
         },
 
         -- see :help dressing_get_config
