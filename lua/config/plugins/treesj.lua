@@ -46,7 +46,10 @@ return {
       max_join_length = 1000,
       use_default_keymaps = true,
       langs = {
-        tsx = { ['string'] = classnames },
+        tsx = {
+          ['string'] = classnames,
+          interface_declaration = { target_nodes = { 'object_type' } },
+        },
         javascript = { ['string'] = classnames },
       },
     })
