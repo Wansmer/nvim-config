@@ -24,6 +24,11 @@ M.servers = {
     ft = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
     patterns = { '^Add import', '^Update import' },
   },
+  volar = {
+    diagnostic_codes = { 2304 },
+    ft = { 'vue', 'javascript', 'typescript' },
+    patterns = { '^Add import', '^Update import' },
+  },
 }
 
 function M.autoimport(server)
