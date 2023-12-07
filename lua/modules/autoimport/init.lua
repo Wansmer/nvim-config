@@ -1,20 +1,6 @@
--- Based on vim.lsp.buf.code_action
-
 local u = require('utils')
 local GROUP = vim.api.nvim_create_augroup('__autoimport__', { clear = true })
-
----@param action lsp.Command|lsp.CodeAction
----@param client lsp.Client
----@param ctx lsp.HandlerContext
-local function apply_action(action, client, ctx)
-  if action.edit then
-    vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
-  end
-  if action.command then
-    local command = type(action.command) == 'table' and action.command or action
-    client._exec_cmd(command, ctx)
-  end
-end
+local apply_action = require('modules.autoimport.code_action_api').apply_action
 
 local M = {}
 
@@ -29,7 +15,18 @@ M.servers = {
     ft = { 'vue', 'javascript', 'typescript' },
     patterns = { '^Add import', '^Update import' },
   },
+  rust_analyzer = {
+    diagnostic_codes = { 'E0425' },
+    ft = { 'rust' },
+    patterns = { '^Import' },
+  },
 }
+
+local function filter_diagnostics(bufnr, client_id, codes)
+  return vim.tbl_filter(function(d)
+    return vim.tbl_contains(codes, d.code)
+  end, vim.lsp.diagnostic.get_line_diagnostics(bufnr, nil, nil, client_id))
+end
 
 function M.autoimport(server)
   local bufnr = vim.api.nvim_get_current_buf()
@@ -37,6 +34,8 @@ function M.autoimport(server)
   if not client then
     return
   end
+
+  local diagnostics = filter_diagnostics(bufnr, client.id, M.servers[server].diagnostic_codes)
 
   ---@param err? lsp.ResponseError
   ---@param result? (lsp.Command|lsp.CodeAction)[]
@@ -57,15 +56,18 @@ function M.autoimport(server)
         return action.title:match(pat) ~= nil
       end)
     end, result)
+table.sort(filtered_actions, function(a, b) return #a.title < #b.title
+    end)
 
     for _, action in ipairs(filtered_actions) do
-      apply_action(action, client, ctx)
+      apply_action({ action = action, ctx = ctx })
+
+      local actual_diagnostic = filter_diagnostics(bufnr, client.id, M.servers[server].diagnostic_codes)
+      if #actual_diagnostic == 0 then
+        break
+      end
     end
   end
-
-  local diagnostics = vim.tbl_filter(function(d)
-    return vim.tbl_contains(M.servers[server].diagnostic_codes, d.code)
-  end, vim.lsp.diagnostic.get_line_diagnostics(bufnr, nil, nil, client.id))
 
   -- Why cycle? Here is not really able to get all code actions in a single request. (Believe me, I tried)
   for _, d in ipairs(diagnostics) do
