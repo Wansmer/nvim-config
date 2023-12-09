@@ -26,9 +26,16 @@ return {
 
     local classnames = {
       both = {
+        ---@param tsn TSNode
         enable = function(tsn)
-          print('IS JSX?', tsn:parent():type() == 'jsx_attribute')
-          return tsn:parent():type() == 'jsx_attribute'
+          local parent = tsn:parent()
+          if not parent or parent:type() ~= 'jsx_attribute' then
+            return false
+          end
+
+          ---@diagnostic disable-next-line: param-type-mismatch (jsx_attribute with no children does not exist.)
+          local attr_name = vim.treesitter.get_node_text(parent:child(0), 0)
+          return attr_name == 'className'
         end,
       },
       split = {
@@ -53,6 +60,24 @@ return {
           ['string'] = classnames,
           interface_declaration = { target_nodes = { 'object_type' } },
           parenthesized_expression = parenthesized_expression,
+          return_statement = {
+            target_nodes = {
+              ['jsx_element'] = 'root_jsx_element',
+              'jsx_self_closing_element',
+              'parenthesized_expression',
+            },
+          },
+          -- Not realy name of node
+          root_jsx_element = lu.set_default_preset({
+            split = {
+              format_tree = function(tsj)
+                tsj:wrap({ left = '(', right = ')' })
+              end,
+            },
+            -- join = {
+            --   enable = false,
+            -- },
+          }),
         },
         javascript = {
           ['string'] = classnames,
