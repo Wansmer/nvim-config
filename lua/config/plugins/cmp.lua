@@ -51,7 +51,11 @@ return {
     local luasnip = require('luasnip')
     local cmp_autopairs = require('nvim-autopairs.completion.cmp')
     cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
-    require('luasnip.loaders.from_vscode').lazy_load()
+
+    -- See spec: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#snippet_syntax
+    local vscode_snippets = require('luasnip.loaders.from_vscode')
+    vscode_snippets.lazy_load() -- Load snippets from friendly-snippets
+    vscode_snippets.lazy_load({ paths = { '~/.config/nvim/snippets' } }) -- custom snippets
 
     cmp.setup({
       preselect = 'None',
