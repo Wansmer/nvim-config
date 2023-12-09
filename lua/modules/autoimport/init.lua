@@ -6,7 +6,7 @@ local M = {}
 
 M.servers = {
   tsserver = {
-    diagnostic_codes = { 2304 },
+    diagnostic_codes = { 2304, 2552 },
     ft = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
     patterns = { '^Add import', '^Update import' },
   },
@@ -42,12 +42,12 @@ function M.autoimport(server)
   ---@param ctx lsp.HandlerContext
   local function on_result(err, result, ctx)
     if err then
-      vim.notify(err.message, vim.log.levels.WARN, { title = 'on_code_action' })
+      vim.notify(err.message, vim.log.levels.WARN, { title = 'Autoimport' })
       return
     end
 
     if not result then
-      vim.notify('No result', vim.log.levels.WARN, { title = 'on_code_action' })
+      vim.notify('No result', vim.log.levels.WARN, { title = 'Autoimport' })
       return
     end
 
@@ -56,7 +56,9 @@ function M.autoimport(server)
         return action.title:match(pat) ~= nil
       end)
     end, result)
-table.sort(filtered_actions, function(a, b) return #a.title < #b.title
+
+    table.sort(filtered_actions, function(a, b)
+      return #a.title < #b.title
     end)
 
     for _, action in ipairs(filtered_actions) do
