@@ -38,8 +38,12 @@ return {
     'hrsh7th/cmp-nvim-lsp-document-symbol',
     'lukas-reineke/cmp-under-comparator',
     'lukas-reineke/cmp-rg',
+    {
+      'L3MON4D3/LuaSnip',
+      version = 'v2.*',
+      build = 'make install_jsregexp',
+    },
     'saadparwaiz1/cmp_luasnip',
-    'L3MON4D3/LuaSnip',
     'rafamadriz/friendly-snippets',
   },
   config = function()
