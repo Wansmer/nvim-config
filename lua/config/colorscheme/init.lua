@@ -14,6 +14,7 @@ local source = {
   ['monokai-pro'] = 'monokai',
   ['rose-pine'] = 'rose-pine',
   midnight = 'midnight',
+  onedark = 'onedark',
 }
 
 local config = source[colorscheme]
@@ -23,6 +24,11 @@ if config then
 end
 
 local present, _ = pcall(vim.cmd.colorscheme, colorscheme)
+
+if colorscheme == 'mellifluous' then
+  vim.api.nvim_set_hl(0, 'WinBar', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'WinBarNC', { link = 'Normal' })
+end
 
 if not present then
   vim.cmd.colorscheme('habamax')
