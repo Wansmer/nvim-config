@@ -1,9 +1,9 @@
-vim.g.catppuccin_flavour = 'mocha' -- latte, frappe, macchiato, mocha
+vim.g.catppuccin_flavour = 'macchiato' -- latte, frappe, macchiato, mocha
 local mocha = require('catppuccin.palettes').get_palette('mocha')
 
 require('catppuccin').setup({
   dim_inactive = {
-    enabled = true,
+    enabled = false,
     shade = 'dark',
     percentage = 0.15,
   },
@@ -44,60 +44,28 @@ require('catppuccin').setup({
         information = { 'underline' },
       },
     },
-    coc_nvim = false,
-    lsp_trouble = false,
     cmp = true,
-    lsp_saga = false,
-    gitgutter = false,
     gitsigns = true,
-    leap = false,
     telescope = true,
-    nvimtree = {
-      enabled = true,
-      show_root = true,
-      transparent_panel = false,
-    },
-    neotree = {
-      enabled = true,
-      show_root = true,
-      transparent_panel = false,
-    },
-    dap = {
-      enabled = false,
-      enable_ui = false,
-    },
-    which_key = false,
+    neotree = true,
     indent_blankline = {
       enabled = true,
       colored_indent_levels = false,
     },
-    dashboard = false,
-    neogit = false,
-    vim_sneak = false,
-    fern = false,
-    barbar = false,
     bufferline = true,
     markdown = true,
-    lightspeed = false,
-    ts_rainbow = true,
-    hop = false,
     notify = true,
-    telekasten = false,
-    symbols_outline = false,
-    mini = false,
-    aerial = false,
+    aerial = true,
     vimwiki = true,
-    beacon = false,
-    navic = false,
-    overseer = false,
   },
   color_overrides = {},
   highlight_overrides = {
-    mocha = {
-      GitSignsAdd = { bg = mocha.base },
-      GitSignsChange = { bg = mocha.base },
-      GitSignsDelete = { bg = mocha.base },
-      CmpItemMenu = { fg = mocha.lavender },
-    },
+    all = function(colors)
+      return {
+        WinBarNC = { link = 'WinBar' },
+        NeoTreeWinSeparator = { fg = colors.base, bg = colors.base },
+        IblScope = { fg = colors.surface2 },
+      }
+    end,
   },
 })
