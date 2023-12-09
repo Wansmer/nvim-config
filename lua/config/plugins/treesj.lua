@@ -9,6 +9,7 @@ return {
   dependencies = { 'nvim-treesitter/nvim-treesitter' },
   config = function()
     local langs = require('treesj.langs').presets
+    local lu = require('treesj.langs.utils')
 
     for _, nodes in pairs(langs) do
       nodes.comment = {
@@ -42,6 +43,8 @@ return {
       },
     }
 
+    local parenthesized_expression = lu.set_preset_for_args()
+
     require('treesj').setup({
       max_join_length = 1000,
       use_default_keymaps = true,
@@ -49,8 +52,12 @@ return {
         tsx = {
           ['string'] = classnames,
           interface_declaration = { target_nodes = { 'object_type' } },
+          parenthesized_expression = parenthesized_expression,
         },
-        javascript = { ['string'] = classnames },
+        javascript = {
+          ['string'] = classnames,
+          parenthesized_expression = parenthesized_expression,
+        },
       },
     })
 
