@@ -21,7 +21,7 @@ return {
         if symbol.references then
           local usage = symbol.references <= 1 and 'usage' or 'usages'
           local num = symbol.references == 0 and 'no' or symbol.references
-          return string.format('󰌹 %s %s', num, usage)
+          return string.format(' 󰌹 %s %s', num, usage)
         else
           return ''
         end
