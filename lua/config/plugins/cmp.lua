@@ -45,6 +45,18 @@ return {
     },
     'saadparwaiz1/cmp_luasnip',
     'rafamadriz/friendly-snippets',
+    {
+      'Jezda1337/nvim-html-css',
+      enabled = true,
+      event = 'VeryLazy',
+      dependencies = {
+        'nvim-treesitter/nvim-treesitter',
+        'nvim-lua/plenary.nvim',
+      },
+      config = function()
+        require('html-css'):setup()
+      end,
+    },
   },
   config = function()
     local cmp = require('cmp')
@@ -56,6 +68,12 @@ return {
     local vscode_snippets = require('luasnip.loaders.from_vscode')
     vscode_snippets.lazy_load() -- Load snippets from friendly-snippets
     vscode_snippets.lazy_load({ paths = { '~/.config/nvim/snippets' } }) -- custom snippets
+
+    local has_words_before = function()
+      unpack = unpack or table.unpack
+      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+      return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+    end
 
     cmp.setup({
       preselect = 'None',
@@ -85,15 +103,25 @@ return {
           c = cmp.mapping.close(),
         }),
         ['<C-x>'] = cmp.mapping(cmp.mapping.complete({}), { 'i', 'c' }),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        -- ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<CR>'] = cmp.mapping({
+          i = function(fallback)
+            if cmp.visible() and cmp.get_active_entry() then
+              cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+            else
+              fallback()
+            end
+          end,
+          s = cmp.mapping.confirm({ select = true }),
+          c = cmp.mapping.confirm({ select = true }),
+        }),
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
-          elseif luasnip.expandable() then
-            luasnip.expand({})
-          -- elseif luasnip.expand_or_jumpable() then
           elseif luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
+          elseif has_words_before() then
+            cmp.complete()
           else
             fallback()
           end
@@ -125,28 +153,59 @@ return {
             cmdline_history = 'hist',
             nvim_lsp_document_symbol = 'sym ',
             rg = 'rg  ',
+            ['html-css'] = 'css ',
           })[entry.source.name]
           return vim_item
         end,
       },
       sources = {
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
+        {
+          name = 'nvim_lsp',
+          keyword_length = 2,
+          group_index = 1,
+          entry_filter = function(entry, ctx)
+            return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Text'
+          end,
+        },
+        {
+          name = 'luasnip',
+          keyword_length = 2,
+        },
         {
           -- See: https://github.com/hrsh7th/cmp-buffer#all-buffers
           name = 'buffer',
+          group_index = 4,
           option = {
             get_bufnrs = function()
               return vim.api.nvim_list_bufs()
             end,
           },
         },
-        { name = 'path' },
+        {
+          name = 'path',
+          trigger_characters = { '/', '~', './', '../' },
+        },
         {
           name = 'rg',
-          keyword_length = 3,
+          keyword_length = 4,
         },
         { name = 'crates' },
+        {
+          name = 'html-css',
+          option = {
+            max_count = {}, -- not ready yet
+            enable_on = {
+              'html',
+              'vue',
+              'svelte',
+              'typescript',
+              'javascript',
+              'javascriptreact',
+              'typescriptreact',
+            }, -- set the file types you want the plugin to work on
+            file_extensions = { 'css', 'scss', 'sass', 'less' }, -- set the local filetypes from which you want to derive classes
+          },
+        },
       },
       confirm_opts = {
         behavior = cmp.ConfirmBehavior.Replace,
