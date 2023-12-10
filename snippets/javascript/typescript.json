@@ -1,5 +1,5 @@
 {
-  "tsArrowNamedExportWithProps": {
+  "tsxArrowNamedExportWithProps": {
     "prefix": "tfp",
     "body": [
       "import React from 'react'",
@@ -12,6 +12,59 @@
       "  )",
       "}"
     ],
-    "description": "Creates a React Arrow Function Component with ES7 module system and TypeScript interface"
+    "description": "Creates a React Arrow Function Component with Props"
+  },
+  "tsNextApiRoutePost": {
+    "prefix": "rpo",
+    "body": [
+      "export const POST = async (request: Request) => {",
+      "  return Response.json({ ok: true });",
+      "}"
+    ],
+    "description": "Creates a Next Route Handlers for POST method"
+  },
+  "tsNextApiRoutePut": {
+    "prefix": "rpu",
+    "body": [
+      "export const PUT = async (request: Request) => {",
+      "  return Response.json({ ok: true });",
+      "}"
+    ],
+    "description": "Creates a Next Route Handlers for PUT method"
+  },
+  "tsNextApiRouteGet": {
+    "prefix": "rpg",
+    "body": [
+      "export const GET = async (request: Request) => {",
+      "  return Response.json({ ok: true });",
+      "}"
+    ],
+    "description": "Creates a Next Route Handlers for GET method"
+  },
+  "tsNextApiRouteDelete": {
+    "prefix": "rpd",
+    "body": [
+      "export const DELETE = async (request: Request) => {",
+      "  return Response.json({ ok: true });",
+      "}"
+    ],
+    "description": "Creates a Next Route Handlers for DELETE method"
+  },
+  "tsNextPage": {
+    "prefix": "page",
+    "body": [
+      "export default function ${TM_DIRECTORY/(.*\\/)?([^\\/]+)/${2:/capitalize}/}Page() {",
+      "  ${1}return (",
+      "    <section>${TM_DIRECTORY/(.*\\/)?([^\\/]+)/${2:/capitalize}/} Page</section>",
+      "  );",
+      "}"
+    ],
+    "description": "Creates a Next Page templete component"
+  },
+  "useState": {
+    "prefix": "state",
+    "body": [
+      "const [${1:first}, set${1/(.*)/${1:/capitalize}/}] = useState(${2:initialValue})"
+    ]
   }
 }
