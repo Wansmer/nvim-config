@@ -82,46 +82,18 @@ return {
           luasnip.lsp_expand(args.body)
         end,
       },
-      -- sorting = {
-      --   comparators = {
-      --     cmp.config.compare.offset,
-      --     cmp.config.compare.exact,
-      --     cmp.config.compare.score,
-      --     require('cmp-under-comparator').under,
-      --     cmp.config.compare.kind,
-      --     cmp.config.compare.sort_text,
-      --     cmp.config.compare.length,
-      --     cmp.config.compare.order,
-      --   },
-      -- },
       mapping = {
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-y>'] = cmp.config.disable,
-        ['<C-e>'] = cmp.mapping({
-          i = cmp.mapping.abort(),
-          c = cmp.mapping.close(),
-        }),
+        ['<C-e>'] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
         ['<C-x>'] = cmp.mapping(cmp.mapping.complete({}), { 'i', 'c' }),
-        -- ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        ['<CR>'] = cmp.mapping({
-          i = function(fallback)
-            if cmp.visible() and cmp.get_active_entry() then
-              cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-            else
-              fallback()
-            end
-          end,
-          s = cmp.mapping.confirm({ select = true }),
-          c = cmp.mapping.confirm({ select = true }),
-        }),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
           elseif luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
-          elseif has_words_before() then
-            cmp.complete()
           else
             fallback()
           end
@@ -159,22 +131,11 @@ return {
         end,
       },
       sources = {
-        {
-          name = 'nvim_lsp',
-          keyword_length = 2,
-          group_index = 1,
-          entry_filter = function(entry, ctx)
-            return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Text'
-          end,
-        },
-        {
-          name = 'luasnip',
-          keyword_length = 2,
-        },
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
         {
           -- See: https://github.com/hrsh7th/cmp-buffer#all-buffers
           name = 'buffer',
-          group_index = 4,
           option = {
             get_bufnrs = function()
               return vim.api.nvim_list_bufs()
@@ -185,10 +146,7 @@ return {
           name = 'path',
           trigger_characters = { '/', '~', './', '../' },
         },
-        {
-          name = 'rg',
-          keyword_length = 4,
-        },
+        { name = 'rg' },
         { name = 'crates' },
         {
           name = 'html-css',
