@@ -31,7 +31,7 @@ local function scandir(path, prefix, tree, ignore)
 end
 
 local function detect_event(fname, fullpath, tree)
-  local is_exist = vim.loop.fs_stat(fullpath)
+  local is_exist = vim.uv.fs_stat(fullpath)
   local is_watched = vim.tbl_contains(tree, fname)
 
   local event_name = 'unknown'
@@ -55,7 +55,7 @@ local function check_root(cwd, pattern)
   pattern = vim.tbl_map(function(el)
     return cwd .. el
   end, pattern)
-  return u.some(pattern, vim.loop.fs_stat)
+  return u.some(pattern, vim.uv.fs_stat)
 end
 
 local AUTOCMD = {
@@ -69,7 +69,7 @@ local Watcher = {}
 Watcher.__index = Watcher
 
 Watcher.new = function(path, opts, ignore, root_pattern)
-  path = path or vim.loop.cwd() .. '/'
+  path = path or vim.uv.cwd() .. '/'
   opts = opts or { watch_entry = false, stat = false, recursive = true }
   ignore = ignore or { '^%.git', '%.git/', '%~$', '4913$' }
   root_pattern = root_pattern or '.git/'
@@ -180,10 +180,10 @@ function Watcher:on_any(cbs)
 end
 
 function Watcher:start()
-  self._w = vim.loop.new_fs_event()
+  self._w = vim.uv.new_fs_event()
 
   if not self._w then
-    vim.notify('Fail to call "vim.loop.new_fs_event()"', vim.log.levels.WARN, { title = 'Watcher: ' })
+    vim.notify('Fail to call "vim.uv.new_fs_event()"', vim.log.levels.WARN, { title = 'Watcher: ' })
     return
   end
 
@@ -211,6 +211,10 @@ function Watcher:restart()
       self:_on_event(...)
     end)
   )
+end
+
+function Watcher:get_files()
+  return self._tree
 end
 
 function Watcher:stop()
