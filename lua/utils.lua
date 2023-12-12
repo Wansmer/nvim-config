@@ -329,4 +329,37 @@ function M.concat(...)
   return res
 end
 
+---Repeat callback by repeat pressing symbol after registred lhs
+---
+---Usage example:
+---
+---```lua
+---vim.keymap.set('n', '<Leader>[', M.repeat_by('[', function() print(123) end))`
+---```
+---In this case, pressing `<Leader>[[[` will print 123 123 123
+---
+---@param symbol string
+---@param cb function
+---@return function
+function M.repeat_by(symbol, cb)
+  local function repeatable()
+    cb() -- Do action on lhs
+    local ok, char = pcall(vim.fn.getcharstr)
+    if not ok or char == nil then
+      return
+    end
+
+    -- TODO: add timeout to clear waiting next pressed symbol
+    if char == symbol then
+      cb() -- Repeat action on pressed symbol
+      repeatable()
+    else
+      -- Send pressed symbol in map mode (map mode is important)
+      vim.api.nvim_feedkeys(vim.keycode(char), 'm', true)
+    end
+  end
+
+  return repeatable
+end
+
 return M
