@@ -59,10 +59,16 @@ local Surround = {}
 Surround.replace_surround = change_surround
 Surround.remove_surround = change_surround
 Surround.add_surround = function(char, is_v)
-  if paired[char] then
-    local left, right = unpack(paired[char])
-    local cursor = vim.api.nvim_win_get_cursor(0)
+  if paired[char] or char == 't' then
+    local left, right
+    if char == 't' then
+      local tag = vim.fn.input('Tag: ')
+      left, right = '<' .. tag .. '>', '</' .. tag .. '>'
+    else
+      left, right = unpack(paired[char])
+    end
 
+    local cursor = vim.api.nvim_win_get_cursor(0)
     local sr, sc, er, ec = u.to_api_range(is_v and u.get_visual_range() or u.get_object_range())
     local lines = vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {})
 
