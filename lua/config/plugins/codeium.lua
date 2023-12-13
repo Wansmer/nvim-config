@@ -5,6 +5,7 @@ return {
   config = function()
     vim.g.codeium_idle_delay = 250
     vim.g.codeium_disable_bindings = 1
+    vim.g.codeium_no_map_tab = true
     vim.g.codeium_filetypes = {
       -- TODO: Or add trigger mapping to complete?
       ['neo-tree-popup'] = false,
