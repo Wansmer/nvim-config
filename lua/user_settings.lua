@@ -24,6 +24,7 @@ PREF = {
       'sqlls',
       'bashls',
       'dockerls',
+      'tailwindcss',
       -- 'ltex',
     },
   },
