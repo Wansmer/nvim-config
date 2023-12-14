@@ -60,6 +60,7 @@ return {
           ['string'] = classnames,
           interface_declaration = { target_nodes = { 'object_type' } },
           parenthesized_expression = parenthesized_expression,
+          jsx_expression = lu.set_default_preset(),
           return_statement = {
             target_nodes = {
               ['jsx_element'] = 'root_jsx_element',
@@ -71,6 +72,7 @@ return {
           root_jsx_element = lu.set_default_preset({
             split = {
               format_tree = function(tsj)
+                -- TODO: checks if jsx_element is on one line
                 tsj:wrap({ left = '(', right = ')' })
               end,
             },
@@ -82,6 +84,7 @@ return {
         javascript = {
           ['string'] = classnames,
           parenthesized_expression = parenthesized_expression,
+          jsx_expression = lu.set_default_preset(),
         },
       },
     })
