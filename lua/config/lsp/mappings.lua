@@ -54,7 +54,15 @@ M.set_keymap = function(_, bufnr)
   map('n', 'K', vim.lsp.buf.hover, d('Show symbol info'))
 
   -- Formatting
-  map('n', 'gF', vim.lsp.buf.format, d('Format buffer'))
+  map('n', 'gF', function()
+    local ok, conform = pcall(require, 'conform')
+    if not ok then
+      vim.lsp.buf.format()
+      return
+    end
+
+    conform.format({ bufnr = bufnr, lsp_fallback = true })
+  end, d('Format buffer'))
 
   -- Show code action
   map('n', 'ga', vim.lsp.buf.code_action, d('Show available code action'))

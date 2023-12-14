@@ -42,10 +42,15 @@ vim.api.nvim_create_autocmd('BufEnter', {
 -- Autoformatting
 if PREF.lsp.format_on_save then
   vim.api.nvim_create_autocmd('BufWritePre', {
-    callback = function()
-      local client = vim.lsp.get_clients({ bufnr = 0 })[1]
-      if client then
-        vim.lsp.buf.format()
+    callback = function(e)
+      local ok, conform = pcall(require, 'conform')
+      if ok then
+        conform.format({ bufnr = e.buf, lsp_fallback = true })
+      else
+        local client = vim.lsp.get_clients({ bufnr = 0 })[1]
+        if client then
+          vim.lsp.buf.format()
+        end
       end
     end,
   })
