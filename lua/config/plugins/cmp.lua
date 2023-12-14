@@ -42,6 +42,26 @@ return {
       'L3MON4D3/LuaSnip',
       version = 'v2.*',
       build = 'make install_jsregexp',
+      config = function()
+        -- Based on: https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/plugins/nvim-cmp.lua
+        local luasnip = require('luasnip')
+
+        vim.api.nvim_create_autocmd('ModeChanged', {
+          group = vim.api.nvim_create_augroup('luasnip.config', { clear = true }),
+          pattern = { 'i:n', 's:n' },
+          callback = function(e)
+            if
+              luasnip.session
+              and luasnip.session.current_nodes[e.buf]
+              and not luasnip.session.jump_active
+              and not luasnip.choice_active()
+            then
+              luasnip.active_update_dependents()
+              luasnip.unlink_current()
+            end
+          end,
+        })
+      end,
     },
     'saadparwaiz1/cmp_luasnip',
     'rafamadriz/friendly-snippets',
@@ -63,17 +83,10 @@ return {
     local luasnip = require('luasnip')
     local cmp_autopairs = require('nvim-autopairs.completion.cmp')
     cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
-
     -- See spec: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#snippet_syntax
     local vscode_snippets = require('luasnip.loaders.from_vscode')
     vscode_snippets.lazy_load() -- Load snippets from friendly-snippets
     vscode_snippets.lazy_load({ paths = { '~/.config/nvim/snippets' } }) -- custom snippets
-
-    local has_words_before = function()
-      unpack = unpack or table.unpack
-      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-      return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
-    end
 
     cmp.setup({
       preselect = 'None',
@@ -92,7 +105,7 @@ return {
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
-          elseif luasnip.expand_or_locally_jumpable() then
+          elseif luasnip.expand_or_jumpable() then
             luasnip.expand_or_jump()
           else
             fallback()
