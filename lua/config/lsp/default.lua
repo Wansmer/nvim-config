@@ -40,9 +40,6 @@ M.on_attach = function(client, bufnr)
   end
 
   set_keymaps(client, bufnr)
-
-  -- Disables built-in LSP formatters if null-ls provides specials formatters for current filetype
-  require('config.lsp.formatters').setup(client, bufnr)
 end
 
 M.autostart = true

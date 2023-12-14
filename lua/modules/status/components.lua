@@ -53,26 +53,29 @@ function M.foldcolumn()
 end
 
 local function lsp_list()
-  local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+  local buf_clients = vim.lsp.get_clients({ bufnr = 0 })
   local buf_client_names = {}
 
   for _, client in pairs(buf_clients) do
-    if client.name ~= 'null-ls' then
-      table.insert(buf_client_names, client.name)
-    end
+    table.insert(buf_client_names, client.name)
   end
 
   return table.concat(buf_client_names, ', ')
 end
 
 local function formatters_list()
-  local formatters = require('config.lsp.formatters')
-  if not formatters then
+  local ok, conform = pcall(require, 'conform')
+  if not ok then
     return ''
   end
-  local buf_ft = vim.bo.filetype
-  local supported_formatters = formatters.list_registered(buf_ft)
-  return table.concat(supported_formatters, ', ')
+
+  local bufnr = vim.api.nvim_get_current_buf()
+  return vim
+    .iter(conform.list_formatters(bufnr))
+    :map(function(item)
+      return item.name
+    end)
+    :join(', ')
 end
 
 function M.lsp()
@@ -109,10 +112,7 @@ function M.treesitter()
   local icon = ''
   local buf = vim.api.nvim_get_current_buf()
   local ok, _ = pcall(vim.treesitter.get_parser, buf)
-  if ok then
-    local is_active = vim.treesitter.highlighter[buf]
-    icon = is_active and '%#TSStatusActive#' .. icon .. '%*' or icon
-  end
+  icon = ok and '%#TSStatusActive#' .. icon .. '%*' or icon
   return icon .. ' TS'
 end
 

@@ -15,7 +15,6 @@ local disable_ft = {
   'toggleterm',
   'lazy',
   'lspinfo',
-  'null-ls-info',
 }
 
 ---Registry for saving original value of colorcolumn of each buffer
