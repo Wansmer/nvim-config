@@ -1,4 +1,4 @@
-require('nvim-tundra').setup({
+require("nvim-tundra").setup({
   transparent_background = false,
   dim_inactive_windows = {
     enabled = true,

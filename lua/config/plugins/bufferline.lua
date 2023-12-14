@@ -1,13 +1,13 @@
 return {
-  'akinsho/bufferline.nvim',
+  "akinsho/bufferline.nvim",
   enabled = true,
-  version = '*',
-  event = 'VeryLazy',
+  version = "*",
+  event = "VeryLazy",
   config = function()
-    require('bufferline').setup({
+    require("bufferline").setup({
       options = {
         diagnostics = false,
-        offsets = { { filetype = 'neo-tree', text = 'File Explorer' } },
+        offsets = { { filetype = "neo-tree", text = "File Explorer" } },
       },
     })
   end,

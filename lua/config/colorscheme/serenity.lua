@@ -1,1 +1,1 @@
-require('serenity').setup()
+require("serenity").setup()

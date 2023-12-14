@@ -1,13 +1,13 @@
-local u = require('utils')
+local u = require("utils")
 
 ---Checking if the current line in md - part of list
 ---@param line string
 ---@return boolean|string returned false if not a list or marker of matching list if it a list
 local function is_list(line)
   local list_reg = {
-    '^%s*([%-%>%+%*]) ',
-    '^%s*(%d+). ',
-    '^%s*(%w)%. ',
+    "^%s*([%-%>%+%*]) ",
+    "^%s*(%d+). ",
+    "^%s*(%w)%. ",
   }
 
   for _, reg in ipairs(list_reg) do
@@ -24,7 +24,7 @@ end
 ---@param mark string marker of list
 ---@return boolean
 local function is_ol(mark)
-  return tonumber(mark) or mark:match('%w')
+  return tonumber(mark) or mark:match("%w")
 end
 
 ---Return next marker for ordered list
@@ -34,7 +34,7 @@ local function get_next_mark(mark, operand)
   if tonumber(mark) then
     return tonumber(mark) + operand
   else
-    local ab = 'abcdefghijklmnopqrstuvwxyz'
+    local ab = "abcdefghijklmnopqrstuvwxyz"
     local next_i = ab:find(mark:lower()) + operand
     if #ab >= next_i then
       local n_mark = ab:sub(next_i, next_i)
@@ -50,11 +50,11 @@ end
 ---@return string
 local function update_prefix(mark, action)
   if is_ol(mark) then
-    action = action or 'i'
+    action = action or "i"
     local actions = { i = 1, d = -1, e = 0 }
-    mark = get_next_mark(mark, actions[action]) .. '.'
+    mark = get_next_mark(mark, actions[action]) .. "."
   end
-  return mark .. ' '
+  return mark .. " "
 end
 
 ---Adding list prefix to new line if func called on md-list (ol, ul, quote)
@@ -71,7 +71,7 @@ local function continue_list_if_need(cmd, action)
   end
 
   cmd = vim.api.nvim_replace_termcodes(cmd, true, true, true)
-  vim.api.nvim_feedkeys(cmd, 'n', false)
+  vim.api.nvim_feedkeys(cmd, "n", false)
 end
 
 -- Surrounder: surround text for bold, italic and link template in charwise visual mode
@@ -94,59 +94,59 @@ local function surround(prefix, postfix, range, text)
   text[1] = prefix .. text[1]
   text[#text] = text[#text] .. postfix
 
-  u.feedkeys('<Esc>')
+  u.feedkeys("<Esc>")
   vim.api.nvim_buf_set_text(0, sr, sc, er, ec, text)
 end
 
 local function surround_link()
   local range = { u.to_api_range(u.get_visual_range()) }
-  local reg = vim.fn.getreg('*')
+  local reg = vim.fn.getreg("*")
   local default = false
   local text = vim.api.nvim_buf_get_text(0, range[1], range[2], range[3], range[4], {})
 
   -- TODO: find better way to check urls and paths
-  local re = vim.regex('^https*\\|www')
-  if type(reg) == 'string' and re and re:match_str(reg) then
+  local re = vim.regex("^https*\\|www")
+  if type(reg) == "string" and re and re:match_str(reg) then
     default = true
   end
 
   vim.ui.input({
-    prompt = 'Link:',
+    prompt = "Link:",
     default = default and reg or nil, -- Paste reg * if it contains url
   }, function(link)
     if not link then
       return
     end
-    surround('[', '](' .. link .. ')', range, text)
+    surround("[", "](" .. link .. ")", range, text)
   end)
 end
 
 local map = vim.keymap.set
 
-vim.api.nvim_create_autocmd('BufEnter', {
-  pattern = '*.md',
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*.md",
   callback = function()
     local buffer = vim.api.nvim_get_current_buf()
-    map('n', 'o', function()
-      continue_list_if_need('o')
+    map("n", "o", function()
+      continue_list_if_need("o")
     end, { buffer = buffer })
 
-    map('n', 'O', function()
-      continue_list_if_need('O', 'd')
+    map("n", "O", function()
+      continue_list_if_need("O", "d")
     end, { buffer = buffer })
 
-    map('i', '<Cr>', function()
-      continue_list_if_need('<Cr>')
+    map("i", "<Cr>", function()
+      continue_list_if_need("<Cr>")
     end, { buffer = buffer })
 
-    map('x', '<C-b>', function()
-      surround('**', '**')
+    map("x", "<C-b>", function()
+      surround("**", "**")
     end, { buffer = buffer })
 
-    map('x', '<C-i>', function()
-      surround('_', '_')
+    map("x", "<C-i>", function()
+      surround("_", "_")
     end, { buffer = buffer })
 
-    map('x', '<C-k>', surround_link, { buffer = buffer })
+    map("x", "<C-k>", surround_link, { buffer = buffer })
   end,
 })

@@ -1,4 +1,4 @@
-local u = require('utils')
+local u = require("utils")
 
 local function match(str)
   return function(regex)
@@ -18,12 +18,12 @@ end
 
 local function scandir(path, prefix, tree, ignore)
   for item, t in iter_dir(path) do
-    local file = path .. '/' .. item
+    local file = path .. "/" .. item
     if not u.some(ignore, match(item)) then
-      if t == 'directory' then
+      if t == "directory" then
         scandir(file, item, tree)
       else
-        local p = prefix == '' and item or prefix .. '/' .. item
+        local p = prefix == "" and item or prefix .. "/" .. item
         table.insert(tree, p)
       end
     end
@@ -34,24 +34,24 @@ local function detect_event(fname, fullpath, tree)
   local is_exist = vim.uv.fs_stat(fullpath)
   local is_watched = vim.tbl_contains(tree, fname)
 
-  local event_name = 'unknown'
+  local event_name = "unknown"
   local is_changed = is_watched and is_exist
   local is_deleted = is_watched and not is_exist
   local is_created = not is_watched
 
   if is_changed then
-    event_name = 'change'
+    event_name = "change"
   elseif is_created then
-    event_name = 'create'
+    event_name = "create"
   elseif is_deleted then
-    event_name = 'delete'
+    event_name = "delete"
   end
 
   return event_name
 end
 
 local function check_root(cwd, pattern)
-  pattern = type(pattern) == 'string' and { pattern } or pattern
+  pattern = type(pattern) == "string" and { pattern } or pattern
   pattern = vim.tbl_map(function(el)
     return cwd .. el
   end, pattern)
@@ -59,27 +59,27 @@ local function check_root(cwd, pattern)
 end
 
 local AUTOCMD = {
-  ['change'] = 'User WatcherChangedFile',
-  ['create'] = 'User WatcherCreatedFile',
-  ['delete'] = 'User WatcherDeletedFile',
-  ['rename'] = 'User WatcherRenamedFile', -- no implement. TODO: find how to detect renaming
+  ["change"] = "User WatcherChangedFile",
+  ["create"] = "User WatcherCreatedFile",
+  ["delete"] = "User WatcherDeletedFile",
+  ["rename"] = "User WatcherRenamedFile", -- no implement. TODO: find how to detect renaming
 }
 
 local Watcher = {}
 Watcher.__index = Watcher
 
 Watcher.new = function(path, opts, ignore, root_pattern)
-  path = path or vim.uv.cwd() .. '/'
+  path = path or vim.uv.cwd() .. "/"
   opts = opts or { watch_entry = false, stat = false, recursive = true }
-  ignore = ignore or { '^%.git', '%.git/', '%~$', '4913$' }
-  root_pattern = root_pattern or '.git/'
+  ignore = ignore or { "^%.git", "%.git/", "%~$", "4913$" }
+  root_pattern = root_pattern or ".git/"
   local run = true
   local tree = {}
 
   if not check_root(path, root_pattern) then
     run = false
   else
-    scandir(path, '', tree, ignore)
+    scandir(path, "", tree, ignore)
   end
 
   return setmetatable({
@@ -107,17 +107,17 @@ function Watcher:_add_file(fname)
 end
 
 function Watcher:_update_file_tree(event, fname)
-  if event == 'create' then
+  if event == "create" then
     self:_add_file(fname)
-  elseif event == 'delete' then
+  elseif event == "delete" then
     self:_remove_file(fname)
   end
 end
 
 function Watcher:_on_event(err, fname, status)
   if err then
-    local msg = err .. '. Try to restart watcher for ' .. self._path
-    vim.notify(msg, vim.log.levels.ERROR, { title = 'Watcher: ' })
+    local msg = err .. ". Try to restart watcher for " .. self._path
+    vim.notify(msg, vim.log.levels.ERROR, { title = "Watcher: " })
   end
 
   if not u.some(self._ignore, match(fname)) then
@@ -127,10 +127,10 @@ function Watcher:_on_event(err, fname, status)
     local autocmd = AUTOCMD[event]
 
     if autocmd then
-      local cbs = vim.list_extend(self['_on_' .. event], self._on_every)
+      local cbs = vim.list_extend(self["_on_" .. event], self._on_every)
 
       vim.cmd.doautocmd(autocmd)
-      print('Len cbs: ' .. #cbs)
+      print("Len cbs: " .. #cbs)
 
       for _, cb in ipairs(cbs) do
         cb(fname, fullpath, event, status)
@@ -148,33 +148,33 @@ function Watcher:print_tree()
 end
 
 function Watcher:on_create(cbs)
-  if type(cbs) == 'table' then
+  if type(cbs) == "table" then
     vim.list_extend(self._on_create, cbs)
-  elseif type(cbs) == 'function' then
+  elseif type(cbs) == "function" then
     table.insert(self._on_create, cbs)
   end
 end
 
 function Watcher:on_delete(cbs)
-  if type(cbs) == 'table' then
+  if type(cbs) == "table" then
     vim.list_extend(self._on_delete, cbs)
-  elseif type(cbs) == 'function' then
+  elseif type(cbs) == "function" then
     table.insert(self._on_delete, cbs)
   end
 end
 
 function Watcher:on_change(cbs)
-  if type(cbs) == 'table' then
+  if type(cbs) == "table" then
     vim.list_extend(self._on_change, cbs)
-  elseif type(cbs) == 'function' then
+  elseif type(cbs) == "function" then
     table.insert(self._on_change, cbs)
   end
 end
 
 function Watcher:on_any(cbs)
-  if type(cbs) == 'table' then
+  if type(cbs) == "table" then
     vim.list_extend(self._on_every, cbs)
-  elseif type(cbs) == 'function' then
+  elseif type(cbs) == "function" then
     table.insert(self._on_every, cbs)
   end
 end
@@ -183,12 +183,12 @@ function Watcher:start()
   self._w = vim.uv.new_fs_event()
 
   if not self._w then
-    vim.notify('Fail to call "vim.uv.new_fs_event()"', vim.log.levels.WARN, { title = 'Watcher: ' })
+    vim.notify('Fail to call "vim.uv.new_fs_event()"', vim.log.levels.WARN, { title = "Watcher: " })
     return
   end
 
   if not self._run then
-    vim.notify('Root pattern is not detected. Directory is not watch now', vim.log.levels.WARN, { title = 'Watcher: ' })
+    vim.notify("Root pattern is not detected. Directory is not watch now", vim.log.levels.WARN, { title = "Watcher: " })
     self._w:stop()
     return
   end

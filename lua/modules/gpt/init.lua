@@ -2,11 +2,11 @@
 local M = {}
 M.__index = M
 
-local gpt = require('modules.gpt.gpt').new()
+local gpt = require("modules.gpt.gpt").new()
 
 function M:open()
   if not gpt then
-    gpt = require('modules.gpt.gpt').new()
+    gpt = require("modules.gpt.gpt").new()
   end
 
   gpt:run()

@@ -1,9 +1,9 @@
 return {
-  'williamboman/mason.nvim',
+  "williamboman/mason.nvim",
   enabled = true,
-  event = 'UIEnter',
+  event = "UIEnter",
   config = function()
-    require('mason').setup({
+    require("mason").setup({
       ui = {
         border = PREF.ui.border,
       },

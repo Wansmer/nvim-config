@@ -1,4 +1,4 @@
-local s_ok, schemastore = pcall(require, 'schemastore')
+local s_ok, schemastore = pcall(require, "schemastore")
 
 local settings = {
   json = {

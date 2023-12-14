@@ -2,7 +2,7 @@ PREF = {
   common = {
     textwidth = 100,
     tabwidth = 2,
-    escape_keys = { 'jk', 'JK', 'jj' },
+    escape_keys = { "jk", "JK", "jj" },
   },
 
   lsp = {
@@ -13,26 +13,26 @@ PREF = {
     -- Use take_over_mode for Vue projects or not
     tom_enable = false,
     preinstall_servers = {
-      'tsserver',
-      'lua_ls',
-      'html',
-      'emmet_ls',
-      'marksman',
-      'cssls',
-      'jsonls',
-      'rust_analyzer',
-      'sqlls',
-      'bashls',
-      'dockerls',
-      'tailwindcss',
+      "tsserver",
+      "lua_ls",
+      "html",
+      "emmet_ls",
+      "marksman",
+      "cssls",
+      "jsonls",
+      "rust_analyzer",
+      "sqlls",
+      "bashls",
+      "dockerls",
+      "tailwindcss",
       -- 'ltex',
     },
   },
 
   ui = {
     ---(!) List of colorschemes lua/config/colorscheme/init.lua
-    colorscheme = 'serenity',
-    border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+    colorscheme = "serenity",
+    border = { " ", " ", " ", " ", " ", " ", " ", " " },
     italic_comment = true,
   },
 

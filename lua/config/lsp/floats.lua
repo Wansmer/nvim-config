@@ -1,7 +1,7 @@
 ---Additional settings for lsp hover and signature_help
 ---Based on https://github.com/MariaSolOs/dotfiles/blob/bda5388e484497b8c88d9137c627c0f24ec295d7/.config/nvim/lua/lsp.lua#L193
 
-local ns = vim.api.nvim_create_namespace('__lsp_float__')
+local ns = vim.api.nvim_create_namespace("__lsp_float__")
 
 local M = {}
 
@@ -13,17 +13,17 @@ M.float_opts = {
 
 local function set_float_hl(buf, win)
   local hls = {
-    ['|%S-|'] = '@text.reference',
-    ['@%S+'] = '@parameter',
-    ['^%s*(Parameters:)'] = '@text.title',
-    ['^%s*(Return:)'] = '@text.title',
-    ['^%s*(See also:)'] = '@text.title',
-    ['{%S-}'] = '@parameter',
+    ["|%S-|"] = "@text.reference",
+    ["@%S+"] = "@parameter",
+    ["^%s*(Parameters:)"] = "@text.title",
+    ["^%s*(Return:)"] = "@text.title",
+    ["^%s*(See also:)"] = "@text.title",
+    ["{%S-}"] = "@parameter",
   }
 
-  local ok, c = pcall(require, 'serenity.colors')
+  local ok, c = pcall(require, "serenity.colors")
   if ok then
-    vim.api.nvim_set_hl(ns, '@text.reference', { fg = c.blue, underline = true })
+    vim.api.nvim_set_hl(ns, "@text.reference", { fg = c.blue, underline = true })
     vim.api.nvim_win_set_hl_ns(win, ns)
   end
 
@@ -52,27 +52,27 @@ local function set_float_keymaps(buf)
   local function opener()
     -- Vim help links.
     ---@diagnostic disable-next-line: param-type-mismatch
-    local tag = (vim.fn.expand('<cWORD>')):match('|(%S-)|')
+    local tag = (vim.fn.expand("<cWORD>")):match("|(%S-)|")
     if tag then
       return vim.cmd.help(tag)
     end
 
     -- Markdown links.
     local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-    local from, to, url = vim.api.nvim_get_current_line():find('%[.-%]%((%S-)%)')
+    local from, to, url = vim.api.nvim_get_current_line():find("%[.-%]%((%S-)%)")
 
     if from and col >= from and col <= to then
-      vim.system({ 'open', url }, nil, function(res)
+      vim.system({ "open", url }, nil, function(res)
         if res.code ~= 0 then
-          vim.notify('Failed to open URL' .. url, vim.log.levels.ERROR)
+          vim.notify("Failed to open URL" .. url, vim.log.levels.ERROR)
         end
       end)
     end
   end
 
   -- Add keymaps for opening links.
-  vim.keymap.set('n', 'K', opener, { buffer = buf, silent = true })
-  vim.keymap.set('n', 'gx', opener, { buffer = buf, silent = true })
+  vim.keymap.set("n", "K", opener, { buffer = buf, silent = true })
+  vim.keymap.set("n", "gx", opener, { buffer = buf, silent = true })
 end
 
 ---LSP handler that adds extra inline highlights, keymaps, and window options.
@@ -82,15 +82,15 @@ end
 ---@return function
 local function on_float(handler, opts)
   return function(err, result, ctx, config)
-    config = vim.tbl_deep_extend('force', config or {}, opts or {})
-    local buf, win = handler(err, result, ctx, vim.tbl_deep_extend('force', config, M.float_opts))
+    config = vim.tbl_deep_extend("force", config or {}, opts or {})
+    local buf, win = handler(err, result, ctx, vim.tbl_deep_extend("force", config, M.float_opts))
 
     if not (buf and win) then
       return
     end
 
     -- Conceal everything.
-    vim.wo[win].concealcursor = 'n'
+    vim.wo[win].concealcursor = "n"
 
     set_float_hl(buf, win)
     set_float_keymaps(buf)
@@ -100,8 +100,8 @@ end
 ---Improves view of LSP hover and signature_help.
 function M.apply()
   local handlers = vim.lsp.handlers
-  handlers['textDocument/hover'] = on_float(handlers.hover, { silent = true })
-  handlers['textDocument/signatureHelp'] = on_float(handlers.signature_help)
+  handlers["textDocument/hover"] = on_float(handlers.hover, { silent = true })
+  handlers["textDocument/signatureHelp"] = on_float(handlers.signature_help)
 end
 
 return M

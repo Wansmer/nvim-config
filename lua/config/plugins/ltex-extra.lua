@@ -1,4 +1,4 @@
 return {
-  'barreiroleo/ltex-extra.nvim',
+  "barreiroleo/ltex-extra.nvim",
   enabled = false,
 }

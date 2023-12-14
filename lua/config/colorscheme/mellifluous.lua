@@ -1,6 +1,6 @@
-require('mellifluous').setup({
+require("mellifluous").setup({
   dim_inactive = false,
-  color_set = 'mountain', -- 'mellifluous', 'alduin', 'tender', 'mountain'
+  color_set = "mountain", -- 'mellifluous', 'alduin', 'tender', 'mountain'
   styles = { -- see :h attr-list for options. set {} for NONE, { option = true } for option
     comments = { italic = true },
     conditionals = {},

@@ -1,24 +1,24 @@
-local u = require('utils')
-local GROUP = vim.api.nvim_create_augroup('__autoimport__', { clear = true })
-local apply_action = require('modules.autoimport.code_action_api').apply_action
+local u = require("utils")
+local GROUP = vim.api.nvim_create_augroup("__autoimport__", { clear = true })
+local apply_action = require("modules.autoimport.code_action_api").apply_action
 
 local M = {}
 
 M.servers = {
   tsserver = {
     diagnostic_codes = { 2304, 2552 },
-    ft = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
-    patterns = { '^Add import', '^Update import' },
+    ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+    patterns = { "^Add import", "^Update import" },
   },
   volar = {
     diagnostic_codes = { 2304 },
-    ft = { 'vue', 'javascript', 'typescript' },
-    patterns = { '^Add import', '^Update import' },
+    ft = { "vue", "javascript", "typescript" },
+    patterns = { "^Add import", "^Update import" },
   },
   rust_analyzer = {
-    diagnostic_codes = { 'E0425' },
-    ft = { 'rust' },
-    patterns = { '^Import' },
+    diagnostic_codes = { "E0425" },
+    ft = { "rust" },
+    patterns = { "^Import" },
   },
 }
 
@@ -42,12 +42,12 @@ function M.autoimport(server)
   ---@param ctx lsp.HandlerContext
   local function on_result(err, result, ctx)
     if err then
-      vim.notify(err.message, vim.log.levels.WARN, { title = 'Autoimport' })
+      vim.notify(err.message, vim.log.levels.WARN, { title = "Autoimport" })
       return
     end
 
     if not result then
-      vim.notify('No result', vim.log.levels.WARN, { title = 'Autoimport' })
+      vim.notify("No result", vim.log.levels.WARN, { title = "Autoimport" })
       return
     end
 
@@ -80,18 +80,18 @@ function M.autoimport(server)
 
     local params = {
       textDocument = { uri = vim.uri_from_bufnr(bufnr) },
-      range = { start = d.range.start, ['end'] = d.range.start },
+      range = { start = d.range.start, ["end"] = d.range.start },
       context = context,
     }
 
-    client.request('textDocument/codeAction', params, on_result, bufnr)
+    client.request("textDocument/codeAction", params, on_result, bufnr)
   end
 end
 
 function M.run()
   for server, preset in pairs(M.servers) do
-    vim.api.nvim_create_autocmd('InsertLeave', {
-      desc = 'Autoimport for ' .. server,
+    vim.api.nvim_create_autocmd("InsertLeave", {
+      desc = "Autoimport for " .. server,
       group = GROUP,
       callback = function(e)
         if vim.tbl_contains(preset.ft, vim.bo[e.buf].ft) then

@@ -11,9 +11,9 @@ local ru = [[ёйцукенгшщзхъфывапролджэячсмить]]
 local en_shift = [[~QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>]]
 local ru_shift = [[ËЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ]]
 local langmap = vim.fn.join({
-  escape(ru_shift) .. ';' .. escape(en_shift),
-  escape(ru) .. ';' .. escape(en),
-}, ',')
+  escape(ru_shift) .. ";" .. escape(en_shift),
+  escape(ru) .. ";" .. escape(en),
+}, ",")
 
 local options = {
   -- ==========================================================================
@@ -38,21 +38,21 @@ local options = {
   pumheight = 10,
   showtabline = 0,
   cursorline = true,
-  signcolumn = 'yes',
+  signcolumn = "yes",
   scrolloff = 3,
   sidescrolloff = 3,
   colorcolumn = tostring(textwidth),
   laststatus = 3,
   fillchars = {
-    eob = ' ',
-    fold = ' ',
-    foldopen = '',
-    foldclose = '',
-    foldsep = ' ', -- or "│" to use bar for show fold area
+    eob = " ",
+    fold = " ",
+    foldopen = "",
+    foldclose = "",
+    foldsep = " ", -- or "│" to use bar for show fold area
   },
   title = false,
-  statuscolumn = require('modules.status').column(),
-  statusline = require('modules.status').line(),
+  statuscolumn = require("modules.status").column(),
+  statusline = require("modules.status").line(),
 
   -- ==========================================================================
   -- Text
@@ -68,18 +68,18 @@ local options = {
   smartcase = true,
   hlsearch = true,
   infercase = true,
-  grepprg = 'rg --vimgrep',
+  grepprg = "rg --vimgrep",
 
   -- ==========================================================================
   -- Folding
   -- ==========================================================================
-  foldcolumn = '1',
+  foldcolumn = "1",
   foldlevel = 99,
   foldlevelstart = 99,
   foldenable = true,
-  foldmethod = 'expr',
-  foldexpr = 'v:lua.vim.treesitter.foldexpr()',
-  foldtext = require('modules.foldtext'),
+  foldmethod = "expr",
+  foldexpr = "v:lua.vim.treesitter.foldexpr()",
+  foldtext = require("modules.foldtext"),
 
   -- ==========================================================================
   -- Other
@@ -88,17 +88,17 @@ local options = {
   undofile = true,
   splitright = true,
   splitbelow = true,
-  mouse = 'a',
-  clipboard = 'unnamedplus',
+  mouse = "a",
+  clipboard = "unnamedplus",
   backup = false,
   swapfile = false,
-  completeopt = { 'menuone', 'noselect' },
-  winbar = ' ',
+  completeopt = { "menuone", "noselect" },
+  winbar = " ",
   spell = false,
-  spelllang = 'en_us,ru_ru',
-  whichwrap = vim.opt.whichwrap:append('<,>,[,],h,l'),
-  shortmess = vim.opt.shortmess:append('c'),
-  iskeyword = vim.opt.iskeyword:append('-'),
+  spelllang = "en_us,ru_ru",
+  whichwrap = vim.opt.whichwrap:append("<,>,[,],h,l"),
+  shortmess = vim.opt.shortmess:append("c"),
+  iskeyword = vim.opt.iskeyword:append("-"),
   langmap = langmap,
   smoothscroll = true,
 }
@@ -109,6 +109,6 @@ for option_name, value in pairs(options) do
   if ok then
     vim.opt[option_name] = value
   else
-    vim.notify('Option ' .. option_name .. ' is not supported', vim.log.levels.WARN)
+    vim.notify("Option " .. option_name .. " is not supported", vim.log.levels.WARN)
   end
 end

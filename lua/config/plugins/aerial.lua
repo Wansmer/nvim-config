@@ -1,22 +1,22 @@
 return {
-  'stevearc/aerial.nvim',
+  "stevearc/aerial.nvim",
   enabled = true,
-  event = 'LspAttach',
+  event = "LspAttach",
   init = function()
-    vim.keymap.set('n', '<localleader>v', '<cmd>AerialToggle<CR>')
+    vim.keymap.set("n", "<localleader>v", "<cmd>AerialToggle<CR>")
   end,
   dependencies = {
-    'nvim-treesitter/nvim-treesitter',
-    'nvim-tree/nvim-web-devicons',
+    "nvim-treesitter/nvim-treesitter",
+    "nvim-tree/nvim-web-devicons",
   },
   config = function()
-    require('aerial').setup({
+    require("aerial").setup({
       layout = {
         width = 30,
-        win_opts = { statuscolumn = ' ' },
+        win_opts = { statuscolumn = " " },
       },
       autojump = true,
-      post_jump_cmd = 'normal! zt',
+      post_jump_cmd = "normal! zt",
       show_guides = true,
     })
   end,

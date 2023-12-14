@@ -1,4 +1,4 @@
-require('monokai-pro').setup({
+require("monokai-pro").setup({
   transparent_background = false,
   terminal_colors = true,
   devicons = false, -- highlight the icons of `nvim-web-devicons`
@@ -12,14 +12,14 @@ require('monokai-pro').setup({
     annotation = { italic = false },
     tag_attribute = { italic = false }, -- attribute of tag in reactjs
   },
-  filter = 'octagon', -- classic | octagon | pro | machine | ristretto | spectrum
+  filter = "octagon", -- classic | octagon | pro | machine | ristretto | spectrum
   -- Enable this will disable filter option
   day_night = {
     enable = false, -- turn off by default
-    day_filter = 'octagon', -- classic | octagon | pro | machine | ristretto | spectrum
-    night_filter = 'octagon', -- classic | octagon | pro | machine | ristretto | spectrum
+    day_filter = "octagon", -- classic | octagon | pro | machine | ristretto | spectrum
+    night_filter = "octagon", -- classic | octagon | pro | machine | ristretto | spectrum
   },
-  inc_search = 'background', -- underline | background
+  inc_search = "background", -- underline | background
   background_clear = {}, -- "float_win", "toggleterm", "telescope", "which-key", "renamer", "neo-tree"
   plugins = {
     bufferline = {
@@ -27,7 +27,7 @@ require('monokai-pro').setup({
       underline_visible = false,
     },
     indent_blankline = {
-      context_highlight = 'default', -- default | pro
+      context_highlight = "default", -- default | pro
       context_start_underline = false,
     },
   },
@@ -35,7 +35,7 @@ require('monokai-pro').setup({
   ---@diagnostic disable-next-line: unused-local
   override = function(c)
     return {
-      FloatBorder = { link = 'NormalFloat' },
+      FloatBorder = { link = "NormalFloat" },
       TelescopePromptBorder = { bg = c.base.black, fg = c.base.black },
       TelescopePromptNormal = { bg = c.base.black },
       TelescopeResultsBorder = { bg = c.base.dimmed5, fg = c.base.dimmed5 },

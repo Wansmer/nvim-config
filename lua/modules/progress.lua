@@ -2,7 +2,7 @@
 -- Buffer number and window id for the floating window
 local bufnr
 local winid
-local spinner = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' }
+local spinner = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
 local idx = 0
 -- Progress is done or not
 local isDone = true
@@ -19,11 +19,11 @@ local function get_lsp_progress_msg()
     local messages = {}
     for progress in client.progress do
       local value = progress.value
-      if type(value) == 'table' and value.kind then
-        if value.kind ~= 'end' then
+      if type(value) == "table" and value.kind then
+        if value.kind ~= "end" then
           isDone = false
         end
-        local message = value.message and (value.title .. ': ' .. value.message) or value.title
+        local message = value.message and (value.title .. ": " .. value.message) or value.title
         messages[#messages + 1] = message
         if value.percentage then
           percentage = math.max(percentage or 0, value.percentage)
@@ -31,13 +31,13 @@ local function get_lsp_progress_msg()
       end
     end
     if next(messages) ~= nil then
-      table.insert(all_messages, '[' .. client.name .. '] ' .. table.concat(messages, ', '))
+      table.insert(all_messages, "[" .. client.name .. "] " .. table.concat(messages, ", "))
     end
   end
-  local message = table.concat(all_messages, ' | ')
+  local message = table.concat(all_messages, " | ")
   -- Show percentage
   if percentage then
-    message = string.format('%3d%%: %s', percentage, message)
+    message = string.format("%3d%%: %s", percentage, message)
   end
   -- Show spinner
   idx = idx == #spinner * 4 and 1 or idx + 1
@@ -45,8 +45,8 @@ local function get_lsp_progress_msg()
   return message
 end
 
-vim.api.nvim_create_autocmd({ 'LspProgress' }, {
-  pattern = '*',
+vim.api.nvim_create_autocmd({ "LspProgress" }, {
+  pattern = "*",
   callback = function()
     -- The row position of the floating window. Just right above the status line.
     local win_row = vim.o.lines - vim.o.cmdheight - 4
@@ -58,24 +58,24 @@ vim.api.nvim_create_autocmd({ 'LspProgress' }, {
     then
       bufnr = vim.api.nvim_create_buf(false, true)
       winid = vim.api.nvim_open_win(bufnr, false, {
-        relative = 'editor',
+        relative = "editor",
         width = #message,
         height = 1,
         row = win_row,
         col = vim.o.columns - #message,
-        style = 'minimal',
+        style = "minimal",
         noautocmd = true,
         border = vim.g.border_style,
       })
     else
       vim.api.nvim_win_set_config(winid, {
-        relative = 'editor',
+        relative = "editor",
         width = #message,
         row = win_row,
         col = vim.o.columns - #message,
       })
     end
-    vim.wo[winid].winhl = 'Normal:Normal'
+    vim.wo[winid].winhl = "Normal:Normal"
     vim.api.nvim_buf_set_lines(bufnr, 0, 1, false, { message })
     if isDone then
       if vim.api.nvim_win_is_valid(winid) then

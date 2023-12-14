@@ -5,31 +5,31 @@
 -- (if the opposite word longer when current word,
 -- the tail of opposite will be the same case as the last char case of current)
 
-local u = require('utils')
+local u = require("utils")
 local M = {}
 
 ---Every key and value should be in lowercase
 local opposites = vim.tbl_add_reverse_lookup({
-  ['top'] = 'bottom',
-  ['before'] = 'after',
-  ['start'] = 'end',
-  ['first'] = 'last',
-  ['next'] = 'prev',
-  ['vim'] = 'emacs',
-  ['true'] = 'false',
-  ['yes'] = 'no',
-  ['on'] = 'off',
-  ['left'] = 'right',
-  ['up'] = 'down',
-  ['split'] = 'join',
-  ['const'] = 'let',
-  ['open'] = 'close',
-  ['global'] = 'local',
-  ['increment'] = 'decrement',
+  ["top"] = "bottom",
+  ["before"] = "after",
+  ["start"] = "end",
+  ["first"] = "last",
+  ["next"] = "prev",
+  ["vim"] = "emacs",
+  ["true"] = "false",
+  ["yes"] = "no",
+  ["on"] = "off",
+  ["left"] = "right",
+  ["up"] = "down",
+  ["split"] = "join",
+  ["const"] = "let",
+  ["open"] = "close",
+  ["global"] = "local",
+  ["increment"] = "decrement",
   -- TODO: below is not working. Need fix
-  ['!='] = '==',
-  ['!=='] = '===',
-  ['<'] = '>',
+  ["!="] = "==",
+  ["!=="] = "===",
+  ["<"] = ">",
 })
 
 ---Convert string's chars to same case like base string
@@ -39,8 +39,8 @@ local opposites = vim.tbl_add_reverse_lookup({
 ---@param str string String to convert
 ---@return string
 local function to_same_register(base, str)
-  local base_list = vim.split(base, '', { plain = true })
-  local target_list = vim.split(str, '', { plain = true })
+  local base_list = vim.split(base, "", { plain = true })
+  local target_list = vim.split(str, "", { plain = true })
 
   for i, ch in ipairs(target_list) do
     local lower = u.is_lower(base_list[i] or base_list[#base_list])
@@ -53,7 +53,7 @@ end
 ---Toggle word (<cword>) under cursor to opposite value.
 function M.toggle_word()
   -- Get text under cursor
-  local text = vim.fn.expand('<cword>')
+  local text = vim.fn.expand("<cword>")
 
   -- Checking if the symbol under cursor is a part of received word
   -- (required to prevent wrong inserting, when cursor at punctuation and whitespace before the target word)

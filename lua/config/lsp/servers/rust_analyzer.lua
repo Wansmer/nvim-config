@@ -1,10 +1,10 @@
 return {
   settings = {
-    ['rust-analyzer'] = {
+    ["rust-analyzer"] = {
       diagnostics = { enable = true },
-      cargo = { features = 'all' },
+      cargo = { features = "all" },
       checkOnSave = true,
-      check = { command = 'clippy' },
+      check = { command = "clippy" },
       inlayHints = {
         enabled = false,
         expressionAdjustmentHints = { enable = false }, -- do not enable

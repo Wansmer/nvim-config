@@ -1,5 +1,5 @@
 -- Temporary solution for checks if git is 'dirty'
-if vim.fn.has('nvim-0.10') ~= 1 then
+if vim.fn.has("nvim-0.10") ~= 1 then
   return
 end
 
@@ -10,12 +10,12 @@ local function set_interval(callback, interval)
 end
 
 local function update_git_status()
-  vim.system({ 'git', 'status', '--porcelain' }, { text = true, timeout = 1000 }, function(res)
+  vim.system({ "git", "status", "--porcelain" }, { text = true, timeout = 1000 }, function(res)
     if res.signal ~= 0 then
       return
     end
     local prev_dirty = vim.g.__git_dirty
-    local new_dirty = vim.trim(res.stdout) ~= ''
+    local new_dirty = vim.trim(res.stdout) ~= ""
     if prev_dirty ~= new_dirty then
       vim.g.__git_dirty = new_dirty
     end
@@ -23,7 +23,7 @@ local function update_git_status()
 end
 
 local function update_git_branch()
-  vim.system({ 'git', 'branch', '--show-current' }, { text = true, timeout = 1000 }, function(res)
+  vim.system({ "git", "branch", "--show-current" }, { text = true, timeout = 1000 }, function(res)
     if res.signal ~= 0 then
       return
     end
@@ -42,15 +42,15 @@ end
 
 local interval_timer
 
-vim.api.nvim_create_autocmd('VimEnter', {
+vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    vim.g.__git_branch = ''
+    vim.g.__git_branch = ""
     vim.g.__git_dirty = false
     interval_timer = set_interval(update_git, 3000)
   end,
 })
 
-vim.api.nvim_create_autocmd('VimLeavePre', {
+vim.api.nvim_create_autocmd("VimLeavePre", {
   callback = function()
     if interval_timer then
       interval_timer:stop()

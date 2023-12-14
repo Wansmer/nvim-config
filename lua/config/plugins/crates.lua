@@ -1,11 +1,11 @@
 return {
-  'saecki/crates.nvim',
+  "saecki/crates.nvim",
   enabled = false,
-  event = { 'BufRead Cargo.toml' },
+  event = { "BufRead Cargo.toml" },
   requires = {
-    { 'nvim-lua/plenary.nvim' },
+    { "nvim-lua/plenary.nvim" },
   },
   config = function()
-    require('crates').setup({})
+    require("crates").setup({})
   end,
 }

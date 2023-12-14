@@ -1,8 +1,8 @@
 return {
-  'b0o/incline.nvim',
+  "b0o/incline.nvim",
   enabled = false,
-  event = 'VeryLazy',
+  event = "VeryLazy",
   config = function()
-    require('incline').setup()
+    require("incline").setup()
   end,
 }

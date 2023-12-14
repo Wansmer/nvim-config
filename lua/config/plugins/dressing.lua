@@ -1,16 +1,16 @@
 return {
-  'stevearc/dressing.nvim',
+  "stevearc/dressing.nvim",
   enabled = true,
-  event = 'VeryLazy',
+  event = "VeryLazy",
   config = function()
-    local dressing = require('dressing')
+    local dressing = require("dressing")
     dressing.setup({
       input = {
         -- Set to false to disable the vim.ui.input implementation
         enabled = true,
 
         -- Can be 'left', 'right', or 'center'
-        prompt_align = 'left',
+        prompt_align = "left",
 
         -- When true, <Esc> will close the modal
         insert_only = true,
@@ -19,9 +19,9 @@ return {
         start_in_insert = true,
 
         -- These are passed to nvim_open_win
-        border = 'single',
+        border = "single",
         -- 'editor' and 'win' will default to being centered
-        relative = 'cursor',
+        relative = "cursor",
 
         -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
         prefer_width = 15,
@@ -35,20 +35,20 @@ return {
           -- Window transparency (0-100)
           winblend = 0,
           -- Change default highlight groups (see :help winhl)
-          winhighlight = '',
+          winhighlight = "",
         },
 
         -- Set to `false` to disable
         mappings = {
           n = {
-            ['<Esc>'] = 'Close',
-            ['<CR>'] = 'Confirm',
+            ["<Esc>"] = "Close",
+            ["<CR>"] = "Confirm",
           },
           i = {
-            ['<C-c>'] = 'Close',
-            ['<CR>'] = 'Confirm',
-            ['<Up>'] = 'HistoryPrev',
-            ['<Down>'] = 'HistoryNext',
+            ["<C-c>"] = "Close",
+            ["<CR>"] = "Confirm",
+            ["<Up>"] = "HistoryPrev",
+            ["<Down>"] = "HistoryNext",
           },
         },
         -- see :help dressing_get_config
@@ -65,7 +65,7 @@ return {
         enabled = true,
 
         -- Priority list of preferred vim.select implementations
-        backend = { 'telescope', 'fzf_lua', 'fzf', 'builtin', 'nui' },
+        backend = { "telescope", "fzf_lua", "fzf", "builtin", "nui" },
         -- backend = { 'telescope' },
 
         -- Trim trailing `:` from prompt
@@ -94,15 +94,15 @@ return {
 
         -- Options for nui Menu
         nui = {
-          position = '50%',
+          position = "50%",
           size = nil,
-          relative = 'editor',
+          relative = "editor",
           border = {
-            style = 'rounded',
+            style = "rounded",
           },
           buf_options = {
             swapfile = false,
-            filetype = 'DressingSelect',
+            filetype = "DressingSelect",
           },
           win_options = {
             winblend = 10,
@@ -116,15 +116,15 @@ return {
         -- Options for built-in selector
         builtin = {
           -- These are passed to nvim_open_win
-          border = 'single',
+          border = "single",
           -- 'editor' and 'win' will default to being centered
-          relative = 'editor',
+          relative = "editor",
 
           win_options = {
             -- Window transparency (0-100)
             winblend = 0,
             -- Change default highlight groups (see :help winhl)
-            winhighlight = '',
+            winhighlight = "",
           },
 
           -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
@@ -139,9 +139,9 @@ return {
 
           -- Set to `false` to disable
           mappings = {
-            ['<Esc>'] = 'Close',
-            ['<C-c>'] = 'Close',
-            ['<CR>'] = 'Confirm',
+            ["<Esc>"] = "Close",
+            ["<C-c>"] = "Close",
+            ["<CR>"] = "Confirm",
           },
 
           override = function(conf)

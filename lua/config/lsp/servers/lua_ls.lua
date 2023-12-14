@@ -5,16 +5,16 @@ local settings = {
   Lua = {
     hint = {
       enable = true,
-      arrayIndex = 'Disable',
+      arrayIndex = "Disable",
     },
     diagnostics = {
-      globals = { 'vim', 'USER_SETTINGS' },
-      disable = { 'missing-fields' },
+      globals = { "vim", "USER_SETTINGS" },
+      disable = { "missing-fields" },
     },
     workspace = {
       library = {
-        [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-        [vim.fn.stdpath('config') .. '/lua'] = true,
+        [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+        [vim.fn.stdpath("config") .. "/lua"] = true,
       },
       checkThirdParty = false,
     },
@@ -25,7 +25,7 @@ local settings = {
       enable = false,
     },
     completion = {
-      callSnippet = 'Replace',
+      callSnippet = "Replace",
     },
   },
 }

@@ -1,23 +1,23 @@
 -- Don't forget to call `:DevdocsFetch`  during the first installation.
 return {
-  'luckasRanarison/nvim-devdocs',
+  "luckasRanarison/nvim-devdocs",
   enabled = true,
   lazy = false,
   dependencies = {
-    'nvim-lua/plenary.nvim',
-    'nvim-telescope/telescope.nvim',
-    'nvim-treesitter/nvim-treesitter',
+    "nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope.nvim",
+    "nvim-treesitter/nvim-treesitter",
   },
   config = function()
-    require('nvim-devdocs').setup({
+    require("nvim-devdocs").setup({
       ensure_installed = {
-        'rust',
-        'javascript',
-        'vue~3',
-        'go',
-        'lua~5.3',
-        'html',
-        'css',
+        "rust",
+        "javascript",
+        "vue~3",
+        "go",
+        "lua~5.3",
+        "html",
+        "css",
       },
     })
   end,

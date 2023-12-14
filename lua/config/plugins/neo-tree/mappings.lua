@@ -1,9 +1,9 @@
-local u = require('utils')
-local fs_commands = require('neo-tree/sources/filesystem/commands')
+local u = require("utils")
+local fs_commands = require("neo-tree/sources/filesystem/commands")
 
 local function cd_or_open(state)
   local node = state.tree:get_node()
-  if node.type ~= 'directory' then
+  if node.type ~= "directory" then
     -- TODO: check if no window is present
     fs_commands.open_with_window_picker(state)
   end
@@ -19,17 +19,17 @@ local function copy_path_to_clipboard(mode)
       return path
     end,
     rel_home = function(path)
-      return vim.fn.fnamemodify(path, ':~')
+      return vim.fn.fnamemodify(path, ":~")
     end,
     rel_cwd = function(path)
-      return vim.fn.fnamemodify(path, ':.')
+      return vim.fn.fnamemodify(path, ":.")
     end,
   }
 
   return function(state)
     local node = state.tree:get_node()
     local filepath = modes[mode](node:get_id())
-    vim.fn.setreg('+', filepath)
+    vim.fn.setreg("+", filepath)
   end
 end
 
@@ -42,24 +42,24 @@ end
 return {
   window = {
     -- Override default mappings
-    ['l'] = 'open_with_window_picker',
-    ['o'] = 'open',
-    ['<cr>'] = cd_or_open,
-    ['<C-g>'] = 'split_with_window_picker',
-    ['<C-v>'] = 'vsplit_with_window_picker',
-    ['s'] = false,
-    ['S'] = false,
-    ['z'] = 'close_node',
-    ['Z'] = 'close_all_nodes',
-    ['?'] = false,
-    ['g?'] = 'show_help',
-    ['<S-TAB>'] = 'prev_source',
-    ['<TAB>'] = 'next_source',
-    ['a'] = 'add',
-    ['Y'] = copy_path_to_clipboard('full'),
-    ['gY'] = copy_path_to_clipboard('rel_home'),
-    ['gy'] = copy_path_to_clipboard('rel_cwd'),
-    ['K'] = image_previes,
+    ["l"] = "open_with_window_picker",
+    ["o"] = "open",
+    ["<cr>"] = cd_or_open,
+    ["<C-g>"] = "split_with_window_picker",
+    ["<C-v>"] = "vsplit_with_window_picker",
+    ["s"] = false,
+    ["S"] = false,
+    ["z"] = "close_node",
+    ["Z"] = "close_all_nodes",
+    ["?"] = false,
+    ["g?"] = "show_help",
+    ["<S-TAB>"] = "prev_source",
+    ["<TAB>"] = "next_source",
+    ["a"] = "add",
+    ["Y"] = copy_path_to_clipboard("full"),
+    ["gY"] = copy_path_to_clipboard("rel_home"),
+    ["gy"] = copy_path_to_clipboard("rel_cwd"),
+    ["K"] = image_previes,
 
     -- Default window mappings
     -- ['<space>'] = {
@@ -107,9 +107,9 @@ return {
 
   filesystem = {
     -- Override default mappings
-    ['-'] = 'navigate_up',
-    ['.'] = 'toggle_hidden',
-    ['/'] = false,
+    ["-"] = "navigate_up",
+    ["."] = "toggle_hidden",
+    ["/"] = false,
 
     -- Default filesystem mappings
     -- ['H'] = 'toggle_hidden',

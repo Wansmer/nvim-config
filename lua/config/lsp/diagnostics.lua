@@ -2,10 +2,10 @@ local config = {
   virtual_text = PREF.lsp.virtual_text,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = '',
-      [vim.diagnostic.severity.WARN] = '',
-      [vim.diagnostic.severity.HINT] = '',
-      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.HINT] = "",
+      [vim.diagnostic.severity.INFO] = "",
     },
   },
   underline = true,
@@ -14,7 +14,7 @@ local config = {
   float = {
     source = true,
     focusable = true,
-    style = 'minimun',
+    style = "minimun",
     border = PREF.ui.border,
   },
 }

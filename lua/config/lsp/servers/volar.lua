@@ -1,12 +1,12 @@
-local util = require('lspconfig.util')
-local cssls = require('config.lsp.servers.cssls')
+local util = require("lspconfig.util")
+local cssls = require("config.lsp.servers.cssls")
 
 local function get_typescript_server_path(root_dir)
   -- TODO: implement dynamic search of `typescript`
-  local global_ts = '/opt/homebrew/lib/node_modules/typescript/lib'
-  local found_ts = ''
+  local global_ts = "/opt/homebrew/lib/node_modules/typescript/lib"
+  local found_ts = ""
   local function check_dir(path)
-    found_ts = util.path.join(path, 'node_modules', 'typescript', 'lib')
+    found_ts = util.path.join(path, "node_modules", "typescript", "lib")
     if util.path.exists(found_ts) then
       return path
     end
@@ -19,16 +19,16 @@ local function get_typescript_server_path(root_dir)
 end
 
 local tom_fts = {
-  'vue',
-  'typescript',
-  'javascript',
-  'javascriptreact',
-  'typescriptreact',
-  'json',
+  "vue",
+  "typescript",
+  "javascript",
+  "javascriptreact",
+  "typescriptreact",
+  "json",
 }
 
 local vue_fts = {
-  'vue',
+  "vue",
 }
 
 local is_take_over_mode = PREF.lsp.tom_enable
@@ -51,14 +51,14 @@ return {
       renameFileRefactoring = true,
       signatureHelp = true,
       completion = {
-        defaultAttrNameCase = 'kebabCase',
-        defaultTagNameCase = 'kebabCase',
+        defaultAttrNameCase = "kebabCase",
+        defaultTagNameCase = "kebabCase",
       },
       inlayHints = true,
       diagnostics = true,
       codeLens = {
         showReferencesNotification = true,
-      }
+      },
     },
   },
   on_new_config = function(new_config, new_root_dir)

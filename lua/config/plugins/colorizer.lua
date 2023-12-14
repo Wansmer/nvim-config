@@ -1,20 +1,20 @@
 return {
-  'NvChad/nvim-colorizer.lua',
+  "NvChad/nvim-colorizer.lua",
   enabled = true,
   ft = {
-    'vue',
-    'javascript',
-    'typescript',
-    'javascriptreact',
-    'typescriptreact',
-    'lua',
-    'scc',
-    'scss',
+    "vue",
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "lua",
+    "scc",
+    "scss",
   },
   config = function()
-    require('colorizer').setup({
+    require("colorizer").setup({
       -- filetypes = { 'vue', 'js', 'lua', 'scc', 'scss', 'ts' },
-      filetypes = { '*' },
+      filetypes = { "*" },
       user_default_options = {
         RGB = true, -- #RGB hex codes
         RRGGBB = true, -- #RRGGBB hex codes
@@ -26,16 +26,16 @@ return {
         css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
         css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
         -- Available modes for `mode`: foreground, background,  virtualtext
-        mode = 'background', -- Set the display mode.
+        mode = "background", -- Set the display mode.
         -- Available methods are false / true / "normal" / "lsp" / "both"
         -- True is same as normal
         tailwind = false, -- Enable tailwind colors
         -- parsers can contain values used in |user_default_options|
         sass = {
           enable = false,
-          parsers = { 'css' },
+          parsers = { "css" },
         }, -- Enable sass colors
-        virtualtext = '■',
+        virtualtext = "■",
         -- update color values even if buffer is not focused
         -- example use: cmp_menu, cmp_docs
         always_update = false,

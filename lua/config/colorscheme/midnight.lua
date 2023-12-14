@@ -1,1 +1,1 @@
-require('midnight').setup({})
+require("midnight").setup({})

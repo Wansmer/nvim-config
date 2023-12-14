@@ -1,5 +1,5 @@
-require('tokyonight').setup({
-  style = 'night', -- night, moon, storm
+require("tokyonight").setup({
+  style = "night", -- night, moon, storm
   transparent = false,
   terminal_colors = true,
   styles = {
@@ -7,9 +7,9 @@ require('tokyonight').setup({
     keywords = { italic = true },
     functions = {},
     variables = {},
-    sidebars = 'dark',
-    floats = 'dark',
+    sidebars = "dark",
+    floats = "dark",
   },
-  sidebars = { 'qf', 'help' },
+  sidebars = { "qf", "help" },
   dim_inactive = true,
 })
