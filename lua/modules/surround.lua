@@ -30,6 +30,8 @@ end
 
 local function get_char()
   local ok, char = pcall(vim.fn.getcharstr)
+  local ok_lm, lm = pcall(require, "langmapper.utils")
+  char = (ok and ok_lm) and lm.translate_keycode(char, "default", "ru") or char
   return ok and char or nil
 end
 
