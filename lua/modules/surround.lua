@@ -34,16 +34,27 @@ local function get_char()
 end
 
 local function change_surround(from, to)
-  if paired[from] then
-    local from_left, from_right = unpack(paired[from])
-    local to_left = paired[to] and paired[to][1] or ""
-    local to_right = paired[to] and paired[to][2] or ""
-    local cursor = vim.api.nvim_win_get_cursor(0)
-
+  if paired[from] or from == "t" then
     vim.cmd.normal("va" .. from)
+    local cursor = vim.api.nvim_win_get_cursor(0)
     local sr, sc, er, ec = u.to_api_range(u.get_visual_range())
-
     local lines = vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {})
+    local from_left, from_right, to_left, to_right
+
+    if from == "t" then
+      local function extract_tags(lines)
+        local str = table.concat(lines, "\n")
+        local tags = vim.iter(str:gmatch("<.->"))
+        return tags:nth(1), tags:last()
+      end
+
+      from_left, from_right = extract_tags(lines)
+    else
+      from_left, from_right = unpack(paired[from])
+    end
+
+    to_left = paired[to] and paired[to][1] or ""
+    to_right = paired[to] and paired[to][2] or ""
 
     lines[1] = replace_non_blank(lines[1], "left", from_left, to_left)
     lines[#lines] = replace_non_blank(lines[#lines], "right", from_right, to_right)
@@ -53,9 +64,7 @@ local function change_surround(from, to)
     vim.api.nvim_win_set_cursor(0, cursor)
   end
 end
-
 local Surround = {}
-
 Surround.replace_surround = change_surround
 Surround.remove_surround = change_surround
 Surround.add_surround = function(char, is_v)
