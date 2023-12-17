@@ -32,9 +32,27 @@ return {
         noautocmd = true,
       },
       on_open = function(term)
-        local ns = vim.api.nvim_create_namespace("ToggleTerm")
-        vim.api.nvim_set_hl(ns, "Normal", { link = "TTNormal" })
-        vim.api.nvim_set_hl(ns, "FloatBorder", { link = "TTBorder" })
+        local map = vim.keymap.set
+
+        map({ "t", "i", "n" }, "<C-=>", function()
+          local win_opts = vim.api.nvim_win_get_config(term.window)
+          if win_opts.height <= vim.opt.lines:get() - 5 then
+            win_opts.height = win_opts.height + 5
+            vim.api.nvim_win_set_config(term.window, win_opts)
+          end
+        end, { buffer = term.buf })
+
+        map({ "t", "i", "n" }, "<C-->", function()
+          local win_opts = vim.api.nvim_win_get_config(term.window)
+          if win_opts.height > 5 then
+            win_opts.height = win_opts.height - 5
+            vim.api.nvim_win_set_config(term.window, win_opts)
+          end
+        end, { buffer = term.buf })
+
+        local ns = vim.api.nvim_create_namespace("__ToggleTerm")
+        vim.api.nvim_set_hl(ns, "Normal", { bg = "#000000" })
+        vim.api.nvim_set_hl(ns, "FloatBorder", { bg = "#000000", fg = "#000000" })
         vim.api.nvim_win_set_hl_ns(term.window, ns)
       end,
     })
