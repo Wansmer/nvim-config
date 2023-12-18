@@ -34,21 +34,22 @@ return {
       on_open = function(term)
         local map = vim.keymap.set
 
-        map({ "t", "i", "n" }, "<C-=>", function()
-          local win_opts = vim.api.nvim_win_get_config(term.window)
-          if win_opts.height <= vim.opt.lines:get() - 5 then
-            win_opts.height = win_opts.height + 5
-            vim.api.nvim_win_set_config(term.window, win_opts)
+        ---Resize the terminal
+        ---@param mode boolean true is increase, false is decrease
+        ---@param step number lines count to increase or decrease
+        local function resize(mode, step)
+          return function()
+            local win_opts = vim.api.nvim_win_get_config(term.window)
+            local cond = mode and (win_opts.height <= vim.opt.lines:get() - step) or (win_opts.height > step)
+            if cond then
+              win_opts.height = win_opts.height + (mode and step or (step * -1))
+              vim.api.nvim_win_set_config(term.window, win_opts)
+            end
           end
-        end, { buffer = term.buf })
+        end
 
-        map({ "t", "i", "n" }, "<C-->", function()
-          local win_opts = vim.api.nvim_win_get_config(term.window)
-          if win_opts.height > 5 then
-            win_opts.height = win_opts.height - 5
-            vim.api.nvim_win_set_config(term.window, win_opts)
-          end
-        end, { buffer = term.buf })
+        map({ "t", "i", "n" }, "<C-=>", resize(true, 5), { buffer = term.bufnr })
+        map({ "t", "i", "n" }, "<C-->", resize(false, 5), { buffer = term.bufnr })
 
         local ns = vim.api.nvim_create_namespace("__ToggleTerm")
         vim.api.nvim_set_hl(ns, "Normal", { bg = "#000000" })
