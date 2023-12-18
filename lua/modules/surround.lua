@@ -12,6 +12,7 @@ local paired = {
   ["}"] = { "{ ", " }" },
   [")"] = { "( ", " )" },
   [">"] = { "< ", " >" },
+  ["*"] = { "*", "*" },
 }
 
 local function replace_non_blank(line, side, from, to)
