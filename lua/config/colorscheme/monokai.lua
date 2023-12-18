@@ -12,7 +12,7 @@ require("monokai-pro").setup({
     annotation = { italic = false },
     tag_attribute = { italic = false }, -- attribute of tag in reactjs
   },
-  filter = "octagon", -- classic | octagon | pro | machine | ristretto | spectrum
+  filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
   -- Enable this will disable filter option
   day_night = {
     enable = false, -- turn off by default
@@ -36,6 +36,7 @@ require("monokai-pro").setup({
   override = function(c)
     return {
       FloatBorder = { link = "NormalFloat" },
+      WinbarNC = { link = "Winbar" },
       TelescopePromptBorder = { bg = c.base.black, fg = c.base.black },
       TelescopePromptNormal = { bg = c.base.black },
       TelescopeResultsBorder = { bg = c.base.dimmed5, fg = c.base.dimmed5 },
