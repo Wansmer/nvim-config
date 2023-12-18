@@ -33,6 +33,18 @@ end
 
 function M.apply()
   vim.diagnostic.config(config)
+
+  local signs = {
+    Error = config.signs.text[vim.diagnostic.severity.ERROR],
+    Warn = config.signs.text[vim.diagnostic.severity.WARN],
+    Hint = config.signs.text[vim.diagnostic.severity.HINT],
+    Info = config.signs.text[vim.diagnostic.severity.INFO],
+  }
+
+  for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+  end
 end
 
 return M
