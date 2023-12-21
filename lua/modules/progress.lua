@@ -1,5 +1,10 @@
 -- Source: https://github.com/rockyzhang24/dotfiles/blob/master/.config/nvim/lua/rockyz/lsp/progress.lua
 -- Buffer number and window id for the floating window
+--
+if vim.fn.has('0.10') ~= 1 then
+	return
+end
+
 local bufnr
 local winid
 local spinner = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }

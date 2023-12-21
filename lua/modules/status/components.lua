@@ -53,7 +53,8 @@ function M.foldcolumn()
 end
 
 local function lsp_list()
-  local buf_clients = vim.lsp.get_clients({ bufnr = 0 })
+  local get_clients = vim.fn.has("nvim-0.10") == 1 and vim.lsp.get_clients or vim.lsp.get_active_clients
+  local buf_clients = get_clients({ bufnr = 0 })
   local buf_client_names = {}
 
   for _, client in pairs(buf_clients) do
@@ -70,12 +71,16 @@ local function formatters_list()
   end
 
   local bufnr = vim.api.nvim_get_current_buf()
-  return vim
-    .iter(conform.list_formatters(bufnr))
-    :map(function(item)
-      return item.name
-    end)
-    :join(", ")
+  local formatters = conform.list_formatters(bufnr)
+  local function get_name(item)
+    return item.name
+  end
+
+  if vim.fn.has("nvim-0.10") ~= 1 then
+    return vim.fn.join(vim.tbl_map(get_name, formatters), ", ")
+  end
+
+  return vim.iter(formatters):map(get_name):join(", ")
 end
 
 function M.lsp()
