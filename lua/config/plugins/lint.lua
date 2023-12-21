@@ -6,11 +6,11 @@ return {
     local lint = require("lint")
 
     lint.linters_by_ft = {
-      javascript = { "eslint_d" },
-      javascriptreact = { "eslint_d" },
-      typescript = { "eslint_d" },
-      typescriptreact = { "eslint_d" },
-      vue = { "eslint_d", "stylelint" },
+      javascript = { { "eslint_d", "eslint" } },
+      javascriptreact = { { "eslint_d", "eslint" } },
+      typescript = { { "eslint_d", "eslint" } },
+      typescriptreact = { { "eslint_d", "eslint" } },
+      vue = { { "eslint_d", "eslint" }, "stylelint" },
       html = { "tidy" },
       css = { "stylelint" },
       scss = { "stylelint" },
