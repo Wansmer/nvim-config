@@ -2,16 +2,30 @@
 return {
   "3rd/image.nvim",
   enabled = function()
-    local is_exist = vim.loop.fs_stat(vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/magick/init.lua")
-    return is_exist ~= nil
+    local is_exist = vim.uv.fs_stat(vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/magick/init.lua") ~= nil
+    local function info(reason)
+      vim.notify(
+        ('Dependency of `3rd/image.nvim` luarock `magick` problem: "%s".\nPlugin will not be load.'):format(reason),
+        vim.log.levels.INFO,
+        { title = "Image.nvim" }
+      )
+    end
+
+    if not is_exist then
+      info("not found at $HOME/.luarocks/share/lua/5.1/magick/init.lua")
+    else
+      package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
+      package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
+
+      local ok, msg = pcall(require, "magick")
+      if not ok then
+        is_exist = false
+        info(msg)
+      end
+    end
+    return is_exist
   end,
-  -- enabled = true,
   event = "VeryLazy",
-  init = function()
-    -- Example for configuring Neovim to load user-installed installed Lua rocks:
-    package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
-    package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
-  end,
   config = function()
     require("image").setup({
       backend = "kitty",
