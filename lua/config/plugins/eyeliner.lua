@@ -1,6 +1,6 @@
 return {
   "jinh0/eyeliner.nvim",
-  enabled = true,
+  enabled = false, -- Does not work with Cyrillic characters
   keys = { "f", "F", "t", "T" },
   config = function()
     require("eyeliner").setup({
