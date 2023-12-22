@@ -19,6 +19,7 @@ return {
 
       local ok, msg = pcall(require, "magick")
       if not ok then
+        -- Check this issue: https://github.com/3rd/image.nvim/issues/18?ysclid=lqf4h2y9hh666904664#issuecomment-1774962882
         is_exist = false
         info(msg)
       end
