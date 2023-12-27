@@ -178,7 +178,7 @@ return {
     local function config_info()
       local total_plugins = require("lazy").stats().count
       local datetime = os.date(" %d-%m-%Y   %H:%M:%S")
-      return datetime .. "   " .. total_plugins .. " plugins"
+      return datetime .. "  󰂖 " .. total_plugins .. " plugins"
     end
 
     local function project_info()
