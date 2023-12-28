@@ -151,8 +151,5 @@ map("n", "S", '"_S', { desc = "'S' without copying to clipboard" })
 map("n", "C", '"_C', { desc = "'C' without copying to clipboard" })
 map("n", "D", '"_D', { desc = "'D' without copying to clipboard" })
 map("x", "/", "<Esc>/\\%V", { desc = "Search in visual region" })
-map("n", "<C-'>", function()
-  require("modules.gpt").open()
-end, { desc = "GPT" })
 
 del("n", "Y")

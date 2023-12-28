@@ -18,9 +18,10 @@ function M.fetch(messages, on_delta, on_complete)
       messages = messages,
       stream = true,
     }),
-    stream = vim.schedule_wrap(function(err, data, _)
-      if err or vim.startswith(data, "error:") then
+    stream = vim.schedule_wrap(function(err, data, bla)
+      if err or vim.startswith(data, '"error":') then
         error(data or err)
+        return
       end
 
       local raw_message = string.gsub(data, "^data: ", "")
@@ -28,7 +29,11 @@ function M.fetch(messages, on_delta, on_complete)
       if raw_message == "[DONE]" then
         on_complete()
       elseif string.len(data) > 6 then
-        on_delta(vim.fn.json_decode(string.sub(data, 6)))
+        local ok, json = pcall(vim.fn.json_decode, string.sub(vim.trim(data), 6))
+        if not ok then
+          return
+        end
+        on_delta(json)
       end
     end),
   })

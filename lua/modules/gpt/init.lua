@@ -1,3 +1,5 @@
+-- NOT WORKING NOW: ai.fakeopen.com is not active
+
 -- Knowleges and based on: https://github.com/CamdenClark/flyboy
 local M = {}
 M.__index = M
