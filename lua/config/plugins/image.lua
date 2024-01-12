@@ -58,7 +58,7 @@ return {
         end
 
         local has, img = has_image(event.file)
-        if has then
+        if has and img then
           vim.schedule(function()
             img:render()
           end)

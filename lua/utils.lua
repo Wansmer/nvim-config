@@ -272,7 +272,7 @@ function M.show_image(path, win_opts, image_opts)
   end
 
   local ok_image, image = pcall(api.from_file, path, { buffer = buf })
-  if not ok_image then
+  if not (ok_image and image) then
     return
   end
 
