@@ -31,7 +31,7 @@ PREF = {
 
   ui = {
     ---(!) List of colorschemes lua/config/colorscheme/init.lua
-    colorscheme = "monokai-pro",
+    colorscheme = "serenity",
     border = { " ", " ", " ", " ", " ", " ", " ", " " },
     italic_comment = true,
   },
