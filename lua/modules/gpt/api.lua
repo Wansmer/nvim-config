@@ -8,6 +8,8 @@ function M.fetch(messages, on_delta, on_complete)
   local headers = {
     Authorization = "Bearer pk-this-is-a-real-free-pool-token-for-everyone",
     Content_Type = "application/json",
+    Origin = "https://chat.geekgpt.org",
+    Referer = "https://chat.geekgpt.org",
   }
 
   curl.post(url, {
