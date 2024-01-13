@@ -20,8 +20,10 @@ end
 local servers = mlsp.get_installed_servers()
 
 for _, server_name in pairs(servers) do
-  local opts = make_config(server_name)
-  lsp[server_name].setup(opts)
+  if PREF.lsp.active_servers[server_name] then
+    local opts = make_config(server_name)
+    lsp[server_name].setup(opts)
+  end
 end
 
 ---@diagnostic disable-next-line: param-type-mismatch

@@ -1,3 +1,12 @@
+local filter_clients = function(tbl)
+  for k, v in pairs(tbl) do
+    if not v then
+      tbl[k] = nil
+    end
+  end
+  return tbl
+end
+
 PREF = {
   common = {
     textwidth = 100,
@@ -12,21 +21,25 @@ PREF = {
     show_inlay_hints = true,
     -- Use take_over_mode for Vue projects or not
     tom_enable = false,
-    preinstall_servers = {
-      "tsserver",
-      "lua_ls",
-      "html",
-      "emmet_ls",
-      "marksman",
-      "cssls",
-      "jsonls",
-      "rust_analyzer",
-      "sqlls",
-      "bashls",
-      "dockerls",
-      "tailwindcss",
-      "ltex",
-    },
+    -- List of servers to run
+    -- Also applies to `ensure_installed` in `mason-lspconfig`
+    active_servers = filter_clients({
+      lua_ls = true,
+      tsserver = true,
+      jsonls = true,
+      cssls = true,
+      tailwindcss = true,
+      html = true,
+      emmet_ls = true,
+      bashls = true,
+      dockerls = true,
+      ltex = true,
+      marksman = true,
+      rust_analyzer = true,
+      sqlls = true,
+      clangd = true,
+      gopls = false,
+    }),
   },
 
   ui = {

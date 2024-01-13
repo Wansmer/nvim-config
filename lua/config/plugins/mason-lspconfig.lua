@@ -9,7 +9,7 @@ return {
   config = function()
     local mlsp = require("mason-lspconfig")
     mlsp.setup({
-      ensure_installed = PREF.lsp.preinstall_servers,
+      ensure_installed = vim.tbl_keys(PREF.lsp.active_servers),
       automatic_installation = true,
     })
   end,
