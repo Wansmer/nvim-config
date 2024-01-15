@@ -39,6 +39,17 @@ end
 vim.keymap.set("n", "<leader>ll", toggle_ltex_lang, { desc = "Toggle ltex language" })
 -- }}
 
+-- INFO: Moved out from M.set_keymap since it using third-party format plugin
+map("n", "gF", function()
+  local ok, conform = pcall(require, "conform")
+  if not ok then
+    pcall(vim.lsp.buf.format)
+    return
+  end
+
+  conform.format({ bufnr = 0, lsp_fallback = true })
+end, { desc = "Format buffer" })
+
 ---Setup mappings
 ---@param _ table Client
 ---@param bufnr integer
@@ -54,15 +65,7 @@ M.set_keymap = function(_, bufnr)
   map("n", "K", vim.lsp.buf.hover, d("Show symbol info"))
 
   -- Formatting
-  map("n", "gF", function()
-    local ok, conform = pcall(require, "conform")
-    if not ok then
-      vim.lsp.buf.format()
-      return
-    end
-
-    conform.format({ bufnr = bufnr, lsp_fallback = true })
-  end, d("Format buffer"))
+  -- INFO: Moved out from M.set_keymap since it using third-party format plugin
 
   -- Show code action
   map("n", "ga", vim.lsp.buf.code_action, d("Show available code action"))
