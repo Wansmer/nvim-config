@@ -6,7 +6,7 @@ return {
       inlayHints = {
         includeInlayParameterNameHints = "all",
         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-        includeInlayFunctionParameterTypeHints = true,
+        includeInlayFunctionParameterTypeHints = false,
         includeInlayVariableTypeHints = false,
         includeInlayVariableTypeHintsWhenTypeMatchesName = false,
         includeInlayPropertyDeclarationTypeHints = true,
@@ -18,7 +18,7 @@ return {
       inlayHints = {
         includeInlayParameterNameHints = "all",
         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-        includeInlayFunctionParameterTypeHints = true,
+        includeInlayFunctionParameterTypeHints = false,
         includeInlayVariableTypeHints = false,
         includeInlayVariableTypeHintsWhenTypeMatchesName = false,
         includeInlayPropertyDeclarationTypeHints = true,
