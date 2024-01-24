@@ -4,13 +4,15 @@ return {
   event = { "BufWritePost", "BufReadPost", "InsertLeave" },
   config = function()
     local lint = require("lint")
+    ---@type "eslint_d"|"eslint"
+    local js_linter = "eslint"
 
     lint.linters_by_ft = {
-      javascript = { "eslint_d" },
-      javascriptreact = { { "eslint_d" } },
-      typescript = { "eslint_d" },
-      typescriptreact = { "eslint", "eslint_d" },
-      vue = { "eslint_d", "stylelint" },
+      javascript = { js_linter },
+      javascriptreact = { { js_linter } },
+      typescript = { js_linter },
+      typescriptreact = { js_linter },
+      vue = { js_linter, "stylelint" },
       html = { "tidy" },
       css = { "stylelint" },
       scss = { "stylelint" },
@@ -20,9 +22,9 @@ return {
     vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
       callback = function()
         local ok, msg = pcall(lint.try_lint)
-        if not ok then
-          vim.notify(msg, vim.log.levels.WARN, { title = "Nvim-Lint" })
-        end
+        -- if not ok then
+        --   vim.notify(msg, vim.log.levels.WARN, { title = "Nvim-Lint" })
+        -- end
       end,
     })
   end,
