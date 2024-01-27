@@ -6,7 +6,10 @@ return {
     "nvim-lua/plenary.nvim", -- required
     "nvim-tree/nvim-web-devicons", -- optional
   },
-  keys = { { "<leader>e", "<Cmd>Triptych<Cr>" } },
+  cmd = "Triptych",
+  init = function()
+    vim.keymap.set({ "n", "x" }, "<LocalLeader>e", "<Cmd>Triptych<Cr>", { desc = "Open file explorer" })
+  end,
   config = function()
     require("triptych").setup({
       mappings = {
