@@ -2,7 +2,9 @@
 return {
   "3rd/image.nvim",
   enabled = function()
-    local is_exist = vim.uv.fs_stat(vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/magick/init.lua") ~= nil
+    local uv = vim.fn.has("nvim-0.10") == 1 and vim.uv or vim.loop
+    local is_exist = uv.fs_stat(vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/magick/init.lua") ~= nil
+
     local function info(reason)
       vim.notify(
         ('Dependency of `3rd/image.nvim` luarock `magick` problem: "%s".\nPlugin will not be load.'):format(reason),
