@@ -11,7 +11,6 @@ PREF = {
   common = {
     textwidth = 100,
     tabwidth = 2,
-    escape_keys = { "jk", "JK", "jj" },
   },
 
   lsp = {

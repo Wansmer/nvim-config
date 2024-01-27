@@ -6,10 +6,6 @@ local del = vim.keymap.del
 -- ============================================================================
 -- Escape mappings
 -- ============================================================================
-for _, keys in ipairs(PREF.common.escape_keys) do
-  map("t", keys, [[<C-\><C-n>]], { desc = "Leave INSERT mode in terminal" })
-  map("i", keys, "<Esc>", { desc = "Leave INSERT mode" })
-end
 map("t", "<esc>", [[<C-\><C-n>]], { desc = "Leave INSERT mode in terminal" })
 
 -- ============================================================================
