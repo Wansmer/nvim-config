@@ -3,8 +3,8 @@ return {
   enabled = true,
   cmd = "Neotree",
   init = function()
-    -- vim.keymap.set("n", "<LocalLeader>e", "<Cmd>Neotree focus toggle<Cr>", { desc = "Open file explorer" })
-    -- vim.keymap.set("x", "<LocalLeader>e", "<Esc><Cmd>Neotree focus toggle<Cr>", { desc = "Open file explorer" })
+    vim.keymap.set("n", "<LocalLeader>e", "<Cmd>Neotree focus toggle<Cr>", { desc = "Open file explorer" })
+    vim.keymap.set("x", "<LocalLeader>e", "<Esc><Cmd>Neotree focus toggle<Cr>", { desc = "Open file explorer" })
   end,
   dependencies = {
     "nvim-lua/plenary.nvim",
