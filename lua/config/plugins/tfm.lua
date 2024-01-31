@@ -1,9 +1,10 @@
-local DEV = true
+local DEV = false
 
 return {
   "Wansmer/tfm.nvim",
   dir = DEV and "~/projects/code/personal/tfm.nvim" or nil,
   dev = DEV,
+  branch = "refactor",
   enabled = true,
   event = "VeryLazy",
   config = function()
