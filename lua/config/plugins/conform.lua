@@ -17,6 +17,7 @@ return {
         jsonc = { { "prettierd", "prettier" } },
         markdown = { { "prettierd", "prettier" } },
         toml = { { "prettierd", "prettier" } },
+        sh = { "shfmt" },
       },
     })
   end,

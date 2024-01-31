@@ -18,6 +18,7 @@ return {
       css = { "stylelint" },
       scss = { "stylelint" },
       less = { "stylelint" },
+      yml = { "ansible-lint" },
     }
 
     vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
