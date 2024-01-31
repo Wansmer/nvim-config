@@ -9,6 +9,7 @@ return {
   config = function()
     require("tfm").setup({
       file_manager = "yazi",
+      follow_current_file = true,
       ui = {
         border = "double",
         height = 0.8,
@@ -16,8 +17,11 @@ return {
         x = 0.5,
         y = 0.5,
       },
+      on_open = function(win, buf)
+        vim.keymap.set("n", "q", "<Cmd>close<Cr>", { buffer = buf })
+      end,
     })
-    vim.keymap.set("n", "<Leader>e", function()
+    vim.keymap.set("n", "<localleader>e", function()
       require("tfm").open()
     end)
   end,
