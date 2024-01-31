@@ -40,6 +40,7 @@ PREF = {
       sqlls = false,
       clangd = false,
       gopls = false,
+      ansiblels = true,
     }),
   },
 
