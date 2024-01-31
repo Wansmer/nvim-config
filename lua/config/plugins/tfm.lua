@@ -19,10 +19,10 @@ return {
         y = 0.5,
       },
       on_open = function(win, buf)
-        vim.keymap.set("n", "q", "<Cmd>close<Cr>", { buffer = buf })
+        vim.keymap.set("t", "q", "<Cmd>close<Cr>", { buffer = buf })
       end,
     })
-    vim.keymap.set("n", "<localleader>e", function()
+    vim.keymap.set("n", "<leader>e", function()
       require("tfm").open()
     end)
   end,
