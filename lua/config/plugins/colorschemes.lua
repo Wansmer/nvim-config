@@ -13,9 +13,9 @@ return vim.tbl_map(set_prior, {
   "sainnhe/gruvbox-material",
   "sam4llis/nvim-tundra",
   {
-    -- 'Wansmer/serenity.nvim',
+    'Wansmer/serenity.nvim',
     -- dev = false,
-    dir = "~/projects/code/personal/serenity.nvim",
+    -- dir = "~/projects/code/personal/serenity.nvim",
     name = "serenity",
   },
   { "catppuccin/nvim", name = "catppuccin" },
