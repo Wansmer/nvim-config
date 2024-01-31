@@ -47,7 +47,13 @@ return {
         selection_caret = " ",
         path_display = { "smart" },
         layout_strategy = "horizontal",
-        layout_config = { prompt_position = "bottom" },
+        layout_config = {
+          prompt_position = "bottom",
+          vertical = {
+            width = 0.8,
+            height = 0.8,
+          },
+        },
         file_ignore_patterns = { ".git/", "node_modules/*" },
         mappings = {
           i = {
