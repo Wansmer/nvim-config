@@ -1,33 +1,34 @@
 -- Install magick: luarocks --local --lua-version=5.1 install magick
 return {
   "3rd/image.nvim",
-  enabled = function()
-    local uv = vim.fn.has("nvim-0.10") == 1 and vim.uv or vim.loop
-    local is_exist = uv.fs_stat(vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/magick/init.lua") ~= nil
-
-    local function info(reason)
-      vim.notify(
-        ('Dependency of `3rd/image.nvim` luarock `magick` problem: "%s".\nPlugin will not be load.'):format(reason),
-        vim.log.levels.INFO,
-        { title = "Image.nvim" }
-      )
-    end
-
-    if not is_exist then
-      info("not found at $HOME/.luarocks/share/lua/5.1/magick/init.lua")
-    else
-      package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
-      package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
-
-      local ok, msg = pcall(require, "magick")
-      if not ok then
-        -- Check this issue: https://github.com/3rd/image.nvim/issues/18?ysclid=lqf4h2y9hh666904664#issuecomment-1774962882
-        is_exist = false
-        info(msg)
-      end
-    end
-    return is_exist
-  end,
+  enabled = false,
+  -- enabled = function()
+  --   local uv = vim.fn.has("nvim-0.10") == 1 and vim.uv or vim.loop
+  --   local is_exist = uv.fs_stat(vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/magick/init.lua") ~= nil
+  --
+  --   local function info(reason)
+  --     vim.notify(
+  --       ('Dependency of `3rd/image.nvim` luarock `magick` problem: "%s".\nPlugin will not be load.'):format(reason),
+  --       vim.log.levels.INFO,
+  --       { title = "Image.nvim" }
+  --     )
+  --   end
+  --
+  --   if not is_exist then
+  --     info("not found at $HOME/.luarocks/share/lua/5.1/magick/init.lua")
+  --   else
+  --     package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
+  --     package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
+  --
+  --     local ok, msg = pcall(require, "magick")
+  --     if not ok then
+  --       -- Check this issue: https://github.com/3rd/image.nvim/issues/18?ysclid=lqf4h2y9hh666904664#issuecomment-1774962882
+  --       is_exist = false
+  --       info(msg)
+  --     end
+  --   end
+  --   return is_exist
+  -- end,
   event = "VeryLazy",
   config = function()
     require("image").setup({
