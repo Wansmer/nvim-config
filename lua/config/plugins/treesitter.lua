@@ -1,25 +1,19 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   enabled = true,
-  build = function()
-    require("nvim-treesitter.install").update({ with_sync = true })
-  end,
-  lazy = true,
-  event = { "BufReadPre" },
-  init = function()
-    vim.keymap.set("n", "tsp", "<Cmd>TSPlaygroundToggle<Cr>")
-    vim.keymap.set("n", "tsn", "<Cmd>TSNodeUnderCursor<Cr>")
-    vim.keymap.set("n", "tsh", "<Cmd>TSHighlightCapturesUnderCursor<Cr>")
-  end,
+  lazy = false,
   config = function()
-    local configs = require("nvim-treesitter.configs")
-    configs.setup({
+    local map = vim.keymap.set
+    map("n", "tsp", "<Cmd>TSPlaygroundToggle<Cr>")
+    map("n", "tsn", "<Cmd>TSNodeUnderCursor<Cr>")
+    map("n", "tsh", "<Cmd>TSHighlightCapturesUnderCursor<Cr>")
+
+    require("nvim-treesitter.configs").setup({
       ensure_installed = "all",
       sync_install = false,
       ignore_install = { "phpdoc", "comment" },
       highlight = {
         enable = true,
-        -- disable = {},
         additional_vim_regex_highlighting = false,
       },
 
@@ -29,7 +23,7 @@ return {
       },
 
       incremental_selection = {
-        enable = false,
+        enable = true,
         keymaps = {
           init_selection = "<Cr>", -- set to `false` to disable one of the mappings
           node_incremental = "<Cr>",
@@ -59,7 +53,7 @@ return {
       playground = {
         enable = true,
         disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+        updatetime = 25,         -- Debounced time for highlighting nodes in the playground from source code
         persist_queries = false, -- Whether the query persists across vim sessions
         keybindings = {
           toggle_query_editor = "o",
