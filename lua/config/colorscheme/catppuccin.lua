@@ -1,4 +1,4 @@
-vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 local mocha = require("catppuccin.palettes").get_palette("mocha")
 
 require("catppuccin").setup({
@@ -32,10 +32,10 @@ require("catppuccin").setup({
     native_lsp = {
       enabled = true,
       virtual_text = {
-        errors = {},
-        hints = {},
-        warnings = {},
-        information = {},
+        errors = { "italic" },
+        hints = { "italic" },
+        warnings = { "italic" },
+        information = { "italic" },
       },
       underlines = {
         errors = { "underline" },
@@ -43,10 +43,16 @@ require("catppuccin").setup({
         warnings = { "underline" },
         information = { "underline" },
       },
+      inlay_hints = {
+        background = true,
+      },
     },
     cmp = true,
     gitsigns = true,
-    telescope = true,
+    telescope = {
+      enabled = true,
+      style = "nvchad",
+    },
     neotree = true,
     indent_blankline = {
       enabled = true,
