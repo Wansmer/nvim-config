@@ -8,13 +8,12 @@ return {
     "javascriptreact",
     "typescriptreact",
     "lua",
-    "scc",
+    "css",
     "scss",
   },
   config = function()
     require("colorizer").setup({
-      -- filetypes = { 'vue', 'js', 'lua', 'scc', 'scss', 'ts' },
-      filetypes = { "*" },
+      filetypes = { "css", "javascript", "javascriptreact", "lua", "scss", "typescript", "typescriptreact" },
       user_default_options = {
         RGB = true, -- #RGB hex codes
         RRGGBB = true, -- #RRGGBB hex codes
