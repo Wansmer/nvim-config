@@ -29,7 +29,7 @@ PREF = {
       volar = false,
       jsonls = true,
       cssls = true,
-      tailwindcss = false,
+      tailwindcss = true,
       html = true,
       emmet_ls = true,
       bashls = true,
@@ -46,7 +46,7 @@ PREF = {
 
   ui = {
     ---(!) List of colorschemes lua/config/colorscheme/init.lua
-    colorscheme = "serenity",
+    colorscheme = "catppuccin",
     border = { " ", " ", " ", " ", " ", " ", " ", " " },
     italic_comment = true,
   },
