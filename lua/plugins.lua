@@ -19,7 +19,7 @@ require("lazy").setup(configs, {
     lazy = true,
   },
   install = {
-    colorscheme = { PREF.ui.colorscheme },
+    colorscheme = { PREF.ui.colorscheme, "default", "habamax" },
   },
   change_detection = { notify = false },
   ui = { border = "none" },
