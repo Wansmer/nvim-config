@@ -68,7 +68,7 @@ return {
     {
       "Jezda1337/nvim-html-css",
       enabled = true,
-      event = "VeryLazy",
+      -- event = "VeryLazy",
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
         "nvim-lua/plenary.nvim",
@@ -80,9 +80,10 @@ return {
   },
   config = function()
     local cmp = require("cmp")
-    local luasnip = require("luasnip")
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+    local luasnip = require("luasnip")
     -- See spec: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#snippet_syntax
     local vscode_snippets = require("luasnip.loaders.from_vscode")
     vscode_snippets.lazy_load() -- Load snippets from friendly-snippets
