@@ -1,1 +1,0 @@
-require("serenity").setup()

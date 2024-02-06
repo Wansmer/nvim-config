@@ -1,30 +1,3 @@
--- Sets minimum width of current window equals to textwidth
--- vim.api.nvim_create_autocmd('BufEnter', {
---   callback = function()
---     local ft_ignore = {
---       '',
---       'Navbuddy',
---       'Outline',
---       'nvim-tree',
---       'neo-tree',
---       'packer',
---       'query',
---     }
---     local buf = vim.api.nvim_win_get_buf(0)
---     local buftype = vim.api.nvim_buf_get_option(buf, 'ft')
---
---     if vim.tbl_contains(ft_ignore, buftype) then
---       return
---     end
---
---     local width = vim.api.nvim_win_get_width(0)
---
---     if width < PREF.common.textwidth then
---       vim.api.nvim_win_set_width(0, PREF.common.textwidth)
---     end
---   end,
--- })
-
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight copied text",
   callback = function()
@@ -39,9 +12,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
--- Autoformatting
 if PREF.lsp.format_on_save then
   vim.api.nvim_create_autocmd("BufWritePre", {
+    desc = "Format on save",
     callback = function(e)
       local ok, conform = pcall(require, "conform")
       if ok then
@@ -74,15 +47,13 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.api.nvim_create_autocmd("User", {
   pattern = "VeryLazy",
   callback = function()
-    require("modules.key_listener")
-    require("modules.mode_nr")
-    require("modules.markdown")
-    require("modules.router")
-    require("usercmd")
+    pcall(require, "modules.key_listener")
+    pcall(require, "modules.mode_nr")
+    pcall(require, "modules.thincc")
+    pcall(require, "usercmd")
   end,
 })
 
--- Set default colorcolumn
 vim.api.nvim_create_autocmd("BufWinEnter", {
   desc = "Set colorcolumn equals textwidth",
   callback = function(data)
@@ -101,20 +72,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   end,
 })
 
--- vim.api.nvim_create_autocmd('VimEnter', {
---   desc = 'Reload buffer if it has been modified externally',
---   callback = function()
---     local watcher = require('modules.watcher').new()
---
---     watcher:start()
---     watcher:on_change({
---       function()
---         vim.cmd.checktime()
---       end,
---     })
---   end,
--- })
-
 vim.api.nvim_create_autocmd("VimEnter", {
   desc = "Translate global keybindings",
   callback = function()
@@ -129,39 +86,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
   desc = "Redraw buffer when associated file is changed",
   command = "checktime",
 })
-
--- TODO: Hot rebooting the config was not a good idea. Needs improvement
--- vim.api.nvim_create_autocmd('VimEnter', {
---   desc = 'Reload config if it possible',
---   callback = function()
---     local dir = vim.fn.fnamemodify(vim.fn.expand('$MYVIMRC'), ':p:h') .. '/'
---     local ignore = { '%.git$', '%.git/', '%~$', '4913$', 'plugins', 'colorscheme' }
---     local watcher = require('modules.watcher').new(dir, nil, ignore)
---
---     watcher:start()
---
---     watcher:on_change({
---       function(_, fname, _)
---         if vim.endswith(fname, '.lua') then
---           local path = vim.fn.fnamemodify(fname, ':.:r')
---           local modpath = path:gsub('lua/', ''):gsub('/', '.')
---
---           if package.loaded[modpath] then
---             package.loaded[modpath] = nil
---           end
---
---           if package.preload[modpath] then
---             package.preload[modpath] = nil
---           end
---
---           vim.loader.reset(fname)
---           pcall(vim.cmd.source, fname)
---           vim.cmd.redraw()
---         end
---       end,
---     })
---   end,
--- })
 
 -- Autoenable when 'relativenumber' is set to true. Need to restart neovim
 if vim.opt.relativenumber:get() then
@@ -200,13 +124,3 @@ vim.api.nvim_create_autocmd("BufHidden", {
     end
   end,
 })
-
--- TODO: delete when core team fix auto start treesitter
--- vim.api.nvim_create_autocmd('BufEnter', {
---   callback = function(event)
---     local ok, _ = pcall(vim.treesitter.get_parser, event.buf)
---     if ok then
---       vim.treesitter.start()
---     end
---   end,
--- })
