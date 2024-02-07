@@ -4,7 +4,7 @@
     "body": [
       "import React from 'react'",
       "",
-      "type ${1:${TM_FILENAME_BASE}}Props = {}",
+      "interface ${1:${TM_FILENAME_BASE}}Props {}",
       "",
       "export const ${1:${TM_FILENAME_BASE}} = (props: ${1:${TM_FILENAME_BASE}}Props) => {",
       "  return (",
