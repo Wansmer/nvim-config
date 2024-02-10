@@ -14,6 +14,23 @@
     ],
     "description": "Creates a React Arrow Function Component with Props"
   },
+  "reactFunctionalComponent": {
+    "prefix": "rfc",
+    "body": [
+      "interface ${1:${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}}Props {}",
+      "",
+      "const ${1:${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}} = ({}: ${1:${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}}Props) => {",
+      "  return (",
+      "    <div>",
+      "      $0",
+      "    </div>",
+      "  );",
+      "};",
+      "",
+      "export default ${1:${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}};"
+    ],
+    "description": "Create a React functional component"
+  },
   "tsNextApiRoutePost": {
     "prefix": "rpo",
     "body": [
