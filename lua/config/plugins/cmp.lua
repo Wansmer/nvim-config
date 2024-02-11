@@ -24,6 +24,7 @@ local icons = {
   Event = "",
   Operator = "󰆕",
   TypeParameter = "",
+  Codeium = "",
 }
 
 return {
@@ -139,6 +140,7 @@ return {
           end
           vim_item.menu = ({
             nvim_lsp = "lsp ",
+            codeium = "ai  ",
             luasnip = "snip",
             buffer = "buff",
             path = "path",
@@ -152,6 +154,7 @@ return {
         end,
       },
       sources = {
+        { name = "codeium" },
         { name = "nvim_lsp" },
         { name = "luasnip" },
         {
