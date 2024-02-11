@@ -10,6 +10,11 @@ M.servers = {
     ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
     patterns = { "^Add import", "^Update import" },
   },
+  ["typescript-tools"] = {
+    diagnostic_codes = { 2304, 2552 },
+    ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+    patterns = { "^Add import", "^Update import" },
+  },
   volar = {
     diagnostic_codes = { 2304 },
     ft = { "vue", "javascript", "typescript" },
@@ -28,14 +33,8 @@ local function filter_diagnostics(bufnr, client_id, codes)
   end, vim.lsp.diagnostic.get_line_diagnostics(bufnr, nil, nil, client_id))
 end
 
-function M.autoimport(server)
-  local bufnr = vim.api.nvim_get_current_buf()
-  local client = vim.lsp.get_clients({ name = server, bufnr = bufnr })[1]
-  if not client then
-    return
-  end
-
-  local diagnostics = filter_diagnostics(bufnr, client.id, M.servers[server].diagnostic_codes)
+function M.autoimport(client, bufnr)
+  local diagnostics = filter_diagnostics(bufnr, client.id, M.servers[client.name].diagnostic_codes)
 
   ---@param err? lsp.ResponseError
   ---@param result? (lsp.Command|lsp.CodeAction)[]
@@ -52,23 +51,28 @@ function M.autoimport(server)
     end
 
     local filtered_actions = vim.tbl_filter(function(action)
-      return u.some(M.servers[server].patterns, function(pat)
+      return u.some(M.servers[client.name].patterns, function(pat)
+        -- vim.print(action)
         return action.title:match(pat) ~= nil
       end)
     end, result)
 
+    -- TODO: bad solution. Find better
     table.sort(filtered_actions, function(a, b)
       return #a.title < #b.title
     end)
 
-    for _, action in ipairs(filtered_actions) do
-      apply_action({ action = action, ctx = ctx })
-
-      local actual_diagnostic = filter_diagnostics(bufnr, client.id, M.servers[server].diagnostic_codes)
-      if #actual_diagnostic == 0 then
-        break
-      end
-    end
+    -- TODO: remove after testing
+    local action = filtered_actions[1]
+    apply_action({ action = action, ctx = ctx })
+    -- for _, action in ipairs(filtered_actions) do
+    --   apply_action({ action = action, ctx = ctx })
+    --
+    --   local actual_diagnostic = filter_diagnostics(bufnr, client.id, M.servers[client.name].diagnostic_codes)
+    --   if #actual_diagnostic == 0 then
+    --     break
+    --   end
+    -- end
   end
 
   -- Why cycle? Here is not really able to get all code actions in a single request. (Believe me, I tried)
@@ -89,17 +93,21 @@ function M.autoimport(server)
 end
 
 function M.run()
-  for server, preset in pairs(M.servers) do
-    vim.api.nvim_create_autocmd("InsertLeave", {
-      desc = "Autoimport for " .. server,
-      group = GROUP,
-      callback = function(e)
-        if vim.tbl_contains(preset.ft, vim.bo[e.buf].ft) then
-          M.autoimport(server)
-        end
-      end,
-    })
-  end
+  vim.api.nvim_create_autocmd("InsertLeave", {
+    group = GROUP,
+    desc = "Autoimport",
+    callback = function(e)
+      local clients = vim.lsp.get_clients({ bufnr = e.buf, method = "textDocument/codeAction" })
+      local client = vim.iter(clients):find(function(c)
+        return M.servers[c.name] ~= nil
+      end)
+      if client then
+        -- vim.defer_fn(function()
+        -- end, 0)
+        M.autoimport(client, e.buf)
+      end
+    end,
+  })
 end
 
 return M

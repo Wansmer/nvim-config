@@ -10,7 +10,7 @@ local function apply_action(action, client, ctx)
   end
   if action.command then
     local command = type(action.command) == "table" and action.command or action
-    client._exec_cmd(command, ctx)
+    client:_exec_cmd(command, ctx)
   end
 end
 
