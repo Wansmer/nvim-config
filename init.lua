@@ -15,3 +15,12 @@ require("modules.git_watcher")
 require("modules.progress")
 -- require("modules.autoimport").run()
 require("modules.lazygit")
+
+if vim.g.vscode then
+  -- local vscode = require("vscode-neovim")
+  -- local map = vim.keymap.set
+
+  -- map("n", "gF", function()
+  --   vscode.action("editor.action.formatDocument")
+  -- end)
+end
