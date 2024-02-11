@@ -1,6 +1,6 @@
 return {
   "akinsho/bufferline.nvim",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   version = "*",
   event = "VeryLazy",
   config = function()

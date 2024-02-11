@@ -1,6 +1,6 @@
 return {
   "neovim/nvim-lspconfig",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   event = { "VeryLazy" },
   dependencies = {
     "b0o/SchemaStore.nvim",

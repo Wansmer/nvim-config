@@ -1,7 +1,7 @@
 -- Don't forget to call `:DevdocsFetch`  during the first installation.
 return {
   "luckasRanarison/nvim-devdocs",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   event = "VeryLazy",
   dependencies = {
     "nvim-lua/plenary.nvim",

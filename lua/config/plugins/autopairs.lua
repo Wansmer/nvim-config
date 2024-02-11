@@ -1,6 +1,6 @@
 return {
   "windwp/nvim-autopairs",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   event = "InsertEnter",
   config = function()
     local autopairs = require("nvim-autopairs")

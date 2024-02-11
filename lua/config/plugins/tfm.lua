@@ -5,7 +5,7 @@ return {
   dir = DEV and "~/projects/code/personal/tfm.nvim" or nil,
   dev = DEV,
   branch = "refactor",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   event = "VeryLazy",
   config = function()
     require("tfm").setup({

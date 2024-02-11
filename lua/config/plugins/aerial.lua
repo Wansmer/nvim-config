@@ -1,6 +1,6 @@
 return {
   "stevearc/aerial.nvim",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   event = "LspAttach",
   init = function()
     vim.keymap.set("n", "<localleader>v", "<cmd>AerialToggle<CR>")

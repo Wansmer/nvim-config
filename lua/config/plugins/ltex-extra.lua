@@ -1,4 +1,4 @@
 return {
   "barreiroleo/ltex-extra.nvim",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
 }

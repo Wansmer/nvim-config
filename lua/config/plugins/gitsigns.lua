@@ -1,7 +1,7 @@
 return {
   "lewis6991/gitsigns.nvim",
   event = "BufReadPost",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   config = function()
     local map = vim.keymap.set
     map("n", "<Leader>gp", ":Gitsigns prev_hunk<CR>", { desc = "Plug Gitsigns: jump to prev hunk" })

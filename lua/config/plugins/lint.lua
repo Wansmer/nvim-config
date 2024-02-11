@@ -1,6 +1,6 @@
 return {
   "mfussenegger/nvim-lint",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   -- event = { "LspAttach", "BufWritePost", "BufReadPost", "InsertLeave" },
   event = { "VeryLazy" },
   config = function()

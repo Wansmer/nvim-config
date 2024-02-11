@@ -1,6 +1,6 @@
 return {
   "akinsho/toggleterm.nvim",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   keys = { "<C-;>" },
   config = function()
     local toggleterm = require("toggleterm")

@@ -1,7 +1,7 @@
 return {
   "Exafunction/codeium.vim",
   event = "BufReadPre",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   config = function()
     vim.g.codeium_idle_delay = 250
     vim.g.codeium_disable_bindings = 1

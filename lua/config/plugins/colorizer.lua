@@ -1,6 +1,6 @@
 return {
   "NvChad/nvim-colorizer.lua",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   ft = {
     "vue",
     "javascript",

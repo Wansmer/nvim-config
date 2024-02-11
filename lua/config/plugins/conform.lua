@@ -1,6 +1,6 @@
 return {
   "stevearc/conform.nvim",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   config = function()
     local js_formatter = { { "prettierd", "prettier" }, { "eslint_d", "eslint" } }
     require("conform").setup({

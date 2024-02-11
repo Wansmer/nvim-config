@@ -1,6 +1,6 @@
 return {
   "williamboman/mason-lspconfig.nvim",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   lazy = true,
   dependencies = {
     "williamboman/mason.nvim",

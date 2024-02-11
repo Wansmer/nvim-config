@@ -1,6 +1,6 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   cmd = "Neotree",
   init = function()
     vim.keymap.set("n", "<LocalLeader>e", "<Cmd>Neotree focus toggle<Cr>", { desc = "Open file explorer" })

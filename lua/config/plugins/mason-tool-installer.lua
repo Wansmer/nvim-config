@@ -1,6 +1,6 @@
 return {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   event = "VeryLazy",
   dependencies = {
     "williamboman/mason.nvim",

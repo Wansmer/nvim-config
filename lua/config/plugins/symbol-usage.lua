@@ -2,7 +2,7 @@ local DEV = false
 
 return {
   "Wansmer/symbol-usage.nvim",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   dir = DEV and "~/projects/code/personal/symbol-usage.nvim" or nil,
   dev = DEV,
   event = "BufReadPre",

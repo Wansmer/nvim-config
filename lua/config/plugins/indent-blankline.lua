@@ -1,6 +1,6 @@
 return {
   "lukas-reineke/indent-blankline.nvim",
-  enabled = true,
+  enabled = vim.g.vscode and false or true,
   event = { "BufReadPost", "BufNewFile" },
   main = "ibl",
   config = function()
