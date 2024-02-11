@@ -21,7 +21,7 @@ return {
       return vim.fn["codeium#CycleCompletions"](-1)
     end, { expr = true })
     -- TODO: <C-x> conflict with cmp, find best map
-    map("i", "<C-x>", function()
+    map("i", "<C-\\>", function()
       return vim.fn["codeium#Clear"]()
     end, { expr = true })
   end,
