@@ -16,7 +16,7 @@ end
 
 ---@param choice {action: lsp.Command|lsp.CodeAction, ctx: lsp.HandlerContext}
 local function on_user_choice(choice)
-  if not choice then
+  if not choice or not choice.action then
     return
   end
   -- textDocument/codeAction can return either Command[] or CodeAction[]
