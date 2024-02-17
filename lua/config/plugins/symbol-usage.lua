@@ -26,6 +26,14 @@ return {
           return ""
         end
       end,
+      disable = {
+        cond = {
+          function()
+            local path = vim.fn.expand("%:p")
+            return path:find("/node_modules/")
+          end,
+        },
+      },
     })
 
     vim.keymap.set("n", "<leader>lu", function()
