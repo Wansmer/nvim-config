@@ -4,6 +4,7 @@ return {
   cmd = "Neotree",
   init = function()
     vim.keymap.set("n", "<LocalLeader>e", "<Cmd>Neotree focus toggle<Cr>", { desc = "Open file explorer" })
+    vim.keymap.set("n", "<LocalLeader>E", "<Cmd>Neotree focus<Cr>", { desc = "Open file explorer" })
     vim.keymap.set("x", "<LocalLeader>e", "<Esc><Cmd>Neotree focus toggle<Cr>", { desc = "Open file explorer" })
   end,
   dependencies = {
@@ -50,12 +51,42 @@ return {
   },
   config = function()
     local mappings = require("config.plugins.neo-tree.mappings")
+
+    ---Get custom sort function for js/ts projects according fsd folders order
+    ---@return function|nil
+    local function get_custom_sort_function()
+      -- checks if package.json exists in current directory
+      local is_js_project = vim.uv.fs_stat("package.json")
+      if is_js_project then
+        -- Default sort function from neo-tree source
+        local function sort_items(a, b)
+          if a.type == b.type then
+            return a.path < b.path
+          else
+            return a.type < b.type
+          end
+        end
+
+        -- Sort order in fsd methodology
+        local fsd_order = { app = 1, pages = 2, widgets = 3, features = 4, entities = 5, shared = 6 }
+        return function(a, b)
+          if fsd_order[a.name] and fsd_order[b.name] then
+            return fsd_order[a.name] < fsd_order[b.name]
+          end
+          return sort_items(a, b)
+        end
+      else
+        return nil
+      end
+    end
+
     -- See: https://github.com/nvim-neo-tree/neo-tree.nvim/blob/main/lua/neo-tree/defaults.lua
     require("neo-tree").setup({
       sources = { "filesystem", "git_status" },
       add_blank_line_at_top = true,
       enable_modified_markers = true,
       popup_border_style = PREF.ui.border,
+      sort_function = get_custom_sort_function(),
 
       source_selector = {
         winbar = true,
