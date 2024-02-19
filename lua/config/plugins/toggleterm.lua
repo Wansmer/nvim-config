@@ -56,6 +56,12 @@ return {
         vim.api.nvim_set_hl(ns, "FloatBorder", { bg = "#000000", fg = "#000000" })
         vim.api.nvim_win_set_hl_ns(term.window, ns)
       end,
+      on_close = function()
+        local ok, nt = pcall(require, "neo-tree.sources.manager")
+        if ok then
+          nt.refresh("filesystem")
+        end
+      end,
     })
   end,
 }
