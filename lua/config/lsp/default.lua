@@ -15,6 +15,11 @@ M.on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
   end
 
+  local ok_wd, wd = pcall(require, "workspace-diagnostics")
+  if ok_wd then
+    wd.populate_workspace_diagnostics(client, bufnr)
+  end
+
   -- Disable semantic tokens highlight
   if client.server_capabilities.semanticTokensProvider then
     -- Disable
