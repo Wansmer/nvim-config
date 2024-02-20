@@ -33,7 +33,6 @@ local opposites = vim.tbl_add_reverse_lookup({
   ["<"] = ">",
 })
 
--- a !== b
 ---Convert string's chars to same case like base string
 ---If base string length less than target string, other chars will convert to case
 ---like last char in base string.
@@ -54,6 +53,10 @@ end
 
 ---Toggle word (<cword>) under cursor to opposite value.
 function M.toggle_word()
+  -- To processed `==`, `!==` etc
+  local ikw_orig = vim.opt.iskeyword:get()
+  vim.opt.iskeyword:append({ "!", "=", "<", ">" })
+
   -- Get text under cursor
   local text = vim.fn.expand("<cword>")
 
@@ -70,6 +73,9 @@ function M.toggle_word()
       vim.cmd('normal! "_ciw' .. to_same_register(tostring(text), opp))
     end
   end
+
+  -- Restore original value of `iskeyword`
+  vim.opt.iskeyword = ikw_orig
 end
 
 return M
