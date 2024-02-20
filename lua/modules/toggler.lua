@@ -26,12 +26,14 @@ local opposites = vim.tbl_add_reverse_lookup({
   ["open"] = "close",
   ["global"] = "local",
   ["increment"] = "decrement",
-  -- TODO: below is not working. Need fix
+
+  -- This will be work only with `vim.opt.iskeyword:append({ "!", "=", "<", ">" })`
   ["!="] = "==",
   ["!=="] = "===",
   ["<"] = ">",
 })
 
+-- a !== b
 ---Convert string's chars to same case like base string
 ---If base string length less than target string, other chars will convert to case
 ---like last char in base string.
