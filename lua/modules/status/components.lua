@@ -91,7 +91,7 @@ end
 
 function M.formatters()
   local formatters = formatters_list()
-  local prefix = (formatters == "" and " no formatters" or "%#FormatterStatusActive#%*")
+  local prefix = (formatters == "" and "󰉩 no formatters" or "%#FormatterStatusActive#%*")
   return vim.trim(vim.fn.join({ prefix, formatters }, " "))
 end
 
