@@ -1,29 +1,14 @@
 require("mellifluous").setup({
   dim_inactive = false,
   color_set = "mountain", -- 'mellifluous', 'alduin', 'tender', 'mountain'
-  styles = { -- see :h attr-list for options. set {} for NONE, { option = true } for option
-    comments = { italic = true },
-    conditionals = {},
-    folds = {},
-    loops = {},
-    functions = {},
-    keywords = {},
-    strings = {},
-    variables = {},
-    numbers = {},
-    booleans = {},
-    properties = {},
-    types = {},
-    operators = {},
+  highlight_overrides = {
+    dark = function(hl, _) -- dark variant of the color set
+      hl.set("WinBar", { link = "Normal" })
+      hl.set("WinBarNC", { link = "Normal" })
+    end,
   },
-  transparent_background = {
-    enabled = false,
-    floating_windows = false,
-    telescope = false,
-    file_tree = false,
-    cursor_line = false,
-    status_line = false,
-  },
+  styles = { comments = { italic = true } },
+  transparent_background = { enabled = false },
   flat_background = {
     line_numbers = true,
     floating_windows = false,
