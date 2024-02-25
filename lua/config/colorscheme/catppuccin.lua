@@ -71,6 +71,8 @@ require("catppuccin").setup({
         WinBarNC = { link = "WinBar" },
         NeoTreeWinSeparator = { fg = colors.base, bg = colors.base },
         IblScope = { fg = colors.surface2 },
+        FloatBorder = { fg = colors.mantle, bg = colors.mantle },
+        FloatTitle = { fg = colors.mantle, bg = colors.lavender, bold = true },
       }
     end,
   },
