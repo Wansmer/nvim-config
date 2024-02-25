@@ -63,6 +63,7 @@ M.set_keymap = function(_, bufnr)
 
   -- Hover (symbol info)
   map("n", "K", vim.lsp.buf.hover, d("Show symbol info"))
+  map("n", "gK", require("modules.ext_hover").extended_hover, d("Show symbol info with definition"))
 
   -- Formatting
   -- INFO: Moved out from M.set_keymap since it using third-party format plugin
