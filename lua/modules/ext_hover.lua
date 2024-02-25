@@ -1,3 +1,9 @@
+---Implements extended hover functionality
+---(e.g. vscode like `editor.action.showDefinitionPreviewHover`)
+---
+---Requirements:
+--- - `sed`;
+
 local M = { servers = { "tsserver" } }
 
 local p = vim.lsp.protocol.Methods
@@ -6,8 +12,7 @@ function M.extended_hover()
   local start_buf = vim.api.nvim_get_current_buf()
 
   local clients = vim.lsp.get_clients({ bufnr = start_buf })
-  ---@type lsp.Client
-  local client
+  local client ---@type lsp.Client
 
   for _, c in ipairs(clients) do
     if
