@@ -94,6 +94,7 @@ local function on_float(handler, opts)
 
     set_float_hl(buf, win)
     set_float_keymaps(buf)
+    return buf, win
   end
 end
 
