@@ -101,19 +101,20 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   end,
 })
 
--- vim.api.nvim_create_autocmd('VimEnter', {
---   desc = 'Reload buffer if it has been modified externally',
---   callback = function()
---     local watcher = require('modules.watcher').new()
---
---     watcher:start()
---     watcher:on_change({
---       function()
---         vim.cmd.checktime()
---       end,
---     })
---   end,
--- })
+vim.api.nvim_create_autocmd("VimEnter", {
+  desc = "Reload buffer if it has been modified externally",
+  callback = function()
+    local watcher = require("modules.watcher").new()
+
+    watcher:start()
+    watcher:on_change({
+      function()
+        vim.cmd.checktime()
+      end,
+    })
+    -- watcher:print_tree()
+  end,
+})
 
 vim.api.nvim_create_autocmd("VimEnter", {
   desc = "Translate global keybindings",
