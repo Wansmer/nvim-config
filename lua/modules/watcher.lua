@@ -1,48 +1,68 @@
-local u = require("utils")
+-- TODO: to add debounce to avoid twiced events
+-- TODO: squash deteded and rename to one event
 
-local uv = vim.fn.has("nvim-0.10") == 1 and vim.uv or vim.loop
+local u = require("utils")
 
 local function match(str)
   return function(regex)
-    return string.match(str, regex)
+    return string.match(str, regex) ~= nil
   end
 end
 
-local function iter_dir(path)
-  local fs = uv.fs_scandir(path)
-  return function()
-    if not fs then
-      return
-    end
-    return uv.fs_scandir_next(fs)
-  end
-end
-
-local function scandir(path, prefix, tree, ignore)
-  for item, t in iter_dir(path) do
-    local file = path .. "/" .. item
-    if not u.some(ignore, match(item)) then
+---Recursively traverse the directories and collect all entries
+---@param path string
+---@param store table<string, table>
+---@param ignore table
+local function collect_entries(path, store, ignore)
+  for item, t in vim.fs.dir(path) do
+    if not vim.iter(ignore):any(match(item)) then
+      local fullpath = vim.fs.joinpath(vim.fn.fnamemodify(path, ":p"), item)
+      local stat = vim.uv.fs_stat(fullpath)
+      store[fullpath] = {
+        ino = stat and stat.ino or nil, -- always not nil
+        deleted = false,
+      }
       if t == "directory" then
-        scandir(file, item, tree)
-      else
-        local p = prefix == "" and item or prefix .. "/" .. item
-        table.insert(tree, p)
+        collect_entries(fullpath, store, ignore)
       end
     end
   end
 end
 
-local function detect_event(fname, fullpath, tree)
-  local is_exist = uv.fs_stat(fullpath)
-  local is_watched = vim.tbl_contains(tree, fname)
+---Check if the file with same inode and marked as deleted is observed in the store
+---@param store table<string, table>
+---@param stat table
+---@return boolean
+local function check_prev_version(store, stat)
+  if not stat then
+    return false
+  end
 
+  return vim.iter(store):find(function(_, v)
+    return v.ino == stat.ino and v.deleted
+  end) ~= nil
+end
+
+---Detected fs event
+---@param fname string
+---@param fullpath string
+---@param store table<string, table>
+---@return string
+local function detect_event(fname, fullpath, store)
+  local stat = vim.uv.fs_stat(fullpath)
+  local is_exist = stat ~= nil
+  local is_watched = store[fullpath] ~= nil
   local event_name = "unknown"
+
   local is_changed = is_watched and is_exist
   local is_deleted = is_watched and not is_exist
-  local is_created = not is_watched
+  local is_created = not is_deleted
+  local is_renamed = is_created and check_prev_version(store, stat)
 
   if is_changed then
     event_name = "change"
+  elseif is_renamed then
+    event_name = "rename"
   elseif is_created then
     event_name = "create"
   elseif is_deleted then
@@ -52,67 +72,86 @@ local function detect_event(fname, fullpath, tree)
   return event_name
 end
 
+---Check if the path has the root indicator
+---@param cwd string
+---@param pattern string|table
+---@return boolean
 local function check_root(cwd, pattern)
   pattern = type(pattern) == "string" and { pattern } or pattern
   pattern = vim.tbl_map(function(el)
-    return cwd .. el
-  end, pattern)
-  return u.some(pattern, uv.fs_stat)
+    return vim.fs.joinpath(cwd, el)
+  end, pattern --[[@as table]])
+  return u.some(pattern, vim.uv.fs_stat)
 end
 
 local AUTOCMD = {
-  ["change"] = "User WatcherChangedFile",
-  ["create"] = "User WatcherCreatedFile",
-  ["delete"] = "User WatcherDeletedFile",
-  ["rename"] = "User WatcherRenamedFile", -- no implement. TODO: find how to detect renaming
+  ["change"] = "WatcherChangedFile",
+  ["create"] = "WatcherCreatedFile",
+  ["delete"] = "WatcherDeletedFile",
+  ["rename"] = "WatcherRenamedFile",
 }
 
 local Watcher = {}
 Watcher.__index = Watcher
 
-Watcher.new = function(path, opts, ignore, root_pattern)
-  path = path or uv.cwd() .. "/"
+function Watcher.new(path, opts, ignore, root_pattern)
+  if vim.fn.has("0.10") ~= 1 then
+    vim.notify("Only support Neovim 0.10+", vim.log.levels.WARN, { title = "Watcher" })
+    return
+  end
+
+  path = path or vim.uv.cwd() .. "/"
   opts = opts or { watch_entry = false, stat = false, recursive = true }
   ignore = ignore or { "^%.git", "%.git/", "%~$", "4913$" }
   root_pattern = root_pattern or ".git/"
+
   local run = true
-  local tree = {}
+  local store = {}
 
   if not check_root(path, root_pattern) then
     run = false
   else
-    scandir(path, "", tree, ignore)
+    collect_entries(path, store, ignore)
   end
 
   return setmetatable({
     _path = path,
     _opts = opts,
-    _tree = tree,
+    _store = store,
     _ignore = ignore,
     _w = nil,
     _on_create = {},
     _on_delete = {},
     _on_change = {},
+    _on_rename = {},
     _on_every = {},
     _run = run,
+    _queue = {},
   }, Watcher)
 end
 
 function Watcher:_remove_file(fname)
-  self._tree = vim.tbl_filter(function(name)
-    return name ~= fname
-  end, self._tree)
+  self._store[fname] = nil
 end
 
 function Watcher:_add_file(fname)
-  table.insert(self._tree, fname)
+  local stat = vim.uv.fs_stat(self._path .. fname)
+  if stat then
+    self._store[fname] = stat.ino
+  end
 end
 
-function Watcher:_update_file_tree(event, fname)
+function Watcher:_update_file_store(event, fname)
   if event == "create" then
     self:_add_file(fname)
   elseif event == "delete" then
-    self:_remove_file(fname)
+    self._store[fname].deleted = true
+    -- Wait 30ms before deleting file, because it may be part of 'rename' event
+    vim.defer_fn(function()
+      self:_remove_file(fname)
+    end, 30)
+  elseif event == "rename" then
+    --TODO
   end
 end
 
@@ -124,29 +163,32 @@ function Watcher:_on_event(err, fname, status)
 
   if not u.some(self._ignore, match(fname)) then
     local fullpath = self._path .. fname
+    local ino = vim.uv.fs_stat(fullpath) and vim.uv.fs_stat(fullpath).ino or nil
 
-    local event = detect_event(fname, fullpath, self._tree)
+    local event = detect_event(fname, fullpath, self._store)
     local autocmd = AUTOCMD[event]
 
     if autocmd then
       local cbs = vim.list_extend(self["_on_" .. event], self._on_every)
 
-      vim.cmd.doautocmd(autocmd)
-      print("Len cbs: " .. #cbs)
+      vim.api.nvim_exec_autocmds("User", {
+        pattern = autocmd,
+        data = { file = fullpath, event = event, status = status },
+      })
 
       for _, cb in ipairs(cbs) do
         cb(fname, fullpath, event, status)
       end
 
-      self:_update_file_tree(event, fname)
+      self:_update_file_store(event, fullpath)
     end
 
-    self:restart()
+    -- self:restart()
   end
 end
 
-function Watcher:print_tree()
-  vim.print(self._tree)
+function Watcher:print_store()
+  vim.print(self._store)
 end
 
 function Watcher:on_create(cbs)
@@ -182,7 +224,7 @@ function Watcher:on_any(cbs)
 end
 
 function Watcher:start()
-  self._w = uv.new_fs_event()
+  self._w = vim.uv.new_fs_event()
 
   if not self._w then
     vim.notify('Fail to call "uv.new_fs_event()"', vim.log.levels.WARN, { title = "Watcher: " })
@@ -216,7 +258,7 @@ function Watcher:restart()
 end
 
 function Watcher:get_files()
-  return self._tree
+  return self._store
 end
 
 function Watcher:stop()
