@@ -105,6 +105,9 @@ vim.api.nvim_create_autocmd("VimEnter", {
   desc = "Reload buffer if it has been modified externally",
   callback = function()
     local watcher = require("modules.watcher").new()
+    if not watcher then
+      return
+    end
 
     watcher:start()
     watcher:on_change({

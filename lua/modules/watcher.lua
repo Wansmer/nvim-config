@@ -1,7 +1,36 @@
--- TODO: to add debounce to avoid twiced events
--- TODO: squash deteded and rename to one event
+---@class Watcher
+---@field _w uv.uv_fs_event_t
+---@field _path string
+---@field _ignore string[]
+---@field _root string[]
+---@field _uv_event_flags fs_event_flags
+---@field _store Store
+---@field _on_create function[]
+---@field _on_delete function[]
+---@field _on_change function[]
+---@field _on_rename function[]
+---@field _on_every function[]
+---@field _queue table
 
-local u = require("utils")
+---@alias fs_event_flags {watch_entry: boolean, stat: boolean, recursive: boolean}
+
+---@class WatcherOpts
+---@field path string Path to watch. Default is cwd
+---More info: https://docs.libuv.org/en/v1.x/fs_event.html#c.uv_fs_event_flags
+---Default is {watch_entry = false, stat = false, recursive = true}
+---@field uv_event_flags {watch_entry: boolean, stat: boolean, recursive: boolean} uv.fs_event flags.
+---@field root_patterns string[] Root pattern. Default is [".git/"]
+---@field ignore string[] Ignore patterns. Default is ["^%.git", "%.git/", "%~$", "4913$"]
+
+---@alias StoreRecord {ino: number, deleted: boolean, timer?: uv.uv_timer_t}
+---@alias Store table<string, StoreRecord>
+
+local AUTOCMD = {
+  ["change"] = "WatcherChanged",
+  ["create"] = "WatcherCreated",
+  ["delete"] = "WatcherDeleted",
+  ["rename"] = "WatcherRenamed",
+}
 
 local function match(str)
   return function(regex)
@@ -11,7 +40,7 @@ end
 
 ---Recursively traverse the directories and collect all entries
 ---@param path string
----@param store table<string, table>
+---@param store Store
 ---@param ignore table
 local function collect_entries(path, store, ignore)
   for item, t in vim.fs.dir(path) do
@@ -30,7 +59,7 @@ local function collect_entries(path, store, ignore)
 end
 
 ---Check if the file with same inode and marked as deleted is observed in the store
----@param store table<string, table>
+---@param store Store
 ---@param stat table
 ---@return boolean
 local function check_prev_version(store, stat)
@@ -46,7 +75,7 @@ end
 ---Detected fs event
 ---@param fname string
 ---@param fullpath string
----@param store table<string, table>
+---@param store Store
 ---@return string
 local function detect_event(fname, fullpath, store)
   local stat = vim.uv.fs_stat(fullpath)
@@ -73,124 +102,160 @@ local function detect_event(fname, fullpath, store)
 end
 
 ---Check if the path has the root indicator
----@param cwd string
----@param pattern string|table
+---@param path string
+---@param pattern string[]
 ---@return boolean
-local function check_root(cwd, pattern)
-  pattern = type(pattern) == "string" and { pattern } or pattern
-  pattern = vim.tbl_map(function(el)
-    return vim.fs.joinpath(cwd, el)
-  end, pattern --[[@as table]])
-  return u.some(pattern, vim.uv.fs_stat)
+local function is_root_found(path, pattern)
+  return vim.iter(pattern):any(function(item)
+    return vim.uv.fs_stat(vim.fs.joinpath(path, item))
+  end)
 end
 
-local AUTOCMD = {
-  ["change"] = "WatcherChangedFile",
-  ["create"] = "WatcherCreatedFile",
-  ["delete"] = "WatcherDeletedFile",
-  ["rename"] = "WatcherRenamedFile",
-}
-
+---@class Watcher
 local Watcher = {}
 Watcher.__index = Watcher
 
-function Watcher.new(path, opts, ignore, root_pattern)
+---Create a new Watcher
+---@param opts? WatcherOpts
+---@return Watcher|nil
+function Watcher.new(opts)
   if vim.fn.has("nvim-0.10") ~= 1 then
     vim.notify("Only support Neovim 0.10+", vim.log.levels.WARN, { title = "Watcher" })
     return
   end
 
-  path = path or vim.uv.cwd() .. "/"
-  opts = opts or { watch_entry = false, stat = false, recursive = true }
-  ignore = ignore or { "^%.git", "%.git/", "%~$", "4913$" }
-  root_pattern = root_pattern or ".git/"
-
-  local run = true
-  local store = {}
-
-  if not check_root(path, root_pattern) then
-    run = false
-  else
-    collect_entries(path, store, ignore)
+  if opts and opts.path then
+    opts.path = vim.fn.fnamemodify(opts.path, ":p")
   end
 
+  opts = vim.tbl_deep_extend("force", {
+    path = vim.uv.cwd(),
+    uv_event_flags = { watch_entry = false, stat = false, recursive = true },
+    root_patterns = { ".git/" },
+    ignore_patterns = { "^%.git", "%.git/", "%~$", "4913$" },
+  }, opts or {})
+
+  if not is_root_found(opts.path, opts.root_patterns) then
+    vim.notify("Root pattern is not detected. Directory is not watch now", vim.log.levels.WARN, { title = "Watcher" })
+    return
+  end
+
+  ---@type Store
+  local store = {}
+
+  collect_entries(opts.path, store, opts.ignore_patterns)
+
   return setmetatable({
-    _path = path,
-    _opts = opts,
+    _path = opts.path,
+    _uv_event_flags = opts.uv_event_flags,
     _store = store,
-    _ignore = ignore,
+    _ignore = opts.ignore_patterns,
     _w = nil,
     _on_create = {},
     _on_delete = {},
     _on_change = {},
     _on_rename = {},
     _on_every = {},
-    _run = run,
     _queue = {},
   }, Watcher)
 end
 
-function Watcher:_remove_file(fname)
-  self._store[fname] = nil
+---Remove record from the Watcher._store
+---@param fullpath string
+function Watcher:_remove_from_store(fullpath)
+  self._store[fullpath] = nil
 end
 
-function Watcher:_add_file(fname)
-  local stat = vim.uv.fs_stat(self._path .. fname)
-  if stat then
-    self._store[fname] = stat.ino
+---Add record to the Watcher._store
+---@param fullname string
+---@param ino number Inode
+function Watcher:_add_to_store(fullname, ino)
+  self._store[fullname] = { ino = ino, deleted = false }
+end
+
+---Handler event: update store, run autocmd, run callbacks
+---@param event 'create' | 'delete' | 'change' | 'rename'
+---@param autocmd 'WatcherCreated' | 'WatcherDeleted' | 'WatcherChanged' | 'WatcherRenamed'
+---@param fullpath string
+function Watcher:_handle_event(event, autocmd, fullpath)
+  local data = { file = fullpath, event = event, stat = vim.uv.fs_stat(fullpath) }
+  local cbs = vim.list_extend(self["_on_" .. event], self._on_every)
+
+  local run_autocmd = function(ovveride)
+    vim.api.nvim_exec_autocmds(
+      "User",
+      vim.tbl_deep_extend("force", {
+        pattern = autocmd,
+        data = data,
+      }, ovveride or {})
+    )
   end
-end
 
-function Watcher:_update_file_store(event, fname)
+  local run_cbs = function()
+    for _, cb in ipairs(cbs) do
+      cb()
+    end
+  end
+
   if event == "create" then
-    self:_add_file(fname)
+    self:_add_to_store(fullpath, data.stat.ino)
+    run_autocmd()
+    run_cbs()
+  elseif event == "change" then
+    run_autocmd()
+    run_cbs()
   elseif event == "delete" then
-    self._store[fname].deleted = true
+    self._store[fullpath].deleted = true
     -- Wait 30ms before deleting file, because it may be part of 'rename' event
-    vim.defer_fn(function()
-      self:_remove_file(fname)
-    end, 30)
+    local delay = 30
+    self._store[fullpath].timer = vim.defer_fn(function()
+      self:_remove_from_store(fullpath)
+      run_autocmd()
+      run_cbs()
+    end, delay)
   elseif event == "rename" then
-    --TODO
+    local stat = data.stat
+    if not stat then
+      return
+    end
+    local prev_name, prev_record = vim.iter(self._store):find(function(_, v)
+      return v.ino == stat.ino and v.deleted
+    end)
+
+    if prev_record.timer then
+      prev_record.timer:stop()
+    end
+
+    self:_remove_from_store(prev_name)
+    self:_add_to_store(fullpath, stat.ino)
+    run_autocmd()
+    run_cbs()
   end
 end
 
 function Watcher:_on_event(err, fname, status)
   if err then
     local msg = err .. ". Try to restart watcher for " .. self._path
-    vim.notify(msg, vim.log.levels.ERROR, { title = "Watcher: " })
+    vim.notify(msg, vim.log.levels.ERROR, { title = "Watcher" })
   end
 
-  if not u.some(self._ignore, match(fname)) then
-    local fullpath = self._path .. fname
-    local ino = vim.uv.fs_stat(fullpath) and vim.uv.fs_stat(fullpath).ino or nil
-
-    local event = detect_event(fname, fullpath, self._store)
-    local autocmd = AUTOCMD[event]
-
-    if autocmd then
-      local cbs = vim.list_extend(self["_on_" .. event], self._on_every)
-
-      vim.api.nvim_exec_autocmds("User", {
-        pattern = autocmd,
-        data = { file = fullpath, event = event, status = status },
-      })
-
-      for _, cb in ipairs(cbs) do
-        cb(fname, fullpath, event, status)
-      end
-
-      self:_update_file_store(event, fullpath)
-    end
-
-    -- self:restart()
+  if vim.iter(self._ignore):any(match(fname)) then
+    return
   end
+
+  local fullpath = vim.fs.joinpath(self._path, fname)
+
+  local event = detect_event(fname, fullpath, self._store)
+  local autocmd = AUTOCMD[event]
+  if not autocmd then
+    return
+  end
+
+  self:_handle_event(event, autocmd, fullpath)
 end
 
-function Watcher:print_store()
-  vim.print(self._store)
-end
-
+---On create event registrator
+---@param cbs function|function[]
 function Watcher:on_create(cbs)
   if type(cbs) == "table" then
     vim.list_extend(self._on_create, cbs)
@@ -199,6 +264,8 @@ function Watcher:on_create(cbs)
   end
 end
 
+---On delete event registrator
+---@param cbs function|function[]
 function Watcher:on_delete(cbs)
   if type(cbs) == "table" then
     vim.list_extend(self._on_delete, cbs)
@@ -207,6 +274,8 @@ function Watcher:on_delete(cbs)
   end
 end
 
+---On change event registrator
+---@param cbs function|function[]
 function Watcher:on_change(cbs)
   if type(cbs) == "table" then
     vim.list_extend(self._on_change, cbs)
@@ -215,7 +284,9 @@ function Watcher:on_change(cbs)
   end
 end
 
-function Watcher:on_any(cbs)
+---On every event registrator
+---@param cbs function|function[]
+function Watcher:on_every(cbs)
   if type(cbs) == "table" then
     vim.list_extend(self._on_every, cbs)
   elseif type(cbs) == "function" then
@@ -223,6 +294,7 @@ function Watcher:on_any(cbs)
   end
 end
 
+---Start the Watcher
 function Watcher:start()
   self._w = vim.uv.new_fs_event()
 
@@ -231,21 +303,16 @@ function Watcher:start()
     return
   end
 
-  if not self._run then
-    vim.notify("Root pattern is not detected. Directory is not watch now", vim.log.levels.WARN, { title = "Watcher: " })
-    self._w:stop()
-    return
-  end
-
   self._w:start(
     self._path,
-    self._opts,
+    self._uv_event_flags,
     vim.schedule_wrap(function(...)
       self:_on_event(...)
     end)
   )
 end
 
+---Restart the Watcher
 function Watcher:restart()
   self._w:stop()
   self._w:start(
@@ -257,10 +324,7 @@ function Watcher:restart()
   )
 end
 
-function Watcher:get_files()
-  return self._store
-end
-
+---Stop the Watcher
 function Watcher:stop()
   self._w:stop()
 end
