@@ -1,4 +1,54 @@
--- TODO: write tests
+-- TODO: to add tests
+-- TODO: make `collect_entries` async
+
+-- FileSystem Wathcer
+--
+-- This module allows you to monitor file system events using libuv (`vim.uv`).
+--
+-- Implementation features:
+--
+-- - Event handling via callbacks and with `usercmd` with payload passing; - By default,
+-- `vim.uv.new_fs_event` always returns two events in a row for `change'. A delay is added here to
+-- work around this;
+-- - Due to the way the editor handles file changes, `vim.uv.new_fs_event` always
+-- returns `rename = true`, which makes it difficult to handle the rename event. This problem is
+-- solved here;
+-- - When renaming a file, two events are generated in a row: `deleted` and `created`.
+-- To avoid untargeted handlers, these two events are handled as a single `rename` event (more
+-- information here : https://github.com/neovim/neovim/discussions/26900);
+
+-- USAGE:
+--
+-- local w = require("modules.watcher")
+-- local watcher = w.new({
+--   path = "./",
+--   ignore_patterns = { "^%.git", "%.git/", "%~$", "4913$", "^node_modules" },
+-- })
+-- if not watcher then
+--   return
+-- end
+--
+-- watcher:start()
+-- watcher:on_change({ -- or :on_every, :on_create, :on_delete, :on_rename
+--   function(payload)
+--     vim.print(payload) -- payload: { file = "fullpath", event = "change", stat = { ... } }
+--     vim.cmd.checktime()
+--   end,
+-- })
+--
+-- After initialization, listening for autocmd events is available:
+--
+-- vim.api.nvim_create_autocmd("User", {
+--   pattern = {
+--     "WatcherChanged",
+--     "WatcherCreated",
+--     "WatcherDeleted",
+--     "WatcherRenamed",
+--   },
+--   callback = function(e)
+--     vim.notify("Event: " .. e.match .. "\n" .. e.data.file, vim.log.levels.INFO, { title = "Watcher" })
+--   end,
+-- })
 
 ---@class Watcher
 ---@field _w uv.uv_fs_event_t libuv fs_event. See: https://docs.libuv.org/en/v1.x/fs_event.html
