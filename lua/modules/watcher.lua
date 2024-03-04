@@ -95,7 +95,7 @@ local Watcher = {}
 Watcher.__index = Watcher
 
 function Watcher.new(path, opts, ignore, root_pattern)
-  if vim.fn.has("0.10") ~= 1 then
+  if vim.fn.has("nvim-0.10") ~= 1 then
     vim.notify("Only support Neovim 0.10+", vim.log.levels.WARN, { title = "Watcher" })
     return
   end
