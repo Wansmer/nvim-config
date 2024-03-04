@@ -25,6 +25,7 @@
 ---@field uv_event_flags {watch_entry: boolean, stat: boolean, recursive: boolean} uv.fs_event flags.
 ---@field root_patterns string[] Root pattern. Default is [".git/"]
 ---@field ignore string[] Ignore patterns. Default is ["^%.git", "%.git/", "%~$", "4913$"]
+---@field delay number Ms count to delay for 'change' and 'delete' events
 
 ---@alias StoreRecord {ino?: number, deleted: boolean, timer?: uv.uv_timer_t}
 ---@alias Store table<string, StoreRecord>
@@ -137,6 +138,7 @@ function Watcher.new(opts)
     uv_event_flags = { watch_entry = false, stat = false, recursive = true },
     root_patterns = { ".git/" },
     ignore_patterns = { "^%.git", "%.git/", "%~$", "4913$" },
+    delay = 30,
   }, opts or {})
 
   if not is_root_found(opts.path, opts.root_patterns) then
@@ -158,6 +160,8 @@ function Watcher.new(opts)
     _on_change = {},
     _on_rename = {},
     _on_every = {},
+    _root = opts.root_patterns,
+    _delay = opts.delay,
   }, Watcher)
 end
 
@@ -206,17 +210,25 @@ function Watcher:_handle_event(event, autocmd, fullpath)
     run_autocmd()
     run_cbs()
   elseif event == "change" then
-    run_autocmd()
-    run_cbs()
+    if self._store[fullpath].timer then
+      self._store[fullpath].timer:stop()
+    end
+    -- When a file is changed, libuv sends the `change` event twice. This is most likely due to the
+    -- way neovim handles file changes. So the `change` event is delayed to avoid the double
+    -- notification.
+    self._store[fullpath].timer = vim.defer_fn(function()
+      run_autocmd()
+      run_cbs()
+      self._store[fullpath].timer = nil
+    end, self._delay)
   elseif event == "delete" then
     self._store[fullpath].deleted = true
-    -- Wait 30ms before deleting file, because it may be part of 'rename' event
-    local delay = 30
+    -- Wait `self._delay` before deleting file, because it may be part of 'rename' event
     self._store[fullpath].timer = vim.defer_fn(function()
       self:_remove_from_store(fullpath)
       run_autocmd()
       run_cbs()
-    end, delay)
+    end, self._delay)
   elseif event == "rename" then
     local stat = data.stat
     if not stat then
