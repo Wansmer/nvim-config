@@ -1,18 +1,22 @@
+-- TODO: write tests
+
 ---@class Watcher
----@field _w uv.uv_fs_event_t
----@field _path string
----@field _ignore string[]
----@field _root string[]
----@field _uv_event_flags fs_event_flags
+---@field _w uv.uv_fs_event_t libuv fs_event. See: https://docs.libuv.org/en/v1.x/fs_event.html
+---@field _path string Path to watch. Default is cwd
+---@field _ignore string[] Ignore patterns. Default is ["^%.git", "%.git/", "%~$", "4913$"]
+---@field _root string[] Root pattern. Default is [".git/"]
+---@field _uv_event_flags fs_event_flags See: https://docs.libuv.org/en/v1.x/fs_event.html#c.uv_fs_event_flags
 ---@field _store Store
----@field _on_create function[]
----@field _on_delete function[]
----@field _on_change function[]
----@field _on_rename function[]
----@field _on_every function[]
----@field _queue table
+---@field _on_create WatcherEventCallback[]
+---@field _on_delete WatcherEventCallback[]
+---@field _on_change WatcherEventCallback[]
+---@field _on_rename WatcherEventCallback[]
+---@field _on_every WatcherEventCallback[]
+---@field _delay number Ms count to delay for 'change' and 'delete' events
 
 ---@alias fs_event_flags {watch_entry: boolean, stat: boolean, recursive: boolean}
+---@alias WatcherEventPayload {file: string, event: string, stat: table} See `:h uv.fs_stat()`
+---@alias WatcherEventCallback fun(payload: WatcherEventPayload)
 
 ---@class WatcherOpts
 ---@field path string Path to watch. Default is cwd
@@ -22,7 +26,7 @@
 ---@field root_patterns string[] Root pattern. Default is [".git/"]
 ---@field ignore string[] Ignore patterns. Default is ["^%.git", "%.git/", "%~$", "4913$"]
 
----@alias StoreRecord {ino: number, deleted: boolean, timer?: uv.uv_timer_t}
+---@alias StoreRecord {ino?: number, deleted: boolean, timer?: uv.uv_timer_t}
 ---@alias Store table<string, StoreRecord>
 
 local AUTOCMD = {
@@ -140,9 +144,7 @@ function Watcher.new(opts)
     return
   end
 
-  ---@type Store
   local store = {}
-
   collect_entries(opts.path, store, opts.ignore_patterns)
 
   return setmetatable({
@@ -156,16 +158,17 @@ function Watcher.new(opts)
     _on_change = {},
     _on_rename = {},
     _on_every = {},
-    _queue = {},
   }, Watcher)
 end
 
+---@private
 ---Remove record from the Watcher._store
 ---@param fullpath string
 function Watcher:_remove_from_store(fullpath)
   self._store[fullpath] = nil
 end
 
+---@private
 ---Add record to the Watcher._store
 ---@param fullname string
 ---@param ino number Inode
@@ -173,12 +176,13 @@ function Watcher:_add_to_store(fullname, ino)
   self._store[fullname] = { ino = ino, deleted = false }
 end
 
+---@private
 ---Handler event: update store, run autocmd, run callbacks
 ---@param event 'create' | 'delete' | 'change' | 'rename'
 ---@param autocmd 'WatcherCreated' | 'WatcherDeleted' | 'WatcherChanged' | 'WatcherRenamed'
 ---@param fullpath string
 function Watcher:_handle_event(event, autocmd, fullpath)
-  local data = { file = fullpath, event = event, stat = vim.uv.fs_stat(fullpath) }
+  local data = { file = fullpath, event = event, stat = vim.uv.fs_stat(fullpath) } ---@type WatcherEventPayload
   local cbs = vim.list_extend(self["_on_" .. event], self._on_every)
 
   local run_autocmd = function(ovveride)
@@ -193,7 +197,7 @@ function Watcher:_handle_event(event, autocmd, fullpath)
 
   local run_cbs = function()
     for _, cb in ipairs(cbs) do
-      cb()
+      cb(data)
     end
   end
 
@@ -233,6 +237,7 @@ function Watcher:_handle_event(event, autocmd, fullpath)
   end
 end
 
+---@private
 function Watcher:_on_event(err, fname, status)
   if err then
     local msg = err .. ". Try to restart watcher for " .. self._path
@@ -310,6 +315,7 @@ function Watcher:start()
       self:_on_event(...)
     end)
   )
+  vim.notify("Watcher started", vim.log.levels.INFO, { title = "Watcher" })
 end
 
 ---Restart the Watcher
@@ -317,7 +323,7 @@ function Watcher:restart()
   self._w:stop()
   self._w:start(
     self._path,
-    self._opts,
+    self._uv_event_flags,
     vim.schedule_wrap(function(...)
       self:_on_event(...)
     end)

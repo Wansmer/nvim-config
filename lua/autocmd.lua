@@ -115,7 +115,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
         vim.cmd.checktime()
       end,
     })
-    -- watcher:print_tree()
   end,
 })
 
