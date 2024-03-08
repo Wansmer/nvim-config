@@ -1,77 +1,36 @@
--- Original idea and knowledge: https://github.com/lukas-reineke/virt-column.nvim
--- https://github.com/xiyaowong/virtcolumn.nvim
+-- Original idea and knowledge:
+--   https://github.com/lukas-reineke/virt-column.nvim
+--   https://github.com/xiyaowong/virtcolumn.nvim
 
 -- Lightly variant of setting thin colorcolumn with registry of buffers.
 -- If value of colorcolumn like a '+1,+2,+3', all values after first ',' will be ignored.
--- TODO: rewrite with 'nvim_buf_attach': redraw only when line count are changed or current line is bigger than colorcolumn
 
-local tccns = vim.api.nvim_create_namespace("thincc")
-local group = vim.api.nvim_create_augroup("thincc", { clear = true })
-local events = { "ColorScheme", "BufWinEnter", "TextChangedI", "TextChanged", "FileChangedShellPost" }
-local disable_ft = {
-  "", -- e.g. popups and other windows without filetype
-  "alpha",
-  "neo-tree",
-  "toggleterm",
-  "lazy",
-  "lspinfo",
-}
+local NS = vim.api.nvim_create_namespace("__parts.thincc__")
+local GR = vim.api.nvim_create_augroup("__parts.thincc__", { clear = true })
+local disable_ft = { "", "alpha", "neo-tree", "toggleterm", "lazy", "lspinfo" }
 
 ---Registry for saving original value of colorcolumn of each buffer
 local registry = {}
 
 ---Using original color for ColorColumn
--- local color = vim.api.nvim_get_hl_by_name('ColorColumn', true).background
 local color = vim.api.nvim_get_hl(0, { name = "ColorColumn" }).bg
-
+vim.api.nvim_set_hl(0, "ThinCC", { fg = color, default = true })
 vim.api.nvim_create_autocmd("ColorScheme", {
   desc = "Reload color for thincc if colorscheme is changed",
+  group = GR,
   callback = function()
     color = vim.api.nvim_get_hl(0, { name = "ColorColumn" }).bg
     vim.api.nvim_set_hl(0, "ThinCC", { fg = color, default = true })
   end,
 })
 
-vim.api.nvim_set_hl(0, "ThinCC", { fg = color, default = true })
-
----Create extmark
----@param id integer Id for extmark
----@param col integer Target col to set extmark
----@return table
-local function create_extmark(id, col)
-  return {
-    id = id,
-    virt_text = { { "▕", "ThinCC" } },
-    virt_text_pos = "overlay",
-    virt_text_win_col = col - 1,
-    hl_mode = "combine",
-  }
-end
-
----Create unique key for buffers registry (buf num + filetype)
----@param buf integer Number of buffer
----@return string
-local function make_registry_key(buf)
-  local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
-  return ft .. buf
-end
-
----Add new value to registry if it don't exist
----@param buf integer Number of buffer
----@param col integer|nil Original value of colorcolumn or nil for disable buffer
-local function update_registry(buf, col)
-  local key = make_registry_key(buf)
-  if not registry[key] then
-    registry[key] = { col = col }
-  end
-end
-
 ---Calculating target col to set extmark
----@param scope table { scope = 'local' }
+---@param win integer
+---@param bufnr integer
 ---@return integer|nil
-local function calc_colorcolumn_place(scope)
-  local tw = vim.api.nvim_get_option_value("textwidth", scope)
-  local cc = vim.api.nvim_get_option_value("colorcolumn", scope)
+local function calc_colorcolumn_place(win, bufnr)
+  local tw = vim.bo[bufnr].textwidth
+  local cc = vim.wo[win].colorcolumn
 
   if cc:match("^[+-]%d+") and tw ~= 0 then
     local shift = vim.tbl_map(vim.trim, vim.split(cc, ",", { plain = true }))[1]
@@ -83,22 +42,17 @@ local function calc_colorcolumn_place(scope)
 end
 
 ---Get target col to set thin colorcolumn
+---@param win integer Current win
 ---@param bufnr integer Current buffer
 ---@return integer|nil
-local function get_target_column(bufnr)
-  local key = make_registry_key(bufnr)
-
-  if not registry[key] then
-    local scope = { scope = "local" }
-    local col = calc_colorcolumn_place(scope)
-
-    update_registry(bufnr, col)
+local function get_target_column(win, bufnr)
+  if not registry[bufnr] then
+    registry[bufnr] = { col = calc_colorcolumn_place(win, bufnr) }
   end
-
-  return registry[key].col
+  return registry[bufnr].col
 end
 
-local function collect_ih_len(mark)
+local function calc_inlayhint_len(mark)
   local len = 0
 
   for _, value in ipairs(mark or {}) do
@@ -115,70 +69,48 @@ end
 ---@param line integer
 ---@param col integer
 local function update_exmark(bufnr, line, col)
-  local c_line = vim.api.nvim_buf_get_lines(bufnr, line, line + 1, false)[1]
-  local len = vim.fn.strdisplaywidth(c_line)
+  local line_text = vim.api.nvim_buf_get_lines(bufnr, line, line + 1, false)[1]
+  local len = vim.fn.strdisplaywidth(line_text)
 
   -- Take into account the width of virtual text inlayHint during redrawing
   local ihns = vim.api.nvim_get_namespaces()["vim_lsp_inlayhint"]
   if ihns then
     local mark = vim.api.nvim_buf_get_extmarks(bufnr, ihns, { line, 0 }, { line + 1, 0 }, { details = true })
-    len = len + collect_ih_len(mark or {})
+    len = len + calc_inlayhint_len(mark or {})
   end
 
-  if not (c_line and len >= col) then
-    local extmark = create_extmark(line + 1, col)
-    vim.api.nvim_buf_set_extmark(bufnr, tccns, line, 0, extmark)
+  if not (line_text and len >= col) then
+    vim.api.nvim_buf_set_extmark(bufnr, NS, line, 0, {
+      id = line + 1,
+      virt_text = { { "▕", "ThinCC" } },
+      virt_text_pos = "overlay",
+      virt_text_win_col = col - 1,
+      hl_mode = "combine",
+    })
   else
-    vim.api.nvim_buf_del_extmark(bufnr, tccns, line + 1)
+    vim.api.nvim_buf_del_extmark(bufnr, NS, line + 1)
   end
 end
 
 ---Set thin colorcolumn to buffer
-local function set_thin_colorcolumn()
-  local ft = vim.api.nvim_buf_get_option(0, "filetype")
-
-  if vim.tbl_contains(disable_ft, ft) then
+local function set_thin_colorcolumn(win, bufnr, topline, botline)
+  if vim.tbl_contains(disable_ft, vim.bo[bufnr].filetype) then
     return
   end
 
-  local bufnr = vim.api.nvim_get_current_buf()
   if vim.api.nvim_buf_is_loaded(bufnr) then
-    local count = vim.api.nvim_buf_line_count(bufnr)
-    local col = get_target_column(bufnr)
+    local col = get_target_column(win, bufnr)
     if col then
-      local win = vim.api.nvim_get_current_win()
-      local scope = { win = win, scope = "local" }
-
-      vim.api.nvim_set_option_value("colorcolumn", "", scope)
-
-      for line = 0, count, 1 do
+      vim.wo[win].colorcolumn = ""
+      for line = topline, botline, 1 do
         update_exmark(bufnr, line, col)
       end
     end
   end
 end
 
-vim.api.nvim_create_autocmd(events, {
-  group = group,
-  callback = set_thin_colorcolumn,
+vim.api.nvim_set_decoration_provider(NS, {
+  on_win = function(_, win, bufnr, topline, botline)
+    set_thin_colorcolumn(win, bufnr, topline, botline)
+  end,
 })
-
-vim.api.nvim_create_autocmd("OptionSet", {
-  group = group,
-  pattern = "colorcolumn",
-  callback = set_thin_colorcolumn,
-})
-
-if vim.fn.has("nvim-0.10") == 1 then
-  -- Redraw thincc when inlayHint setted
-  -- TODO: still requires any other event to redraw.
-  vim.api.nvim_create_autocmd("LspRequest", {
-    group = group,
-    callback = function(e)
-      local req = e.data.request
-      if req.method == "textDocument/inlayHint" and req.type == "complete" then
-        set_thin_colorcolumn()
-      end
-    end,
-  })
-end
