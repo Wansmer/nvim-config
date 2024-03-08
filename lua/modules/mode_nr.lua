@@ -1,43 +1,32 @@
--- Original idea: https://github.com/melkster/modicator.nvim
--- TODO: Changing nr highlight only in the current buffer
--- TODO: Using highlight groups from lualine modes
+local PARTS_NAME = "__parts.mode_clnr__"
+local GR = vim.api.nvim_create_augroup(PARTS_NAME, { clear = true })
+local NS = vim.api.nvim_create_namespace(PARTS_NAME)
 
----Keep original colors of group
-local origin_hl = vim.api.nvim_get_hl(0, { name = "CursorLineNr" })
-vim.api.nvim_create_autocmd("ColorScheme", {
-  callback = function()
-    origin_hl = vim.api.nvim_get_hl(0, { name = "CursorLineNr" })
-  end,
-})
-
----Get options for overriding color group
+---Make options to override a color group. Take only foreground from %name group
 ---@param name string Name of base group
----@return table
-local function get_override(name)
+---@return vim.api.keyset.highlight
+local function make_override_hl(name)
   local hl = vim.api.nvim_get_hl(0, { name = name })
-  return vim.tbl_extend("force", origin_hl, { fg = hl.fg })
+  return vim.tbl_extend("force", {}, { fg = hl.fg, bold = true })
 end
 
-local modes_colors = {
-  ["n"] = origin_hl,
-  -- ['i'] = get_override('DiagnosticInfo'),
-  -- ['v'] = get_override('DiagnosticHint'),
-  -- ['r'] = get_override('DiagnosticError'),
-  ["i"] = get_override("String"),
-  ["v"] = get_override("Statement"),
-  ["r"] = get_override("Error"),
+local modes = {
+  ["n"] = make_override_hl("CursorLineNr"),
+  ["i"] = make_override_hl("String"),
+  ["v"] = make_override_hl("Statement"),
+  ["r"] = make_override_hl("Error"),
 }
 
----Update highlight group for CursorLineNr considering current mode
+---Update highlight group for CursorLineNr considering current mode in current window
 local function update_cursorlinenr_hl()
-  local num = vim.api.nvim_get_option_value("number", { win = 0, scope = "local" })
-  if num then
-    local mode = vim.fn.strtrans(vim.fn.mode()):lower():gsub("%W", "")
-    local override = modes_colors[mode] or modes_colors.n
-    vim.api.nvim_set_hl(0, "CursorLineNr", override)
-  end
+  local win = vim.api.nvim_get_current_win()
+  local mode = vim.fn.strtrans(vim.fn.mode()):lower():gsub("%W", "")
+  local override = modes[mode] or modes.n
+  vim.api.nvim_set_hl(NS, "CursorLineNr", override)
+  vim.api.nvim_win_set_hl_ns(win, NS)
 end
 
 vim.api.nvim_create_autocmd("ModeChanged", {
+  group = GR,
   callback = update_cursorlinenr_hl,
 })
