@@ -1,7 +1,7 @@
 ---Implements extended hover functionality
 ---(e.g. vscode like `editor.action.showDefinitionPreviewHover`)
 
-local p = vim.lsp.protocol.Methods
+local ms = vim.lsp.protocol.Methods
 local M = { servers = { "tsserver" } }
 
 function M.extended_hover()
@@ -13,8 +13,8 @@ function M.extended_hover()
   for _, c in ipairs(clients) do
     if
       vim.tbl_contains(M.servers, c.name)
-      and c.supports_method(p.textDocument_hover)
-      and c.supports_method(p.textDocument_definition)
+      and c.supports_method(ms.textDocument_hover)
+      and c.supports_method(ms.textDocument_definition)
     then
       client = c
       break
@@ -49,7 +49,7 @@ function M.extended_hover()
   local params = vim.lsp.util.make_position_params()
 
   -- HOVER
-  client.request(p.textDocument_hover, params, function(err, result, ctx, config)
+  client.request(ms.textDocument_hover, params, function(err, result, ctx, config)
     if err or not result or vim.tbl_isempty(result) or ctx.bufnr ~= start_buf then
       vim.notify("Problem in hover request in ext_hover", vim.log.levels.INFO)
       handle_result({ hover = {} })
@@ -104,7 +104,7 @@ function M.extended_hover()
   end
 
   -- DEFINITION
-  client.request(p.textDocument_definition, params, function(err, result, ctx, config)
+  client.request(ms.textDocument_definition, params, function(err, result, ctx, config)
     if err or not result or vim.tbl_isempty(result) or ctx.bufnr ~= start_buf then
       handle_result({ definition = {} })
       vim.notify("Problem in definition request in ext_hover", vim.log.levels.INFO)
