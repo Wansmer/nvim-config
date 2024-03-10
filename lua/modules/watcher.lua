@@ -30,7 +30,7 @@
 -- end
 --
 -- watcher:start()
--- watcher:on_change({ -- or :on_every, :on_create, :on_delete, :on_rename
+-- watcher:on('change', { -- or on 'every'|'create'|'delete'|'rename'|'change'
 --   function(payload)
 --     vim.print(payload) -- payload: { file = "fullpath", event = "change", stat = { ... } }
 --     vim.cmd.checktime()
@@ -66,7 +66,7 @@
 ---@field _delay number Ms count to delay for 'change' and 'delete' events
 
 ---@alias fs_event_flags {watch_entry: boolean, stat: boolean, recursive: boolean}
----@alias WatcherEventPayload {filename: string, stat?: table, old_filename?: string} See `:h uv.fs_stat()`
+---@alias WatcherEventPayload {filename: string, stat?: table, old_filename?: string, event: string} See `:h uv.fs_stat()`
 ---@alias WatcherEventCallback fun(payload: WatcherEventPayload)
 
 ---@class WatcherOpts
@@ -236,7 +236,6 @@ end
 ---Start the Watcher
 function Watcher:start()
   self._w = vim.uv.new_fs_event()
-
   if not self._w then
     vim.notify('Fail to call "uv.new_fs_event()"', vim.log.levels.WARN, { title = "Watcher: " })
     return
@@ -299,7 +298,7 @@ end
 ---@param event Event
 ---@param fullpath string
 function Watcher:_handle_event(event, fullpath)
-  local data = { filename = fullpath, stat = vim.uv.fs_stat(fullpath) } ---@type WatcherEventPayload
+  local data = { filename = fullpath, stat = vim.uv.fs_stat(fullpath), event = Events[event] } ---@type WatcherEventPayload
   local cbs = vim.list_extend(self["_on_" .. Events[event]], self._on_every)
 
   local run_autocmd = function(ovveride)
@@ -312,9 +311,9 @@ function Watcher:_handle_event(event, fullpath)
     )
   end
 
-  local run_cbs = function()
+  local run_cbs = function(ovveride)
     for _, cb in ipairs(cbs) do
-      cb(data)
+      cb(vim.tbl_deep_extend("force", data, ovveride or {}))
     end
   end
 
@@ -357,8 +356,9 @@ function Watcher:_handle_event(event, fullpath)
 
     self:_remove_from_store(prev_name)
     self:_add_to_store(fullpath, stat.ino)
-    run_autocmd({ data = { old_filename = prev_name } })
-    run_cbs()
+    data.old_filename = prev_name
+    run_autocmd({ data = data })
+    run_cbs(data)
   end
 end
 
@@ -383,44 +383,11 @@ function Watcher:_on_event(err, fname, status)
   self:_handle_event(event, fullpath)
 end
 
----On create event registrator
----@param cbs function|function[]
-function Watcher:on_create(cbs)
-  if type(cbs) == "table" then
-    vim.list_extend(self._on_create, cbs)
-  elseif type(cbs) == "function" then
-    table.insert(self._on_create, cbs)
-  end
-end
-
----On delete event registrator
----@param cbs function|function[]
-function Watcher:on_delete(cbs)
-  if type(cbs) == "table" then
-    vim.list_extend(self._on_delete, cbs)
-  elseif type(cbs) == "function" then
-    table.insert(self._on_delete, cbs)
-  end
-end
-
----On change event registrator
----@param cbs function|function[]
-function Watcher:on_change(cbs)
-  if type(cbs) == "table" then
-    vim.list_extend(self._on_change, cbs)
-  elseif type(cbs) == "function" then
-    table.insert(self._on_change, cbs)
-  end
-end
-
----On every event registrator
----@param cbs function|function[]
-function Watcher:on_every(cbs)
-  if type(cbs) == "table" then
-    vim.list_extend(self._on_every, cbs)
-  elseif type(cbs) == "function" then
-    table.insert(self._on_every, cbs)
-  end
+---On event registrator
+---@param event 'create'|'delete'|'change'|'rename'|'every'
+---@param cbs function[]
+function Watcher:on(event, cbs)
+  vim.list_extend(self["_on_" .. event], cbs)
 end
 
 return Watcher
