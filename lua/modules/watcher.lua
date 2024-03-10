@@ -66,7 +66,7 @@
 ---@field _delay number Ms count to delay for 'change' and 'delete' events
 
 ---@alias fs_event_flags {watch_entry: boolean, stat: boolean, recursive: boolean}
----@alias WatcherEventPayload {file: string, event: string, stat: table} See `:h uv.fs_stat()`
+---@alias WatcherEventPayload {filename: string, stat?: table, old_filename?: string} See `:h uv.fs_stat()`
 ---@alias WatcherEventCallback fun(payload: WatcherEventPayload)
 
 ---@class WatcherOpts
@@ -80,6 +80,16 @@
 
 ---@alias StoreRecord {ino?: number, deleted: boolean, timer?: uv.uv_timer_t}
 ---@alias Store table<string, StoreRecord>
+
+---@enum Event
+local Events = {
+  change = 1,
+  create = 2,
+  delete = 3,
+  rename = 4,
+}
+
+vim.tbl_add_reverse_lookup(Events)
 
 local AUTOCMD = {
   ["change"] = "WatcherChanged",
@@ -128,16 +138,15 @@ local function check_prev_version(store, stat)
   end) ~= nil
 end
 
----Detected fs event
----@param fname string
+---Detected fs event. If event is not detected then return nil
 ---@param fullpath string
 ---@param store Store
----@return string
-local function detect_event(fname, fullpath, store)
+---@return Event|nil
+local function detect_event(fullpath, store)
   local stat = vim.uv.fs_stat(fullpath)
   local is_exist = stat ~= nil
   local is_watched = store[fullpath] ~= nil
-  local event_name = "unknown"
+  local event
 
   local is_changed = is_watched and is_exist
   local is_deleted = is_watched and not is_exist
@@ -145,16 +154,16 @@ local function detect_event(fname, fullpath, store)
   local is_renamed = is_created and check_prev_version(store, stat)
 
   if is_changed then
-    event_name = "change"
+    event = Events.change
   elseif is_renamed then
-    event_name = "rename"
+    event = Events.rename
   elseif is_created then
-    event_name = "create"
+    event = Events.create
   elseif is_deleted then
-    event_name = "delete"
+    event = Events.delete
   end
 
-  return event_name
+  return event
 end
 
 ---Check if the path has the root indicator
@@ -287,18 +296,17 @@ end
 
 ---@private
 ---Handler event: update store, run autocmd, run callbacks
----@param event 'create' | 'delete' | 'change' | 'rename'
----@param autocmd 'WatcherCreated' | 'WatcherDeleted' | 'WatcherChanged' | 'WatcherRenamed'
+---@param event Event
 ---@param fullpath string
-function Watcher:_handle_event(event, autocmd, fullpath)
-  local data = { file = fullpath, event = event, stat = vim.uv.fs_stat(fullpath) } ---@type WatcherEventPayload
-  local cbs = vim.list_extend(self["_on_" .. event], self._on_every)
+function Watcher:_handle_event(event, fullpath)
+  local data = { filename = fullpath, stat = vim.uv.fs_stat(fullpath) } ---@type WatcherEventPayload
+  local cbs = vim.list_extend(self["_on_" .. Events[event]], self._on_every)
 
   local run_autocmd = function(ovveride)
     vim.api.nvim_exec_autocmds(
       "User",
       vim.tbl_deep_extend("force", {
-        pattern = autocmd,
+        pattern = AUTOCMD[Events[event]],
         data = data,
       }, ovveride or {})
     )
@@ -310,11 +318,11 @@ function Watcher:_handle_event(event, autocmd, fullpath)
     end
   end
 
-  if event == "create" then
+  if event == Events.create then
     self:_add_to_store(fullpath, data.stat.ino)
     run_autocmd()
     run_cbs()
-  elseif event == "change" then
+  elseif event == Events.change then
     if self._store[fullpath].timer then
       self._store[fullpath].timer:stop()
     end
@@ -326,7 +334,7 @@ function Watcher:_handle_event(event, autocmd, fullpath)
       run_cbs()
       self._store[fullpath].timer = nil
     end, self._delay)
-  elseif event == "delete" then
+  elseif event == Events.delete then
     self._store[fullpath].deleted = true
     -- Wait `self._delay` before deleting file, because it may be part of 'rename' event
     self._store[fullpath].timer = vim.defer_fn(function()
@@ -334,7 +342,7 @@ function Watcher:_handle_event(event, autocmd, fullpath)
       run_autocmd()
       run_cbs()
     end, self._delay)
-  elseif event == "rename" then
+  elseif event == Events.rename then
     local stat = data.stat
     if not stat then
       return
@@ -343,13 +351,13 @@ function Watcher:_handle_event(event, autocmd, fullpath)
       return v.ino == stat.ino and v.deleted
     end)
 
-    if prev_record.timer then
+    if prev_record and prev_record.timer then
       prev_record.timer:stop()
     end
 
     self:_remove_from_store(prev_name)
     self:_add_to_store(fullpath, stat.ino)
-    run_autocmd()
+    run_autocmd({ data = { old_filename = prev_name } })
     run_cbs()
   end
 end
@@ -367,13 +375,12 @@ function Watcher:_on_event(err, fname, status)
 
   local fullpath = vim.fs.joinpath(self._path, fname)
 
-  local event = detect_event(fname, fullpath, self._store)
-  local autocmd = AUTOCMD[event]
-  if not autocmd then
+  local event = detect_event(fullpath, self._store)
+  if not event then
     return
   end
 
-  self:_handle_event(event, autocmd, fullpath)
+  self:_handle_event(event, fullpath)
 end
 
 ---On create event registrator
