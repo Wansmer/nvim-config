@@ -1,5 +1,6 @@
 -- TODO: to add tests
 -- TODO: make `collect_entries` async
+-- TODO: now only for directories.
 
 -- FileSystem Wathcer
 --
@@ -51,7 +52,7 @@
 -- })
 
 ---@class Watcher
----@field _w uv.uv_fs_event_t libuv fs_event. See: https://docs.libuv.org/en/v1.x/fs_event.html
+---@field _w vim.uv.uv_fs_event_t|nil libuv fs_event. See: https://docs.libuv.org/en/v1.x/fs_event.html
 ---@field _path string Path to watch. Default is cwd
 ---@field _ignore string[] Ignore patterns. Default is ["^%.git", "%.git/", "%~$", "4913$"]
 ---@field _root string[] Root pattern. Default is [".git/"]
@@ -187,22 +188,30 @@ function Watcher.new(opts)
     path = vim.uv.cwd(),
     uv_event_flags = { watch_entry = false, stat = false, recursive = true },
     root_patterns = { ".git/" },
-    ignore_patterns = { "^%.git", "%.git/", "%~$", "4913$" },
+    ignore_patterns = { "^%.git", "%.git/", "%~$", "4913$", "^node_modules" },
     delay = 30,
   }, opts or {})
 
-  if not is_root_found(opts.path, opts.root_patterns) then
-    vim.notify("Root pattern is not detected. Directory is not watch now", vim.log.levels.WARN, { title = "Watcher" })
+  local stat = vim.uv.fs_stat(opts and opts.path or vim.uv.cwd())
+  if not stat then
     return
   end
 
-  local store = {}
-  collect_entries(opts.path, store, opts.ignore_patterns)
+  if stat.type == "directory" then -- Check root only if the path is a directory
+    if not is_root_found(opts.path, opts.root_patterns) then
+      vim.notify("Root pattern is not detected. Directory is not watch now", vim.log.levels.WARN, { title = "Watcher" })
+      return
+    end
+  end
 
   return setmetatable({
     _path = opts.path,
     _uv_event_flags = opts.uv_event_flags,
-    _store = store,
+    _store = {
+      -- Add start path to store
+      [opts.path] = { ino = stat.ino, deleted = false },
+    },
+    _type = stat.type,
     _ignore = opts.ignore_patterns,
     _w = nil,
     _on_create = {},
@@ -212,7 +221,53 @@ function Watcher.new(opts)
     _on_every = {},
     _root = opts.root_patterns,
     _delay = opts.delay,
-  }, Watcher)
+  } --[[@as Watcher]], Watcher)
+end
+
+---Start the Watcher
+function Watcher:start()
+  self._w = vim.uv.new_fs_event()
+
+  if not self._w then
+    vim.notify('Fail to call "uv.new_fs_event()"', vim.log.levels.WARN, { title = "Watcher: " })
+    return
+  end
+
+  local stat = vim.uv.fs_stat(self._path)
+  if not stat then
+    return
+  end
+
+  if stat.type == "directory" then
+    collect_entries(self._path, self._store, self._ignore)
+  end
+
+  self._w:start(
+    self._path,
+    self._uv_event_flags,
+    vim.schedule_wrap(function(...)
+      self:_on_event(...)
+    end)
+  )
+
+  vim.notify("Watcher started", vim.log.levels.INFO, { title = "Watcher" })
+end
+
+---Restart the Watcher
+function Watcher:restart()
+  self._w:stop()
+  self._w:start(
+    self._path,
+    self._uv_event_flags,
+    vim.schedule_wrap(function(...)
+      self:_on_event(...)
+    end)
+  )
+end
+
+---Stop the Watcher
+function Watcher:stop()
+  self._w:stop()
 end
 
 ---@private
@@ -359,42 +414,6 @@ function Watcher:on_every(cbs)
   elseif type(cbs) == "function" then
     table.insert(self._on_every, cbs)
   end
-end
-
----Start the Watcher
-function Watcher:start()
-  self._w = vim.uv.new_fs_event()
-
-  if not self._w then
-    vim.notify('Fail to call "uv.new_fs_event()"', vim.log.levels.WARN, { title = "Watcher: " })
-    return
-  end
-
-  self._w:start(
-    self._path,
-    self._uv_event_flags,
-    vim.schedule_wrap(function(...)
-      self:_on_event(...)
-    end)
-  )
-  vim.notify("Watcher started", vim.log.levels.INFO, { title = "Watcher" })
-end
-
----Restart the Watcher
-function Watcher:restart()
-  self._w:stop()
-  self._w:start(
-    self._path,
-    self._uv_event_flags,
-    vim.schedule_wrap(function(...)
-      self:_on_event(...)
-    end)
-  )
-end
-
----Stop the Watcher
-function Watcher:stop()
-  self._w:stop()
 end
 
 return Watcher
