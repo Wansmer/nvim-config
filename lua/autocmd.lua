@@ -110,7 +110,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     end
 
     watcher:start()
-    watcher:on_change({
+    watcher:on("change", {
       function()
         vim.cmd.checktime()
       end,
