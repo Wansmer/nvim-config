@@ -29,7 +29,7 @@ local options = {
   -- UI
   -- ==========================================================================
   number = true,
-  relativenumber = false,
+  relativenumber = true,
   termguicolors = true,
   numberwidth = 3,
   showmode = false,
