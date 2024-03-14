@@ -1,7 +1,7 @@
 return {
   "vigoux/notifier.nvim",
   event = "VeryLazy",
-  enabled = true,
+  enabled = false,
   config = function()
     require("notifier").setup({
       -- You configuration here
