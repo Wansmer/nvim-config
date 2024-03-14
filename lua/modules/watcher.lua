@@ -301,26 +301,17 @@ function Watcher:_handle_event(event, fullpath)
   local data = { filename = fullpath, stat = vim.uv.fs_stat(fullpath), event = Events[event] } ---@type WatcherEventPayload
   local cbs = vim.list_extend(self["_on_" .. Events[event]], self._on_every)
 
-  local run_autocmd = function(ovveride)
-    vim.api.nvim_exec_autocmds(
-      "User",
-      vim.tbl_deep_extend("force", {
-        pattern = AUTOCMD[Events[event]],
-        data = data,
-      }, ovveride or {})
-    )
-  end
-
-  local run_cbs = function(ovveride)
+  local run_cb = function(ovveride)
+    ovveride = vim.tbl_deep_extend("force", data, ovveride or {})
+    vim.api.nvim_exec_autocmds("User", { pattern = AUTOCMD[Events[event]], data = ovveride })
     for _, cb in ipairs(cbs) do
-      cb(vim.tbl_deep_extend("force", data, ovveride or {}))
+      cb(data)
     end
   end
 
   if event == Events.create then
     self:_add_to_store(fullpath, data.stat.ino)
-    run_autocmd()
-    run_cbs()
+    run_cb()
   elseif event == Events.change then
     if self._store[fullpath].timer then
       self._store[fullpath].timer:stop()
@@ -329,8 +320,7 @@ function Watcher:_handle_event(event, fullpath)
     -- way neovim handles file changes. So the `change` event is delayed to avoid the double
     -- notification.
     self._store[fullpath].timer = vim.defer_fn(function()
-      run_autocmd()
-      run_cbs()
+      run_cb()
       self._store[fullpath].timer = nil
     end, self._delay)
   elseif event == Events.delete then
@@ -338,8 +328,7 @@ function Watcher:_handle_event(event, fullpath)
     -- Wait `self._delay` before deleting file, because it may be part of 'rename' event
     self._store[fullpath].timer = vim.defer_fn(function()
       self:_remove_from_store(fullpath)
-      run_autocmd()
-      run_cbs()
+      run_cb()
     end, self._delay)
   elseif event == Events.rename then
     local stat = data.stat
@@ -357,8 +346,7 @@ function Watcher:_handle_event(event, fullpath)
     self:_remove_from_store(prev_name)
     self:_add_to_store(fullpath, stat.ino)
     data.old_filename = prev_name
-    run_autocmd({ data = data })
-    run_cbs(data)
+    run_cb(data)
   end
 end
 
