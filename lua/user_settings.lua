@@ -46,7 +46,7 @@ PREF = {
 
   ui = {
     ---(!) List of colorschemes lua/config/colorscheme/init.lua
-    colorscheme = "catppuccin",
+    colorscheme = "serenity",
     border = { " ", " ", " ", " ", " ", " ", " ", " " },
     italic_comment = true,
   },
