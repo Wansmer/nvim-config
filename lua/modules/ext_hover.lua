@@ -31,6 +31,7 @@ function M.extended_hover()
     vim.schedule(function()
       local content = vim.tbl_flatten({ lines.hover, lines.definition })
       local max_width = math.floor(vim.o.columns * 0.4)
+      -- TODO: handle empty table
       local longest_line = math.max(unpack(vim.iter(content):map(string.len):totable()))
       if longest_line > max_width then
         longest_line = max_width
