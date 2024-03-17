@@ -5,6 +5,7 @@ local function set_prior(c)
 end
 
 return vim.tbl_map(set_prior, {
+  "yorickpeterse/nvim-grey",
   "Mofiqul/vscode.nvim",
   "dasupradyumna/midnight.nvim",
   "folke/tokyonight.nvim",
