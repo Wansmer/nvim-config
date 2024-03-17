@@ -204,12 +204,9 @@ vim.api.nvim_create_autocmd("BufHidden", {
   end,
 })
 
--- TODO: delete when core team fix auto start treesitter
--- vim.api.nvim_create_autocmd('BufEnter', {
---   callback = function(event)
---     local ok, _ = pcall(vim.treesitter.get_parser, event.buf)
---     if ok then
---       vim.treesitter.start()
---     end
---   end,
--- })
+vim.api.nvim_create_autocmd("User", {
+  pattern = { "WatcherChanged", "WatcherCreated", "WatcherDeleted", "WatcherRenamed" },
+  callback = function(e)
+    -- vim.notify("Event: " .. e.match .. "\n" .. e.data.file, vim.log.levels.INFO, { title = "Watcher" })
+  end,
+})
