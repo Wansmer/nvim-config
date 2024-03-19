@@ -1,7 +1,7 @@
 ---Read name of colorscheme from `./.colorscheme` file. If file not found or empty, then use PREF.ui.colorscheme
 local function read_colorscheme()
   local fb_cs = PREF.ui.colorscheme -- colorscheme fallback
-  local file = io.open(".colorscheme", "r")
+  local file = io.open(vim.fs.joinpath(vim.fn.stdpath("config")--[[@as string]], ".colorscheme"), "r")
   if file == nil then
     return fb_cs
   end
