@@ -4,3 +4,4 @@ plugin
 .tmp
 todo.*
 tmp
+.colorscheme

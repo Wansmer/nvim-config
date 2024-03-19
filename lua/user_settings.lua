@@ -46,7 +46,7 @@ PREF = {
 
   ui = {
     ---(!) List of colorschemes lua/config/colorscheme/init.lua
-    colorscheme = "serenity",
+    colorscheme = "serenity", -- If `.colorscheme` file exists, read name of colorscheme from it, otherwise use `PREF.ui.colorscheme
     border = { " ", " ", " ", " ", " ", " ", " ", " " },
     italic_comment = true,
   },

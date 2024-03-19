@@ -1,4 +1,21 @@
-local colorscheme = PREF.ui.colorscheme
+---Read name of colorscheme from `./.colorscheme` file. If file not found or empty, then use PREF.ui.colorscheme
+local function read_colorscheme()
+  local fb_cs = PREF.ui.colorscheme -- colorscheme fallback
+  local file = io.open(".colorscheme", "r")
+  if file == nil then
+    return fb_cs
+  end
+
+  local cs = file:read("*l")
+  if cs == "" then
+    return fb_cs
+  end
+
+  file:close()
+  return cs
+end
+
+local colorscheme = read_colorscheme()
 
 -- Uses if one colorscheme could have different names but one config (e.g. nightfor, dayfox e.t.c)
 local source = {
