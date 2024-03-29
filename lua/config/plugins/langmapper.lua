@@ -1,9 +1,9 @@
 local DEV = false
 
 return {
-  "Wansmer/langmapper",
+  "Wansmer/langmapper.nvim",
   enabled = true,
-  dir = DEV and "~/projects/code/personal/langmapper" or nil,
+  dir = DEV and "~/projects/code/personal/langmapper.nvim" or nil,
   dev = DEV,
   priority = 1,
   config = function()
