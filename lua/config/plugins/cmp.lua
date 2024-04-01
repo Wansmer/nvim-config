@@ -67,18 +67,6 @@ return {
     },
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets",
-    {
-      "Jezda1337/nvim-html-css",
-      enabled = true,
-      -- event = "VeryLazy",
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter",
-        "nvim-lua/plenary.nvim",
-      },
-      config = function()
-        require("html-css"):setup()
-      end,
-    },
   },
   config = function()
     local cmp = require("cmp")
