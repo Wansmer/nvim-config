@@ -39,7 +39,6 @@ return {
     "hrsh7th/cmp-nvim-lsp-document-symbol",
     "lukas-reineke/cmp-under-comparator",
     "lukas-reineke/cmp-rg",
-    "roobert/tailwindcss-colorizer-cmp.nvim",
     {
       "L3MON4D3/LuaSnip",
       version = "v2.*",
@@ -119,13 +118,12 @@ return {
           "menu",
         },
         format = function(entry, vim_item)
-          local tw_item = require("tailwindcss-colorizer-cmp").formatter(entry, vim_item)
-          if tw_item.kind == "XX" then
-            vim_item.kind = tw_item.kind
-            vim_item.kind_hl_group = tw_item.kind_hl_group
-          else
-            vim_item.kind = string.format("%s", icons[vim_item.kind])
+          local tt_ok, tt = pcall(require, "tailwind-tools.cmp")
+          if tt_ok then
+            -- colorize tailwind classes
+            vim_item = tt.lspkind_format(entry, vim_item)
           end
+          vim_item.kind = string.format("%s", icons[vim_item.kind])
           vim_item.menu = ({
             nvim_lsp = "lsp ",
             codeium = "ai  ",
