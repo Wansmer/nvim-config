@@ -75,7 +75,7 @@ vim.api.nvim_create_autocmd("User", {
   pattern = "VeryLazy",
   callback = function()
     require("modules.key_listener")
-    require("modules.mode_nr")
+    require("modules.mode_nr").setup()
     require("modules.markdown")
     require("modules.router")
     require("usercmd")
