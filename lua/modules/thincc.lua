@@ -7,7 +7,7 @@
 
 local NS = vim.api.nvim_create_namespace("__parts.thincc__")
 local GR = vim.api.nvim_create_augroup("__parts.thincc__", { clear = true })
-local disable_ft = { "", "alpha", "neo-tree", "toggleterm", "lazy", "lspinfo" }
+local disable_ft = { "alpha", "neo-tree", "toggleterm", "lazy", "lspinfo" }
 
 ---Registry for saving original value of colorcolumn of each buffer
 local registry = {}
