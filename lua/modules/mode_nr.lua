@@ -8,8 +8,9 @@ local M = {}
 ---@param name string Name of base group
 ---@return vim.api.keyset.highlight
 function M.get_fg_from_hl(name)
-  local hl = vim.api.nvim_get_hl(0, { name = name })
-  return { fg = hl.fg, bold = true }
+  local fg = vim.api.nvim_get_hl(0, { name = name }).fg
+  local bg = vim.api.nvim_get_hl(0, { name = "CursorLineNr" }).bg
+  return { fg = fg, bg = bg, bold = true }
 end
 
 function M.setup(opts)
