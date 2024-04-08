@@ -1,22 +1,18 @@
 local u = require("utils")
 
+local buf_message = {
+  abort = false,
+  title = "These aren't the :buffers you're looking for",
+}
+
 local route_cmd = {
   mes = {
     abort = { "clear" },
     title = "What’s this :mess my config just created",
   },
-  ls = {
-    abort = false,
-    title = "These aren't the :buffers you're looking for",
-  },
-  buffers = {
-    abort = false,
-    title = "These aren't the :buffers you're looking for",
-  },
-  files = {
-    abort = false,
-    title = "These aren't the :buffers you're looking for",
-  },
+  ls = buf_message,
+  buffers = buf_message,
+  files = buf_message,
   ["lua="] = {
     title = "Outro lado da :lua",
     abort = false,
@@ -29,13 +25,12 @@ local function open_split(cmd, title)
     return line ~= ""
   end, result)
 
-  -- local height = #result >= 30 and 30 or #result
   local height = 30
   title = #result == 0 and "Wow! So clean!" or title
 
   local buf = vim.api.nvim_create_buf(false, true)
 
-  vim.api.nvim_open_win(buf, true, {
+  local win = vim.api.nvim_open_win(buf, true, {
     relative = "editor",
     width = vim.opt.columns:get(),
     height = height <= 5 and 5 or height,
@@ -50,7 +45,10 @@ local function open_split(cmd, title)
 
   vim.api.nvim_buf_set_lines(buf, 0, -1, true, result)
   vim.cmd.norm("G")
-  vim.keymap.set("n", "q", "<Cmd>bw!<Cr>", { buffer = buf })
+  vim.keymap.set("n", "q", function()
+    vim.api.nvim_win_close(win, true)
+    vim.api.nvim_buf_delete(buf, { force = true })
+  end, { buffer = buf })
 end
 
 local function need_route(cmd)
