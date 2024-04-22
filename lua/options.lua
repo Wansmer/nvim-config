@@ -68,7 +68,6 @@ local options = {
   smartcase = true,
   hlsearch = true,
   infercase = true,
-  grepprg = "rg --vimgrep",
 
   -- ==========================================================================
   -- Folding
