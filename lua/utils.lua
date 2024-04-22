@@ -1,5 +1,7 @@
 local M = {}
 
+M.is_list = vim.fn.has('nvim-0.10') == 1 and vim.islist or vim.tbl_islist
+
 ---Checking if the string in lowercase
 ---@param str string
 ---@return boolean
@@ -8,7 +10,7 @@ function M.is_lower(str)
 end
 
 function M.some(tbl, cb)
-  if not vim.tbl_islist(tbl) or vim.tbl_isempty(tbl) then
+  if not M.is_list(tbl) or vim.tbl_isempty(tbl) then
     return false
   end
 
@@ -22,7 +24,7 @@ function M.some(tbl, cb)
 end
 
 function M.every(tbl, cb)
-  if not vim.tbl_islist(tbl) or vim.tbl_isempty(tbl) then
+  if not M.is_list(tbl) or vim.tbl_isempty(tbl) then
     return false
   end
 
