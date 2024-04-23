@@ -1,12 +1,11 @@
 return {
   "mfussenegger/nvim-lint",
   enabled = true,
-  -- event = { "LspAttach", "BufWritePost", "BufReadPost", "InsertLeave" },
   event = { "VeryLazy" },
   config = function()
     local lint = require("lint")
     ---@type "eslint_d"|"eslint"
-    local js_linter = "eslint_d"
+    local js_linter = "eslint"
 
     lint.linters_by_ft = {
       javascript = { js_linter },
