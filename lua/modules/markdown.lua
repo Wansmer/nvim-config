@@ -5,7 +5,8 @@ local u = require("utils")
 ---@return boolean|string returned false if not a list or marker of matching list if it a list
 local function is_list(line)
   local list_reg = {
-    "^%s*([%-%>%+%*]) ",
+    "^%s*(%-%s%[.%]) ", -- "- [ ]"
+    "^%s*([%-%>%+%*]) ", -- "-", ">", "+", "*",
     "^%s*(%d+). ",
     "^%s*(%w)%. ",
   }
@@ -49,7 +50,8 @@ end
 ---@param action? 'i'|'d'|'e' 'i' - increment (default), 'd' - decrement, 'e' - equal (use only fo ordered list)
 ---@return string
 local function update_prefix(mark, action)
-  if is_ol(mark) then
+  -- TODO: add normal checks for "- [ ]". No hardcode
+  if not vim.startswith(mark, "- [") and is_ol(mark) then
     action = action or "i"
     local actions = { i = 1, d = -1, e = 0 }
     mark = get_next_mark(mark, actions[action]) .. "."
@@ -64,6 +66,7 @@ end
 local function continue_list_if_need(cmd, action)
   local line = vim.api.nvim_get_current_line()
   local marker = is_list(line)
+  print(marker)
 
   if marker then
     marker = update_prefix(tostring(marker), action)
