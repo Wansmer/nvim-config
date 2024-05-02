@@ -57,8 +57,6 @@ function M.extended_hover()
       return
     end
 
-    vim.print(result.contents)
-
     local value = ""
     if vim.islist(result.contents) then
       -- E.g. `typescript-tools` in a `hover` structure has `{ { kind = "markdown", value = ... }, 'some string description }`
