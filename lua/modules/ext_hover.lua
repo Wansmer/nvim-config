@@ -2,7 +2,7 @@
 ---(e.g. vscode like `editor.action.showDefinitionPreviewHover`)
 
 local ms = vim.lsp.protocol.Methods
-local M = { servers = { "tsserver" } }
+local M = { servers = { "tsserver", "typescript-tools" } }
 
 function M.extended_hover()
   local start_buf = vim.api.nvim_get_current_buf()
@@ -57,7 +57,19 @@ function M.extended_hover()
       return
     end
 
-    local content = vim.split(result.contents.value, "\n", { trimempty = true })
+    vim.print(result.contents)
+
+    local value = ""
+    if vim.islist(result.contents) then
+      -- E.g. `typescript-tools` in a `hover` structure has `{ { kind = "markdown", value = ... }, 'some string description }`
+      for _, v in ipairs(result.contents) do
+        value = value .. "\n" .. (v.value or type(v) == "string" and v or "")
+      end
+    else
+      value = result.contents.value
+    end
+
+    local content = vim.split(value, "\n", { trimempty = true })
     handle_result({ hover = content })
   end, start_buf)
 
