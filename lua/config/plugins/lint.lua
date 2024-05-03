@@ -5,14 +5,17 @@ return {
   config = function()
     local lint = require("lint")
     ---@type "eslint_d"|"eslint"
-    local js_linter = "eslint"
+    -- local js_linter = "eslint"
 
     lint.linters_by_ft = {
-      javascript = { js_linter },
-      javascriptreact = { { js_linter } },
-      typescript = { js_linter },
-      typescriptreact = { js_linter },
-      vue = { js_linter, "stylelint" },
+      -- javascript = { js_linter },
+      -- javascriptreact = { { js_linter } },
+      -- typescript = { js_linter },
+      -- typescriptreact = { js_linter },
+      vue = {
+        -- js_linter,
+        "stylelint",
+      },
       html = { "tidy" },
       css = { "stylelint" },
       scss = { "stylelint" },

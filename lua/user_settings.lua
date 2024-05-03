@@ -24,7 +24,7 @@ PREF = {
     -- Also applies to `ensure_installed` in `mason-lspconfig`
     active_servers = filter_clients({
       prismals = true,
-      eslint = false,
+      eslint = true,
       lua_ls = true,
       tsserver = false,
       volar = false,
