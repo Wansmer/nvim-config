@@ -22,6 +22,8 @@ map("n", "<C-j>", "<C-w>j", { desc = "Focus to right-side window" })
 map("n", "<C-k>", "<C-w>k", { desc = "Focus to top-side window" })
 map("n", "<C-l>", "<C-w>l", { desc = "Focus to bottom-side window" })
 map({ "n", "i", "x" }, "<D-s>", "<Esc><Cmd>up<Cr>", { desc = "Save buffer into file" })
+-- <C-s> in insert mode is now the default `vim.lsp.buffer.code_action`
+map({ "n", "x" }, "<C-s>", "<Esc><Cmd>up<Cr>", { desc = "Save buffer into file" })
 map("n", "<C-->", "<Cmd>vertical resize -2<Cr>", { desc = "Vertical resize +" })
 map("n", "<C-=>", "<Cmd>vertical resize +2<Cr>", { desc = "Vertical resize -" })
 
