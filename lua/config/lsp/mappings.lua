@@ -58,9 +58,8 @@ M.set_keymap = function(_, bufnr)
 
   -- Diagnostics
   map("n", "gl", vim.diagnostic.open_float, d("Open diagnostic float on the line"))
-  -- https://github.com/neovim/neovim/pull/28500
-  -- map("n", "]d", vim.diagnostic.goto_next, d("Go to next diagnostic"))
-  -- map("n", "[d", vim.diagnostic.goto_prev, d("Go to prev diagnostic"))
+  map("n", "]d", vim.diagnostic.goto_next, d("Go to next diagnostic"))
+  map("n", "[d", vim.diagnostic.goto_prev, d("Go to prev diagnostic"))
 
   -- Hover (symbol info)
   map("n", "K", vim.lsp.buf.hover, d("Show symbol info"))
@@ -70,7 +69,7 @@ M.set_keymap = function(_, bufnr)
   -- INFO: Moved out from M.set_keymap since it using third-party format plugin
 
   -- Show code action
-  -- map("n", "ga", vim.lsp.buf.code_action, d("Show available code action"))
+  map("n", "ga", vim.lsp.buf.code_action, d("Show available code action"))
 
   -- Jumps
   map("n", "gd", vim.lsp.buf.definition, d("Go to definition"))
@@ -82,7 +81,7 @@ M.set_keymap = function(_, bufnr)
   map("n", "gr", vim.lsp.buf.references, d("List of references"))
 
   -- Rename
-  -- map("n", "gR", vim.lsp.buf.rename, d("Rename symbol"))
+  map("n", "gR", vim.lsp.buf.rename, d("Rename symbol"))
 
   -- Signature help
   map("n", "gs", vim.lsp.buf.signature_help, d("Signature help"))
