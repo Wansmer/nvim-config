@@ -8,9 +8,8 @@ return {
 
     local separator = vim.api.nvim_get_hl(0, { name = "VertSplit", link = false })
     local ns = vim.api.nvim_create_namespace("__ToggleTerm")
-    vim.api.nvim_set_hl(ns, "Normal", { bg = "#000000" })
     vim.api.nvim_set_hl(ns, "FloatBorder", { bg = "#000000", fg = separator.fg })
-    vim.api.nvim_set_hl(ns, "NormalFloat", { bg = "#000000", fg = "#000000" })
+    vim.api.nvim_set_hl(ns, "NormalFloat", { bg = "#000000" })
 
     toggleterm.setup({
       size = 20,
