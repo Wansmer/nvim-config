@@ -6,6 +6,12 @@ return {
     local toggleterm = require("toggleterm")
     vim.keymap.set("t", "<C-d>", "<C-c>exit<Cr>")
 
+    local separator = vim.api.nvim_get_hl(0, { name = "VertSplit", link = false })
+    local ns = vim.api.nvim_create_namespace("__ToggleTerm")
+    vim.api.nvim_set_hl(ns, "Normal", { bg = "#000000" })
+    vim.api.nvim_set_hl(ns, "FloatBorder", { bg = "#000000", fg = separator.fg })
+    vim.api.nvim_set_hl(ns, "NormalFloat", { bg = "#000000", fg = "#000000" })
+
     toggleterm.setup({
       size = 20,
       open_mapping = [[<C-;>]],
@@ -51,10 +57,9 @@ return {
         map({ "t", "i", "n" }, "<C-=>", resize(true, 5), { buffer = term.bufnr })
         map({ "t", "i", "n" }, "<C-->", resize(false, 5), { buffer = term.bufnr })
 
-        local ns = vim.api.nvim_create_namespace("__ToggleTerm")
-        vim.api.nvim_set_hl(ns, "Normal", { bg = "#000000" })
-        vim.api.nvim_set_hl(ns, "FloatBorder", { bg = "#000000", fg = "#000000" })
-        vim.api.nvim_win_set_hl_ns(term.window, ns)
+        vim.schedule(function()
+          vim.api.nvim_win_set_hl_ns(term.window, ns)
+        end)
       end,
       on_close = function()
         local ok, nt = pcall(require, "neo-tree.sources.manager")
