@@ -366,8 +366,8 @@ end
 
 function M.dot_repeat(cb, ...)
   local args = { ... }
-  local name = vim.fn.id(cb)
-  _G["__" .. name] = function()
+  local name = "__" .. vim.fn.id(cb)
+  _G[name] = function()
     for _ = 1, vim.v.count1 do
       if #args == 0 then
         cb()
@@ -376,8 +376,7 @@ function M.dot_repeat(cb, ...)
       end
     end
   end
-  vim.opt.operatorfunc = "v:lua." .. "__" .. name
-  print("REPEAT " .. name)
+  vim.opt.operatorfunc = "v:lua." .. name
   vim.api.nvim_feedkeys(vim.v.count1 .. "g@l", "nix", true)
 end
 
