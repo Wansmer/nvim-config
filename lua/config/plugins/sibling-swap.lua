@@ -2,7 +2,7 @@ local DEV = false
 
 return {
   "Wansmer/sibling-swap.nvim",
-  dir = DEV and "~/projects/code/personal/sibling-swap" or nil,
+  dir = DEV and "~/projects/code/personal/sibling-swap.nvim" or nil,
   dev = DEV,
   enabled = true,
   keys = {
