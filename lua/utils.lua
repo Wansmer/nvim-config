@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_list = vim.fn.has('nvim-0.10') == 1 and vim.islist or vim.tbl_islist
+M.is_list = vim.fn.has("nvim-0.10") == 1 and vim.islist or vim.tbl_islist
 
 ---Checking if the string in lowercase
 ---@param str string
@@ -362,6 +362,23 @@ function M.repeat_by(symbol, cb)
   end
 
   return repeatable
+end
+
+function M.dot_repeat(cb, ...)
+  local args = { ... }
+  local name = vim.fn.id(cb)
+  _G["__" .. name] = function()
+    for _ = 1, vim.v.count1 do
+      if #args == 0 then
+        cb()
+      else
+        cb(unpack(args))
+      end
+    end
+  end
+  vim.opt.operatorfunc = "v:lua." .. "__" .. name
+  print("REPEAT " .. name)
+  vim.api.nvim_feedkeys(vim.v.count1 .. "g@l", "nix", true)
 end
 
 return M
