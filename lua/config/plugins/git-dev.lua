@@ -15,9 +15,8 @@ return {
             return vim.uv.fs_stat(f)
           end)
 
-        vim.cmd("tabnew")
         local cmd = to_open and "e " .. to_open .. " | Neotree show" or "Neotree dir=" .. dir
-        vim.cmd(cmd)
+        vim.cmd("tabnew | " .. cmd)
       end,
     })
 
@@ -31,6 +30,22 @@ return {
       local is_gdev = vim.startswith(vim.fn.expand("%:p"), gdev_path)
       local opener = is_gdev and vim.bo.filetype == "markdown" and gdev.open or vim.ui.open
       opener(url)
+    end)
+
+    vim.keymap.set("n", "gX", function()
+      local url = vim.fn.expand("<cfile>")
+      if not url and url == "" then
+        return
+      end
+
+      vim.ui.select(
+        { "Default opener (`vim.ui.open()`)", "GitDev (`git-dev.open()`)" },
+        { prompt = "Select opener" },
+        function(choice)
+          local opener = choice == "GitDev (`git-dev.open()`)" and gdev.open or vim.ui.open
+          opener(url)
+        end
+      )
     end)
   end,
 }
