@@ -6,8 +6,18 @@ return {
     gdev.setup({
       cd_type = "tab",
       opener = function(dir)
+        local to_open = vim
+          .iter({ "READEME.md", "readme.md", "README", "README.txt", "readme.txt" })
+          :map(function(f)
+            return vim.fs.joinpath(dir, f)
+          end)
+          :find(function(f)
+            return vim.uv.fs_stat(f)
+          end)
+
         vim.cmd("tabnew")
-        vim.cmd("Neotree dir=" .. vim.fn.fnameescape(dir))
+        local cmd = to_open and "e " .. to_open .. " | Neotree show" or "Neotree dir=" .. dir
+        vim.cmd(cmd)
       end,
     })
 
