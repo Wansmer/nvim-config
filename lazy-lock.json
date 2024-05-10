@@ -15,7 +15,7 @@
   "cmp-rg": { "branch": "master", "commit": "677a7874ee8f1afc648c2e7d63a97bc21a7663c5" },
   "cmp-under-comparator": { "branch": "master", "commit": "6857f10272c3cfe930cece2afa2406e1385bfef8" },
   "cmp_luasnip": { "branch": "master", "commit": "05a9ab28b53f71d1aece421ef32fee2cb857a843" },
-  "conform.nvim": { "branch": "master", "commit": "6dc1603ea408f476a57937bbeaf7f86520a21a98" },
+  "conform.nvim": { "branch": "master", "commit": "d2a54aa54d84117ac3d99afdd527281f81e9e2c9" },
   "dressing.nvim": { "branch": "master", "commit": "5162edb1442a729a885c45455a07e9a89058be2f" },
   "everforest-nvim": { "branch": "main", "commit": "5e0e32a569fb464911342f0d421721cc1c94cf25" },
   "flash.nvim": { "branch": "main", "commit": "7bb4a9c75d1e20cd24185afedeaa11681829ba23" },
