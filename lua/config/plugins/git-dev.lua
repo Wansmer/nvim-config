@@ -22,7 +22,7 @@ return {
 
     vim.keymap.set("n", "gx", function()
       local url = vim.fn.expand("<cfile>")
-      if not url and url == "" then
+      if not url or url == "" then
         return
       end
 
@@ -34,7 +34,7 @@ return {
 
     vim.keymap.set("n", "gX", function()
       local url = vim.fn.expand("<cfile>")
-      if not url and url == "" then
+      if not url or url == "" then
         return
       end
 
