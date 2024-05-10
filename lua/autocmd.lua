@@ -204,6 +204,22 @@ vim.api.nvim_create_autocmd("BufHidden", {
   end,
 })
 
+-- E.g. `:nvim d=https://github.com/xxx/yyy.nvim`
+vim.api.nvim_create_autocmd("VimEnter", {
+  desc = "Load and open repo with `git-dev.nvim`",
+  callback = function()
+    local arg = vim.fn.argv()[1]
+    if not (arg and vim.startswith(arg, "d=")) then
+      return
+    end
+    local ok, gdev = pcall(require, "git-dev")
+    if not ok then
+      return
+    end
+    gdev.open(arg:sub(3))
+  end,
+})
+
 vim.api.nvim_create_autocmd("User", {
   pattern = { "WatcherChanged", "WatcherCreated", "WatcherDeleted", "WatcherRenamed" },
   callback = function(e)
