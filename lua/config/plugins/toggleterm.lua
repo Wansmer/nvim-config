@@ -55,6 +55,30 @@ return {
 
         map({ "t", "i", "n" }, "<C-=>", resize(true, 5), { buffer = term.bufnr })
         map({ "t", "i", "n" }, "<C-->", resize(false, 5), { buffer = term.bufnr })
+        map({ "n" }, "gx", function()
+          local path = vim.fn.expand("<cfile>")
+          if path == "" then
+            return
+          end
+
+          if vim.uv.fs_stat(vim.fs.joinpath(vim.uv.cwd(), path)) then
+            local cursor = vim.api.nvim_win_get_cursor(0)
+            local line = vim.api.nvim_buf_get_lines(term.bufnr, cursor[1] - 1, cursor[1], false)[1]
+            local row_col = string.match(line, path .. ":(%d+:%d+)")
+
+            if row_col then
+              row_col = vim.iter(vim.split(row_col, ":")):map(tonumber):totable()
+              vim.cmd("vs " .. path)
+              vim.api.nvim_win_set_cursor(0, row_col)
+            end
+            return
+          end
+
+          local ok, msg = pcall(vim.ui.open, path)
+          if not ok then
+            vim.notify(msg, vim.log.levels.ERROR)
+          end
+        end, { buffer = term.bufnr })
 
         vim.schedule(function()
           vim.api.nvim_win_set_hl_ns(term.window, ns)
