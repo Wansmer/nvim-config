@@ -26,7 +26,7 @@ local function toggle_ltex_lang()
   if not client then
     return
   end
-  local langs = vim.tbl_add_reverse_lookup({
+  local langs = u.tbl_add_reverse_lookup({
     ["ru-RU"] = "en-US",
   })
   local current_lang = client.config.settings.ltex.language

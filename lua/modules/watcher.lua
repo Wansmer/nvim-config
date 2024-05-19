@@ -51,6 +51,8 @@
 --   end,
 -- })
 
+local u = require("utils")
+
 ---@class Watcher
 ---@field _w vim.uv.uv_fs_event_t|nil libuv fs_event. See: https://docs.libuv.org/en/v1.x/fs_event.html
 ---@field _path string Path to watch. Default is cwd
@@ -82,14 +84,12 @@
 ---@alias Store table<string, StoreRecord>
 
 ---@enum Event
-local Events = {
+local Events = u.tbl_add_reverse_lookup({
   change = 1,
   create = 2,
   delete = 3,
   rename = 4,
-}
-
-vim.tbl_add_reverse_lookup(Events)
+})
 
 local AUTOCMD = {
   ["change"] = "WatcherChanged",

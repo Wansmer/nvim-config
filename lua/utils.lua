@@ -380,4 +380,25 @@ function M.dot_repeat(cb, ...)
   vim.api.nvim_feedkeys(vim.v.count1 .. "g@l", "nix", true)
 end
 
+---Since 0.10 `vim.tbl_add_reverse_lookup` is deprecated
+---This func has same behavior as `vim.tbl_add_reverse_lookup`, but not changing original table
+---@param o table<string|number, string|number>
+---@return table<string|number, string|number>
+function M.tbl_add_reverse_lookup(o)
+  return vim.iter(o):fold({}, function(t, k, v)
+    t[k] = v
+    if t[v] then
+      error(
+        string.format(
+          "The reverse lookup found an existing value for %q while processing key %q",
+          tostring(v),
+          tostring(k)
+        )
+      )
+    end
+    t[v] = k
+    return t
+  end)
+end
+
 return M

@@ -9,7 +9,7 @@ local u = require("utils")
 local M = {}
 
 ---Every key and value should be in lowercase
-local opposites = vim.tbl_add_reverse_lookup({
+local opposites = u.tbl_add_reverse_lookup({
   ["top"] = "bottom",
   ["before"] = "after",
   ["start"] = "end",
