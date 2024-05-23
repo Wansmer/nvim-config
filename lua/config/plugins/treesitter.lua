@@ -43,17 +43,10 @@ return {
         enable = true,
       },
 
-      autotag = {
-        enable = true,
-        enable_rename = true,
-        enable_close = true,
-        enable_close_on_slash = false, -- Important: weird behavior in tsx - `<Header/` -> `<Header/Header>>`
-      },
-
       playground = {
         enable = true,
         disable = {},
-        updatetime = 25,         -- Debounced time for highlighting nodes in the playground from source code
+        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
         persist_queries = false, -- Whether the query persists across vim sessions
         keybindings = {
           toggle_query_editor = "o",
