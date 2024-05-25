@@ -16,7 +16,7 @@ vim.schedule(function()
   local nnc = get_hl("NeoTreeNormal")
   h(0, "NormalFloat", { link = "NeoTreeNormal" })
   h(0, "FloatBorder", { bg = nnc.bg, fg = nnc.bg })
-  h(0, "NeoTreeVertSplit", { bg = nnc.bg, fg = nnc.bg, force = true }) -- TODO: Why not works?
+  h(0, "NeoTreeWinSeparator", { bg = nnc.bg, fg = nnc.bg, force = true })
 
   -- {{ Telescope
   h(0, "TelescopePromptBorder", { link = "FloatBorder" })
