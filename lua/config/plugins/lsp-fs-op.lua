@@ -1,6 +1,6 @@
 return {
   "antosha417/nvim-lsp-file-operations",
-  enable = true,
+  enabled = true,
   event = { "LspAttach" },
   dependencies = {
     "nvim-lua/plenary.nvim",

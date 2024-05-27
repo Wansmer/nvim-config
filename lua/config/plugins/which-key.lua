@@ -2,7 +2,7 @@ return {
   "folke/which-key.nvim",
   enabled = false,
   -- keys = { '<leader>', '[', ']', 's' },
-  dependencies = { "wansmer/langmapper.nvim" },
+  dependencies = { "Wansmer/langmapper.nvim" },
   config = function()
     vim.o.timeout = true
     vim.o.timeoutlen = 300
