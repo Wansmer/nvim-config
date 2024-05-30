@@ -309,7 +309,7 @@ function Watcher:_handle_event(event, fullpath)
     end
   end
 
-  if event == Events.create then
+  if event == Events.create and data.stat then
     self:_add_to_store(fullpath, data.stat.ino)
     run_cb()
   elseif event == Events.change then
