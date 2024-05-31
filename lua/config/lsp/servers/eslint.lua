@@ -57,15 +57,6 @@ local function is_use_flat_config()
   return is_flat_config_in_cwd() or u.to_bool(vim.env.ESLINT_USE_FLAT_CONFIG)
 end
 
-print(
-  "ESLINT_USE_FLAT_CONFIG",
-  is_use_flat_config(),
-  "is flat:",
-  is_flat_config_in_cwd(),
-  "Is legacy:",
-  is_legacy_config_in_cwd()
-)
-
 return {
   settings = {
     experimental = {
