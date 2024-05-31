@@ -25,16 +25,6 @@ end
 ---Check if cwd contains legacy config.
 ---@return boolean
 local function is_legacy_config_in_cwd()
-  print(vim
-    .iter({
-      ".eslintrc",
-      ".eslintrc.js",
-      ".eslintrc.cjs",
-      ".eslintrc.yaml",
-      ".eslintrc.yml",
-      ".eslintrc.json",
-    })
-    :any(is_exist_in_cwd))
   return vim
     .iter({
       ".eslintrc",
