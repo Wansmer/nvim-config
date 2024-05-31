@@ -2,6 +2,10 @@ local M = {}
 
 M.is_list = vim.fn.has("nvim-0.10") == 1 and vim.islist or vim.tbl_islist
 
+function M.to_bool(val)
+  return val and true or false
+end
+
 ---Checking if the string in lowercase
 ---@param str string
 ---@return boolean
