@@ -11,8 +11,8 @@ vim.filetype.add({
     ["*playbook*.ya?ml"] = "yaml.ansible",
   },
   extension = {
-    ["yml"] = ansible_or_yaml(),
-    ["yaml"] = ansible_or_yaml(),
+    ["yml"] = ansible_or_yaml,
+    ["yaml"] = ansible_or_yaml,
   },
 })
 --}}
