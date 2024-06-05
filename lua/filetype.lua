@@ -5,14 +5,17 @@ local function ansible_or_yaml()
 end
 
 vim.filetype.add({
-  pattern = {
-    [".*/tasks/.*.ya?ml"] = "yaml.ansible",
-    [".*/playbooks/.*.ya?ml"] = "yaml.ansible",
-    ["*playbook*.ya?ml"] = "yaml.ansible",
-  },
   extension = {
     ["yml"] = ansible_or_yaml,
     ["yaml"] = ansible_or_yaml,
   },
 })
+
+-- vim.filetype.add({
+--   pattern = {
+--     [".*/tasks/.*.ya?ml"] = "yaml.ansible",
+--     [".*/playbooks/.*.ya?ml"] = "yaml.ansible",
+--     ["*playbook*.ya?ml"] = "yaml.ansible",
+--   },
+-- })
 --}}
