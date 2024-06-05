@@ -1,7 +1,18 @@
 --{{ Detect yaml.ansible
-local function ansible_or_yaml()
+local function is_ansible_root()
   local ansible_root = { "ansible.cfg", ".ansible-lint.yml", "inventory.ini", "inventory.yml" }
-  return vim.fs.root(vim.env.PWD, ansible_root) and "yaml.ansible" or "yaml"
+  return vim.fs.root(vim.uv.cwd()--[[@as string]], ansible_root)
+end
+
+local function match_pattern(path)
+  local patterns = { ".*/tasks/.*.ya?ml", ".*/playbooks/.*.ya?ml", ".*playbook.*.ya?ml" }
+  return vim.iter(patterns):any(function(pattern)
+    return path:match(pattern)
+  end)
+end
+
+local function ansible_or_yaml()
+  return (is_ansible_root() or match_pattern(vim.fn.expand("%:p"))) and "yaml.ansible" or "yaml"
 end
 
 vim.filetype.add({
@@ -10,12 +21,4 @@ vim.filetype.add({
     ["yaml"] = ansible_or_yaml,
   },
 })
-
--- vim.filetype.add({
---   pattern = {
---     [".*/tasks/.*.ya?ml"] = "yaml.ansible",
---     [".*/playbooks/.*.ya?ml"] = "yaml.ansible",
---     ["*playbook*.ya?ml"] = "yaml.ansible",
---   },
--- })
 --}}
