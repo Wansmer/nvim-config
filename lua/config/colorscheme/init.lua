@@ -30,6 +30,7 @@ local source = {
   mellifluous = "mellifluous",
   ["monokai-pro"] = "monokai",
   ["rose-pine"] = "rose-pine",
+  ["kanagawa-paper"] = "kanagawa-paper",
   midnight = "midnight",
 }
 

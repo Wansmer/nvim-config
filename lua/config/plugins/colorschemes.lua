@@ -13,6 +13,7 @@ return vim.tbl_map(set_prior, {
   "rebelot/kanagawa.nvim",
   "sainnhe/gruvbox-material",
   "sam4llis/nvim-tundra",
+  "sho-87/kanagawa-paper.nvim",
   {
     "Wansmer/serenity.nvim",
     -- dev = false,
