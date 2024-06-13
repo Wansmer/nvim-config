@@ -60,6 +60,10 @@ return {
     ["gY"] = copy_path_to_clipboard("rel_home"),
     ["gy"] = copy_path_to_clipboard("rel_cwd"),
     ["K"] = image_previes,
+    ["<space>"] = {
+      "toggle_node",
+      nowait = true, -- disable `nowait` if you have existing combos starting with this char that you want to use
+    },
 
     -- Default window mappings
     -- ['<space>'] = {
