@@ -26,6 +26,7 @@ local opposites = u.tbl_add_reverse_lookup({
   ["open"] = "close",
   ["global"] = "local",
   ["increment"] = "decrement",
+  ["production"] = "development",
 
   -- This will be work only with `vim.opt.iskeyword:append({ "!", "=", "<", ">" })`
   ["!="] = "==",
@@ -54,8 +55,8 @@ end
 ---Toggle word (<cword>) under cursor to opposite value.
 function M.toggle_word()
   -- To processed `==`, `!==` etc
-  local ikw_orig = vim.opt.iskeyword:get()
-  vim.opt.iskeyword:append({ "!", "=", "<", ">" })
+  -- local ikw_orig = vim.opt.iskeyword:get()
+  -- vim.opt.iskeyword:append({ "!", "=", "<", ">" })
 
   -- Get text under cursor
   local text = vim.fn.expand("<cword>")
@@ -75,7 +76,7 @@ function M.toggle_word()
   end
 
   -- Restore original value of `iskeyword`
-  vim.opt.iskeyword = ikw_orig
+  -- vim.opt.iskeyword = ikw_orig
 end
 
 return M
