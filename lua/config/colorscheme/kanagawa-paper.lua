@@ -17,6 +17,7 @@ require("kanagawa-paper").setup({
       NeoTreeWinSeparator = { bg = nnc.bg, fg = nnc.bg, force = true },
       TelescopePromptBorder = { link = "FloatBorder" },
       TelescopePromptNormal = { link = "FloatBorder" },
+      NeoTreeTabActive = { bg = c.theme.ui.bg_p1, fg = c.theme.ui.special },
     }
   end,
 })
