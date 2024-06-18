@@ -11,7 +11,7 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
-    "saifulapm/neotree-file-nesting-config",
+    -- "saifulapm/neotree-file-nesting-config",
     {
       "s1n7ax/nvim-window-picker",
       version = "v1.*",
@@ -81,9 +81,11 @@ return {
       end
     end
 
+    local ok_nest, nesting = pcall(require, "neotree-file-nesting-config")
+
     -- See: https://github.com/nvim-neo-tree/neo-tree.nvim/blob/main/lua/neo-tree/defaults.lua
     require("neo-tree").setup({
-      nesting_rules = require("neotree-file-nesting-config").nesting_rules,
+      nesting_rules = ok_nest and nesting.nesting_rules,
       sources = { "filesystem", "git_status" },
       add_blank_line_at_top = true,
       enable_modified_markers = true,
