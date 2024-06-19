@@ -22,3 +22,11 @@ vim.filetype.add({
   },
 })
 --}}
+
+--{{ Detect env
+vim.filetype.add({
+  pattern = {
+    ["%.env%..*"] = "sh",
+  },
+})
+--}}
