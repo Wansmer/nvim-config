@@ -405,4 +405,17 @@ function M.tbl_add_reverse_lookup(o)
   end)
 end
 
+function M.encodeURL(url)
+  local encodedURL = ""
+  for i = 1, #url do
+    local char = url:sub(i, i)
+    if char == " " then
+      encodedURL = encodedURL .. "%20"
+    else
+      encodedURL = encodedURL .. string.format("%%%02X", string.byte(char))
+    end
+  end
+  return encodedURL
+end
+
 return M
