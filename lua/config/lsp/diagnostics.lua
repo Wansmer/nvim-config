@@ -22,11 +22,6 @@ local severitySigns = {
   [vim.diagnostic.severity.INFO] = "",
 }
 
--- Capitalize first letter
-local function capitalize(str)
-  return str:lower():gsub("^%l", string.upper)
-end
-
 ---@type vim.diagnostic.Opts
 local config = {
   virtual_text = PREF.lsp.virtual_text,
@@ -41,8 +36,8 @@ local config = {
     focusable = true,
     style = "minimun",
     -- border = PREF.ui.border, ---@type string|table
-    prefix = function(d, i, total)
-      local severity_name = capitalize(vim.diagnostic.severity[d.severity])
+    prefix = function(d)
+      local severity_name = u.capitalize(vim.diagnostic.severity[d.severity])
       return severitySigns[d.severity] .. " ", "DiagnosticSign" .. severity_name
     end,
     format = function(d)

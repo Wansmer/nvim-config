@@ -418,4 +418,9 @@ function M.encodeURL(url)
   return encodedURL
 end
 
+-- Capitalize first letter
+function M.capitalize(str)
+  return str:lower():gsub("^%l", string.upper)
+end
+
 return M
