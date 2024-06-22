@@ -22,13 +22,7 @@ local config = {
 local M = {}
 
 function M.toggle_diagnostics()
-  local state = PREF.lsp.show_diagnostic
-  PREF.lsp.show_diagnostic = not state
-  if state then
-    vim.diagnostic.disable()
-    return
-  end
-  vim.diagnostic.enable()
+  vim.diagnostic.enable(vim.diagnostic.is_enabled())
 end
 
 function M.apply()
