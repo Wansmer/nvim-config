@@ -80,9 +80,7 @@ return {
           end
         end, { buffer = term.bufnr })
 
-        vim.schedule(function()
-          vim.api.nvim_win_set_hl_ns(term.window, ns)
-        end)
+        vim.api.nvim_win_set_hl_ns(term.window, ns)
       end,
       on_close = function()
         local ok, nt = pcall(require, "neo-tree.sources.manager")

@@ -18,10 +18,15 @@ function M.setup(opts)
   vim.api.nvim_create_autocmd("ModeChanged", {
     group = GR,
     callback = function()
+      if not (vim.wo.number or vim.wo.relativenumber) then
+        return
+      end
       local win = vim.api.nvim_get_current_win()
       local mode = vim.fn.strtrans(vim.fn.mode()):lower():gsub("%W", "")
       local override = M.opts.hls[mode] or M.opts.hls.n
       vim.api.nvim_set_hl(NS, "CursorLineNr", override)
+      -- WARNIGN: if any plugins already set their namespace to this window, it will be overwritten with global namespace values
+      -- TODO: to find the PR that causing this weird behavior and open issue
       vim.api.nvim_win_set_hl_ns(win, NS)
     end,
   })
