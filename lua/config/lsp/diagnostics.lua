@@ -72,6 +72,10 @@ function M.apply()
   ---@diagnostic disable-next-line: duplicate-set-field
   vim.diagnostic.open_float = function(opts, ...)
     local _, win = orig_open_float(opts, ...)
+    if not win then
+      return
+    end
+
     vim.api.nvim_win_set_hl_ns(win--[[@as integer]], NS)
 
     vim.keymap.set("n", "K", function()
