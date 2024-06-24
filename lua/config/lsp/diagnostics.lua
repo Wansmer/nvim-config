@@ -71,7 +71,7 @@ function M.apply()
   local orig_open_float = vim.diagnostic.open_float
   ---@diagnostic disable-next-line: duplicate-set-field
   vim.diagnostic.open_float = function(opts, ...)
-    local _, win = orig_open_float(opts, ...)
+    local bufnr, win = orig_open_float(opts, ...)
     if not win then
       return
     end
@@ -89,7 +89,7 @@ function M.apply()
           end
         end)
       end
-    end, { buffer = true, silent = true })
+    end, { buffer = bufnr, silent = true })
   end
 
   vim.api.nvim_create_autocmd("ColorScheme", {
