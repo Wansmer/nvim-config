@@ -61,22 +61,26 @@ return {
             return
           end
 
-          if vim.uv.fs_stat(vim.fs.joinpath(vim.uv.cwd(), path)) then
+          -- check if file exists
+          if vim.uv.fs_stat(vim.fn.fnamemodify(path, ":p")) then
             local cursor = vim.api.nvim_win_get_cursor(0)
             local line = vim.api.nvim_buf_get_lines(term.bufnr, cursor[1] - 1, cursor[1], false)[1]
             local row_col = string.match(line, path .. ":(%d+:%d+)")
 
+            -- open <cfile> in vsplit even if row_col is nil
+            vim.cmd("vs " .. path)
             if row_col then
               row_col = vim.iter(vim.split(row_col, ":")):map(tonumber):totable()
-              vim.cmd("vs " .. path)
               vim.api.nvim_win_set_cursor(0, row_col)
             end
             return
           end
 
+          -- fallback to open <cfile> with the system default handler (default gx behavior)
+          -- see: h vim.ui.open()
           local ok, msg = pcall(vim.ui.open, path)
           if not ok then
-            vim.notify(msg, vim.log.levels.ERROR)
+            vim.notify(msg --[[@as string]], vim.log.levels.ERROR)
           end
         end, { buffer = term.bufnr })
 
