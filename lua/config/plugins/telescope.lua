@@ -2,9 +2,11 @@ return {
   "nvim-telescope/telescope.nvim",
   enabled = true,
   event = "VeryLazy",
+  dependencies = { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
   config = function()
     local telescope = require("telescope")
     local pickers = require("telescope.builtin")
+    telescope.load_extension("fzf")
 
     local map = vim.keymap.set
     -- Builtins pickers
