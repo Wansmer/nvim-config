@@ -2,16 +2,24 @@ return {
   "nvim-telescope/telescope.nvim",
   enabled = true,
   event = "VeryLazy",
-  dependencies = { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+  dependencies = {
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    { "nvim-telescope/telescope-live-grep-args.nvim" },
+  },
   config = function()
     local telescope = require("telescope")
     local pickers = require("telescope.builtin")
-    telescope.load_extension("fzf")
 
     local map = vim.keymap.set
     -- Builtins pickers
     map("n", "<localleader>f", pickers.find_files, { desc = "Telescope: Find files in (cwd>" })
-    map("n", "<localleader>g", pickers.live_grep, { desc = "Telescope: live grep (cwd>" })
+    -- map("n", "<localleader>g", pickers.live_grep, { desc = "Telescope: live grep <cwd>" })
+    map(
+      "n",
+      "<localleader>g",
+      telescope.extensions.live_grep_args.live_grep_args,
+      { desc = "Telescope: live grep with args" }
+    )
     map("n", "<localleader>b", pickers.buffers, { desc = "Telescope: show open buffers" })
     -- map('n', '<localleader>d', pickers.diagnostics, { desc = 'Telescope: show diagnostics' })
     map("n", "<localleader>o", pickers.oldfiles, { desc = "Telescope: show recent using files" })
@@ -43,6 +51,7 @@ return {
     end
 
     local actions = require("telescope.actions")
+    local lga_actions = require("telescope-live-grep-args.actions")
     telescope.setup({
       defaults = {
         prompt_prefix = " ",
@@ -78,9 +87,32 @@ return {
 
               return action_set.edit(prompt_bufnr, "edit")
             end,
+            ["<C-f>"] = function()
+              vim.api.nvim_feedkeys(vim.keycode("<Right>"), "n", true)
+            end,
+            ["<C-b>"] = function()
+              vim.api.nvim_feedkeys(vim.keycode("<Left>"), "n", true)
+            end,
+          },
+        },
+      },
+      extensions = {
+        live_grep_args = {
+          auto_quoting = true, -- enable/disable auto-quoting
+          -- define mappings, e.g.
+          mappings = { -- extend mappings
+            i = {
+              ["<C-k>"] = lga_actions.quote_prompt(),
+              ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+              -- freeze the current list and start a fuzzy search in the frozen list
+              ["<C-m>"] = actions.to_fuzzy_refine,
+            },
           },
         },
       },
     })
+
+    telescope.load_extension("fzf")
+    telescope.load_extension("live_grep_args")
   end,
 }
