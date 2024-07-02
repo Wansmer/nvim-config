@@ -26,7 +26,7 @@ return {
     map("n", "<localleader><localleader>", function()
       pickers.current_buffer_fuzzy_find({ default_text = vim.fn.expand("<cword>") })
     end, { desc = "Telescope: fuzzy find word under cursor in current buffer" })
-    map("n", "<localleader>s", function()
+    map("n", "<localleader>w", function()
       pickers.live_grep({ default_text = vim.fn.expand("<cword>") })
     end, { desc = "Telescope: live grep word under cursor (cwd>" })
     map("n", "<localleader>p", function()
