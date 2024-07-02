@@ -1,6 +1,6 @@
 return {
   "folke/trouble.nvim",
-  enabled = true,
+  enabled = false,
   cmd = { "TroubleToggle", "Trouble" },
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
