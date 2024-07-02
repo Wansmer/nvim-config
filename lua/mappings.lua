@@ -24,6 +24,7 @@ map("n", "<C-l>", "<C-w>l", { desc = "Focus to bottom-side window" })
 map({ "n", "i", "x" }, "<D-s>", "<Esc><Cmd>up<Cr>", { desc = "Save buffer into file" })
 map({ "n", "i", "x" }, "<C-s>", "<Esc><Cmd>up<Cr>", { desc = "Save buffer into file" })
 map("n", "<C-->", "<Cmd>vertical resize -2<Cr>", { desc = "Vertical resize +" })
+map("n", "<C-_>", "<Cmd>vertical resize -2<Cr>", { desc = "Vertical resize +" }) -- For wezterm, because it doesn't support <C--> and sent <C-_>
 map("n", "<C-=>", "<Cmd>vertical resize +2<Cr>", { desc = "Vertical resize -" })
 
 -- ============================================================================

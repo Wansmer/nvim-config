@@ -55,6 +55,7 @@ return {
 
         map({ "t", "i", "n" }, "<C-=>", resize(true, 5), { buffer = term.bufnr })
         map({ "t", "i", "n" }, "<C-->", resize(false, 5), { buffer = term.bufnr })
+        map({ "t", "i", "n" }, "<C-_>", resize(false, 5), { buffer = term.bufnr }) -- For wezterm, because it doesn't support <C--> and sent <C-_>
         map({ "n" }, "gx", function()
           local path = vim.fn.expand("<cfile>")
           if path == "" then
