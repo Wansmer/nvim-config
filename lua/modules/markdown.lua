@@ -66,14 +66,13 @@ end
 local function continue_list_if_need(cmd, action)
   local line = vim.api.nvim_get_current_line()
   local marker = is_list(line)
-  print(marker)
 
   if marker then
     marker = update_prefix(tostring(marker), action)
     cmd = cmd .. marker
   end
 
-  cmd = vim.api.nvim_replace_termcodes(cmd, true, true, true)
+  cmd = vim.keycode(cmd)
   vim.api.nvim_feedkeys(cmd, "n", false)
 end
 
@@ -124,6 +123,16 @@ local function surround_link()
   end)
 end
 
+local function handle_code_block()
+  local line = vim.api.nvim_get_current_line()
+  if vim.startswith(line, "```") and vim.endswith(line:sub(3), "```") then
+    local keys = vim.keycode("<Cr><Esc>O")
+    vim.api.nvim_feedkeys(keys, "n", false)
+    return true
+  end
+  return false
+end
+
 local map = vim.keymap.set
 
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -139,7 +148,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end, { buffer = buffer })
 
     map("i", "<Cr>", function()
-      continue_list_if_need("<Cr>")
+      if not handle_code_block() then
+        continue_list_if_need("<Cr>")
+      end
     end, { buffer = buffer })
 
     map("x", "<C-b>", function()
