@@ -37,6 +37,7 @@ return {
         markdown = {
           { --[[ "prettierd", ]]
             "prettier",
+            "inject",
           },
         },
         toml = {
@@ -45,6 +46,7 @@ return {
           },
         },
         sh = { "shfmt" },
+        python = { "isort", "black" },
       },
     })
   end,

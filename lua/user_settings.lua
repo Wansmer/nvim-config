@@ -43,6 +43,8 @@ PREF = {
       clangd = false,
       gopls = false,
       ansiblels = true,
+      pyright = true,
+      ruff_lsp = true,
     }),
   },
 

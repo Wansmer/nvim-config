@@ -44,6 +44,10 @@ M.on_attach = function(client, bufnr)
     end
   end
 
+  if client.name == "ruff_lsp" then
+    client.server_capabilities.hoverProvider = false
+  end
+
   set_keymaps(client, bufnr)
 end
 
