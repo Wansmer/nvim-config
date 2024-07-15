@@ -1,0 +1,6 @@
+customCommands:
+  - key: "G"
+    # TODO: check if this is a file under cursor.
+    command: "echo '{{.SelectedFile.Name}}' > $HOME/.config/nvim/lua/modules/lazygit/tmp"
+    description: "Write file(s) under cursor to the tmp file"
+    context: "files"
