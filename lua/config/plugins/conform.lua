@@ -2,49 +2,20 @@ return {
   "stevearc/conform.nvim",
   enabled = true,
   config = function()
-    local js_formatter = {
-      { --[[ "prettierd", ]]
-        "prettier",
-      },
-      -- { --[[ "eslint_d" ]]
-      --   "eslint",
-      -- },
-    }
+    local js_formatter = { "prettier" }
     require("conform").setup({
       formatters_by_ft = {
         lua = { "stylua" },
-        -- Use a sub-list to run only the first available formatter
         javascript = js_formatter,
         javascriptreact = js_formatter,
         typescript = js_formatter,
         typescriptreact = js_formatter,
         vue = js_formatter,
-        html = {
-          { --[[ "prettierd", ]]
-            "prettier",
-          },
-        },
-        json = {
-          { --[[ "prettierd", ]]
-            "prettier",
-          },
-        },
-        jsonc = {
-          { --[[ "prettierd", ]]
-            "prettier",
-          },
-        },
-        markdown = {
-          { --[[ "prettierd", ]]
-            "prettier",
-            "inject",
-          },
-        },
-        toml = {
-          { --[[ "prettierd", ]]
-            "prettier",
-          },
-        },
+        html = { "prettier" },
+        json = { "prettier" },
+        jsonc = { "prettier" },
+        markdown = { "prettier", "inject" },
+        toml = { "prettier" },
         sh = { "shfmt" },
         python = { "isort", "black" },
       },
