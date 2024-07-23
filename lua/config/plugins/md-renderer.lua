@@ -5,6 +5,10 @@ return {
   -- ft = { "markdown" },
   lazy = false,
   config = function()
-    require("render-markdown").setup({})
+    require("render-markdown").setup({
+      anti_conceal = {
+        enabled = true, -- show raw md on line under curson
+      },
+    })
   end,
 }
