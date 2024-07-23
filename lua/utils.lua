@@ -423,4 +423,32 @@ function M.capitalize(str)
   return str:lower():gsub("^%l", string.upper)
 end
 
+---Get certain lines from a file
+---@param path string
+---@param startline integer
+---@param endline integer
+---@return string[]
+function M.get_lines(path, startline, endline)
+  local file = io.open(path, "r")
+  if not file then
+    return {}
+  end
+  local lines = vim.iter(file:lines()):skip(startline - 1):take(endline - (startline - 1)):totable()
+  file:close()
+  return lines
+end
+
+---Trim indent of each line according to the first line
+---@param lines string[]
+---@return string[]
+function M.trim_indent(lines)
+  local indent = lines[1]:match("^(%s*)")
+  for i, line in ipairs(lines) do
+    if vim.startswith(line, indent) then
+      lines[i] = line:sub(#indent + 1)
+    end
+  end
+  return lines
+end
+
 return M
