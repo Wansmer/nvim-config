@@ -5,7 +5,7 @@ return {
   config = function()
     require("hardtime").setup({
       debug = false,
-      disabled_filetypes = { "qf", "netrw", "NvimTree", "lazy", "mason", "oil", "neo-tree", "" },
+      disabled_filetypes = { "qf", "netrw", "NvimTree", "lazy", "mason", "oil", "neo-tree", "", "alpha" },
     })
   end,
 }
