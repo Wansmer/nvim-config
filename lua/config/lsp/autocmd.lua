@@ -17,14 +17,14 @@ end
 vim.api.nvim_create_autocmd("InsertEnter", {
   desc = "Hide diagnostic messages in insert mode",
   callback = function()
-    vim.diagnostic.disable()
+    vim.diagnostic.enable(false)
   end,
 })
 
 vim.api.nvim_create_autocmd("InsertLeave", {
   desc = "Show diagnostic messages in normal mode",
   callback = function()
-    vim.diagnostic.enable()
+    vim.diagnostic.enable(true)
   end,
 })
 -- }}
