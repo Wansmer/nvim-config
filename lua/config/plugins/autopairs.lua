@@ -7,7 +7,7 @@ return {
     local Rule = require("nvim-autopairs.rule")
 
     autopairs.setup({
-      fast_wrap = {},
+      fast_wrap = { map = "<M-q>" },
       disable_filetype = {},
       disable_in_macro = false,
       disable_in_visualblock = false,

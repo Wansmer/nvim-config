@@ -49,6 +49,8 @@ map({ "i", "t" }, "<C-e>", "<End>", { desc = "Move cursor to end of the line" })
 map({ "i", "t" }, "<C-d>", "<Delete>", { desc = "Delete one letter after cursor" })
 map({ "i" }, "<C-k>", "<Esc>C", { desc = "Delete one letter after cursor" })
 map({ "n", "x" }, "*", "*N", { desc = "Search word or selection" })
+map({ "i" }, "<M-a>", "<C-o>{", { desc = "Move to the beginning of the current paragraph" })
+map({ "i" }, "<M-e>", "<C-o>}", { desc = "Move to the end of the current paragraph" })
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map({ "n", "x", "o" }, "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
 map({ "n", "x", "o" }, "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
