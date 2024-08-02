@@ -38,7 +38,7 @@ end
 ---Build string for `statuscolumn`
 ---@return string
 function M.build_stc()
-  return vim.v.virtnum < 0 and "" or M.join_sections(M.statuscolumn)
+  return vim.v.virtnum ~= 0 and "" or M.join_sections(M.statuscolumn)
 end
 
 ---Return value for `statuscolumn`
