@@ -4,7 +4,6 @@ return {
   keys = { "<C-;>" },
   config = function()
     local toggleterm = require("toggleterm")
-    vim.keymap.set("t", "<C-d>", "<C-c>exit<Cr>")
 
     local separator = vim.api.nvim_get_hl(0, { name = "VertSplit", link = false })
     local ns = vim.api.nvim_create_namespace("__ToggleTerm")
