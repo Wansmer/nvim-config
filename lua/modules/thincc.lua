@@ -70,6 +70,10 @@ end
 ---@param col integer
 local function update_exmark(bufnr, line, col)
   local line_text = vim.api.nvim_buf_get_lines(bufnr, line, line + 1, false)[1]
+  if vim.fn.type(line_text) == vim.v.t_blob then
+    return
+  end
+
   local len = vim.fn.strdisplaywidth(line_text)
 
   -- Take into account the width of virtual text inlayHint during redrawing
