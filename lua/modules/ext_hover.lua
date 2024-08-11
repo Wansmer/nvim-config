@@ -4,11 +4,14 @@
 local u = require("utils")
 local Promise = require("promise")
 local ms = vim.lsp.protocol.Methods
-local M = { servers = {
-  "tsserver",
-  "typescript-tools",
-  "lua_ls",
-} }
+local M = {
+  servers = {
+    "tsserver",
+    "vtsls",
+    "typescript-tools",
+    "lua_ls",
+  },
+}
 
 function M.extended_hover()
   local start_buf = vim.api.nvim_get_current_buf()
@@ -49,7 +52,12 @@ function M.extended_hover()
             value = value .. "\n" .. (v.value or type(v) == "string" and v or "")
           end
         else
-          value = result.contents.value
+          -- E.g. `vtsls` hasn't `.value`, `contents` just is a string
+          value = type(result.contents) == "string" and result.contents or result.contents.value
+        end
+
+        if not value then
+          return
         end
 
         local content = vim.split(value, "\n", { trimempty = true })
