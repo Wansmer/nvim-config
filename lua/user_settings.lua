@@ -27,6 +27,7 @@ PREF = {
       eslint = true,
       lua_ls = true,
       tsserver = false,
+      vtsls = true,
       volar = false,
       jsonls = true,
       cssls = true,
