@@ -38,10 +38,14 @@ map("n", "k", "v:count == 0 ? 'gk' : 'k'", {
   expr = true,
   desc = "Move cursor up (display and real line)",
 })
-map({ "i", "t" }, "<C-f>", "<Right>", { desc = "Move cursor right one letter" })
-map({ "i", "t", "c" }, "<C-b>", "<Left>", { desc = "Move cursor left one letter" })
-map({ "i", "t", "c" }, "<M-f>", "<S-Right>", { desc = "Move cursor right on word" })
-map({ "i", "t", "c" }, "<M-b>", "<S-Left>", { desc = "Move cursor left on word" })
+map({ "c" }, "<C-f>", function()
+  local c = vim.fn.getcmdpos()
+  return vim.fn.getcmdline():sub(c, c) == "" and "<C-f>" or "<Right>"
+end, { expr = true, desc = "Move cursor right one letter in cmd or open cmd window if next char is empty" })
+map({ "i" }, "<C-f>", "<Right>", { desc = "Move cursor right one letter" })
+map({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor left one letter" })
+map({ "i", "c" }, "<M-f>", "<S-Right>", { desc = "Move cursor right on word" })
+map({ "i", "c" }, "<M-b>", "<S-Left>", { desc = "Move cursor left on word" })
 map({ "i", "t" }, "<C-p>", "<Up>", { desc = "Move cursor up one line" })
 map({ "i", "t" }, "<C-n>", "<Down>", { desc = "Move cursor down one line" })
 map({ "i", "t" }, "<C-a>", "<Home>", { desc = "Move cursor to start of the line" })
