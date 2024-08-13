@@ -138,7 +138,7 @@ return {
       },
     })
 
-    vim.api.nvim_create_autocmd({ "VimResume" }, {
+    vim.api.nvim_create_autocmd({ "VimResume", "FocusGained", "TermLeave" }, {
       desc = "Update git_status in tree after fg",
       callback = function()
         require("neo-tree.sources.git_status").refresh()
