@@ -133,6 +133,32 @@ local function handle_code_block()
   return false
 end
 
+local function toggle_heading(level)
+  return function()
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local row = cursor[1] - 1
+    local line = vim.api.nvim_get_current_line()
+    local heading = ("#"):rep(level) .. (level == 0 and "" or " ")
+    local current_heading = line:match("^#+%s") or ""
+
+    local is_remove = heading ~= "" and vim.startswith(line, heading)
+
+    local repl = is_remove and line:sub(#heading + 1) or heading .. line:sub(#current_heading + 1)
+    local col = is_remove and cursor[2] - #heading or cursor[2] + #heading - #current_heading
+    cursor[2] = col < 0 and 0 or col > #repl and #repl or col
+
+    vim.api.nvim_buf_set_text(0, row, 0, row, #line, { repl })
+    vim.api.nvim_win_set_cursor(0, cursor)
+  end
+end
+
+local function cycle_heading(max)
+  max = max or 6
+  local cur_level = #(vim.api.nvim_get_current_line():match("^#+") or "")
+  local level = cur_level >= max and 0 or cur_level + 1
+  toggle_heading(level)()
+end
+
 local map = vim.keymap.set
 
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -162,5 +188,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end, { buffer = buffer })
 
     map("x", "<C-k>", surround_link, { buffer = buffer })
+
+    map("n", "<A-1>", toggle_heading(1), { buffer = buffer })
+    map("n", "<A-2>", toggle_heading(2), { buffer = buffer })
+    map("n", "<A-3>", toggle_heading(3), { buffer = buffer })
+    map("n", "<A-4>", toggle_heading(4), { buffer = buffer })
+    map("n", "<A-5>", toggle_heading(5), { buffer = buffer })
+    map("n", "<A-6>", toggle_heading(6), { buffer = buffer })
+    map("n", "<A-0>", cycle_heading, { buffer = buffer })
   end,
 })
