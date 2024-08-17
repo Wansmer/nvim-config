@@ -81,7 +81,11 @@ M.set_keymap = function(_, bufnr)
   map("n", "gr", vim.lsp.buf.references, d("List of references"))
 
   -- Rename
-  map("n", "gR", vim.lsp.buf.rename, d("Rename symbol"))
+  local ok_lr, lr = pcall(require, "live-rename")
+  local renamer = ok_lr and lr.map({
+      insert = true, --[[ text = "" ]]
+    }) or vim.lsp.buf.rename
+  map("n", "gR", renamer, d("Rename symbol"))
 
   -- Signature help
   map("n", "gs", vim.lsp.buf.signature_help, d("Signature help"))
