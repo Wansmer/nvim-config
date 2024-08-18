@@ -123,10 +123,10 @@ map("x", "<S-Tab>", "<gv", { desc = "One indent left and reselect" })
 map("x", "<Tab>", ">gv|", { desc = "One indent right and reselect" })
 map("x", "p", '"_c<Esc>p', { desc = "Paste without copying into register" })
 map("n", "<Leader>i", cb("modules.toggler", "toggle_word"), { desc = "Module Toggler: toggle word under cursor" })
-map("v", "sa", cb("modules.surround", "add_visual"))
-map("n", "sa", cb("modules.surround", "add"))
-map("n", "sr", cb("modules.surround", "remove"))
-map("n", "sc", cb("modules.surround", "replace"))
+map("v", "gm", cb("modules.surround", "add_visual"))
+map("n", "gm", cb("modules.surround", "add"))
+map("n", "gr", cb("modules.surround", "remove"))
+map("n", "gc", cb("modules.surround", "replace"))
 
 -- ============================================================================
 -- Other
