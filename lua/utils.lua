@@ -61,7 +61,7 @@ function M.get_object_range()
 end
 
 -- From: https://neovim.discourse.group/t/how-do-you-work-with-strings-with-multibyte-characters-in-lua/2437/4
-local function char_byte_count(s, i)
+function M.char_byte_count(s, i)
   if not s or s == "" then
     return 1
   end
@@ -85,7 +85,7 @@ function M.get_visual_range()
   local er, ec = unpack(vim.fn.getpos("."), 2, 3)
 
   -- To correct work with non-single byte chars
-  local byte_c = char_byte_count(M.char_on_pos({ er, ec }))
+  local byte_c = M.char_byte_count(M.char_on_pos({ er, ec }))
   ec = ec + (byte_c - 1)
 
   local range = {}
