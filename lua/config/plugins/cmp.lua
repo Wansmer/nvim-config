@@ -91,6 +91,7 @@ return {
         ["<C-y>"] = cmp.config.disable,
         ["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
         ["<C-x>"] = cmp.mapping.complete(),
+        ["<C-v>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({ select = true }),
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
