@@ -31,10 +31,10 @@ describe("`prepare_str()`:", function()
   end)
 end)
 
-describe("`calc_map()`:", function()
+describe("`calc_ranges()`:", function()
   it("Found expected letters with English in `left` direction", function()
     local s = "This is line on English language"
-    local res = fftt.calc_map(s, "left", 1)
+    local res = fftt.calc_ranges(s, "left", 1)
     assert.are_same(
       { "i", "l", "o", "E", "a" },
       vim
@@ -48,7 +48,7 @@ describe("`calc_map()`:", function()
 
   it("Found expected letters with Russian in `left` direction", function()
     local s = "Эта строка на русском языке сызнова"
-    local res = fftt.calc_map(s, "left", 1)
+    local res = fftt.calc_ranges(s, "left", 1)
     assert.are_same(
       { "с", "н", "у", "я", "в" },
       vim
@@ -62,7 +62,7 @@ describe("`calc_map()`:", function()
 
   it("Found expected letters with English in `left` direction with big spaces", function()
     local s = "This is              English line           with big spaces"
-    local res = fftt.calc_map(s, "left", 1)
+    local res = fftt.calc_ranges(s, "left", 1)
     assert.are_same(
       { "i", "E", "e", "w", "b", "p" },
       vim
@@ -77,7 +77,7 @@ describe("`calc_map()`:", function()
   it("Found expected letters with English in `right` direction", function()
     local s = "This is line on English language"
 
-    local res = fftt.calc_map(s, "right", 31)
+    local res = fftt.calc_ranges(s, "right", 31)
     assert.are_same(
       { "h", "o", "e", "s", "T" },
       vim
@@ -91,7 +91,7 @@ describe("`calc_map()`:", function()
 
   it("Found expected letters with Russian in `right` direction", function()
     local s = "Эта строка на русском языке сызнова"
-    local res = fftt.calc_map(s, "right", 63)
+    local res = fftt.calc_ranges(s, "right", 63)
     assert.are_same(
       { "е", "м", "а", "т", "Э" },
       vim
@@ -105,7 +105,7 @@ describe("`calc_map()`:", function()
 
   it("Found expected letters with English in `right` direction with big spaces", function()
     local s = "This is              English line           with big spaces"
-    local res = fftt.calc_map(s, "right", 58)
+    local res = fftt.calc_ranges(s, "right", 58)
     assert.are_same(
       { "g", "h", "n", "E", "s", "T" },
       vim
