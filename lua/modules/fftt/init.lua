@@ -1,19 +1,18 @@
 -- Same as `eyeliner.nvim`, but works with cyrillics
 
-local u = require("utils")
 local ns = vim.api.nvim_create_namespace("__parts.fftt__")
 
 local M = {}
 M.ns_extmark = nil
 
 M.opts = {
-  split_by = "[%s%_%-%.]", -- Regex to split by words
+  split_by = "[%s%_%-%@]", -- Regex to split by words
   ignore_chars = { "%s", "%p", "%d", "%l", "%u" },
   commands = { ["f"] = "left", ["F"] = "right", ["t"] = "left", ["T"] = "right" },
   hl_groups = {
-    chars = { "CurSearch", "IncSearch", "Search" }, -- Set hl for every needed level by order. TODO: implement
-    -- chars = { "Constant", "Text", "WarningMessage" }, -- Set hl for every needed level by order. TODO: implement
-    dim = "Comment", -- Set hl for dimmed chars. TODO: implement
+    -- chars = { "CurSearch", "IncSearch", "Search" }, -- Set hl for every needed level by order.
+    chars = { "Constant", "Text", "WarningMessage" }, -- Set hl for every needed level by order.
+    dim = "Comment", -- Set hl for dimmed chars.
   },
 }
 
@@ -34,10 +33,9 @@ end
 function M.calc_ranges(str, dir, pos)
   local idx = vim.fn.charidx(str, pos)
   local char_at_pos = vim.fn.nr2char(vim.fn.strgetchar(str, idx))
-  local byte_len = u.char_byte_count(char_at_pos)
 
   local cutted_str = M.prepare_str(str, dir, pos)
-  local shifted_pos = pos + byte_len
+  local shifted_pos = pos + #char_at_pos
   local words = vim.split(cutted_str, M.opts.split_by)
 
   ---@type string[]
@@ -68,6 +66,10 @@ function M.calc_ranges(str, dir, pos)
     ---@param counter CharCounter
     ---@return Char
     local function get_least_frequency_char(chars, counter)
+      if #chars == 1 then
+        chars[1].frequency = counter[chars[1].char] or 0
+        return chars[1]
+      end
       return vim.iter(chars):skip(1):fold(chars[1], function(acc, char)
         acc.frequency = counter[acc.char] or 0
         char.frequency = counter[char.char] or 0
@@ -108,9 +110,20 @@ function M.calc_ranges(str, dir, pos)
     :totable()
 end
 
-function M.set_hl(ranges)
+function M.set_hl(ranges, dir)
   local cur = vim.api.nvim_win_get_cursor(0)
   local ns_extmark = vim.api.nvim_create_namespace("__parts.fftt.extmark__")
+
+  if M.opts.hl_groups.dim and M.opts.hl_groups.dim ~= "" then
+    local dim_start = dir == "left" and cur[2] or 0
+    local dim_end = dir == "left" and #vim.api.nvim_get_current_line() or cur[2]
+
+    vim.api.nvim_buf_set_extmark(0, ns_extmark, cur[1] - 1, dim_start, {
+      end_col = dim_end,
+      hl_group = M.opts.hl_groups.dim,
+    })
+  end
+
   for _, char in pairs(ranges) do
     if not char.frequency then
       goto continue
@@ -136,6 +149,7 @@ function M.setup(opts)
     if M.ns_extmark then
       vim.api.nvim_buf_clear_namespace(0, M.ns_extmark, 0, -1)
       M.ns_extmark = nil
+      return -- prevent **any** keypress even fFtT if ns_extmark already exists
     end
 
     if vim.fn.mode() ~= "n" then
@@ -154,8 +168,9 @@ function M.setup(opts)
 
     local pos = vim.api.nvim_win_get_cursor(0)[2]
     local str = vim.api.nvim_get_current_line()
-    local ranges = M.calc_ranges(str, M.opts.commands[key], pos)
-    M.ns_extmark = M.set_hl(ranges)
+    local dir = M.opts.commands[key]
+    local ranges = M.calc_ranges(str, dir, pos)
+    M.ns_extmark = M.set_hl(ranges, dir)
     vim.cmd.redraw()
   end, ns)
 end
