@@ -38,7 +38,6 @@ function M.calc_ranges(str, dir, pos)
   local cutted_str = M.prepare_str(str, dir, pos)
   local shifted_pos = pos + #char_at_pos
   local words = vim.split(cutted_str, M.opts.split_by)
-  -- vim.print(words) -- TODO: To find why not all words have a rare_char
 
   ---@type string[]
   local charlist = {}
@@ -127,7 +126,6 @@ function M.set_hl(ranges, dir)
   end
 
   for _, char in pairs(ranges) do
-    print("HL for char: " .. '"' .. char.char .. '"' .. " with freq: " .. char.frequency)
     if not char.frequency then
       goto continue
     end
@@ -164,7 +162,7 @@ function M.setup(opts)
       return -- prevent **any** keypress even fFtT if ns_extmark already exists
     end
 
-    if vim.fn.mode() ~= "n" then
+    if vim.fn.mode() ~= "n" or vim.fn.state("S") ~= "" then -- works with `n` and `no`
       return
     end
 
