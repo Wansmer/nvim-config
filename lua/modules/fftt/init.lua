@@ -11,7 +11,7 @@ M.opts = {
   commands = { ["f"] = "left", ["F"] = "right", ["t"] = "left", ["T"] = "right" },
   hl_groups = {
     -- chars = { "CurSearch", "IncSearch", "Search" }, -- Set hl for every needed level by order.
-    chars = { "Constant", "Text", "WarningMessage" }, -- Set hl for every needed level by order.
+    chars = { "Constant", "String", "WarningMsg" }, -- Set hl for every needed level by order.
     dim = "Comment", -- Set hl for dimmed chars.
   },
 }
