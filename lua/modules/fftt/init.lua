@@ -1,6 +1,8 @@
 -- Same as `eyeliner.nvim`, but works with cyrillics
 
 local ns = vim.api.nvim_create_namespace("__parts.fftt__")
+local get_hl = vim.api.nvim_get_hl
+local set_hl = vim.api.nvim_set_hl
 
 local M = {}
 M.ns_extmark = nil
@@ -10,9 +12,8 @@ M.opts = {
   ignore_chars = { "%s", "%p", "%d", "%l", "%u" },
   commands = { ["f"] = "left", ["F"] = "right", ["t"] = "left", ["T"] = "right" },
   hl_groups = {
-    -- chars = { "CurSearch", "IncSearch", "Search" }, -- Set hl for every needed level by order.
-    chars = { "Constant", "String", "WarningMsg" }, -- Set hl for every needed level by order.
-    dim = "Comment", -- Set hl for dimmed chars.
+    chars = { "FFTTLever1", "FFTTLever2", "FFTTLever3" }, -- Set hl for every needed level by order.
+    dim = "", -- Set hl for dimmed chars, e.g. dim = "Comment"
   },
 }
 
@@ -37,6 +38,7 @@ function M.calc_ranges(str, dir, pos)
   local cutted_str = M.prepare_str(str, dir, pos)
   local shifted_pos = pos + #char_at_pos
   local words = vim.split(cutted_str, M.opts.split_by)
+  -- vim.print(words) -- TODO: To find why not all words have a rare_char
 
   ---@type string[]
   local charlist = {}
@@ -125,6 +127,7 @@ function M.set_hl(ranges, dir)
   end
 
   for _, char in pairs(ranges) do
+    print("HL for char: " .. '"' .. char.char .. '"' .. " with freq: " .. char.frequency)
     if not char.frequency then
       goto continue
     end
@@ -145,6 +148,15 @@ end
 
 function M.setup(opts)
   M.opts = vim.tbl_deep_extend("force", M.opts, opts or {})
+
+  local l1 = get_hl(0, { name = "Constant" }).fg
+  local l2 = get_hl(0, { name = "String" }).fg
+  local l3 = get_hl(0, { name = "WarningMsg" }).fg
+
+  set_hl(0, "FFTTLever1", { underdouble = true, sp = l1 })
+  set_hl(0, "FFTTLever2", { underdouble = true, sp = l2 })
+  set_hl(0, "FFTTLever3", { underdouble = true, sp = l3 })
+
   vim.on_key(function(char)
     if M.ns_extmark then
       vim.api.nvim_buf_clear_namespace(0, M.ns_extmark, 0, -1)
