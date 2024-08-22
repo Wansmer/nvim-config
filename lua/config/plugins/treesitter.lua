@@ -4,9 +4,9 @@ return {
   lazy = false,
   config = function()
     local map = vim.keymap.set
-    map("n", "tsp", "<Cmd>TSPlaygroundToggle<Cr>")
-    map("n", "tsn", "<Cmd>TSNodeUnderCursor<Cr>")
-    map("n", "tsh", "<Cmd>TSHighlightCapturesUnderCursor<Cr>")
+    map("n", "<leader>tp", "<Cmd>InspectTree<Cr>", { nowait = true })
+    map("n", "<leader>tn", "<Cmd>TSNodeUnderCursor<Cr>", { nowait = true })
+    map("n", "<leader>th", "<Cmd>TSHighlightCapturesUnderCursor<Cr>", { nowait = true })
 
     require("nvim-treesitter.configs").setup({
       ensure_installed = "all",
@@ -27,8 +27,8 @@ return {
         keymaps = {
           init_selection = "<Cr>", -- set to `false` to disable one of the mappings
           node_incremental = "<Cr>",
-          scope_incremental = "grc",
-          node_decremental = "<S-Cr>",
+          node_decremental = "<Bs>",
+          scope_incremental = false,
         },
       },
 
@@ -36,30 +36,6 @@ return {
         enable = true,
         use_virtual_text = false,
         lint_events = { "BufWrite", "CursorHold" },
-      },
-
-      -- TREESITTER PLUGINS
-      autopairs = {
-        enable = true,
-      },
-
-      playground = {
-        enable = true,
-        disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-        persist_queries = false, -- Whether the query persists across vim sessions
-        keybindings = {
-          toggle_query_editor = "o",
-          toggle_hl_groups = "i",
-          toggle_injected_languages = "t",
-          toggle_anonymous_nodes = "a",
-          toggle_language_display = "I",
-          focus_language = "f",
-          unfocus_language = "F",
-          update = "R",
-          goto_node = "<cr>",
-          show_help = "?",
-        },
       },
     })
   end,
