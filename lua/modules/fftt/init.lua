@@ -8,12 +8,13 @@ local M = {}
 M.ns_extmark = nil
 
 M.opts = {
-  split_by = "[%s%_%-%@]", -- Regex to split by words
-  ignore_chars = { "%s", "%p", "%d", "%l", "%u" },
+  split_by = "[%s%p]", -- Lua-pattern to split by words
+  ignore_chars = {}, -- TODO: not implemented yet
   commands = { ["f"] = "left", ["F"] = "right", ["t"] = "left", ["T"] = "right" },
   hl_groups = {
-    chars = { "FFTTLever1", "FFTTLever2", "FFTTLever3" }, -- Set hl for every needed level by order.
-    dim = "", -- Set hl for dimmed chars, e.g. dim = "Comment"
+    -- chars = { "FFTTLever1", "FFTTLever2", "FFTTLever3" }, -- Set hl for every needed level by order.
+    chars = { "String", "Constant", "Keyword" }, -- Set hl for every needed level by order.
+    dim = "Comment", -- Set hl for dimmed chars, e.g. dim = "Comment"
   },
 }
 
@@ -178,6 +179,9 @@ function M.setup(opts)
 
     local pos = vim.api.nvim_win_get_cursor(0)[2]
     local str = vim.api.nvim_get_current_line()
+    if str == "" then
+      return
+    end
     local dir = M.opts.commands[key]
     local ranges = M.calc_ranges(str, dir, pos)
     M.ns_extmark = M.set_hl(ranges, dir)
