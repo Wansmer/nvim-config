@@ -24,6 +24,12 @@ return {
         untracked = { text = "┆" },
       },
       signcolumn = PREF.git.show_signcolumn, -- Toggle with `:Gitsigns toggle_signs`
+      current_line_blame = PREF.git.show_blame,
+      current_line_blame_opts = {
+        virt_text = true,
+        virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+        delay = 500,
+      },
     })
 
     -- Fix #563 https://github.com/lewis6991/gitsigns.nvim/issues/563

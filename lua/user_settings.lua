@@ -57,7 +57,7 @@ PREF = {
   },
 
   git = {
-    show_blame = false,
+    show_blame = true,
     show_signcolumn = true,
   },
 }
