@@ -163,7 +163,10 @@ function M.setup(opts)
       return -- prevent **any** keypress even fFtT if ns_extmark already exists
     end
 
-    if vim.fn.mode() ~= "n" or vim.fn.state("S") ~= "" then -- works with `n` and `no`
+    local is_save_state = vim.fn.state("S") ~= ""
+    local is_pending = vim.fn.state("o") ~= ""
+
+    if vim.fn.mode() ~= "n" or not (is_pending and is_save_state) then -- works with `n` and `no`
       return
     end
 
