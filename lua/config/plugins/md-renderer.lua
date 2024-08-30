@@ -7,6 +7,7 @@ return {
   lazy = false,
   config = function()
     require("render-markdown").setup({
+      file_types = { "markdown", "Avante" },
       anti_conceal = {
         enabled = true, -- show raw md on line under curson
       },
