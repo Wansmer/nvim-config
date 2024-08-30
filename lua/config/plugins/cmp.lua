@@ -39,6 +39,7 @@ return {
     "hrsh7th/cmp-nvim-lsp-document-symbol",
     "lukas-reineke/cmp-under-comparator",
     "lukas-reineke/cmp-rg",
+    "folke/lazydev.nvim",
     {
       "L3MON4D3/LuaSnip",
       version = "v2.*",
@@ -175,6 +176,7 @@ return {
             file_extensions = { "css", "scss", "sass", "less" }, -- set the local filetypes from which you want to derive classes
           },
         },
+        { name = "lazydev", group_index = 0 },
       },
       confirm_opts = {
         behavior = cmp.ConfirmBehavior.Replace,
