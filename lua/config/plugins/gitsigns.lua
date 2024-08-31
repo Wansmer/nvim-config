@@ -31,20 +31,5 @@ return {
         delay = 500,
       },
     })
-
-    -- Fix #563 https://github.com/lewis6991/gitsigns.nvim/issues/563
-    -- Add 'CursorLine' background for gitsigns and diagnostic icons
-    vim.defer_fn(function()
-      local cl_bg = vim.api.nvim_get_hl(0, { name = "CursorLine", link = false }).bg
-      local signs = vim.fn.sign_getdefined()
-      if signs then
-        for _, sign in ipairs(signs) do
-          local hl = vim.api.nvim_get_hl(0, { name = sign.texthl, link = false })
-          local name = sign.texthl .. "Cul"
-          vim.api.nvim_set_hl(0, name, { fg = hl.fg, bg = cl_bg })
-          vim.fn.sign_define(sign.name, { culhl = name })
-        end
-      end
-    end, 10)
   end,
 }
