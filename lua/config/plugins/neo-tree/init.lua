@@ -7,6 +7,9 @@ return {
     vim.keymap.set("n", "<LocalLeader>E", "<Cmd>Neotree focus<Cr>", { desc = "Open file explorer" })
     vim.keymap.set("x", "<LocalLeader>e", "<Esc><Cmd>Neotree focus toggle<Cr>", { desc = "Open file explorer" })
   end,
+  -- deactivate = function()
+  --   vim.cmd([[Neotree close]])
+  -- end,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
@@ -155,6 +158,14 @@ return {
             vim.wo[winid].statuscolumn = ""
           end
         end)
+      end,
+    })
+
+    vim.api.nvim_create_autocmd("User", {
+      desc = "Close NeoTree on exit before session is saved",
+      pattern = "PersistenceSavePre",
+      callback = function()
+        vim.cmd([[Neotree close]])
       end,
     })
   end,
