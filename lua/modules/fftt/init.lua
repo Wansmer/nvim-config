@@ -166,7 +166,7 @@ function M.setup(opts)
     local is_save_state = vim.fn.state("S") ~= ""
     local is_pending = vim.fn.state("o") ~= ""
 
-    if vim.fn.mode() ~= "n" or not (is_pending and is_save_state) then -- works with `n` and `no`
+    if vim.fn.mode() ~= "n" or is_save_state and not is_pending then
       return
     end
 
