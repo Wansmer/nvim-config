@@ -1,6 +1,6 @@
 return {
   "winston0410/range-highlight.nvim",
-  enabled = true,
+  enabled = false,
   event = { "CmdlineEnter" },
   dependencies = { "winston0410/cmd-parser.nvim" },
   config = function()
