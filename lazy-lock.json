@@ -15,6 +15,7 @@
   "cmp-rg": { "branch": "master", "commit": "677a7874ee8f1afc648c2e7d63a97bc21a7663c5" },
   "cmp-under-comparator": { "branch": "master", "commit": "6857f10272c3cfe930cece2afa2406e1385bfef8" },
   "cmp_luasnip": { "branch": "master", "commit": "05a9ab28b53f71d1aece421ef32fee2cb857a843" },
+  "codecompanion.nvim": { "branch": "main", "commit": "5a616f787eb11290af52fd5baa0ac89a4f3d5ba3" },
   "codeium.vim": { "branch": "main", "commit": "1513aef682a9b3363c0bf60292e6ddc781c716ce" },
   "conform.nvim": { "branch": "master", "commit": "0ebe875d9c306f5fc829db38492ffff2a70d8e9d" },
   "dressing.nvim": { "branch": "master", "commit": "c5775a888adbc50652cb370073fcfec963eca93e" },
