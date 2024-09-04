@@ -78,6 +78,7 @@
   "scrollEOF.nvim": { "branch": "master", "commit": "38fd5880021e90c15dc61fa325f714bd8077f0a6" },
   "serenity": { "branch": "main", "commit": "3aebe727ed84907676ac99fcc7a95c929a6cf640" },
   "sibling-swap.nvim": { "branch": "main", "commit": "269770df52114ed6f22321310538b4daf8973384" },
+  "supermaven-nvim": { "branch": "main", "commit": "2d10d6c63a2c251e8f90d6f80faf4e9c1b8aa7d0" },
   "symbol-usage.nvim": { "branch": "main", "commit": "2842380132e87d31853851be48760de6fb78bdbb" },
   "tailwind-tools.nvim": { "branch": "master", "commit": "a67d4b20eff105fbc234eea227682d15999a7733" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "cf48d4dfce44e0b9a2e19a008d6ec6ea6f01a83b" },
