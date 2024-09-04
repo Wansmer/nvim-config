@@ -23,6 +23,8 @@ PREF = {
     -- List of servers to run
     -- Also applies to `ensure_installed` in `mason-lspconfig`
     active_servers = filter_clients({
+      vimls = false,
+      csharp_ls = false,
       prismals = true,
       eslint = true,
       lua_ls = true,
