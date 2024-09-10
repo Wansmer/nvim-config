@@ -10,6 +10,8 @@ local M = {
     "vtsls",
     "typescript-tools",
     "lua_ls",
+    "pyright",
+    "basedpyright",
   },
 }
 
@@ -92,9 +94,10 @@ function M.extended_hover()
 
         local def = result[1]
 
-        local path = vim.uri_to_fname(def.targetUri)
-        local start_line = def.targetRange.start.line + 1
-        local end_line = def.targetRange["end"].line + 1
+        local path = vim.uri_to_fname(def.targetUri or def.uri) -- e.g. pyright has no `targetUri` but `uri`
+        local range = def.targetRange or def.range -- e.g. pyright has no `targetRange` but `range`
+        local start_line = range.start.line + 1
+        local end_line = range["end"].line + 1
         local lines = u.get_lines(path, start_line, end_line)
         lines = u.trim_indent(lines)
 
