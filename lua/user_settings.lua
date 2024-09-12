@@ -49,6 +49,7 @@ PREF = {
       basedpyright = true,
       pyright = false,
       ruff = true,
+      typos_lsp = true,
     }),
   },
 
