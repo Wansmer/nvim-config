@@ -2,7 +2,7 @@ local DEV = false
 
 return {
   "Wansmer/neocodeium",
-  enabled = false,
+  enabled = true,
   dir = DEV and "~/projects/code/personal/neocodeium" or nil,
   dev = DEV,
   event = "VeryLazy",
@@ -13,7 +13,7 @@ return {
     })
 
     local map = vim.keymap.set
-    
+
     map("i", "<C-g>", neocodeium.accept)
     map("i", "<C-.>", function()
       neocodeium.cycle_or_complete(1)
