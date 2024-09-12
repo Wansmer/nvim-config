@@ -90,6 +90,7 @@ local function update_exmark(bufnr, line, col)
       virt_text_pos = "overlay",
       virt_text_win_col = col - 1,
       hl_mode = "combine",
+      priority = 0,
     })
   else
     vim.api.nvim_buf_del_extmark(bufnr, NS, line + 1)
