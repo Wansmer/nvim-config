@@ -61,7 +61,7 @@ PREF = {
   },
 
   git = {
-    show_blame = true,
+    show_blame = false,
     show_signcolumn = true,
   },
 }
