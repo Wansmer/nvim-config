@@ -20,11 +20,11 @@ vim.schedule(function()
 
   -- {{ Telescope
   h(0, "TelescopePromptBorder", { link = "FloatBorder" })
-  h(0, "TelescopePromptNormal", { link = "FloatBorder" })
+  h(0, "TelescopePromptNormal", { bg = get_hl("FloatBorder").bg, fg = get_hl("Normal").fg })
   h(0, "TelescopePromptTitle", { bg = get_hl("Orange").fg, bold = true })
 
   h(0, "TelescopePreviewBorder", { link = "FloatBorder" })
-  h(0, "TelescopePreviewNormal", { bg = get_hl("NeoTreeVertSplit").bg })
+  h(0, "TelescopePreviewNormal", { bg = get_hl("FloatBorder").bg })
   h(0, "TelescopePreviewTitle", { bg = get_hl("Green").fg, bold = true })
 
   local cc = get_hl("ColorColumn")
