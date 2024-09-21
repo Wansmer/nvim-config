@@ -7,19 +7,23 @@ return {
   dev = DEV,
   event = "VeryLazy",
   config = function()
-    local neocodeium = require("neocodeium")
-    neocodeium.setup({
+    local cdm = require("neocodeium")
+    cdm.setup({
       silent = true,
     })
 
     local map = vim.keymap.set
 
-    map("i", "<C-g>", neocodeium.accept)
+    map("i", "<C-g>", cdm.accept)
     map("i", "<C-.>", function()
-      neocodeium.cycle_or_complete(1)
+      cdm.cycle_or_complete(1)
     end)
     map("i", "<C-,>", function()
-      neocodeium.cycle_or_complete(-1)
+      cdm.cycle_or_complete(-1)
     end)
+
+    map("i", "<C-/>", cdm.clear)
+    map("i", "<A-.>", cdm.accept_word)
+    map("i", "<D-.>", cdm.accept_line)
   end,
 }
