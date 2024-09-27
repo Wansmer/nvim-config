@@ -85,6 +85,45 @@ return {
           ["string"] = classnames,
           parenthesized_expression = parenthesized_expression,
           jsx_expression = lu.set_default_preset(),
+          statement_block = {
+            join = {
+              format_tree = function(tsj)
+                if tsj:tsnode():parent():type() == "if_statement" then
+                  tsj:remove_child({ "{", "}" })
+                  tsj:update_preset({ recursive = false }, "join")
+                else
+                  local stmt_join_fb = require("treesj.langs.javascript").statement_block.join.fallback
+                  stmt_join_fb(tsj)
+                end
+              end,
+            },
+          },
+          return_statement = {
+            join = {
+              enable = false,
+            },
+            split = {
+              enable = function(tsn)
+                return tsn:parent():type() == "if_statement"
+              end,
+              format_tree = function(tsj)
+                tsj:wrap({ left = "{", right = "}" })
+              end,
+            },
+          },
+          expression_statement = {
+            join = {
+              enable = false,
+            },
+            split = {
+              enable = function(tsn)
+                return tsn:parent():type() == "if_statement"
+              end,
+              format_tree = function(tsj)
+                tsj:wrap({ left = "{", right = "}" })
+              end,
+            },
+          },
         },
       },
     })
