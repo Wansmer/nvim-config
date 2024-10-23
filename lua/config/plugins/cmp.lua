@@ -177,6 +177,7 @@ return {
           },
         },
         { name = "lazydev", group_index = 0 },
+        { name = "vim-dadbod-completion" },
       },
       confirm_opts = {
         behavior = cmp.ConfirmBehavior.Replace,
