@@ -161,4 +161,7 @@ map("n", "<leader>ts", function()
   vim.notify("Spell check for " .. langs .. ": " .. (vim.opt.spell:get() and "ON" or "OFF"))
 end, { desc = "Toggle spell check" })
 
+map("n", "`", "'")
+map("n", "'", "`")
+
 del("n", "Y")
