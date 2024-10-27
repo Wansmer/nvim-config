@@ -1,3 +1,5 @@
+local u = require("utils")
+
 -- Sets minimum width of current window equals to textwidth
 -- vim.api.nvim_create_autocmd('BufEnter', {
 --   callback = function()
@@ -218,6 +220,16 @@ vim.api.nvim_create_autocmd("VimEnter", {
       return
     end
     gdev.open(arg:sub(3))
+  end,
+})
+
+vim.api.nvim_create_autocmd("ModeChanged", {
+  desc = "Change layout to English when entering command line",
+  pattern = "*:c",
+  callback = function()
+    if vim.fn.getcmdtype() == ":" then
+      u.layout.en()
+    end
   end,
 })
 
