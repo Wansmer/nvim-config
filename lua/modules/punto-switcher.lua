@@ -47,7 +47,12 @@ local function switch_range_layout(range)
   local tr_text = lm_utils.translate_keycode(text, layouts[to], layouts[from])
   local cursor = vim.api.nvim_win_get_cursor(0)
 
-  pcall(vim.api.nvim_buf_set_text, 0, sr, sc, er, ec, { tr_text })
+  -- 'ec' is not used because need to consider the length in bytes
+  local ok_set_text, err = pcall(vim.api.nvim_buf_set_text, 0, sr, sc, er, sc + #text, { tr_text })
+  if not ok_set_text then
+    vim.notify(err or "", vim.log.levels.WARN)
+    return
+  end
 
   if #text ~= #tr_text then
     local shift = vim.fn.mode() == "v" and -1 or 0 -- fix cursor position in visual mode
