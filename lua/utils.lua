@@ -451,4 +451,32 @@ function M.trim_indent(lines)
   return lines
 end
 
+local function get_current_layout()
+  local output = vim.split(vim.trim(vim.fn.system("im-select")), "\n")
+  return output[#output]
+end
+
+local RU = "com.apple.keylayout.RussianWin"
+local EN = "com.apple.keylayout.ABC"
+
+M.layout = {
+  en = function()
+    vim.fn.system({ "im-select", EN })
+  end,
+  ru = function()
+    vim.fn.system({ "im-select", RU })
+  end,
+  toggle = function()
+    local opposite = { [EN] = RU, [RU] = EN }
+
+    local from = get_current_layout()
+    local to = opposite[from]
+
+    vim.fn.system({ "im-select", to })
+
+    return from, to
+  end,
+  get = get_current_layout,
+}
+
 return M
