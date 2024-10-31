@@ -1,3 +1,4 @@
+local u = require("utils")
 local M = {}
 
 ---To display the `number` in the `statuscolumn` according to
@@ -18,12 +19,21 @@ function M.number()
     return len < 1 and n or (" "):rep(len) .. n
   end
 
+  local v_hl = ""
+
+  local mode = vim.fn.strtrans(vim.fn.mode()):lower():gsub("%W", "")
+  if mode == "v" then
+    local v_range = u.get_visual_range()
+    local is_in_range = vim.v.lnum >= v_range[1] and vim.v.lnum <= v_range[3]
+    v_hl = is_in_range and "%#CursorLineNr#" or ""
+  end
+
   if nu and rnu then
-    return pad_start(cur_line)
+    return v_hl .. pad_start(cur_line)
   elseif nu then
-    return pad_start(vim.v.lnum)
+    return v_hl .. pad_start(vim.v.lnum)
   elseif rnu then
-    return pad_start(vim.v.relnum)
+    return v_hl .. pad_start(vim.v.relnum)
   end
 
   return ""
