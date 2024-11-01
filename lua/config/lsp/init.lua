@@ -3,6 +3,7 @@ local mlsp = require("mason-lspconfig")
 local diagnostics = require("config.lsp.diagnostics")
 local float = require("config.lsp.floats")
 require("config.lsp.autocmd")
+require("config.lsp.fix_inlay_hint_hl")
 diagnostics.apply()
 float.apply()
 
