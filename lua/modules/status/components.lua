@@ -22,10 +22,11 @@ function M.number()
   local v_hl = ""
 
   local mode = vim.fn.strtrans(vim.fn.mode()):lower():gsub("%W", "")
-  if mode == "v" then
+  local cur = vim.api.nvim_win_get_cursor(0)
+  if mode == "v" and cur[1] ~= vim.v.lnum then
     local v_range = u.get_visual_range()
     local is_in_range = vim.v.lnum >= v_range[1] and vim.v.lnum <= v_range[3]
-    v_hl = is_in_range and "%#CursorLineNr#" or ""
+    v_hl = is_in_range and "%#VisualRangeNr#" or ""
   end
 
   if nu and rnu then
