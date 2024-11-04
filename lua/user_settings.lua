@@ -43,6 +43,7 @@ PREF = {
       marksman = true,
       rust_analyzer = false,
       sqlls = false,
+      sqls = true,
       clangd = false,
       gopls = false,
       ansiblels = true,
