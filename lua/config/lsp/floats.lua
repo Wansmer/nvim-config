@@ -91,6 +91,7 @@ local function on_float(handler, opts)
 
     -- Conceal everything.
     vim.wo[win].concealcursor = "n"
+    vim.wo[win].wrap = false
 
     set_float_hl(buf, win)
     set_float_keymaps(buf)
