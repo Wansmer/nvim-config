@@ -27,6 +27,7 @@ local opposites = u.tbl_add_reverse_lookup({
   ["global"] = "local",
   ["increment"] = "decrement",
   ["production"] = "development",
+  ["asc"] = "desc",
 
   -- This will be work only with `vim.opt.iskeyword:append({ "!", "=", "<", ">" })`
   ["!="] = "==",
