@@ -189,12 +189,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
     map("x", "<C-k>", surround_link, { buffer = buffer })
 
-    map("n", "<A-1>", toggle_heading(1), { buffer = buffer })
-    map("n", "<A-2>", toggle_heading(2), { buffer = buffer })
-    map("n", "<A-3>", toggle_heading(3), { buffer = buffer })
-    map("n", "<A-4>", toggle_heading(4), { buffer = buffer })
-    map("n", "<A-5>", toggle_heading(5), { buffer = buffer })
-    map("n", "<A-6>", toggle_heading(6), { buffer = buffer })
-    map("n", "<A-0>", cycle_heading, { buffer = buffer })
+    map({ "n", "i" }, "<A-1>", toggle_heading(1), { buffer = buffer })
+    map({ "n", "i" }, "<A-2>", toggle_heading(2), { buffer = buffer })
+    map({ "n", "i" }, "<A-3>", toggle_heading(3), { buffer = buffer })
+    map({ "n", "i" }, "<A-4>", toggle_heading(4), { buffer = buffer })
+    map({ "n", "i" }, "<A-5>", toggle_heading(5), { buffer = buffer })
+    map({ "n", "i" }, "<A-6>", toggle_heading(6), { buffer = buffer })
+    map({ "n", "i" }, "<A-0>", cycle_heading, { buffer = buffer })
   end,
 })
