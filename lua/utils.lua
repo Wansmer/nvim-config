@@ -84,10 +84,6 @@ function M.get_visual_range()
   local sr, sc = unpack(vim.fn.getpos("v"), 2, 3)
   local er, ec = unpack(vim.fn.getpos("."), 2, 3)
 
-  -- To correct work with non-single byte chars
-  local byte_c = M.char_byte_count(M.char_on_pos({ er, ec }))
-  ec = ec + (byte_c - 1)
-
   local range = {}
 
   if sr == er then
@@ -98,6 +94,10 @@ function M.get_visual_range()
   else
     range = { sr, sc - 1, er, ec }
   end
+
+  -- To correct work with non-single byte chars
+  local byte_c = M.char_byte_count(M.char_on_pos({ range[3], range[4] }))
+  range[4] = range[4] + ((byte_c or 1) - 1)
 
   return range
 end
