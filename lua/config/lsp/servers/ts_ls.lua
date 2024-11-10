@@ -12,7 +12,7 @@ return {
   },
   settings = {
     diagnostics = {
-      --@type nuber[]
+      ---@type number[]
       ignoredCodes = {},
     },
     -- https://www.reddit.com/r/neovim/comments/14e41rb/comment/jou4ljw/?utm_source=share&utm_medium=web2x&context=3
