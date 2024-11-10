@@ -4,7 +4,7 @@ local M = {}
 local set_keymaps = require("config.lsp.mappings").set_keymap
 
 ---Lsp attach callback
----@param client lsp.Client
+---@param client vim.lsp.Client
 ---@param bufnr integer
 M.on_attach = function(client, bufnr)
   -- Enable formatting for ranges
@@ -12,7 +12,7 @@ M.on_attach = function(client, bufnr)
     vim.api.nvim_set_option_value("formatexpr", "v:lua.vim.lsp.formatexpr()", { buf = bufnr })
   else
     ---@diagnostic disable-next-line: redundant-parameter
-    vim.api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
+    vim.api.nvim_set_option_value("formatexpr", "v:lua.vim.lsp.formatexpr()", { buf = bufnr })
   end
 
   local ok_wd, wd = pcall(require, "workspace-diagnostics")
@@ -58,7 +58,7 @@ M.single_file_support = true
 M.flags = { debounce_text_changes = 150 }
 
 -- nvim-cmp
-local cmp_ok, cmp = pcall(require, "cmp_nvim_lsp")
+local cmp_ok, _ = pcall(require, "cmp_nvim_lsp")
 local ok_c, capabilities = pcall(require("cmp_nvim_lsp").default_capabilities)
 if cmp_ok and ok_c then
   -- Luasnip
