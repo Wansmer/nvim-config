@@ -28,6 +28,8 @@ local opposites = u.tbl_add_reverse_lookup({
   ["increment"] = "decrement",
   ["production"] = "development",
   ["asc"] = "desc",
+  ["право"] = "лево",
+  ["cправа"] = "слева",
 
   -- This will be work only with `vim.opt.iskeyword:append({ "!", "=", "<", ">" })`
   ["!="] = "==",
