@@ -1,5 +1,4 @@
 vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
-local mocha = require("catppuccin.palettes").get_palette("mocha")
 
 require("catppuccin").setup({
   dim_inactive = {
