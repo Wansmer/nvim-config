@@ -14,12 +14,12 @@ end
 local M = {}
 
 -- {{ Common lsp dependent toggler
-map("n", "<Leader>li", u.bind(vim.lsp.inlay_hint, 0), {
-  desc = "Toggle inlayHint for current buffer",
-})
-map("n", "<Leader>ld", u.lazy_rhs_cb("config.lsp.diagnostics", "toggle_diagnostics"), {
-  desc = "Toggle diagnostic",
-})
+map("n", "<Leader>li", function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+end, { desc = "Toggle inlayHint for current buffer" })
+map("n", "<Leader>ld", function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+end, { desc = "Toggle diagnostic" })
 
 local function toggle_ltex_lang()
   local client = vim.lsp.get_clients({ name = "ltex", bufnr = 0 })[1]
