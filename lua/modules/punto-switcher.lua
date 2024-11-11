@@ -71,6 +71,13 @@ lm.map({ "i" }, "<C-m>", function()
   switch_range_layout(_G.__last_insert_range)
 end)
 
+lm.map({ "i" }, "<A-m>", function()
+  local sr, sc, er, ec = unpack(_G.__last_insert_range)
+  local text = vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {})[1]
+  local words = vim.split(text, "[%s%p]")
+  switch_range_layout({ sr, ec - #words[#words], er, er, ec })
+end)
+
 lm.map({ "v" }, "<C-m>", function()
   local range = u.get_visual_range()
   switch_range_layout({ range[1] - 1, range[2], range[3] - 1, range[4] })
