@@ -5,18 +5,18 @@ local M = {}
 
 M.ns = vim.api.nvim_create_namespace("__parts.improve-visual-block__")
 M.text_changed_id = nil
-M.dollar = false
+M.is_dollar = false
 M.is_append = false
 
 M.opts = {
   hls = {
-    preview = "IncSearch",
+    preview = "Search",
     edited_text = "IncSearch",
   },
 }
 
 function M.setup(opts)
-  M.opst = not opts and M.opts or vim.tbl_deep_extend("force", M.opts, opts)
+  M.opts = not opts and M.opts or vim.tbl_deep_extend("force", M.opts, opts)
 
   vim.api.nvim_create_autocmd("ModeChanged", {
     pattern = "\22:i",
@@ -59,11 +59,11 @@ function M.setup(opts)
             end
 
             if is_need_set_extmark then
-              if not M.dollar and #line < col then
+              if not M.is_dollar and #line < col then
                 spaces = (" "):rep(col - #line)
               end
 
-              if M.dollar then
+              if M.is_dollar then
                 col = #line
               end
 
@@ -86,12 +86,12 @@ function M.setup(opts)
     end
 
     if key == "$" then
-      M.dollar = true
+      M.is_dollar = true
       return
     end
 
-    if key ~= "A" and M.dollar then
-      M.dollar = false
+    if key ~= "A" and M.is_dollar then
+      M.is_dollar = false
       return
     end
 
@@ -104,7 +104,7 @@ function M.setup(opts)
       -- TODO: Check, if already cleared
       pcall(vim.api.nvim_del_autocmd, M.text_changed_id)
       pcall(vim.api.nvim_buf_clear_namespace, 0, M.ns, 0, -1)
-      M.dollar = false
+      M.is_dollar = false
       M.is_append = false
     end,
   })
