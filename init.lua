@@ -17,6 +17,7 @@ end
 require("user_settings")
 require("options")
 require("plugins")
+
 require("config.colorscheme")
 require("mappings")
 require("autocmd")
@@ -28,4 +29,5 @@ require("modules.autoimport").run()
 require("modules.lazygit")
 require("modules.fftt").setup()
 require("modules.marks").setup()
+require("modules.improve-visual-block").setup()
 require("modules.punto-switcher")
