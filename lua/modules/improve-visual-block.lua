@@ -43,7 +43,7 @@ function M.setup(opts)
           -- hl for place where really editing text
           vim.api.nvim_buf_set_extmark(0, M.ns, sr, sc, {
             end_col = ec,
-            hl_group = M.opst.hls.edited_text,
+            hl_group = M.opts.hls.edited_text,
           })
 
           -- hl and extmarks for preview
@@ -68,7 +68,7 @@ function M.setup(opts)
               end
 
               vim.api.nvim_buf_set_extmark(0, M.ns, cur_line - 1, col, {
-                virt_text = { { spaces, "NonText" }, { text, M.opst.hls.preview } },
+                virt_text = { { spaces, "NonText" }, { text, M.opts.hls.preview } },
                 virt_text_pos = "inline",
                 strict = false,
                 -- TODO: find right priority to avoid conflict with indent-blankline
