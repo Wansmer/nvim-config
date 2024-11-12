@@ -38,12 +38,17 @@ function M.setup(opts)
           end
 
           local sr, sc, er, ec = unpack(_G.__last_insert_range)
+          if ec < sc then
+            return
+          end
+
           local text = vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {})[1]
 
           -- hl for place where really editing text
           vim.api.nvim_buf_set_extmark(0, M.ns, sr, sc, {
             end_col = ec,
             hl_group = M.opts.hls.edited_text,
+            strict = false,
           })
 
           -- hl and extmarks for preview
