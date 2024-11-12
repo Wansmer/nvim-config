@@ -18,6 +18,16 @@ return {
         toml = { "prettier" },
         sh = { "shfmt" },
         python = { "isort", "black" },
+        mysql = {
+          "sqlfluff",
+          "sql_formatter",
+          -- stop_after_first = true,
+        },
+        sql = {
+          "sqlfluff",
+          "sql_formatter",
+          -- stop_after_first = true,
+        },
       },
     })
   end,

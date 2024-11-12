@@ -7,6 +7,9 @@ return {
     ---@type "eslint_d"|"eslint"
     -- local js_linter = "eslint"
 
+    local linters = lint.linters
+    linters.sqlfluff.args = { "lint", "--format=json" }
+
     lint.linters_by_ft = {
       -- javascript = { js_linter },
       -- javascriptreact = { { js_linter } },
@@ -21,6 +24,8 @@ return {
       scss = { "stylelint" },
       less = { "stylelint" },
       yml = { "ansible-lint" },
+      sql = { "sqlfluff" },
+      mysql = { "sqlfluff" },
     }
 
     vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
