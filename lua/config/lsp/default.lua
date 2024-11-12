@@ -48,6 +48,11 @@ M.on_attach = function(client, bufnr)
     client.server_capabilities.hoverProvider = false
   end
 
+  local ok, sqls = pcall(require, "sqls")
+  if ok then
+    sqls.on_attach(client, bufnr)
+  end
+
   set_keymaps(client, bufnr)
 end
 

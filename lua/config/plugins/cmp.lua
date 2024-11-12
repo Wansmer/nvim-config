@@ -67,6 +67,14 @@ return {
     },
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets",
+    {
+      "MattiasMTS/cmp-dbee",
+      dependencies = {
+        { "kndndrj/nvim-dbee" },
+      },
+      ft = { "sql", "mysql" },
+      opts = {},
+    },
   },
   config = function()
     local cmp = require("cmp")
@@ -178,6 +186,7 @@ return {
         },
         { name = "lazydev", group_index = 0 },
         { name = "vim-dadbod-completion" },
+        { name = "cmp-dbee" },
       },
       confirm_opts = {
         behavior = cmp.ConfirmBehavior.Replace,
