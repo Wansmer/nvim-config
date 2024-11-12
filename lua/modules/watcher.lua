@@ -2,7 +2,7 @@
 -- TODO: make `collect_entries` async
 -- TODO: now only for directories.
 
--- FileSystem Wathcer
+-- FileSystem Watcher
 --
 -- This module allows you to monitor file system events using libuv (`vim.uv`).
 --
@@ -54,7 +54,7 @@
 local u = require("utils")
 
 ---@class Watcher
----@field _w vim.uv.uv_fs_event_t|nil libuv fs_event. See: https://docs.libuv.org/en/v1.x/fs_event.html
+---@field _w uv_fs_event_t|nil libuv fs_event. See: https://docs.libuv.org/en/v1.x/fs_event.html
 ---@field _path string Path to watch. Default is cwd
 ---@field _ignore string[] Ignore patterns. Default is ["^%.git", "%.git/", "%~$", "4913$"]
 ---@field _root string[] Root pattern. Default is [".git/"]
@@ -201,7 +201,7 @@ function Watcher.new(opts)
     delay = 30,
   }, opts or {})
 
-  local stat = vim.uv.fs_stat(opts and opts.path or vim.uv.cwd())
+  local stat = vim.uv.fs_stat(opts and opts.path or vim.uv.cwd()--[[@as string]])
   if not stat then
     return
   end
@@ -301,9 +301,9 @@ function Watcher:_handle_event(event, fullpath)
   local data = { filename = fullpath, stat = vim.uv.fs_stat(fullpath), event = Events[event] } ---@type WatcherEventPayload
   local cbs = vim.list_extend(self["_on_" .. Events[event]], self._on_every)
 
-  local run_cb = function(ovveride)
-    ovveride = vim.tbl_deep_extend("force", data, ovveride or {})
-    vim.api.nvim_exec_autocmds("User", { pattern = AUTOCMD[Events[event]], data = ovveride })
+  local run_cb = function(override)
+    override = vim.tbl_deep_extend("force", data, override or {})
+    vim.api.nvim_exec_autocmds("User", { pattern = AUTOCMD[Events[event]], data = override })
     for _, cb in ipairs(cbs) do
       cb(data)
     end
