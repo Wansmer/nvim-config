@@ -3,15 +3,13 @@ return {
   keys = {
     { "<leader>tr", vim.cmd.IronRepl, desc = "󱠤 Toggle REPL" },
     { "<leader>rr", vim.cmd.IronRestart, desc = "󱠤 Restart REPL" },
-    { "+", mode = { "n", "x" }, desc = "󱠤 Send-to-REPL Operator" },
-    { "++", desc = "󱠤 Send Line to REPL" },
+    { "<leader>u", mode = { "n", "x" }, desc = "󱠤 Send-to-REPL Operator" },
   },
   config = function()
     require("iron.core").setup({
       keymaps = {
-        send_line = "++",
-        visual_send = "+",
-        send_motion = "+",
+        send_line = "<leader>u",
+        visual_send = "<leader>u",
       },
       config = {
         repl_open_cmd = "horizontal bot 20 split",
