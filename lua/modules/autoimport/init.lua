@@ -5,7 +5,7 @@ local apply_action = require("modules.autoimport.code_action_api").apply_action
 local M = {}
 
 M.servers = {
-  tsserver = {
+  ts_ls = {
     diagnostic_codes = { 2304, 2552 },
     ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
     patterns = { "^Add import", "^Update import" },

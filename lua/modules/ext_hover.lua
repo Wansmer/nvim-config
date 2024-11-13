@@ -6,7 +6,7 @@ local Promise = require("promise")
 local ms = vim.lsp.protocol.Methods
 local M = {
   servers = {
-    "tsserver",
+    "ts_ls",
     "vtsls",
     "typescript-tools",
     "lua_ls",
