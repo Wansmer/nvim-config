@@ -143,11 +143,12 @@ function M.lazy_rhs_cb(module, cb_name, ...)
   end
 end
 
----Feedkeys witn 'n' (noremap) mode and auto 'replace_termcodes'
+---Feedkeys with 'n' (noremap) by default
 ---@param f string
-function M.feedkeys(f)
-  local term = vim.api.nvim_replace_termcodes(f, true, true, true)
-  vim.api.nvim_feedkeys(term, "n", true)
+---@param mode? string
+function M.feedkeys(f, mode)
+  local term = vim.keycode(f)
+  vim.api.nvim_feedkeys(term, mode or "n", true)
 end
 
 local function system(cmd)

@@ -62,7 +62,7 @@ local function change_surround(from, to)
     lines[1] = replace_non_blank(lines[1], "left", from_left, to_left)
     lines[#lines] = replace_non_blank(lines[#lines], "right", from_right, to_right)
 
-    u.feedkeys("<Esc>")
+    u.feedkeys("<Esc>", "ni")
     vim.api.nvim_buf_set_text(0, sr, sc, er, ec, lines)
     vim.api.nvim_win_set_cursor(0, cursor)
   end
@@ -116,7 +116,7 @@ local function operatorfunc(name, feed, ...)
 
   return function()
     vim.opt.operatorfunc = "v:lua.__" .. name
-    u.feedkeys(feed)
+    u.feedkeys(feed, "ni")
   end
 end
 
@@ -124,7 +124,7 @@ return {
   add = operatorfunc("add_surround", "g@", get_char),
   add_visual = function()
     Surround.add_surround(get_char(), true)
-    u.feedkeys("<Esc>")
+    u.feedkeys("<Esc>", "ni")
   end,
   remove = operatorfunc("remove_surround", "g@ ", get_char, ""),
   replace = operatorfunc("replace_surround", "g@ ", get_char, get_char),
