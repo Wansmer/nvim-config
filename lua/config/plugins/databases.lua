@@ -1,8 +1,10 @@
 return {
   { "nanotee/sqls.nvim" },
   {
-    "kndndrj/nvim-dbee",
+    "Wansmer/nvim-dbee",
     lazy = false,
+    dir = "~/projects/code/personal/nvim-dbee",
+    dev = true,
     dependencies = { "MunifTanjim/nui.nvim" },
     build = function()
       require("dbee").install()
