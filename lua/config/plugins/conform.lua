@@ -3,6 +3,12 @@ return {
   enabled = true,
   config = function()
     local js_formatter = { "prettier" }
+    local sql = {
+      "sqlfluff",
+      "sql_formatter",
+      stop_after_first = true,
+    }
+
     require("conform").setup({
       formatters_by_ft = {
         lua = { "stylua" },
@@ -18,16 +24,10 @@ return {
         toml = { "prettier" },
         sh = { "shfmt" },
         python = { "isort", "black" },
-        mysql = {
-          "sqlfluff",
-          "sql_formatter",
-          -- stop_after_first = true,
-        },
-        sql = {
-          "sqlfluff",
-          "sql_formatter",
-          -- stop_after_first = true,
-        },
+        mysql = sql,
+        sql = sql,
+        psql = sql,
+        pgsql = sql,
       },
     })
   end,
