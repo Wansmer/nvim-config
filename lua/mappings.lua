@@ -164,4 +164,7 @@ end, { desc = "Toggle spell check" })
 map("n", "`", "'")
 map("n", "'", "`")
 
+map('n', '<A-l>', '3zl')
+map('n', '<A-h>', '3zh')
+
 del("n", "Y")
