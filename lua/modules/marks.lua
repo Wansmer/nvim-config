@@ -56,6 +56,7 @@ function M.setup(opts)
         vim.api.nvim_buf_set_extmark(0, M.ns_extmark, linenr, dim_start, {
           end_col = dim_end,
           hl_group = M.opts.hl.dim,
+          strict = false,
         })
       end
 
