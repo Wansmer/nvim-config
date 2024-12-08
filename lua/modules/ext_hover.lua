@@ -36,7 +36,7 @@ function M.extended_hover()
     return
   end
 
-  local params = vim.lsp.util.make_position_params()
+  local params = vim.lsp.util.make_position_params(0, "utf-8")
 
   -- HOVER
   local get_hover = function()
