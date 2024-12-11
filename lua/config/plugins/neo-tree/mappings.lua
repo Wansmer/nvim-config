@@ -6,6 +6,7 @@ local function cd_or_open(state)
   if node.type ~= "directory" then
     -- TODO: check if no window is present
     fs_commands.open_with_window_picker(state)
+    return
   end
   fs_commands.set_root(state)
 end
