@@ -33,40 +33,57 @@ local function update_marks(ns, mark_id, opts)
   })
 end
 
-local function in_range(range, mark)
-  if not (range and mark) then
+---Check if position is in visual range
+---@param range [number, number, number, number]
+---@param pos [number, number]
+---@param mode? 'char'|'line'|'block'
+---@return boolean
+local function in_visual_range(range, pos, mode)
+  if not (range and pos and mode) then
     return false
   end
 
   local sr, sc, er, ec = unpack(range)
-  local mr, mc = unpack(mark)
+  local mr, mc = unpack(pos)
 
-  -- If visual range on one line
-  if sr == er then
-    return sc < mc and mc < ec
-  end
-
-  -- If visual range is multiline
   if sr <= mr and mr <= er then
-    if sr == mr then
-      return sc < mc
-    elseif er == mr then
-      return ec > mc
-    else
-      return true
+    if mode == "line" then
+      return true -- Common condition is enough for linewise mode
+    end
+
+    if mode == "block" then
+      return sc < mc and mc < ec
+    end
+
+    if mode == "char" then
+      if sr == er then
+        return sc < mc and mc < ec
+      end
+
+      -- If visual range is multiline
+      if sr == mr then
+        return sc < mc
+      elseif er == mr then
+        return ec > mc
+      else
+        return true
+      end
     end
   end
+
   return false
 end
 
 ---Restore extmarks for a given range or all if nil
----@param range? number[]
+---@param range? [number, number, number, number]
 local function restore_marks(range)
   local ihns = vim.api.nvim_get_namespaces()["vim_lsp_inlayhint"]
 
   for id, data in pairs(store) do
-    local is_in_range = in_range(range, { data.line, data.col })
-    if not range or not is_in_range then
+    local mode = u.visual_mode_type()
+
+    local to_restore = not (range and in_visual_range(range, { data.line, data.col }, mode))
+    if to_restore then
       set_virt_hl_value(data.virt_text, "LspInlayHint")
       data.hl = "LspInlayHint"
       update_marks(ihns, id, data)
