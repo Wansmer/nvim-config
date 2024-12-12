@@ -80,20 +80,34 @@ function M.char_byte_count(s, i)
   end
 end
 
+---@return 'char'|'line'|'block'|nil
+function M.visual_mode_type()
+  return ({
+    ["v"] = "char",
+    ["V"] = "line",
+    ["^V"] = "block",
+  })[vim.fn.strtrans(vim.fn.mode())]
+end
+
 function M.get_visual_range()
   local sr, sc = unpack(vim.fn.getpos("v"), 2, 3)
   local er, ec = unpack(vim.fn.getpos("."), 2, 3)
 
-  local range = {}
+  local mode = M.visual_mode_type()
 
-  if sr == er then
-    local cols = sc >= ec and { ec, sc } or { sc, ec }
-    range = { sr, cols[1] - 1, er, cols[2] }
-  elseif sr > er then
-    range = { er, ec - 1, sr, sc }
-  else
-    range = { sr, sc - 1, er, ec }
+  if sr > er then
+    sr, sc, er, ec = er, ec, sr, sc
   end
+
+  if sr == er or mode == "block" then
+    sc, ec = math.min(sc, ec), math.max(sc, ec)
+  end
+
+  if mode == "line" then
+    sc, ec = 0, -1 -- -1 means last character
+  end
+
+  local range = { sr, sc > 0 and sc - 1 or 0, er, ec }
 
   -- To correct work with non-single byte chars
   local byte_c = M.char_byte_count(M.char_on_pos({ range[3], range[4] }))
