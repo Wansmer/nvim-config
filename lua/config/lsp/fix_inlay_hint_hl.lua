@@ -33,13 +33,40 @@ local function update_marks(ns, mark_id, opts)
   })
 end
 
+local function in_range(range, mark)
+  if not (range and mark) then
+    return false
+  end
+
+  local sr, sc, er, ec = unpack(range)
+  local mr, mc = unpack(mark)
+
+  -- If visual range on one line
+  if sr == er then
+    return sc < mc and mc < ec
+  end
+
+  -- If visual range is multiline
+  if sr <= mr and mr <= er then
+    if sr == mr then
+      return sc < mc
+    elseif er == mr then
+      return ec > mc
+    else
+      return true
+    end
+  end
+  return false
+end
+
 ---Restore extmarks for a given range or all if nil
 ---@param range? number[]
 local function restore_marks(range)
   local ihns = vim.api.nvim_get_namespaces()["vim_lsp_inlayhint"]
 
   for id, data in pairs(store) do
-    if not range or not (data.line >= range[1] - 1 and data.line <= range[3] - 1) then
+    local is_in_range = in_range(range, { data.line, data.col })
+    if not range or not is_in_range then
       set_virt_hl_value(data.virt_text, "LspInlayHint")
       data.hl = "LspInlayHint"
       update_marks(ihns, id, data)
@@ -57,8 +84,8 @@ vim.api.nvim_create_autocmd({ "ModeChanged", "CursorMoved" }, {
       return
     end
 
-    local range = u.get_visual_range()
-    local marks = vim.api.nvim_buf_get_extmarks(0, ihns, { range[1] - 1, 0 }, { range[3], 0 }, { details = true })
+    local range = { u.to_api_range(u.get_visual_range()) }
+    local marks = vim.api.nvim_buf_get_extmarks(0, ihns, { range[1], 0 }, { range[3] + 1, 0 }, { details = true })
 
     for _, m in ipairs(marks) do
       local id, linenr, col, opts = m[1], m[2], m[3], m[4]
