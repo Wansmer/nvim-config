@@ -6,7 +6,7 @@ if vim.fn.has("nvim-0.10.0") == 1 then
     callback = function(args)
       local bufnr = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if client and client.supports_method("textDocument/inlayHint", { bufnr = bufnr }) then
+      if client and client:supports_method("textDocument/inlayHint", bufnr) then
         vim.lsp.inlay_hint.enable(PREF.lsp.show_inlay_hints, { bufnr = bufnr })
       end
     end,

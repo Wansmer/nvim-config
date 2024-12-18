@@ -11,6 +11,11 @@ local function desc(opts)
   end
 end
 
+local float_opts = {
+  border = PREF.ui.border,
+  max_width = 80,
+}
+
 local M = {}
 
 -- {{ Common lsp dependent toggler
@@ -57,12 +62,20 @@ M.set_keymap = function(_, bufnr)
   local d = desc({ buffer = bufnr, desc = "" })
 
   -- Diagnostics
-  map("n", "gl", vim.diagnostic.open_float, d("Open diagnostic float on the line"))
-  map("n", "]d", vim.diagnostic.goto_next, d("Go to next diagnostic"))
-  map("n", "[d", vim.diagnostic.goto_prev, d("Go to prev diagnostic"))
+  map("n", "gl", function()
+    vim.diagnostic.open_float(float_opts)
+  end, d("Open diagnostic float on the line"))
+  map("n", "]d", function()
+    vim.diagnostic.jump({ count = 1, float = true })
+  end, d("Go to next diagnostic"))
+  map("n", "[d", function()
+    vim.diagnostic.jump({ count = -1, float = true })
+  end, d("Go to prev diagnostic"))
 
   -- Hover (symbol info)
-  map("n", "K", vim.lsp.buf.hover, d("Show symbol info"))
+  map("n", "K", function()
+    vim.lsp.buf.hover(float_opts)
+  end, d("Show symbol info"))
   map("n", "gK", require("modules.ext_hover").extended_hover, d("Show symbol info with definition"))
 
   -- Formatting

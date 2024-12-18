@@ -1,3 +1,5 @@
+---WARNING: do not use, handlers and vim.lsp.with is deprecated
+
 ---Additional settings for lsp hover and signature_help
 ---Based on https://github.com/MariaSolOs/dotfiles/blob/bda5388e484497b8c88d9137c627c0f24ec295d7/.config/nvim/lua/lsp.lua#L193
 
