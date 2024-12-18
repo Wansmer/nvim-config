@@ -47,7 +47,7 @@ end
 
 ---Updated prefix for add to new string
 ---@param mark string
----@param action? 'i'|'d'|'e' 'i' - increment (default), 'd' - decrement, 'e' - equal (use only fo ordered list)
+---@param action? 'i'|'d'|'e' 'i' - increment (default), 'd' - decrement, 'e' - equal (use only for ordered list)
 ---@return string
 local function update_prefix(mark, action)
   -- TODO: add normal checks for "- [ ]". No hardcode
@@ -62,7 +62,7 @@ end
 ---Adding list prefix to new line if func called on md-list (ol, ul, quote)
 ---TODO: разобраться, почему не работает, когда замыкание?
 ---@param cmd string Command to feed
----@param action? 'i'|'d'|'e' 'i' - increment (default), 'd' - decrement, 'e' - equal (use only fo ordered list)
+---@param action? 'i'|'d'|'e' 'i' - increment (default), 'd' - decrement, 'e' - equal (use only for ordered list)
 local function continue_list_if_need(cmd, action)
   local line = vim.api.nvim_get_current_line()
   local marker = is_list(line)
