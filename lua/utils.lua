@@ -57,7 +57,7 @@ function M.get_object_range()
   local end_ = vim.api.nvim_buf_get_mark(0, "]")
   end_[2] = end_[2] + 1
 
-  return vim.tbl_flatten({ start, end_ })
+  return vim.iter({ start, end_ }):flatten():totable()
 end
 
 -- From: https://neovim.discourse.group/t/how-do-you-work-with-strings-with-multibyte-characters-in-lua/2437/4
@@ -350,7 +350,7 @@ function M.concat(...)
   return res
 end
 
----Repeat callback by repeat pressing symbol after registred lhs
+---Repeat callback by repeat pressing symbol after registered lhs
 ---
 ---Usage example:
 ---
