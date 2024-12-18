@@ -36,9 +36,9 @@ function M.calc_ranges(str, dir, pos)
   local idx = vim.fn.charidx(str, pos)
   local char_at_pos = vim.fn.nr2char(vim.fn.strgetchar(str, idx))
 
-  local cutted_str = M.prepare_str(str, dir, pos)
+  local cut_str = M.prepare_str(str, dir, pos)
   local shifted_pos = pos + #char_at_pos
-  local words = vim.split(cutted_str, M.opts.split_by)
+  local words = vim.split(cut_str, M.opts.split_by)
 
   ---@type string[]
   local charlist = {}
