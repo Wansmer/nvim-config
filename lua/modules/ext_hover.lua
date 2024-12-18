@@ -12,6 +12,7 @@ local M = {
     "lua_ls",
     "pyright",
     "basedpyright",
+    "gopls",
   },
 }
 
@@ -24,8 +25,8 @@ function M.extended_hover()
   for _, c in ipairs(clients) do
     if
       vim.tbl_contains(M.servers, c.name)
-      and c.supports_method(ms.textDocument_hover)
-      and c.supports_method(ms.textDocument_definition)
+      and c:supports_method(ms.textDocument_hover)
+      and c:supports_method(ms.textDocument_definition)
     then
       client = c
       break
@@ -41,7 +42,7 @@ function M.extended_hover()
   -- HOVER
   local get_hover = function()
     return Promise.new(function(resolve)
-      client.request(ms.textDocument_hover, params, function(err, result, ctx, config)
+      client:request(ms.textDocument_hover, params, function(err, result, ctx)
         if err or not result or vim.tbl_isempty(result) or ctx.bufnr ~= start_buf then
           vim.notify("Problem in hover request in ext_hover", vim.log.levels.INFO)
           return
@@ -80,13 +81,13 @@ function M.extended_hover()
     if not ft or ft == "" then
       ft = vim.fn.fnamemodify(path, ":e")
     end
-    return vim.tbl_flatten({ "```" .. ft, lines, "```" })
+    return vim.iter({ "```" .. ft, lines, "```" }):flatten():totable()
   end
 
   -- DEFINITION
   local get_definition = function()
     return Promise.new(function(resolve)
-      client.request(ms.textDocument_definition, params, function(err, result, ctx, config)
+      client:request(ms.textDocument_definition, params, function(err, result, ctx)
         if err or not result or vim.tbl_isempty(result) or ctx.bufnr ~= start_buf then
           vim.notify("Problem in definition request in ext_hover", vim.log.levels.INFO)
           return
