@@ -23,9 +23,9 @@ function M.setup(opts)
     callback = function()
       local v_start = vim.fn.getpos("'<")
       local v_end = vim.fn.getpos("'>")
-      local cursor = vim.api.nvim_win_get_cursor(0)
-
-      local col = cursor[2]
+      -- Must use the number of the displayed column, not a byte number,
+      -- to work with multibyte characters.
+      local col = vim.fn.charcol(".") - 1
 
       local line_count = v_end[2] - v_start[2] - 1
 
