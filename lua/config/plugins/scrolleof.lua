@@ -3,6 +3,8 @@ return {
   enabled = true,
   event = { "CursorMoved", "WinScrolled" },
   config = function()
-    require("scrollEOF").setup()
+    require("scrollEOF").setup({
+      floating = false,
+    })
   end,
 }
