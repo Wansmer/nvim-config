@@ -10,7 +10,7 @@ return {
 
       local p = neowords.pattern_presets
 
-      local patterns = { p.asdf_case, p.camel_case, p.upper_case, p.number, p.hex_color }
+      local patterns = { p.snake_case, p.camel_case, p.upper_case, p.number, p.hex_color }
 
       local subword_hops = neowords.get_word_hops(unpack(patterns))
       local map = vim.keymap.set
