@@ -1,7 +1,7 @@
 return {
   "neovim/nvim-lspconfig",
   enabled = true,
-  event = { "VeryLazy" },
+  event = { "BufReadPre" },
   dependencies = {
     "b0o/SchemaStore.nvim",
     "hrsh7th/cmp-nvim-lsp",

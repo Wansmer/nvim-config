@@ -44,6 +44,10 @@ return {
       map("n", "ciw", with_opp("c"))
       map("n", "diw", with_opp("d"))
 
+      -- Use diW, ciW like default diw, ciw
+      map("n", "ciW", "ciw")
+      map("n", "diW", "diw")
+
       map("n", "yiw", with_opp("y"))
       map("n", "viw", set_visual)
     end,
