@@ -29,6 +29,7 @@
   "go.nvim": { "branch": "master", "commit": "c6d5ca26377d01c4de1f7bff1cd62c8b43baa6bc" },
   "grug-far.nvim": { "branch": "main", "commit": "c88435b825a35bfa468b47159709b3221976ecd1" },
   "gruvbox-material": { "branch": "master", "commit": "b95c102f683d6402f84c8e492d3b0641c2d273e4" },
+  "guihua.lua": { "branch": "master", "commit": "d783191eaa75215beae0c80319fcce5e6b3beeda" },
   "hardtime.nvim": { "branch": "main", "commit": "91c6be1a54fa057002e21ae209a49436bd215355" },
   "image.nvim": { "branch": "master", "commit": "b3e1af829a56bb038e5f81bf97798a2950064b62" },
   "iron.nvim": { "branch": "master", "commit": "916538ebf75b8ede8e0feef4f4cd88d5cc82a67e" },
