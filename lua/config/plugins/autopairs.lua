@@ -20,8 +20,8 @@ return {
       check_ts = true,
       map_cr = true,
       map_bs = true,
-      map_c_h = false,
-      map_c_w = false,
+      map_c_h = true,
+      map_c_w = true,
     })
 
     autopairs.add_rules({
