@@ -7,7 +7,10 @@ return {
     "nvim-treesitter/nvim-treesitter",
   },
   config = function()
-    require("go").setup()
+    require("go").setup({
+      diagnostic = false, -- Not change diagnostic config by this plugin
+      lsp_inlay_hints = { enable = false }, -- Disable setting inlay hints through the plugin
+    })
   end,
   event = { "CmdlineEnter" },
   ft = { "go", "gomod" },
