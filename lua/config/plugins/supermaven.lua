@@ -1,6 +1,6 @@
 return {
   "supermaven-inc/supermaven-nvim",
-  enabled = true,
+  enabled = false,
   event = "BufReadPre",
   config = function()
     require("supermaven-nvim").setup({

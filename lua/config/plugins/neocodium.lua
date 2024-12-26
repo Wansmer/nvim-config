@@ -2,7 +2,7 @@ local DEV = false
 
 return {
   "Wansmer/neocodeium",
-  enabled = false,
+  enabled = true,
   dir = DEV and "~/projects/code/personal/neocodeium" or nil,
   dev = DEV,
   event = "VeryLazy",
