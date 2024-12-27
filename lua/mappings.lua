@@ -164,7 +164,14 @@ end, { desc = "Toggle spell check" })
 map("n", "`", "'")
 map("n", "'", "`")
 
-map('n', '<A-l>', '3zl')
-map('n', '<A-h>', '3zh')
+map("n", "<A-l>", "3zl")
+map("n", "<A-h>", "3zh")
 
-del("n", "Y")
+pcall(del, "n", "Y")
+
+-- Disable default lsp mappings
+pcall(del, "n", "grn")
+pcall(del, "n", "gra")
+pcall(del, "n", "grr")
+pcall(del, "n", "gri")
+-- pcall(del, "n", "g0")
