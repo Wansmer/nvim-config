@@ -383,18 +383,23 @@ function M.repeat_by(symbol, cb)
   return repeatable
 end
 
-function M.dot_repeat(cb, ...)
+function M.dot_repeat(dry_run_first, cb, ...)
+  local dry_first = dry_run_first
   local args = { ... }
   local name = "__" .. vim.fn.id(cb)
+
   _G[name] = function()
     for _ = 1, vim.v.count1 do
-      if #args == 0 then
+      if dry_first then
+        dry_first = false
+      elseif #args == 0 then
         cb()
       else
         cb(unpack(args))
       end
     end
   end
+
   vim.opt.operatorfunc = "v:lua." .. name
   vim.api.nvim_feedkeys(vim.v.count1 .. "g@l", "nix", true)
 end
