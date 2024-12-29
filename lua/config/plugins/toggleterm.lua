@@ -6,9 +6,8 @@ return {
     local toggleterm = require("toggleterm")
 
     local separator = vim.api.nvim_get_hl(0, { name = "VertSplit", link = false })
-    local ns = vim.api.nvim_create_namespace("__ToggleTerm")
-    vim.api.nvim_set_hl(ns, "FloatBorder", { bg = "#0a0a0a", fg = separator.fg })
-    vim.api.nvim_set_hl(ns, "NormalFloat", { bg = "#0a0a0a" })
+    vim.api.nvim_set_hl(0, "TTBorder", { bg = "#0a0a0a", fg = separator.fg })
+    vim.api.nvim_set_hl(0, "TTNormal", { bg = "#0a0a0a" })
 
     toggleterm.setup({
       size = 20,
@@ -19,7 +18,7 @@ return {
       insert_mappings = true,
       persist_size = false,
       persist_mode = false,
-      direction = "float", -- 'float', 'horizontal', 'vertical', 'tab'
+      direction = "horizontal", -- 'float', 'horizontal', 'vertical', 'tab'
       close_on_exit = true,
       shell = vim.o.shell,
       -- highlights = {}, -- Not working
@@ -36,6 +35,7 @@ return {
         noautocmd = true,
       },
       on_open = function(term)
+        vim.opt.winhighlight = "Normal:TTNormal,FloatBorder:TTBorder"
         local map = vim.keymap.set
 
         ---Resize the terminal
@@ -83,14 +83,13 @@ return {
             vim.notify(msg --[[@as string]], vim.log.levels.ERROR)
           end
         end, { buffer = term.bufnr })
-
-        vim.api.nvim_win_set_hl_ns(term.window, ns)
       end,
       on_close = function()
         local ok, nt = pcall(require, "neo-tree.sources.manager")
         if ok then
           nt.refresh("filesystem")
         end
+        vim.cmd.stopinsert()
       end,
     })
   end,
