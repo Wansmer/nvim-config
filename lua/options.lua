@@ -100,6 +100,7 @@ local options = {
   iskeyword = vim.opt.iskeyword:append("-"),
   langmap = langmap,
   smoothscroll = true,
+  splitkeep = "screen",
 }
 
 for option_name, value in pairs(options) do
