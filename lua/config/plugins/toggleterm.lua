@@ -10,7 +10,7 @@ return {
     vim.api.nvim_set_hl(0, "TTNormal", { bg = "#0a0a0a" })
 
     toggleterm.setup({
-      size = 20,
+      size = 23,
       open_mapping = [[<C-;>]],
       hide_numbers = true,
       shade_filetypes = {},
@@ -26,7 +26,7 @@ return {
         border = { "", "", "", " ", " ", " ", " ", " " },
         relative = "editor",
         width = vim.opt.columns:get(),
-        height = 20,
+        height = 23,
         col = 0,
         row = vim.opt.lines:get(),
         style = "minimal",
