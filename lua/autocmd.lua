@@ -239,3 +239,14 @@ vim.api.nvim_create_autocmd("User", {
     -- vim.notify("Event: " .. e.match .. "\n" .. e.data.file, vim.log.levels.INFO, { title = "Watcher" })
   end,
 })
+
+-- from: https://github.com/neovim/neovim/pull/31821#issue-2765234793
+vim.api.nvim_create_autocmd("FileType", {
+  desc = "Set treesitter foldexpr on the fly",
+  callback = function(e)
+    local lang = vim.treesitter.language.get_lang(vim.bo[e.buf].ft) --[[@as string]]
+    if vim.treesitter.get_parser(e.buf, lang, { error = false }) and vim.treesitter.query.get(lang, "folds") then
+      vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    end
+  end,
+})
