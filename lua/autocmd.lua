@@ -244,6 +244,10 @@ vim.api.nvim_create_autocmd("User", {
 vim.api.nvim_create_autocmd("FileType", {
   desc = "Set treesitter foldexpr on the fly",
   callback = function(e)
+    if vim.fn.has("nvim-0.11") ~= 1 then
+      return
+    end
+
     local lang = vim.treesitter.language.get_lang(vim.bo[e.buf].ft) --[[@as string]]
     if vim.treesitter.get_parser(e.buf, lang, { error = false }) and vim.treesitter.query.get(lang, "folds") then
       vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
