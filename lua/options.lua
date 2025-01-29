@@ -77,7 +77,6 @@ local options = {
   foldlevelstart = 99,
   foldenable = true,
   foldmethod = "expr",
-  foldexpr = "v:lua.vim.treesitter.foldexpr()",
   foldtext = require("modules.foldtext"),
 
   -- ==========================================================================
