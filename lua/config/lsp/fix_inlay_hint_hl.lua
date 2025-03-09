@@ -77,7 +77,7 @@ end
 ---Restore extmarks for a given range or all if nil
 ---@param range? [number, number, number, number]
 local function restore_marks(range)
-  local ihns = vim.api.nvim_get_namespaces()["vim_lsp_inlayhint"]
+  local ihns = vim.api.nvim_get_namespaces()["nvim.lsp.inlayhint"]
 
   for id, data in pairs(store) do
     local mode = u.visual_mode_type()
@@ -95,7 +95,7 @@ end
 vim.api.nvim_create_autocmd({ "ModeChanged", "CursorMoved" }, {
   callback = function()
     local mode = vim.fn.strtrans(vim.fn.mode()):lower():gsub("%W", "")
-    local ihns = vim.api.nvim_get_namespaces()["vim_lsp_inlayhint"]
+    local ihns = vim.api.nvim_get_namespaces()["nvim.lsp.inlayhint"]
     if mode ~= "v" or not ihns then
       restore_marks()
       return

@@ -77,7 +77,7 @@ local function update_exmark(bufnr, line, col)
   local len = vim.fn.strdisplaywidth(line_text)
 
   -- Take into account the width of virtual text inlayHint during redrawing
-  local ihns = vim.api.nvim_get_namespaces()["vim_lsp_inlayhint"]
+  local ihns = vim.api.nvim_get_namespaces()["nvim.lsp.inlayhint"]
   if ihns then
     local mark = vim.api.nvim_buf_get_extmarks(bufnr, ihns, { line, 0 }, { line + 1, 0 }, { details = true })
     len = len + calc_inlayhint_len(mark or {})
@@ -115,7 +115,7 @@ local function set_thin_colorcolumn(win, bufnr, topline, botline)
 end
 
 vim.api.nvim_set_decoration_provider(NS, {
-  on_win = function(_, win, bufnr, topline, botline)
+  on_win = vim.schedule_wrap(function(_, win, bufnr, topline, botline)
     set_thin_colorcolumn(win, bufnr, topline, botline)
-  end,
+  end),
 })
