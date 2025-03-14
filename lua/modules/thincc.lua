@@ -115,7 +115,7 @@ local function set_thin_colorcolumn(win, bufnr, topline, botline)
 end
 
 vim.api.nvim_set_decoration_provider(NS, {
-  on_win = vim.schedule_wrap(function(_, win, bufnr, topline, botline)
+  on_win = function(_, win, bufnr, topline, botline)
     set_thin_colorcolumn(win, bufnr, topline, botline)
-  end),
+  end,
 })
