@@ -1,10 +1,12 @@
 return {
   {
     "backdround/pattern-iterator.nvim",
+    enabled = false,
   },
   {
     "backdround/neowords.nvim",
     event = "BufRead",
+    enabled = false,
     config = function()
       local u = require("utils")
       local neowords = require("neowords")
@@ -86,7 +88,7 @@ return {
       map("n", "ciW", "ciw")
       map("n", "diW", "diw")
 
-      map("n", "yiw", action_on_selected("y"))
+      -- map("n", "yiw", action_on_selected("y"))
       map("n", "viw", select_word)
     end,
   },
