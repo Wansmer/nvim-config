@@ -10,6 +10,7 @@ return {
     local cdm = require("neocodeium")
     cdm.setup({
       silent = true,
+      show_label = false,
       filetypes = {
         DressingInput = false,
         TelescopePrompt = false,
