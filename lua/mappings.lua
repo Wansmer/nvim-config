@@ -167,6 +167,35 @@ map("n", "'", "`")
 map("n", "<A-l>", "3zl")
 map("n", "<A-h>", "3zh")
 
+local function calc()
+  local c = vim.api.nvim_win_get_cursor(0)
+  local sr, sc, er, ec = c[1] - 1, c[2], c[1] - 1, c[2]
+  local shift = 0
+  local default = ""
+  local mode = vim.fn.mode()
+
+  if mode == "v" then
+    sr, sc, er, ec = u.to_api_range(u.get_visual_range())
+    default = vim.api.nvim_buf_get_text(0, sr, sc, er, ec, {})[1]
+    shift = -1
+  end
+
+  vim.ui.input({ prompt = " 󱖦 Calc: ", default = default }, function(input)
+    local res_cb, err = loadstring("return " .. input)
+    if err then
+      vim.notify(err, vim.log.levels.WARN, { title = "Lua based calc" })
+      return
+    end
+
+    local result = tostring(res_cb())
+
+    vim.api.nvim_buf_set_text(0, sr, sc, er, ec, { result })
+    vim.api.nvim_win_set_cursor(0, { c[1], sc + #result + shift })
+  end)
+end
+
+map({ "i", "t", "v" }, "<C-r><C-=>", calc, { desc = "Lua based calc" })
+
 pcall(del, "n", "Y")
 
 -- Disable default lsp mappings
