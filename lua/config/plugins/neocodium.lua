@@ -10,6 +10,11 @@ return {
     local cdm = require("neocodeium")
     cdm.setup({
       silent = true,
+      filetypes = {
+        DressingInput = false,
+        TelescopePrompt = false,
+        ["dap-repl"] = false,
+      },
     })
 
     local map = vim.keymap.set
