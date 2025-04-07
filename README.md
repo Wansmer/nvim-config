@@ -6,7 +6,7 @@ Personal configuration for Neovim with a focus on web (vue3, js, ts) and lua-plu
 
 ### Common requirements
 
-1. [Neovim 0.10.+](https://github.com/neovim/neovim);
+1. [Neovim 0.11.+](https://github.com/neovim/neovim);
 2. [rigrep](https://github.com/BurntSushi/ripgrep);
 3. `git`;
 4. `wget`/`curl`;
