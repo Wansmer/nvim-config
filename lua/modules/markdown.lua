@@ -183,7 +183,21 @@ vim.api.nvim_create_autocmd("BufEnter", {
       surround("**", "**")
     end, { buffer = buffer })
 
+    local select_word = function()
+      vim.api.nvim_feedkeys(vim.keycode("viw"), "nx", false)
+    end
+
+    map("n", "<C-b>", function()
+      select_word()
+      surround("**", "**")
+    end, { buffer = buffer })
+
     map("x", "<C-i>", function()
+      surround("_", "_")
+    end, { buffer = buffer })
+
+    map("n", "<C-i>", function()
+      select_word()
       surround("_", "_")
     end, { buffer = buffer })
 
