@@ -197,7 +197,7 @@ function Watcher.new(opts)
     path = vim.uv.cwd(),
     uv_event_flags = { watch_entry = false, stat = false, recursive = true },
     root_patterns = { ".git/" },
-    ignore_patterns = { "^%.git", "%.git/", "%~$", "4913$", "^node_modules" },
+    ignore_patterns = { "^%.git", "%.git/", "%~$", "4913$", "^node_modules", "^venv", "^env" },
     delay = 30,
   }, opts or {})
 
