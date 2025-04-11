@@ -32,13 +32,13 @@ return {
   config = function()
     require("image").setup({
       backend = "kitty",
-      max_height_window_percentage = 100,
+      -- integrations = { markdown = { enabled = false } },
+      integrations = {},
+      max_width = 100,
+      max_height_window_percentage = math.huge,
+      max_width_window_percentage = math.huge,
       window_overlap_clear_enabled = true,
-      integrations = {
-        markdown = {
-          enabled = false,
-        },
-      },
+      window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
     })
 
     local function has_image(id)
@@ -74,6 +74,9 @@ return {
         vim.api.nvim_buf_set_name(buf, event.file)
 
         local image = api.from_file(event.file, { id = event.file, buffer = buf, window = win })
+        if not image then
+          return
+        end
         vim.schedule(function()
           image:render()
         end)
