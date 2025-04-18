@@ -1,6 +1,9 @@
 return {
-  "SCJangra/table-nvim",
-  ft = "markdown",
+  -- "SCJangra/table-nvim",
+  "Wansmer/table-nvim",
+  dir = "~/projects/code/personal/table-nvim",
+  dev = true,
+  ft = { "markdown", "ipynb" },
   config = function()
     require("table-nvim").setup({
       padd_column_separators = true, -- Insert a space around column separators.
