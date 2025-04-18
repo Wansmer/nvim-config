@@ -3,6 +3,7 @@ vim.loader.enable()
 vim.keymap.set("", "<Space>", "<Nop>")
 vim.g.mapleader = " "
 vim.g.maplocalleader = "["
+vim.g.python3_host_prog = vim.fn.expand("~/.virtualenvs/neovim/bin/python3")
 
 local orig_getcharstr = vim.fn.getcharstr
 vim.fn.getcharstr = function() ---@diagnostic disable-line: duplicate-set-field
