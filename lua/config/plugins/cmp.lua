@@ -168,6 +168,10 @@ return {
           trigger_characters = { "/", "~", "./", "../" },
         },
         { name = "rg" },
+        {
+          name = "render-markdown",
+          enable_on = { "markdown", "pandoc", "quarto" },
+        },
         { name = "calc" },
         {
           name = "html-css",
