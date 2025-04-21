@@ -161,8 +161,8 @@ end
 
 local map = vim.keymap.set
 
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "*.md",
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "markdown.pandoc", "pandoc", "quarto", "text" },
   callback = function()
     local buffer = vim.api.nvim_get_current_buf()
     map("n", "o", function()
