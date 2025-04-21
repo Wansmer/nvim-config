@@ -2,6 +2,7 @@ return {
   "akinsho/toggleterm.nvim",
   enabled = true,
   keys = { "<C-;>" },
+  cmd = { "ToggleTerm", "ToggleTermToggleAll" },
   config = function()
     local toggleterm = require("toggleterm")
 
