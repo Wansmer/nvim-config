@@ -154,4 +154,11 @@ function M.navic()
   return ""
 end
 
+function M.win_info()
+  local win = vim.api.nvim_get_current_win()
+  local is_float = vim.api.nvim_win_get_config(win).relative ~= ""
+  local prev_win = vim.fn.win_getid(vim.fn.winnr("#"))
+  return string.format("%s %d. Prev: %d", is_float and "float" or "win", win, prev_win)
+end
+
 return M

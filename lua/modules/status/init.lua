@@ -16,6 +16,7 @@ M.statusline = {
   { " ", c.branch, " " },
   { " ", c.filename, "(#%n)" },
   { " ", c.navic, " " },
+  { " ", c.win_info, " " },
   { "%=" },
   { c.lsp, " | ", c.formatters, " | ", c.treesitter },
   { " ", "%6.(%l:%c%)", " " },
