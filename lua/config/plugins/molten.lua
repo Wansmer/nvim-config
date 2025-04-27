@@ -73,7 +73,7 @@ return {
         if kernel_name ~= nil and vim.tbl_contains(kernels, kernel_name) then
           vim.cmd(("MoltenInit %s"):format(kernel_name))
         end
-        vim.cmd("MoltenImportOutput")
+        -- vim.cmd("MoltenImportOutput")
       end)
     end
 
