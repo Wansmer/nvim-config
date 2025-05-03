@@ -38,6 +38,21 @@ map("n", "k", "v:count == 0 ? 'gk' : 'k'", {
   expr = true,
   desc = "Move cursor up (display and real line)",
 })
+
+if vim.g.vscode then
+  -- It's the only way to get `g[jk]` to work in vscode
+  vim.cmd([[
+  nmap j gj
+  nmap k gk
+  vmap j gj
+  vmap k gk
+  nmap <Down> gj
+  nmap <Up> gk
+  vmap <Down> gj
+  vmap <Up> gk
+  ]])
+end
+
 map({ "c" }, "<C-f>", function()
   local c = vim.fn.getcmdpos()
   return vim.fn.getcmdline():sub(c, c) == "" and "<C-f>" or "<Right>"
