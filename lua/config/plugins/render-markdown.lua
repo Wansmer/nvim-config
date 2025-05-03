@@ -1,6 +1,7 @@
 return {
   "MeanderingProgrammer/render-markdown.nvim",
   enabled = true,
+  cond = not vim.g.vscode,
   dependencies = { "nvim-treesitter/nvim-treesitter" },
   ft = { "markdown", "pandoc", "quarto" },
   event = "BufReadPre",
@@ -25,7 +26,7 @@ return {
         enabled = true, -- show raw md on line under curson
       },
       completions = { lsp = { enabled = true } },
-      latex = { enabled = true },
+      latex = { enabled = false },
     })
   end,
 }

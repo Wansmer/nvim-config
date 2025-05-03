@@ -1,6 +1,7 @@
 return {
   "akinsho/bufferline.nvim",
   enabled = true,
+  cond = not vim.g.vscode,
   -- version = "*", -- Using master while fix of `tbl_islist` is not added to release
   event = "VeryLazy",
   config = function()

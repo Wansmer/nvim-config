@@ -1,6 +1,7 @@
 return {
   "stevearc/conform.nvim",
   enabled = true,
+  cond = not vim.g.vscode,
   config = function()
     local js_formatter = { "prettier" }
     local sql = {

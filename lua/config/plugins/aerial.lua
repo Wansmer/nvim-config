@@ -1,6 +1,7 @@
 return {
   "stevearc/aerial.nvim",
   enabled = true,
+  cond = not vim.g.vscode,
   event = "LspAttach",
   init = function()
     vim.keymap.set("n", "<localleader>v", "<cmd>AerialToggle<CR>")
@@ -25,6 +26,10 @@ return {
     --   end,
     -- })
     require("aerial").setup({
+      backends = {
+        ["*"] = { "treesitter", "lsp", "markdown", "asciidoc", "man" },
+        markdown = { "treesitter", "markdown" },
+      },
       layout = {
         width = 30,
         win_opts = {

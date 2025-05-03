@@ -4,6 +4,7 @@ return {
   "goolord/alpha-nvim",
   enabled = true,
   event = "VimEnter",
+  cond = not vim.g.vscode,
   config = function()
     -- Based on https://github.com/goolord/alpha-nvim/discussions/16#discussioncomment-1927405
     local alpha = require("alpha")

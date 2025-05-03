@@ -3,6 +3,7 @@ return {
   enabled = true,
   lazy = false,
   dev = true,
+  cond = not vim.g.vscode,
   dir = "~/projects/code/personal/clonewin",
   config = function()
     require("clonewin.init").setup({
