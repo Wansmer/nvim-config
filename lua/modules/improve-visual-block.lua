@@ -56,6 +56,10 @@ function M.setup(opts)
             local cur_line = i + v_start[2] + 1
             local line = vim.api.nvim_buf_get_lines(0, cur_line - 1, cur_line, false)[1]
 
+            if not line then
+              return
+            end
+
             local spaces = ""
             local is_need_set_extmark = true
 
