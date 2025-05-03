@@ -33,6 +33,7 @@ local opposites = u.tbl_add_reverse_lookup({
   ["cправа"] = "слева",
   ["правый"] = "левый",
   ["min"] = "max",
+  ["div"] = "times",
 
   -- This will be work only with `vim.opt.iskeyword:append({ "!", "=", "<", ">" })`
   ["!="] = "==",
