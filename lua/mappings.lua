@@ -143,6 +143,50 @@ map("n", "ys", cb("modules.surround", "add"))
 map("n", "ds", cb("modules.surround", "remove"))
 map("n", "cs", cb("modules.surround", "replace"))
 
+-- Auto replace paired symbols with `r` command,
+-- e.g. `(lalala)` with cursor on '(' and press `r[` will be replaced with `[lalala]`
+--
+-- TODO: make it greedy for ', ", `, e.g. `"la "la" la"` replaced with `[la "la" la]`, not `[la ] la" la"`
+map("n", "r", function()
+  local paired = require("modules.surround").paired
+  local surround = require("modules.surround").surround
+
+  local function trim_pair(pair)
+    return unpack(vim
+      .iter(pair)
+      :map(function(s)
+        return vim.trim(s)
+      end)
+      :totable())
+  end
+
+  vim.opt.guicursor:append("n-v-c-sm:hor26")
+  pcall(function()
+    local cur = vim.api.nvim_win_get_cursor(0)
+    local replace_char = vim.fn.getcharstr()
+    local r_pair = paired[replace_char]
+
+    -- Get char under cursor (only 1-byte length for now)
+    local cursor_char = vim.api.nvim_get_current_line():sub(cur[2] + 1, cur[2] + 1)
+    local c_pair = paired[cursor_char]
+
+    -- If the symbol under the cursor and the replacement symbol are both paired
+    if c_pair and r_pair then
+      local from, _ = trim_pair(c_pair)
+      local to, _ = trim_pair(r_pair)
+
+      surround.replace_surround(from, to)
+      vim.api.nvim_win_set_cursor(0, cur)
+      return
+    end
+    -- Default `r` behavior
+    vim.api.nvim_feedkeys(vim.keycode("r" .. replace_char), "nix", false)
+  end)
+
+  -- Need to restore guicursor even if the function fails
+  vim.opt.guicursor:remove("n-v-c-sm:hor26")
+end)
+
 -- ============================================================================
 -- Other
 -- ============================================================================

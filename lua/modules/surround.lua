@@ -13,6 +13,7 @@ local paired = {
   [")"] = { "( ", " )" },
   [">"] = { "< ", " >" },
   ["*"] = { "*", "*" },
+  ["$"] = { "$", "$" },
 }
 
 local function replace_non_blank(line, side, from, to)
@@ -121,6 +122,7 @@ local function operatorfunc(name, feed, ...)
 end
 
 return {
+  paired = paired,
   add = operatorfunc("add_surround", "g@", get_char),
   add_visual = function()
     Surround.add_surround(get_char(), true)
@@ -128,4 +130,5 @@ return {
   end,
   remove = operatorfunc("remove_surround", "g@ ", get_char, ""),
   replace = operatorfunc("replace_surround", "g@ ", get_char, get_char),
+  surround = Surround,
 }
