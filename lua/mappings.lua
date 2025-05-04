@@ -182,6 +182,8 @@ map("n", "'", "`")
 map("n", "<A-l>", "3zl")
 map("n", "<A-h>", "3zh")
 
+map("i", "<C-j>", "<C-g>u<Esc>[s1z=`]a<C-g>u")
+
 local function calc()
   local c = vim.api.nvim_win_get_cursor(0)
   local sr, sc, er, ec = c[1] - 1, c[2], c[1] - 1, c[2]
