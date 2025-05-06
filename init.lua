@@ -1,5 +1,11 @@
 vim.loader.enable()
 
+if vim.fn.has("nvim-0.12") == 1 then
+  require("vim._extui").enable({})
+else
+  require("modules.router")
+end
+
 vim.keymap.set("", "<Space>", "<Nop>")
 vim.g.mapleader = " "
 vim.g.maplocalleader = "["

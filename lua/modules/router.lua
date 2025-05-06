@@ -1,3 +1,5 @@
+-- No needed with require("vim._extui").enable({})
+
 local u = require("utils")
 
 local buf_message = {
