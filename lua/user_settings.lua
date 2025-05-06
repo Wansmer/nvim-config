@@ -52,6 +52,7 @@ PREF = {
       pyright = false,
       ruff = true,
       typos_lsp = true,
+      svelte = true,
     }),
   },
 
