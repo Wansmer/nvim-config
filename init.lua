@@ -14,10 +14,12 @@ vim.g.python3_host_prog = vim.fn.expand("~/.virtualenvs/neovim/bin/python3")
 local orig_getcharstr = vim.fn.getcharstr
 vim.fn.getcharstr = function() ---@diagnostic disable-line: duplicate-set-field
   local char = orig_getcharstr()
+  local u = require("utils")
   local ok, lm = pcall(require, "langmapper.utils")
-  if not ok then
+  if not ok or u.layout.is_en() then
     return char
   end
+
   return lm.translate_keycode(char, "default", "ru")
 end
 
