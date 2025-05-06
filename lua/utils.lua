@@ -166,7 +166,8 @@ function M.feedkeys(f, mode)
 end
 
 local function system(cmd)
-  local output = vim.fn.system(cmd)
+  cmd = type(cmd) == "string" and vim.split(cmd, " ") or cmd
+  local output = vim.system(cmd):wait().stdout or ""
   -- To skip no needed terminal messages. Payload is last string.
   local lines = vim.split(vim.trim(output), "\n")
   return lines[#lines]
@@ -198,7 +199,7 @@ end
 
 function M.current_branch()
   if vim.loop.fs_stat(vim.loop.cwd() .. "/.git") then
-    return vim.fn.system("git branch --show-current")
+    return system("git branch --show-current")
   end
   return ""
 end
