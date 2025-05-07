@@ -7,6 +7,15 @@ function M.start()
     return
   end
 
+  if vim.fn.executable("devcontainer") ~= 0 then
+    vim.notify(
+      "Dev Container CLI is not exetutable. Run `npm install -g @devcontainers/cli`",
+      vim.log.levels.WARN,
+      { title = "DevContainer" }
+    )
+    return
+  end
+
   vim.api.nvim_create_user_command("DevContainer", function(args)
     if args.args == "start" then
       local dc = setmetatable({
