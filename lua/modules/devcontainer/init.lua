@@ -7,7 +7,7 @@ function M.start()
     return
   end
 
-  if vim.fn.executable("devcontainer") ~= 0 then
+  if vim.fn.executable("devcontainer") ~= 1 then
     vim.notify(
       "Dev Container CLI is not exetutable. Run `npm install -g @devcontainers/cli`",
       vim.log.levels.WARN,
