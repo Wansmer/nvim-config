@@ -32,6 +32,7 @@ local source = {
   ["rose-pine"] = "rose-pine",
   ["kanagawa-paper"] = "kanagawa-paper",
   midnight = "midnight",
+  kanso = "kanso",
 }
 
 local config = source[colorscheme]
