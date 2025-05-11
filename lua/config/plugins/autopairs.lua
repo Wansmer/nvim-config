@@ -1,6 +1,7 @@
 return {
   "windwp/nvim-autopairs",
   enabled = true,
+  cond = true,
   event = "InsertEnter",
   config = function()
     local autopairs = require("nvim-autopairs")
@@ -21,7 +22,7 @@ return {
       map_cr = true,
       map_bs = true,
       map_c_h = true,
-      map_c_w = true,
+      map_c_w = false, -- to avoid breaking <C-w> unix default behaviour
     })
 
     autopairs.add_rules({
