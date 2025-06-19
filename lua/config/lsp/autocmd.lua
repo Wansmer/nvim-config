@@ -13,6 +13,12 @@ if vim.fn.has("nvim-0.10.0") == 1 then
   })
 end
 
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(e)
+    require("config.lsp.mappings").set_keymap(nil, e.buf)
+  end,
+})
+
 -- {{ Toggle diagnostic dependent of insert mode
 vim.api.nvim_create_autocmd("InsertEnter", {
   desc = "Hide diagnostic messages in insert mode",

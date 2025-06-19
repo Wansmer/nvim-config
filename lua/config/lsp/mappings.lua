@@ -56,7 +56,7 @@ map("n", "gF", function()
 end, { desc = "Format buffer" })
 
 ---Setup mappings
----@param _ table Client
+---@param _ table? Client
 ---@param bufnr integer
 M.set_keymap = function(_, bufnr)
   local d = desc({ buffer = bufnr, desc = "" })

@@ -18,6 +18,7 @@ return {
       end)
 
     require("mason-lspconfig").setup({
+      automatic_enable = false,
       ensure_installed = ensure_installed,
       automatic_installation = true,
     })
