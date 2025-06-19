@@ -4,7 +4,6 @@ return {
   event = { "BufReadPre" },
   dependencies = {
     "b0o/SchemaStore.nvim",
-    "hrsh7th/cmp-nvim-lsp",
     "mason.nvim",
     "williamboman/mason-lspconfig.nvim",
   },

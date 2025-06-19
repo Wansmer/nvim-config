@@ -63,9 +63,9 @@ M.single_file_support = true
 M.flags = { debounce_text_changes = 150 }
 
 -- nvim-cmp
-local cmp_ok, _ = pcall(require, "cmp_nvim_lsp")
-local ok_c, capabilities = pcall(require("cmp_nvim_lsp").default_capabilities)
-if cmp_ok and ok_c then
+local cmp_ok, cmp = pcall(require, "cmp_nvim_lsp")
+if cmp_ok then
+  local capabilities = cmp.default_capabilities
   -- Luasnip
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   M.capabilities = capabilities
