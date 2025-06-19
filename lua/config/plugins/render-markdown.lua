@@ -3,7 +3,7 @@ return {
   enabled = true,
   cond = not vim.g.vscode,
   dependencies = { "nvim-treesitter/nvim-treesitter" },
-  ft = { "markdown", "pandoc", "quarto" },
+  ft = { "markdown", "pandoc", "quarto", "Avante", "codecompanion" },
   event = "BufReadPre",
   config = function()
     require("render-markdown").setup({
@@ -21,7 +21,7 @@ return {
         above = "▄",
         below = "▀",
       },
-      file_types = { "markdown", "Avante" },
+      file_types = { "markdown", "Avante", "codecompanion" },
       anti_conceal = {
         enabled = true, -- show raw md on line under curson
       },
