@@ -146,6 +146,14 @@ function M.split_padline(line, side)
   return pad_left, line, pad_right
 end
 
+function M.pad_start(str, n)
+  return string.rep(" ", math.max(n - #str, 0)) .. str
+end
+
+function M.pad_end(str, n)
+  return str .. string.rep(" ", math.max(n - #str, 0))
+end
+
 function M.lazy_rhs_cb(module, cb_name, ...)
   local args = { ... }
   return function()
