@@ -72,6 +72,7 @@ return {
             ["<C-3>"] = switch_picker("find_files"),
             ["<C-g>"] = actions.select_horizontal,
             ["<C-u>"] = false, -- Clear instead of preview scroll up
+            ["<C-w>"] = false, -- Clear word instead of save for undo
             ["<S-Cr>"] = function(prompt_bufnr)
               -- Use nvim-window-picker to choose the window by dynamically attaching a function
               local action_set = require("telescope.actions.set")
