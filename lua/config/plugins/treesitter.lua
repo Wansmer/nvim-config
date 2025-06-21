@@ -32,7 +32,7 @@ return {
         "jsdoc",
         "json",
         "jsonc",
-        "latex",
+        -- "latex",
         "lua",
         "luadoc",
         "luap", -- luapatterns
