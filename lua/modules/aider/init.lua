@@ -11,6 +11,9 @@ function M.new()
       -- If win_width is a number less than 1 (e.g., 0.4), it's treated as a ratio of the total Neovim columns.
       -- If win_width is a number 1 or greater (e.g., 80), it's treated as an absolute number of columns.
       win_width = 0.4,
+      -- Command-line arguments to pass to the 'aider' executable.
+      -- This should be a table of strings, e.g., { "--model", "gpt-4o" }
+      cmd_args = {},
     },
   }, M)
 end
@@ -28,8 +31,11 @@ function M:open()
     width = (self.opts.win_width < 1) and math.floor(vim.o.columns * self.opts.win_width) or self.opts.win_width,
   })
 
+  -- Construct the command by combining "aider" with any specified cmd_args
+  local cmd = vim.list_extend({ "aider" }, self.opts.cmd_args)
+
   self.job = self.job
-    or vim.fn.jobstart({ "aider" }, {
+    or vim.fn.jobstart(cmd, {
       term = true,
       on_exit = function()
         self:destroy()
