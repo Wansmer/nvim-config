@@ -15,15 +15,32 @@ function M.new()
       -- This should be a table of strings, e.g., { "--model", "gpt-4o" }
       cmd_args = {},
     },
+    executable = false,
   }, M)
 end
 
 -- Setup function to configure the Aider instance
-function M:setup(opts)
-  self.opts = vim.tbl_deep_extend("force", self.opts, opts or {})
+function M.setup(opts)
+  M.opts = vim.tbl_deep_extend("force", M.opts, opts or {})
+
+  -- Check if 'aider' executable is available
+  if vim.fn.executable("aider") ~= 1 then
+    vim.notify(
+      "Aider executable not found. Please ensure 'aider' is installed and available in your system's PATH.",
+      vim.log.levels.ERROR,
+      { title = "Module: Aider" }
+    )
+    return
+  end
+
+  M.executable = true
 end
 
 function M:open()
+  if not M.executable then
+    return
+  end
+
   self.buf = self.buf or vim.api.nvim_create_buf(false, false)
 
   self.win = vim.api.nvim_open_win(self.buf, true, {
@@ -57,14 +74,12 @@ function M:toggle()
 end
 
 function M:destroy()
-  if self.win and vim.api.nvim_win_is_valid(self.win) then
-    vim.api.nvim_win_close(self.win, true)
-    vim.api.nvim_buf_delete(self.buf, { force = true })
-    vim.fn.jobstop(self.job)
-    self.win = nil
-    self.buf = nil
-    self.job = nil
-  end
+  pcall(vim.api.nvim_win_close, self.win, true)
+  pcall(vim.api.nvim_buf_delete, self.buf, { force = true })
+  vim.fn.jobstop(self.job)
+  self.win = nil
+  self.buf = nil
+  self.job = nil
 end
 
 local aider = M.new()
