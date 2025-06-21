@@ -13,7 +13,7 @@ function M.new()
       win_width = 0.4,
       -- Command-line arguments to pass to the 'aider' executable.
       -- This should be a table of strings, e.g., { "--model", "gpt-4o" }
-      cmd_args = {},
+      cmd_args = { "--no-show-model-warnings" },
     },
     executable = true,
   }, M)
@@ -79,6 +79,22 @@ function M:send_command(command)
     vim.api.nvim_chan_send(self.job, command .. "\n")
   else
     vim.notify("Aider job is not running. Cannot send command.", vim.log.levels.WARN, { title = "Module: Aider" })
+  end
+end
+
+--- This function checks if the buffer is associated with an actual file on disk and, if  so, adds
+--- that file to the Aider instance.
+--- @param bufnr? number Optional buffer number. Defaults to the current buffer.
+function M:add_file(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  local filepath = vim.api.nvim_buf_get_name(bufnr)
+
+  if not filepath or filepath == "" or vim.startswith(filepath, "[") then
+    return
+  end
+
+  if vim.uv.fs_stat(filepath) then
+    self:send_command("/add " .. filepath)
   end
 end
 
