@@ -1,3 +1,5 @@
+local utils = require("modules.aider.utils")
+
 local M = {}
 M.__index = M
 
@@ -14,8 +16,13 @@ function M.new()
       -- Command-line arguments to pass to the 'aider' executable.
       -- This should be a table of strings, e.g., { "--model", "gpt-4o" }
       cmd_args = { "--no-show-model-warnings" },
+      -- If true, Aider automatically adds/drops files from its context based on opened/closed buffers.
+      auto_manage_context = true,
     },
     executable = true,
+    context = {
+      files = {},
+    },
   }, M)
 end
 
@@ -47,8 +54,20 @@ function M:open()
     width = (self.opts.win_width < 1) and math.floor(vim.o.columns * self.opts.win_width) or self.opts.win_width,
   })
 
+  local cmd = { "aider" }
+
   -- Construct the command by combining "aider" with any specified cmd_args
-  local cmd = vim.list_extend({ "aider" }, self.opts.cmd_args)
+  cmd = vim.list_extend(cmd, self.opts.cmd_args)
+
+  -- It should be run only once
+  if not self.job and self.opts.auto_manage_context then
+    self.context.files = vim.iter(utils.list_files()):fold({}, function(acc, file)
+      acc[file] = true
+      return acc
+    end)
+    cmd = vim.list_extend(cmd, utils.list_files())
+    self:set_autocmds()
+  end
 
   self.job = self.job
     or vim.fn.jobstart(cmd, {
@@ -110,6 +129,31 @@ function M:destroy()
   self.win = nil
   self.buf = nil
   self.job = nil
+end
+
+function M:set_autocmds()
+  vim.api.nvim_create_autocmd("BufAdd", {
+    pattern = { "*" },
+
+    callback = function(e)
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(buf) then
+          if not self.context.files[utils.get_filepath(buf)] then
+            self.context.files[utils.get_filepath(buf)] = true
+            self:add_file(buf)
+          end
+        end
+      end
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("BufDelete", {
+    pattern = { "*" },
+    callback = function(e)
+      self.context.files[e.file] = nil
+      self:drop_file(e.file)
+    end,
+  })
 end
 
 local aider = M.new()
