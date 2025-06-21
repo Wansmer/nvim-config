@@ -3,7 +3,8 @@ local DEV = false
 return {
   "Wansmer/neocodeium",
   enabled = true,
-  cond = not vim.g.vscode,
+  -- cond = not vim.g.vscode,
+  cond = false,
   dir = DEV and "~/projects/code/personal/neocodeium" or nil,
   dev = DEV,
   event = "VeryLazy",
