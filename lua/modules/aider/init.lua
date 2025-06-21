@@ -15,7 +15,7 @@ function M.new()
       -- This should be a table of strings, e.g., { "--model", "gpt-4o" }
       cmd_args = {},
     },
-    executable = false,
+    executable = true,
   }, M)
 end
 
@@ -30,14 +30,14 @@ function M.setup(opts)
       vim.log.levels.ERROR,
       { title = "Module: Aider" }
     )
+    M.executable = false
     return
   end
-
-  M.executable = true
 end
 
 function M:open()
-  if not M.executable then
+  print("Is executable: " .. tostring(self.executable))
+  if not self.executable then
     return
   end
 
@@ -70,6 +70,16 @@ function M:toggle()
     vim.api.nvim_win_close(self.win, true)
   else
     self:open()
+  end
+end
+
+--- Sends a command string to the running Aider terminal job.
+--- @param command string The command string to send.
+function M:send_command(command)
+  if self.job and vim.fn.jobpid(self.job) ~= -1 then
+    vim.api.nvim_chan_send(self.job, command .. "\n")
+  else
+    vim.notify("Aider job is not running. Cannot send command.", vim.log.levels.WARN, { title = "Module: Aider" })
   end
 end
 

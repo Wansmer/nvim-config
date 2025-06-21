@@ -42,5 +42,6 @@ require("modules.punto-switcher")
 require("modules.devcontainer").start()
 
 vim.keymap.set("n", "<leader><leader>", function()
+  print("Hello, world!")
   require("modules.aider"):toggle()
 end)
