@@ -9,15 +9,19 @@ function M.new()
 end
 
 function M:open()
-  self.win = vim.api.nvim_open_win(0, true, { vertical = true })
   self.buf = self.buf or vim.api.nvim_create_buf(false, false)
-
-  vim.api.nvim_win_set_buf(self.win, self.buf)
-
-  self.job = self.job or vim.fn.jobstart({ "aider" }, {
-    term = true,
-    on_exit = M.destroy(self),
+  self.win = vim.api.nvim_open_win(self.buf, true, {
+    vertical = true,
+    width = math.floor(vim.o.columns * 0.4),
   })
+
+  self.job = self.job
+    or vim.fn.jobstart({ "aider" }, {
+      term = true,
+      on_exit = function()
+        self:destroy()
+      end,
+    })
 
   vim.schedule(function()
     vim.cmd.startinsert()
