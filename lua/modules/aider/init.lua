@@ -36,7 +36,6 @@ function M.setup(opts)
 end
 
 function M:open()
-  print("Is executable: " .. tostring(self.executable))
   if not self.executable then
     return
   end
