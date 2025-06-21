@@ -94,6 +94,15 @@ function M:add_file(bufnr)
   end
 end
 
+--- Drops a file from the Aider instance.
+--- @param filepath string The full path to the file to drop.
+function M:drop_file(filepath)
+  if not filepath or filepath == "" then
+    return
+  end
+  self:send_command("/drop " .. filepath)
+end
+
 function M:destroy()
   pcall(vim.api.nvim_win_close, self.win, true)
   pcall(vim.api.nvim_buf_delete, self.buf, { force = true })
