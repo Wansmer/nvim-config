@@ -40,3 +40,7 @@ require("modules.marks").setup()
 require("modules.improve-visual-block").setup()
 require("modules.punto-switcher")
 require("modules.devcontainer").start()
+
+vim.keymap.set("n", "<leader><leader>", function()
+  require("modules.aider"):toggle()
+end)

@@ -14,17 +14,14 @@ function M:open()
 
   vim.api.nvim_win_set_buf(self.win, self.buf)
 
-  self.job = self.job
-    or vim.fn.jobstart({ "aider" }, {
-      term = true,
-      on_exit = function(_, code)
-        if code == 0 then
-          vim.api.nvim_win_close(self.win, true)
-        end
-      end,
-    })
+  self.job = self.job or vim.fn.jobstart({ "aider" }, {
+    term = true,
+    on_exit = M.destroy(self),
+  })
 
-  vim.cmd.startinsert()
+  vim.schedule(function()
+    vim.cmd.startinsert()
+  end)
 end
 
 -- Toggle the Aider window
@@ -39,9 +36,11 @@ end
 function M:destroy()
   if self.win and vim.api.nvim_win_is_valid(self.win) then
     vim.api.nvim_win_close(self.win, true)
+    vim.api.nvim_buf_delete(self.buf, { force = true })
+    vim.fn.jobstop(self.job)
     self.win = nil
     self.buf = nil
-    vim.fn.jobstop(self.job)
+    self.job = nil
   end
 end
 
