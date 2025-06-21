@@ -89,10 +89,6 @@ function M:add_file(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   local filepath = vim.api.nvim_buf_get_name(bufnr)
 
-  if not filepath or filepath == "" or vim.startswith(filepath, "[") then
-    return
-  end
-
   if vim.uv.fs_stat(filepath) then
     self:send_command("/add " .. filepath)
   end
