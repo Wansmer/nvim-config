@@ -134,15 +134,10 @@ end
 function M:set_autocmds()
   vim.api.nvim_create_autocmd("BufAdd", {
     pattern = { "*" },
-
     callback = function(e)
-      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-        if vim.api.nvim_buf_is_loaded(buf) then
-          if not self.context.files[utils.get_filepath(buf)] then
-            self.context.files[utils.get_filepath(buf)] = true
-            self:add_file(buf)
-          end
-        end
+      if not self.context.files[utils.get_filepath(e.buf)] then
+        self.context.files[utils.get_filepath(e.buf)] = true
+        self:add_file(e.buf)
       end
     end,
   })
