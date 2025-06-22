@@ -1,4 +1,6 @@
-local DEFAULTS = {
+local M = {}
+
+M.opts = {
   -- Window width configuration:
   -- If win_width is a number less than 1 (e.g., 0.4), it's treated as a ratio of the total Neovim columns.
   -- If win_width is a number 1 or greater (e.g., 80), it's treated as an absolute number of columns.
@@ -14,10 +16,8 @@ local DEFAULTS = {
   },
 }
 
-local M = {}
-
 function M.merge_opts(opts)
-  M.opts = vim.tbl_deep_extend("force", DEFAULTS, opts or {})
+  M.opts = vim.tbl_deep_extend("force", M.opts, opts or {})
 end
 
 return M
