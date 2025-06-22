@@ -1,5 +1,7 @@
 local utils = require("modules.aider.utils")
 
+local group = vim.api.nvim_create_augroup("__parts.aider__", {})
+
 local M = {}
 M.__index = M
 
@@ -127,6 +129,7 @@ end
 function M:destroy()
   pcall(vim.api.nvim_win_close, self.win, true)
   pcall(vim.api.nvim_buf_delete, self.buf, { force = true })
+  pcall(vim.api.nvim_del_augroup_by_name, group)
   vim.fn.jobstop(self.job)
   self.win = nil
   self.buf = nil
@@ -136,6 +139,7 @@ end
 function M:set_autocmds()
   vim.api.nvim_create_autocmd("BufAdd", {
     pattern = { "*" },
+    group = group,
     callback = function(e)
       if not self.context.files[utils.get_filepath(e.buf)] then
         self:add_file(e.buf)
@@ -145,6 +149,7 @@ function M:set_autocmds()
 
   vim.api.nvim_create_autocmd("BufDelete", {
     pattern = { "*" },
+    group = group,
     callback = function(e)
       self:drop_file(e.file)
     end,
