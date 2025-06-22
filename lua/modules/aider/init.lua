@@ -18,8 +18,12 @@ function M.new()
       -- Command-line arguments to pass to the 'aider' executable.
       -- This should be a table of strings, e.g., { "--model", "gpt-4o" }
       cmd_args = { "--no-show-model-warnings" },
-      -- If true, Aider automatically adds/drops files from its context based on opened/closed buffers.
-      auto_manage_context = true,
+      auto_manage_context = {
+        -- If true, Aider automatically adds/drops files from its context based on opened/closed buffers.
+        enabled = true,
+        -- If true, Aider will only add/drop files associated with **visible** buffers.
+        visible = true,
+      },
     },
     executable = true,
     context = {
@@ -62,12 +66,13 @@ function M:open()
   cmd = vim.list_extend(cmd, self.opts.cmd_args)
 
   -- It should be run only once
-  if not self.job and self.opts.auto_manage_context then
-    self.context.files = vim.iter(utils.list_files()):fold({}, function(acc, file)
+  if not self.job and self.opts.auto_manage_context.enabled then
+    local files = utils.list_files(self.opts.auto_manage_context.visible)
+    self.context.files = vim.iter(files):fold({}, function(acc, file)
       acc[file] = true
       return acc
     end)
-    cmd = vim.list_extend(cmd, utils.list_files())
+    cmd = vim.list_extend(cmd, files)
     self:set_autocmds()
   end
 
@@ -141,7 +146,8 @@ function M:set_autocmds()
     pattern = { "*" },
     group = group,
     callback = function(e)
-      if not self.context.files[utils.get_filepath(e.buf)] then
+      local check_visible = self.opts.auto_manage_context.visible and utils.is_visible(e.buf) or true
+      if not self.context.files[utils.get_filepath(e.buf)] and check_visible then
         self:add_file(e.buf)
       end
     end,
@@ -154,6 +160,26 @@ function M:set_autocmds()
       self:drop_file(e.file)
     end,
   })
+
+  if self.opts.auto_manage_context.visible then
+    vim.api.nvim_create_autocmd("BufWinEnter", {
+      pattern = { "*" },
+      group = group,
+      callback = function(e)
+        if not self.context.files[utils.get_filepath(e.buf)] then
+          self:add_file(e.buf)
+        end
+      end,
+    })
+
+    vim.api.nvim_create_autocmd("BufWinLeave", {
+      pattern = { "*" },
+      group = group,
+      callback = function(e)
+        self:drop_file(e.file)
+      end,
+    })
+  end
 end
 
 local aider = M.new()

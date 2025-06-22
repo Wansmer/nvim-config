@@ -35,4 +35,11 @@ function M.list_visible_bufs()
     :totable()
 end
 
+--- Check if buffer is visible
+---@param bufnr number
+---@return boolean
+function M.is_visible(bufnr)
+  return vim.list_contains(M.list_visible_bufs(), bufnr)
+end
+
 return M
