@@ -43,4 +43,8 @@ function M.drop_file(filepath)
   aider:drop_file(filepath)
 end
 
+function M.send_selected()
+  aider:send_selected()
+end
+
 return M
