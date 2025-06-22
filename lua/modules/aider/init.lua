@@ -1,4 +1,5 @@
 local utils = require("modules.aider.utils")
+local g_utils = require("utils")
 
 local group = vim.api.nvim_create_augroup("__parts.aider__", {})
 
@@ -180,6 +181,21 @@ function M:set_autocmds()
       end,
     })
   end
+end
+
+function M:send_selected()
+  if vim.fn.mode():lower() ~= "v" then
+    return
+  end
+  local sr, sc, er, ec = unpack(g_utils.get_visual_range())
+  local text = vim.api.nvim_buf_get_text(0, sr - 1, sc, er - 1, ec, {})
+
+  vim.ui.input({
+    prompt = "",
+    default = "Explain the code",
+  }, function(input)
+    self:send_command(utils.wrap_to_bracketed_paste(vim.list_extend({ input }, text)))
+  end)
 end
 
 local aider = M.new()
