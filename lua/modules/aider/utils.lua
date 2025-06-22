@@ -42,4 +42,11 @@ function M.is_visible(bufnr)
   return vim.list_contains(M.list_visible_bufs(), bufnr)
 end
 
+--- Wrap to Bracketed-Paste
+--- @param text string|string[]
+function M.wrap_to_bracketed_paste(text)
+  text = type(text) == "table" and table.concat(text, "\n") or text
+  return "\27[200~" .. text .. "\27[201~"
+end
+
 return M
