@@ -110,6 +110,7 @@ function M:add_file(bufnr)
 
   if vim.uv.fs_stat(filepath) then
     self:send_command("/add " .. filepath)
+    self.context.files[filepath] = true
   end
 end
 
@@ -120,6 +121,7 @@ function M:drop_file(filepath)
     return
   end
   self:send_command("/drop " .. filepath)
+  self.context.files[filepath] = nil
 end
 
 function M:destroy()
@@ -136,7 +138,6 @@ function M:set_autocmds()
     pattern = { "*" },
     callback = function(e)
       if not self.context.files[utils.get_filepath(e.buf)] then
-        self.context.files[utils.get_filepath(e.buf)] = true
         self:add_file(e.buf)
       end
     end,
@@ -145,7 +146,6 @@ function M:set_autocmds()
   vim.api.nvim_create_autocmd("BufDelete", {
     pattern = { "*" },
     callback = function(e)
-      self.context.files[e.file] = nil
       self:drop_file(e.file)
     end,
   })
