@@ -6,7 +6,7 @@ local group = vim.api.nvim_create_augroup("__parts.aider__", {})
 local M = {}
 M.__index = M
 
-function M.new(opts)
+function M.new()
   return setmetatable({
     win = nil,
     buf = nil,
