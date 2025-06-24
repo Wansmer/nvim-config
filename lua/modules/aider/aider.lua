@@ -26,33 +26,48 @@ function M:open()
     width = (self.opts.win_width < 1) and math.floor(vim.o.columns * self.opts.win_width) or self.opts.win_width,
   })
 
-  local cmd = { "aider" }
-
-  -- Construct the command by combining "aider" with any specified cmd_args
-  cmd = vim.list_extend(cmd, self.opts.cmd_args)
-
-  -- It should be run only once
-  if not self.job and self.opts.auto_manage_context.enabled then
-    local files = u.list_files(self.opts.auto_manage_context.visible)
-    self.context.files = vim.iter(files):fold({}, function(acc, file)
-      acc[file] = true
-      return acc
-    end)
-    cmd = vim.list_extend(cmd, files)
-    self:set_autocmds()
+  local ok, err = self:_ensure_job_running()
+  if not ok then
+    vim.notify(err, vim.log.levels.ERROR, { title = "Aider" })
+    return
   end
-
-  self.job = self.job
-    or vim.fn.jobstart(cmd, {
-      term = true,
-      on_exit = function()
-        self:destroy()
-      end,
-    })
 
   vim.schedule(function()
     vim.cmd.startinsert()
   end)
+end
+
+--- Check if Aider's job is running, otherwise start new job. Return job status and error message
+---@return boolean, string
+function M:_ensure_job_running()
+  if self.job then
+    return true, ""
+  end
+
+  if self.opts.auto_manage_context.enabled then
+    self:_populate_files()
+  end
+
+  -- Construct the command by combining "aider" with any specified cmd_args and opened/visible files
+  local cmd = vim.iter({ "aider", self.opts.cmd_args, vim.tbl_keys(self.context.files) }):flatten():totable()
+  local job = vim.fn.jobstart(cmd, {
+    term = true,
+    on_exit = function()
+      self:destroy()
+    end,
+  })
+
+  if job <= 0 then
+    return false, job == 0 and "Invalid `jobstart` arguments" or "Shell or Aider is not executable"
+  end
+
+  self.job = job
+
+  if self.opts.auto_manage_context.enabled then
+    self:_set_autocmds()
+  end
+
+  return true, ""
 end
 
 -- Toggle the Aider window
@@ -107,7 +122,15 @@ function M:destroy()
   self.job = nil
 end
 
-function M:set_autocmds()
+function M:_populate_files()
+  local files = u.list_files(self.opts.auto_manage_context.visible)
+  self.context.files = vim.iter(files):fold({}, function(acc, file)
+    acc[file] = true
+    return acc
+  end)
+end
+
+function M:_set_autocmds()
   vim.api.nvim_create_autocmd("BufAdd", {
     pattern = { "*" },
     group = group,
