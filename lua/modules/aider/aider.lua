@@ -93,27 +93,27 @@ function M:send_command(command)
   end
 end
 
---- This function checks if the buffer is associated with an actual file on disk and, if  so, adds
---- that file to the Aider instance.
---- @param bufnr? number Optional buffer number. Defaults to the current buffer.
-function M:add_file(bufnr)
-  bufnr = bufnr or vim.api.nvim_get_current_buf()
-  local filepath = vim.api.nvim_buf_get_name(bufnr)
+--- This function checks if the buffer/file is associated with an actual file on disk and, if so,
+--- adds that file to the Aider instance.
+--- @param target? number|string Optional buffer number or filepath. Defaults to current buffer.
+function M:add_file(target)
+  local filepath = type(target) == "string" and target or u.get_filepath(target--[[@as number?]])
 
-  if vim.uv.fs_stat(filepath) then
+  if filepath and u.is_file(filepath) then
     self:send_command("/add " .. filepath)
     self.context.files[filepath] = true
   end
 end
 
 --- Drops a file from the Aider instance.
---- @param filepath string The full path to the file to drop.
-function M:drop_file(filepath)
-  if not filepath or filepath == "" then
-    return
+--- @param target? number|string Optional buffer number or filepath to drop.
+function M:drop_file(target)
+  local filepath = type(target) == "string" and target or u.get_filepath(target--[[@as number?]])
+
+  if filepath and self.context.files[filepath] then
+    self:send_command("/drop " .. filepath)
+    self.context.files[filepath] = nil
   end
-  self:send_command("/drop " .. filepath)
-  self.context.files[filepath] = nil
 end
 
 function M:destroy()
