@@ -1,7 +1,7 @@
 local M = {}
 
 --- Get buffer filepath (name)
----@param bufnr number
+---@param bufnr number?
 ---@return string
 function M.get_filepath(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
