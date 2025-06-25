@@ -52,7 +52,11 @@ function M:_ensure_job_running()
   local cmd = vim.iter({ "aider", self.opts.cmd_args, vim.tbl_keys(self.context.files) }):flatten():totable()
   local job = vim.fn.jobstart(cmd, {
     term = true,
-    on_exit = function()
+    on_exit = function(_, exit_code)
+      if exit_code ~= 0 then
+        vim.notify("Aider exited with code " .. exit_code, vim.log.levels.ERROR, { title = "Aider" })
+        return
+      end
       self:destroy()
     end,
   })
