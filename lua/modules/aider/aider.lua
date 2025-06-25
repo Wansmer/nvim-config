@@ -96,11 +96,13 @@ end
 --- This function checks if the buffer/file is associated with an actual file on disk and, if so,
 --- adds that file to the Aider instance.
 --- @param target? number|string Optional buffer number or filepath. Defaults to current buffer.
-function M:add_file(target)
+--- @param readonly? boolean Whether the file should be opened in read-only mode. Defaults to false.
+function M:add_file(target, readonly)
   local filepath = type(target) == "string" and target or u.get_filepath(target--[[@as number?]])
 
   if filepath and u.is_file(filepath) then
-    self:send_command("/add " .. filepath)
+    local cmd = readonly and "/read-only" or "/add"
+    self:send_command(("%s %s"):format(cmd, filepath))
     self.context.files[filepath] = true
   end
 end
