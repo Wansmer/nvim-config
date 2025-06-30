@@ -6,7 +6,27 @@ local group = vim.api.nvim_create_augroup("__parts.aider__", {})
 local M = {}
 M.__index = M
 
+local aider_proxy = setmetatable({}, {
+  __index = function()
+    vim.notify(
+      "Aider is not initialized. Ensure you have `aider` executable and `setup()` function is called.",
+      vim.log.levels.ERROR,
+      { title = "Aider" }
+    )
+    return function() end
+  end,
+})
+
 function M.new()
+  if vim.fn.executable("aider") ~= 1 then
+    vim.notify(
+      "Aider is not executable. Ensure you have `aider` in your PATH.",
+      vim.log.levels.ERROR,
+      { title = "Aider" }
+    )
+    return aider_proxy
+  end
+
   return setmetatable({
     win = nil,
     buf = nil,
@@ -37,7 +57,7 @@ function M:open()
   end)
 end
 
---- Check if Aider's job is running, otherwise start new job. Return job status and error message
+---Check if Aider's job is running, otherwise start new job. Return job status and error message
 ---@return boolean, string
 function M:_ensure_job_running()
   if self.job then
@@ -62,6 +82,7 @@ function M:_ensure_job_running()
   })
 
   if job <= 0 then
+    self = aider_proxy
     return false, job == 0 and "Invalid `jobstart` arguments" or "Shell or Aider is not executable"
   end
 
