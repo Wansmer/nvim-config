@@ -21,8 +21,8 @@ function M.toggle()
   M.__aider:toggle()
 end
 
-function M.add_file(bufnr)
-  M.__aider:add_file(bufnr)
+function M.add_file(bufnr_or_filepath, readonly)
+  M.__aider:add_file(bufnr_or_filepath, readonly)
 end
 
 function M.drop_file(filepath)
