@@ -31,6 +31,7 @@ function M.new()
     win = nil,
     buf = nil,
     job = nil,
+    read_output = false,
     opts = require("modules.aider.opts").opts,
     context = {
       files = {},
@@ -79,6 +80,13 @@ function M:_ensure_job_running()
       end
       self:destroy()
     end,
+    on_stdout = function(_, data)
+      -- if self.read_output then
+        vim.print(data)
+        -- self.read_output = false
+      -- end
+    end,
+    stdout_buffered = true,
   })
 
   if job <= 0 then
@@ -114,10 +122,10 @@ function M:send_command(command)
   end
 end
 
---- This function checks if the buffer/file is associated with an actual file on disk and, if so,
---- adds that file to the Aider instance.
---- @param target? number|string Optional buffer number or filepath. Defaults to current buffer.
---- @param readonly? boolean Whether the file should be opened in read-only mode. Defaults to false.
+---This function checks if the buffer/file is associated with an actual file on disk and, if so,
+---adds that file to the Aider instance.
+---@param target? number|string Optional buffer number or filepath. Defaults to current buffer.
+---@param readonly? boolean Whether the file should be opened in read-only mode. Defaults to false.
 function M:add_file(target, readonly)
   local filepath = type(target) == "string" and target or u.get_filepath(target--[[@as number?]])
 
@@ -198,6 +206,11 @@ function M:_set_autocmds()
   end
 end
 
+function M:clear()
+  self:send_command("/clear")
+  self.context.files = {}
+end
+
 function M:send_selected()
   if vim.fn.mode():lower() ~= "v" then
     return
@@ -211,6 +224,15 @@ function M:send_selected()
   }, function(input)
     self:send_command(u.wrap_to_bracketed_paste(vim.list_extend({ input }, text)))
   end)
+end
+
+function M:commit(dry)
+  if dry then
+    self.read_output = true
+    self:send_command(commit_prompt)
+  else
+    self:send_command("/commit")
+  end
 end
 
 local aider = M.new()
