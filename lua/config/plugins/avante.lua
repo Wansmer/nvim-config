@@ -2,6 +2,7 @@ return {
   "yetone/avante.nvim",
   event = "VeryLazy",
   enabled = true,
+  cond = false,
   version = false, -- Never set this value to "*"! Never!
   ---@module 'avante'
   ---@type avante.Config
