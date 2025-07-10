@@ -43,10 +43,10 @@ vim.api.nvim_create_autocmd("User", {
       group = group,
       buffer = event.buf,
       once = true,
-      callback = function()
+      callback = vim.schedule_wrap(function()
         vim.o.laststatus = prev_status
         vim.o.cmdheight = prev_cmdheight
-      end,
+      end),
     })
   end,
 })
