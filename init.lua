@@ -40,3 +40,26 @@ require("modules.marks").setup()
 require("modules.improve-visual-block").setup()
 require("modules.punto-switcher")
 require("modules.devcontainer").start()
+require("modules.aider").setup({
+  cmd_args = {
+    -- "--model",
+    -- "openrouter/deepseek/deepseek-chat-v3-0324:free",
+    "--no-show-model-warnings",
+  },
+  auto_manage_context = {
+    enabled = true,
+    visible = false,
+  },
+})
+
+vim.keymap.set("n", "<leader><leader>", function()
+  require("modules.aider").toggle()
+end)
+
+vim.keymap.set("x", "<leader>E", function()
+  require("modules.aider").send_selected()
+end)
+
+vim.keymap.set("n", "<leader>c", function()
+  require("modules.aider").commit(true)
+end)
