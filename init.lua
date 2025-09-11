@@ -52,7 +52,7 @@ require("modules.aider").setup({
   },
 })
 
-vim.keymap.set("n", "<leader><leader>", function()
+vim.keymap.set("n", "<leader>A", function()
   require("modules.aider").toggle()
 end)
 
