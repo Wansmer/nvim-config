@@ -1,4 +1,5 @@
 local DEV = false
+local SymbolKind = vim.lsp.protocol.SymbolKind
 
 return {
   "Wansmer/symbol-usage.nvim",
@@ -26,6 +27,17 @@ return {
           return ""
         end
       end,
+      filetypes = {
+        svelte = {
+          kinds_filter = {
+            [SymbolKind.Function] = {
+              function(s)
+                return not vim.startswith(s.symbol.name, ")}")
+              end,
+            },
+          },
+        },
+      },
       disable = {
         cond = {
           function()
