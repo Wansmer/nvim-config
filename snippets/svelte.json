@@ -1,0 +1,11 @@
+{
+  "svelte-script-lang-ts": {
+    "prefix": "sts",
+    "body": [
+      "<script lang=\"ts\">",
+      "\t${1:// your script goes here}",
+      "</script>"
+    ],
+    "description": "add a script lang=ts to your svelte file"
+  }
+}
