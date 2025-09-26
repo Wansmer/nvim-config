@@ -12,11 +12,15 @@ vim.g.maplocalleader = "["
 vim.g.python3_host_prog = vim.fn.expand("~/.virtualenvs/neovim/bin/python3")
 
 local orig_getcharstr = vim.fn.getcharstr
-vim.fn.getcharstr = function() ---@diagnostic disable-line: duplicate-set-field
-  local char = orig_getcharstr()
+vim.fn.getcharstr = function(...) ---@diagnostic disable-line: duplicate-set-field
+  -- I don't know why, but if send unpacked args, the default behavior is not working
+  local char = orig_getcharstr(unpack({ ... }))
+  -- local char = orig_getcharstr()
   local u = require("utils")
   local ok, lm = pcall(require, "langmapper.utils")
-  if not ok or u.layout.is_en() then
+  local _, opts = unpack({ ... })
+  -- keep_layout is custom field for langmapper
+  if not ok or u.layout.is_en() or (opts and opts.keep_layout) then
     return char
   end
 

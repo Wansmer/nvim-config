@@ -165,7 +165,7 @@ map("n", "r", function()
   vim.opt.guicursor:append("n-v-c-sm:hor26")
   pcall(function()
     local cur = vim.api.nvim_win_get_cursor(0)
-    local replace_char = vim.fn.getcharstr()
+    local replace_char = vim.fn.getcharstr(-1, { keep_layout = true })
     local r_pair = paired[replace_char]
 
     -- Get char under cursor (only 1-byte length for now)
