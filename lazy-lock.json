@@ -36,6 +36,7 @@
   "guihua.lua": { "branch": "master", "commit": "53fc5aa54c068bd4e2e043506e21beb7d8a04061" },
   "hardtime.nvim": { "branch": "main", "commit": "91c6be1a54fa057002e21ae209a49436bd215355" },
   "image.nvim": { "branch": "master", "commit": "446a8a5cc7a3eae3185ee0c697732c32a5547a0b" },
+  "incr.nvim": { "branch": "main", "commit": "87aa1f6de5c10e60d57b0bc151573a5c50ac9fe6" },
   "iron.nvim": { "branch": "master", "commit": "6d7732bef2c890e693ffb4ecd6a3c3ed75fd6478" },
   "jupytext.nvim": { "branch": "main", "commit": "c8baf3ad344c59b3abd461ecc17fc16ec44d0f7b" },
   "kanagawa-paper.nvim": { "branch": "master", "commit": "ec8af01c782e4d2664bea953b2d14ba5b7d34b6b" },
