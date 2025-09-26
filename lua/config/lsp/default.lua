@@ -25,7 +25,10 @@ M.on_attach = function(client, bufnr)
     -- Disable
     -- client.server_capabilities.semanticTokensProvider = nil
     -- Enable
-    vim.lsp.semantic_tokens.start(bufnr, client.id)
+    vim.lsp.semantic_tokens.enable(true, {
+      client_id = client.id,
+      bufnr = bufnr,
+    })
   end
 
   if client.name == "ltex" then
