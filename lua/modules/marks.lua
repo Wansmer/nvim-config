@@ -19,7 +19,7 @@ M.opts = {
 function M.setup(opts)
   opts = vim.tbl_deep_extend("force", opts or {}, M.opts)
 
-  vim.on_key(function(key, typed)
+  vim.on_key(function(_, typed)
     if M.ns_extmark then
       vim.api.nvim_buf_clear_namespace(0, M.ns_extmark, 0, -1)
       M.ns_extmark = nil
@@ -31,7 +31,7 @@ function M.setup(opts)
       return
     end
 
-    if not vim.list_contains({ "'", "`" }, key) then
+    if not vim.list_contains({ "'", "`" }, typed) then
       return
     end
 
