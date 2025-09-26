@@ -2,87 +2,73 @@ return {
   "nvim-treesitter/nvim-treesitter",
   enabled = true,
   lazy = false,
+  build = ":TSUpdate",
+  branch = "main",
   config = function()
     local map = vim.keymap.set
     map("n", "<leader>tp", "<Cmd>InspectTree<Cr>", { nowait = true })
-    map("n", "<leader>tn", "<Cmd>TSNodeUnderCursor<Cr>", { nowait = true })
-    map("n", "<leader>th", "<Cmd>TSHighlightCapturesUnderCursor<Cr>", { nowait = true })
+    local ensure_installed = {
+      "bash",
+      "c",
+      "cpp",
+      "css",
+      "cuda",
+      "dockerfile",
+      "editorconfig",
+      "git_config",
+      "git_rebase",
+      "gitattributes",
+      "gitcommit",
+      "gitignore",
+      "go",
+      "gomod",
+      "gosum",
+      "gotmpl",
+      "html",
+      "http",
+      "javascript",
+      "jsdoc",
+      "json",
+      "jsonc",
+      -- "latex",
+      "lua",
+      "luadoc",
+      "luap", -- luapatterns
+      "markdown",
+      "markdown_inline",
+      "mermaid", -- experimental
+      "nginx",
+      "python",
+      "regex",
+      "rust",
+      "scss",
+      "sql",
+      "ssh_config",
+      "svelte",
+      "terraform",
+      "toml",
+      "tsx",
+      "typescript",
+      "vim",
+      "vimdoc",
+      "yaml",
+    }
 
-    require("nvim-treesitter.configs").setup({
-      ensure_installed = {
-        "bash",
-        "c",
-        "cpp",
-        "css",
-        "cuda",
-        "dockerfile",
-        "editorconfig",
-        "git_config",
-        "git_rebase",
-        "gitattributes",
-        "gitcommit",
-        "gitignore",
-        "go",
-        "gomod",
-        "gosum",
-        "gotmpl",
-        "html",
-        "http",
-        "javascript",
-        "jsdoc",
-        "json",
-        "jsonc",
-        -- "latex",
-        "lua",
-        "luadoc",
-        "luap", -- luapatterns
-        "markdown",
-        "markdown_inline",
-        "mermaid", -- experimental
-        "nginx",
-        "python",
-        "regex",
-        "rust",
-        "scss",
-        "sql",
-        "ssh_config",
-        "svelte",
-        "terraform",
-        "toml",
-        "tsx",
-        "typescript",
-        "vim",
-        "vimdoc",
-        "yaml",
-      },
-      sync_install = false,
-      ignore_install = { "phpdoc", "comment" },
-      auto_install = true,
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-      },
+    require("nvim-treesitter").install(ensure_installed)
 
-      -- WARNING: Делает лишний отступ во Vue
-      indent = {
-        enable = true,
-      },
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = require("nvim-treesitter.config").get_installed(),
+      callback = function(e)
+        -- highlight
+        pcall(vim.treesitter.start, e.buf, vim.bo.filetype)
 
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<Cr>", -- set to `false` to disable one of the mappings
-          node_incremental = "<Cr>",
-          node_decremental = "<Bs>",
-          scope_incremental = false,
-        },
-      },
+        -- folding
+        vim.wo.foldmethod = "expr"
+        vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
-      query_linter = {
-        enable = true,
-        use_virtual_text = false,
-        lint_events = { "BufWrite", "CursorHold" },
-      },
+        -- indentation
+        vim.bo[e.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end,
     })
   end,
 }
