@@ -85,13 +85,13 @@ return {
           end
         end, { buffer = term.bufnr })
       end,
-      on_close = function()
+      on_close = vim.schedule_wrap(function()
         local ok, nt = pcall(require, "neo-tree.sources.manager")
         if ok then
           nt.refresh("filesystem")
         end
         vim.cmd.stopinsert()
-      end,
+      end),
     })
   end,
 }
