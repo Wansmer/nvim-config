@@ -95,7 +95,7 @@ return {
               "parenthesized_expression",
             },
           },
-          -- Not realy name of node
+          -- Not really name of node
           root_jsx_element = lu.set_default_preset({
             split = {
               format_tree = function(tsj)
