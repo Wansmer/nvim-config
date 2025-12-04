@@ -1,6 +1,8 @@
 return {
   "Sebastian-Nielsen/better-type-hover",
-  ft = { "typescript", "typescriptreact" },
+  enabled = true,
+  cond = true,
+  ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
   config = function()
     require("better-type-hover").setup({
       openTypeDocKeymap = "dK",
