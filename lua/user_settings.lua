@@ -31,6 +31,7 @@ PREF = {
       -- tsserver = false,
       ts_ls = false, -- looks like tsserver has been renamed
       vtsls = true,
+      tsgo = false,
       volar = false,
       jsonls = true,
       cssls = true,
