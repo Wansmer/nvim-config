@@ -82,8 +82,8 @@ function M:_ensure_job_running()
     end,
     on_stdout = function(_, data)
       -- if self.read_output then
-        vim.print(data)
-        -- self.read_output = false
+      -- vim.print(data)
+      -- self.read_output = false
       -- end
     end,
     stdout_buffered = true,
