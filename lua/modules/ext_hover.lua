@@ -13,6 +13,7 @@ local M = {
     "pyright",
     "basedpyright",
     "gopls",
+    "svelte",
   },
 }
 
