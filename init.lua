@@ -49,6 +49,7 @@ require("modules.aider").setup({
     -- "--model",
     -- "openrouter/deepseek/deepseek-chat-v3-0324:free",
     "--no-show-model-warnings",
+    "--subtree-only",
   },
   auto_manage_context = {
     enabled = true,
