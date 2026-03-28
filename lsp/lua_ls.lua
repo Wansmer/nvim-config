@@ -15,6 +15,7 @@ local settings = {
       library = {
         vim.fn.expand("$VIMRUNTIME/lua"),
         vim.fn.stdpath("config") .. "/lua",
+        "~/.hammerspoon/Spoons/EmmyLua.spoon/annotations",
       },
       checkThirdParty = false,
     },
