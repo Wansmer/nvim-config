@@ -39,6 +39,7 @@ PREF = {
       html = true,
       emmet_ls = true,
       bashls = true,
+      biome = false,
       dockerls = true,
       docker_compose_language_service = true,
       ltex = false,
