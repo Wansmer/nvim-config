@@ -3,6 +3,7 @@ return {
   enabled = true,
   cmd = "Neotree",
   cond = not vim.g.vscode,
+  version = "3",
   init = function()
     vim.keymap.set("n", "<LocalLeader>e", "<Cmd>Neotree focus toggle<Cr>", { desc = "Open file explorer" })
     vim.keymap.set("n", "<LocalLeader>E", "<Cmd>Neotree focus<Cr>", { desc = "Open file explorer" })
