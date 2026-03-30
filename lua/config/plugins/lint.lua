@@ -5,20 +5,18 @@ return {
   config = function()
     local lint = require("lint")
     ---@type "eslint_d"|"eslint"
-    -- local js_linter = "eslint"
+    local js_linter = "eslint"
 
     local linters = lint.linters
     linters.sqlfluff.args = { "lint", "--format=json" }
 
     lint.linters_by_ft = {
-      -- javascript = { js_linter },
-      -- javascriptreact = { { js_linter } },
-      -- typescript = { js_linter },
-      -- typescriptreact = { js_linter },
-      vue = {
-        -- js_linter,
-        "stylelint",
-      },
+      javascript = { "biome", js_linter },
+      javascriptreact = { "biome", js_linter },
+      typescript = { "biome", js_linter },
+      typescriptreact = { "biome", js_linter },
+      vue = { "biome", js_linter, "stylelint" },
+      svelte = { "biome", js_linter, "stylelint" },
       html = { "tidy" },
       css = { "stylelint" },
       scss = { "stylelint" },

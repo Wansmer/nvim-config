@@ -3,7 +3,10 @@ return {
   enabled = true,
   cond = not vim.g.vscode,
   config = function()
-    local js_formatter = { "prettier" }
+    local js_formatter = {
+      -- "biome",
+      "prettier",
+    }
     local sql = {
       "sqlfluff",
       "sql_formatter",
@@ -17,10 +20,20 @@ return {
         javascriptreact = js_formatter,
         typescript = js_formatter,
         typescriptreact = js_formatter,
+        svelte = js_formatter,
         vue = js_formatter,
-        html = { "prettier" },
-        json = { "prettier" },
-        jsonc = { "prettier" },
+        html = {
+          -- "biome",
+          "prettier",
+        },
+        json = {
+          -- "biome",
+          "prettier",
+        },
+        jsonc = {
+          -- "biome",
+          "prettier",
+        },
         markdown = { "prettier", "inject" },
         toml = { "prettier" },
         sh = { "shfmt" },
