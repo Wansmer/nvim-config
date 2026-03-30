@@ -4,17 +4,6 @@ return {
   lazy = false,
   build = ":TSUpdate",
   branch = "main",
-  dependencies = {
-    {
-      "daliusd/incr.nvim",
-      config = function()
-        require("incr").setup({
-          incr_key = "<Cr>",
-          decr_key = "<Bs>",
-        })
-      end,
-    },
-  },
   config = function()
     local map = vim.keymap.set
     map("n", "<leader>tp", "<Cmd>InspectTree<Cr>", { nowait = true })
