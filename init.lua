@@ -1,7 +1,7 @@
 vim.loader.enable()
 
-if vim.fn.has("nvim-0.12") == 1 then
-  require("vim._extui").enable({})
+if vim.fn.has("nvim-0.12") == 1 and true then
+  require("vim._core.ui2").enable({})
 else
   require("modules.router")
 end
