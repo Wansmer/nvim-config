@@ -10,5 +10,7 @@ return {
         accept_word = "<C-j>",
       },
     })
+
+    vim.keymap.set("n", "<leader>tc", "<cmd>SupermavenToggle<cr>", { desc = "Toggle Supermaven" })
   end,
 }
