@@ -1,6 +1,6 @@
 return {
   "Wansmer/clonewin.nvim",
-  enabled = true,
+  enabled = false,
   lazy = false,
   dev = true,
   cond = not vim.g.vscode,
